@@ -71,13 +71,13 @@ func Run(ctx context.Context, url string, quit func(), ready func(*Host)) error 
 	app := objc.ID(objc.GetClass("NSApplication")).Send(sel("sharedApplication"))
 	app.Send(sel("setActivationPolicy:"), 0)
 	h := &Host{queue: dispatch.New(128), ctx: ctx}
-	defer h.queue.Close()
 	controllerClass, err := objc.RegisterClass("OmniStudioDispatcher", objc.GetClass("NSObject"), nil, nil, []objc.MethodDef{{Cmd: sel("drain:"), Fn: func(_ objc.ID, _ objc.SEL, _ objc.ID) { guard(func() { h.queue.Drain(64) }) }}})
 	if err != nil {
 		return err
 	}
 	controller := objc.ID(controllerClass).Send(sel("new"))
 	defer controller.Send(sel("release"))
+	defer h.close()
 	h.wake = func() {
 		controller.Send(sel("performSelectorOnMainThread:withObject:waitUntilDone:"), sel("drain:"), objc.ID(0), false)
 	}
@@ -233,14 +233,13 @@ func Run(ctx context.Context, url string, quit func(), ready func(*Host)) error 
 	defer closeShell()
 	go func() {
 		<-ctx.Done()
-		done, err := h.queue.Submit(context.Background(), func() error {
+		done, err := h.post(context.Background(), func() error {
 			app.Send(sel("stop:"), objc.ID(0))
 			event := objc.ID(objc.GetClass("NSEvent")).Send(sel("otherEventWithType:location:modifierFlags:timestamp:windowNumber:context:subtype:data1:data2:"), uint64(15), point{}, uint64(0), float64(0), int64(0), objc.ID(0), int16(0), int64(0), int64(0))
 			app.Send(sel("postEvent:atStart:"), event, true)
 			return nil
 		})
 		if err == nil {
-			h.wake()
 			<-done
 		}
 	}()
@@ -276,15 +275,15 @@ func paint(w *window, h *Host) error {
 	if !w.pending && w.surface.NeedsAnimation() && w.native.Send(sel("isVisible")) != 0 && w.native.Send(sel("isMiniaturized")) == 0 {
 		w.pending = true
 		time.AfterFunc(time.Second/30, func() {
-			_, err := h.queue.Submit(h.ctx, func() error {
+			_, err := h.post(h.ctx, func() error {
 				w.pending = false
 				if windows[w.view] != w || w.native.Send(sel("isVisible")) == 0 || w.native.Send(sel("isMiniaturized")) != 0 {
 					return nil
 				}
 				return paint(w, h)
 			})
-			if err == nil {
-				h.wake()
+			if err != nil && h.ctx.Err() == nil {
+				log.Printf("Studio animation scheduling: %v", err)
 			}
 		})
 	}

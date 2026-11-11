@@ -4,11 +4,23 @@
 
 本仓库从空目录开始编写，没有依赖、复制或换名导入参考框架实现。`omnigo.dev/omnigo` 是当前本地模块标识，不代表该域名或模块已经发布。
 
-**目前不是可替换 golet 的完整桌面框架。没有原生窗口驱动、GPU 渲染器或完整控件集；尚未达到功能覆盖与性能领先目标。** `omniui/baseui` 已提供 Go 控件、离屏 CPU 绘制与交互测试；OmniWeb 默认模板可构建浏览器界面，尚不打开原生桌面窗口。
+**目前不是可替换 golet 的完整桌面框架。尚无通用跨平台窗口驱动、GPU 渲染器或完整控件集；尚未达到功能覆盖与性能领先目标。** `omniui/baseui` 已提供 Go 控件、离屏 CPU 绘制与交互测试；OmniWeb 默认模板可构建浏览器界面，生成模板尚不打开原生桌面窗口。新增 Studio 已有 macOS arm64 实验客户端与 Go 演示窗口。
 
 **所有框架控件统一用 Go 实现，归属 `omniui/baseui`**。`ui`、`forma` 与控件插件的能力在此重写；Web 模板和 shadcn 配置不算 Go 控件移植成果。见 [baseui](omniui/baseui/README.md) 和 [控件审计](migration/controls/README.md)。
 
 Web UI 统一通过 **OmniWeb v1** 协议构建，默认支持 **TanStack Start + shadcn**。创建和运行方式见 [OmniWeb 指南](docs/omniweb.md)，完整覆盖状态见 [Web UI 迁移表](migration/webui.md)。
+
+## Studio 客户端
+
+```sh
+pnpm install --frozen-lockfile
+pnpm dev       # 构建并打开内嵌 Mac 客户端
+pnpm build     # 生成 build/studio/Omni Studio.app
+pnpm start     # 运行构建结果
+pnpm package   # 生成应用归档
+```
+
+Studio 主窗口内嵌 WKWebView，目录资源编译进 Go 可执行文件；不需要外部浏览器、单独 Web 服务或生产 Node 进程。34 个局部实现控件和 loading 插件可打开 Go 原生演示，全部 86 个控件项和 16 个插件保持可追踪。当前客户端仅支持 macOS Apple Silicon。详见 [Studio](studio/README.md)。
 
 ## 开始
 
@@ -47,6 +59,7 @@ desktop/             应用生命周期与平台驱动契约
 omniui/              统一扩展协议、不可变界面树、差分、虚拟化
 omniui/baseui/       Go 控件、布局、输入、主题、CPU 绘制与控件插件
 omniweb/             Web 协议、HTTP/静态资源宿主、唯一 TypeScript SDK
+studio/              内嵌 Mac 客户端、Go 演示、目录与打包资源
 cmd/omni/            项目生成 CLI
 internal/scaffold/   默认 TanStack Start + shadcn 模板
 runtime/dispatch/    主线程工作队列
