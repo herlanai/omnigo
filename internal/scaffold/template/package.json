@@ -1,0 +1,10 @@
+{
+  "name": "omniweb-app",
+  "private": true,
+  "scripts": {
+    "dev:host": "go run ./app -dev",
+    "dev:web": "npm --prefix ui run dev",
+    "build:web": "npm --prefix ui run build",
+    "start": "go run ./app"
+  }
+}

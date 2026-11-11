@@ -1,0 +1,968 @@
+[
+  {
+    "id": "accordion",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "Accordion",
+    "kind": "control"
+  },
+  {
+    "id": "ai-message",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "alert",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "Alert",
+    "kind": "control"
+  },
+  {
+    "id": "alert-dialog",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "AlertDialog",
+    "kind": "control"
+  },
+  {
+    "id": "aspect-ratio",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "attachment",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "avatar",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "badge",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/element.go",
+    "symbol": "Badge",
+    "kind": "control"
+  },
+  {
+    "id": "breadcrumb",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "bubble",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "button",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/element.go",
+    "symbol": "Button",
+    "kind": "control"
+  },
+  {
+    "id": "button-group",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "ButtonGroup",
+    "kind": "control"
+  },
+  {
+    "id": "calendar",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/calendar.go",
+    "symbol": "Calendar",
+    "kind": "control"
+  },
+  {
+    "id": "card",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/element.go",
+    "symbol": "Card",
+    "kind": "control"
+  },
+  {
+    "id": "carousel",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "Carousel",
+    "kind": "control"
+  },
+  {
+    "id": "chain-of-thought",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "chart",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "chat",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "checkbox",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/element.go",
+    "symbol": "Checkbox",
+    "kind": "control"
+  },
+  {
+    "id": "checkpoint",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "code-block",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "CodeBlock",
+    "kind": "control"
+  },
+  {
+    "id": "collapsible",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "Collapsible",
+    "kind": "control"
+  },
+  {
+    "id": "combobox",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "command",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "confirmation",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "context",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "context-menu",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "dialog",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "Dialog",
+    "kind": "control"
+  },
+  {
+    "id": "direction",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "drawer",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "dropdown-menu",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "empty",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "Empty",
+    "kind": "control"
+  },
+  {
+    "id": "field",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "Field",
+    "kind": "control"
+  },
+  {
+    "id": "file-tree",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "form",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "Form",
+    "kind": "control"
+  },
+  {
+    "id": "hover-card",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "inline-citation",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "input",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/element.go",
+    "symbol": "Input",
+    "kind": "control"
+  },
+  {
+    "id": "input-group",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "InputGroup",
+    "kind": "control"
+  },
+  {
+    "id": "input-otp",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "item",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "kbd",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "Kbd",
+    "kind": "control"
+  },
+  {
+    "id": "label",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/element.go",
+    "symbol": "Text",
+    "kind": "control"
+  },
+  {
+    "id": "marker",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "menubar",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "message",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "message-scroller",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "model-selector",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "native-select",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "Select",
+    "kind": "control"
+  },
+  {
+    "id": "navigation-menu",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "pagination",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "Pagination",
+    "kind": "control"
+  },
+  {
+    "id": "plan",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "popover",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "progress",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/element.go",
+    "symbol": "Progress",
+    "kind": "control"
+  },
+  {
+    "id": "prompt-input",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "questionnaire",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "queue",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "radio-group",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "RadioGroup",
+    "kind": "control"
+  },
+  {
+    "id": "reasoning",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "resizable",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "scroll-area",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "select",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "Select",
+    "kind": "control"
+  },
+  {
+    "id": "separator",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/element.go",
+    "symbol": "Separator",
+    "kind": "control"
+  },
+  {
+    "id": "sheet",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "sidebar",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "skeleton",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "slider",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/element.go",
+    "symbol": "Slider",
+    "kind": "control"
+  },
+  {
+    "id": "sonner",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "sources",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "spinner",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/element.go",
+    "symbol": "Spinner",
+    "kind": "control"
+  },
+  {
+    "id": "stack-trace",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "subagent",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "suggestion",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "switch",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/element.go",
+    "symbol": "Switch",
+    "kind": "control"
+  },
+  {
+    "id": "table",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/table.go",
+    "symbol": "Table",
+    "kind": "control"
+  },
+  {
+    "id": "tabs",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "Tabs",
+    "kind": "control"
+  },
+  {
+    "id": "task",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "terminal",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "test-results",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "textarea",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/element.go",
+    "symbol": "Textarea",
+    "kind": "control"
+  },
+  {
+    "id": "toast",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "toggle",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/element.go",
+    "symbol": "Toggle",
+    "kind": "control"
+  },
+  {
+    "id": "toggle-group",
+    "group": "forma",
+    "status": "partial",
+    "target": "omniui/baseui",
+    "implementation": "omniui/baseui/compose.go",
+    "symbol": "ToggleGroup",
+    "kind": "control"
+  },
+  {
+    "id": "tool",
+    "group": "ai",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "tooltip",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "trace",
+    "group": "forma",
+    "status": "pending",
+    "target": "omniui/baseui",
+    "implementation": null,
+    "symbol": null,
+    "kind": "control"
+  },
+  {
+    "id": "plugin/automation",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/borderbeam",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/chromium",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/dsh-go",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/fetch",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/game",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/glass",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/loading",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "partial",
+    "implementation": "omniui/baseui/loading/indicator.go",
+    "symbol": "New"
+  },
+  {
+    "id": "plugin/permissionflow",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/scene3d",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/sfsymbols",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/sqlite",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/terminal",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/updater",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/watch",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "plugin/websocket",
+    "group": "plugins",
+    "kind": "plugin",
+    "status": "pending",
+    "implementation": null,
+    "symbol": null
+  },
+  {
+    "id": "system/lifecycle",
+    "title": "Application lifecycle",
+    "description": "启动、取消、依赖排序与失败回滚。",
+    "group": "framework",
+    "kind": "feature",
+    "status": "partial"
+  },
+  {
+    "id": "system/dispatch",
+    "title": "UI dispatch",
+    "description": "有界主线程队列、取消与背压。",
+    "group": "framework",
+    "kind": "feature",
+    "status": "partial"
+  },
+  {
+    "id": "system/event",
+    "title": "Event topics",
+    "description": "有界订阅、丢弃计数与资源释放。",
+    "group": "framework",
+    "kind": "feature",
+    "status": "partial"
+  },
+  {
+    "id": "system/rpc",
+    "title": "Typed RPC",
+    "description": "Go 类型绑定、输入校验、并发限制。",
+    "group": "framework",
+    "kind": "feature",
+    "status": "partial"
+  },
+  {
+    "id": "system/omniweb",
+    "title": "OmniWeb",
+    "description": "当前 Studio 的目录与原生窗口调用通过 OmniWeb 运行。",
+    "group": "framework",
+    "kind": "feature",
+    "status": "partial"
+  },
+  {
+    "id": "system/native",
+    "title": "Native host",
+    "description": "macOS Apple Silicon 实验窗口；系统 IME、无障碍、GPU 与其他平台尚待实现。",
+    "group": "framework",
+    "kind": "feature",
+    "status": "partial"
+  },
+  {
+    "id": "system/theme",
+    "title": "Theme tokens",
+    "description": "Go 控件共用明暗主题；切换主题后打开对应演示。",
+    "group": "framework",
+    "kind": "feature",
+    "status": "partial"
+  },
+  {
+    "id": "system/virtual",
+    "title": "Virtual rows",
+    "description": "Table 演示仅物化当前行窗口，不代表已实现完整滚动。",
+    "group": "framework",
+    "kind": "feature",
+    "status": "partial"
+  }
+]

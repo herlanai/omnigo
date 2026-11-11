@@ -1,0 +1,24 @@
+goos: darwin
+goarch: arm64
+pkg: omnigo.dev/omnigo/omniui
+cpu: Apple M5
+BenchmarkDiffUnchanged-10         	487491855	         2.297 ns/op	       0 B/op	       0 allocs/op
+BenchmarkDiffUnchanged-10         	533544675	         2.298 ns/op	       0 B/op	       0 allocs/op
+BenchmarkDiffUnchanged-10         	387812791	         2.897 ns/op	       0 B/op	       0 allocs/op
+BenchmarkDiffOneOf10000-10        	   81841	     14494 ns/op	     112 B/op	       3 allocs/op
+BenchmarkDiffOneOf10000-10        	   83053	     14862 ns/op	     112 B/op	       3 allocs/op
+BenchmarkDiffOneOf10000-10        	   82993	     14412 ns/op	     112 B/op	       3 allocs/op
+BenchmarkVirtualMillionRows-10    	193089538	         6.214 ns/op	       0 B/op	       0 allocs/op
+BenchmarkVirtualMillionRows-10    	175655704	         6.601 ns/op	       0 B/op	       0 allocs/op
+BenchmarkVirtualMillionRows-10    	194350827	         6.173 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	omnigo.dev/omnigo/omniui	10.840s
+goos: darwin
+goarch: arm64
+pkg: omnigo.dev/omnigo/runtime/event
+cpu: Apple M5
+BenchmarkPublish-10    	 9257785	       116.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkPublish-10    	10578344	       114.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkPublish-10    	 9817878	       121.1 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	omnigo.dev/omnigo/runtime/event	3.639s

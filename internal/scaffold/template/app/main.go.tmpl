@@ -1,0 +1,59 @@
+package main
+
+import (
+  "context"
+  "errors"
+  "flag"
+  "log"
+  "net/http"
+  "os"
+  "os/signal"
+  "strings"
+  "time"
+
+  "omnigo.dev/omnigo/omniweb"
+  "omnigo.dev/omnigo/runtime/rpc"
+)
+
+func main() {
+  dev := flag.Bool("dev", false, "allow the local Vite dev origin")
+  assets := flag.String("assets", "ui/dist/client", "built SPA client directory")
+  flag.Parse()
+  router := rpc.New(64, 1<<20)
+  type Greeting struct { Name string `json:"name"` }
+  type Reply struct { Message string `json:"message"` }
+  if err := rpc.Bind(router, "app.greet", "", func(ctx context.Context, input Greeting) (Reply, error) {
+    name := strings.TrimSpace(input.Name)
+    if name == "" { name = "OmniWeb" }
+    return Reply{Message: "你好，" + name + "。来自 Go 的问候。"}, nil
+  }); err != nil { log.Fatal(err) }
+
+  const address = "127.0.0.1:7331"
+  origins := []string{"http://" + address}
+  if *dev { origins = append(origins, "http://127.0.0.1:5173") }
+  bridge, err := omniweb.NewHTTP(router, omniweb.HTTPOptions{Host: address, Origins: origins})
+  if err != nil { log.Fatal(err) }
+  mux := http.NewServeMux()
+  mux.Handle(omniweb.Prefix, bridge)
+  if !*dev {
+    client, err := omniweb.Assets(os.DirFS(*assets))
+    if err != nil { log.Fatal(err) }
+    mux.Handle("/", client)
+  }
+  server := &http.Server{Addr: address, Handler: mux, ReadHeaderTimeout: 5*time.Second, ReadTimeout: 30*time.Second, WriteTimeout: 35*time.Second, IdleTimeout: 60*time.Second, MaxHeaderBytes: 16<<10}
+  ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
+  defer stop()
+  done := make(chan struct{})
+  go func() {
+    defer close(done)
+    <-ctx.Done()
+    shutdown, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+    defer cancel()
+    if err := server.Shutdown(shutdown); err != nil { _ = server.Close() }
+  }()
+  log.Printf("OmniWeb listening at http://%s (browser host)", address)
+  err = server.ListenAndServe()
+  stop()
+  <-done
+  if err != nil && !errors.Is(err, http.ErrServerClosed) { log.Fatal(err) }
+}

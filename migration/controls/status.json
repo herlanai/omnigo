@@ -1,0 +1,522 @@
+{
+  "schema": 1,
+  "policy": "Go-only implementation under omniui/baseui; partial is not parity",
+  "controls": [
+    {
+      "id": "accordion",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Accordion"
+    },
+    {
+      "id": "ai-message",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "alert",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Alert"
+    },
+    {
+      "id": "alert-dialog",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "AlertDialog"
+    },
+    {
+      "id": "aspect-ratio",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "attachment",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "avatar",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "badge",
+      "status": "partial",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Badge"
+    },
+    {
+      "id": "breadcrumb",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "bubble",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "button",
+      "status": "partial",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Button"
+    },
+    {
+      "id": "button-group",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "ButtonGroup"
+    },
+    {
+      "id": "calendar",
+      "status": "partial",
+      "implementation": "omniui/baseui/calendar.go",
+      "symbol": "Calendar"
+    },
+    {
+      "id": "card",
+      "status": "partial",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Card"
+    },
+    {
+      "id": "carousel",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Carousel"
+    },
+    {
+      "id": "chain-of-thought",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "chart",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "chat",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "checkbox",
+      "status": "partial",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Checkbox"
+    },
+    {
+      "id": "checkpoint",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "code-block",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "CodeBlock"
+    },
+    {
+      "id": "collapsible",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Collapsible"
+    },
+    {
+      "id": "combobox",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "command",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "confirmation",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "context",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "context-menu",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "dialog",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Dialog"
+    },
+    {
+      "id": "direction",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "drawer",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "dropdown-menu",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "empty",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Empty"
+    },
+    {
+      "id": "field",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Field"
+    },
+    {
+      "id": "file-tree",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "form",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Form"
+    },
+    {
+      "id": "hover-card",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "inline-citation",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "input",
+      "status": "partial",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Input"
+    },
+    {
+      "id": "input-group",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "InputGroup"
+    },
+    {
+      "id": "input-otp",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "item",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "kbd",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Kbd"
+    },
+    {
+      "id": "label",
+      "status": "partial",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Text"
+    },
+    {
+      "id": "marker",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "menubar",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "message",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "message-scroller",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "model-selector",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "native-select",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Select"
+    },
+    {
+      "id": "navigation-menu",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "pagination",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Pagination"
+    },
+    {
+      "id": "plan",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "popover",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "progress",
+      "status": "partial",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Progress"
+    },
+    {
+      "id": "prompt-input",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "questionnaire",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "queue",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "radio-group",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "RadioGroup"
+    },
+    {
+      "id": "reasoning",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "resizable",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "scroll-area",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "select",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Select"
+    },
+    {
+      "id": "separator",
+      "status": "partial",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Separator"
+    },
+    {
+      "id": "sheet",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "sidebar",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "skeleton",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "slider",
+      "status": "partial",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Slider"
+    },
+    {
+      "id": "sonner",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "sources",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "spinner",
+      "status": "partial",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Spinner"
+    },
+    {
+      "id": "stack-trace",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "subagent",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "suggestion",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "switch",
+      "status": "partial",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Switch"
+    },
+    {
+      "id": "table",
+      "status": "partial",
+      "implementation": "omniui/baseui/table.go",
+      "symbol": "Table"
+    },
+    {
+      "id": "tabs",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Tabs"
+    },
+    {
+      "id": "task",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "terminal",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "test-results",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "textarea",
+      "status": "partial",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Textarea"
+    },
+    {
+      "id": "toast",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "toggle",
+      "status": "partial",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Toggle"
+    },
+    {
+      "id": "toggle-group",
+      "status": "partial",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "ToggleGroup"
+    },
+    {
+      "id": "tool",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "tooltip",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    },
+    {
+      "id": "trace",
+      "status": "pending",
+      "implementation": null,
+      "symbol": null
+    }
+  ]
+}

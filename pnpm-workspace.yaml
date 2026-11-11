@@ -1,0 +1,4 @@
+packages:
+  - studio/ui
+onlyBuiltDependencies:
+  - esbuild

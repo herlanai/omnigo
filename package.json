@@ -1,0 +1,21 @@
+{
+  "name": "omnigo-development",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "test:web": "node --test omniweb/client/*.test.ts",
+    "dev": "node scripts/studio.mjs dev",
+    "dev:studio": "node scripts/studio.mjs dev",
+    "build": "node scripts/studio.mjs build",
+    "build:studio": "node scripts/studio.mjs build",
+    "build:web": "pnpm --filter @omnigo/studio-ui build",
+    "start": "node scripts/studio.mjs start",
+    "package": "node scripts/studio.mjs package",
+    "studio:catalog": "node scripts/studio-catalog.mjs",
+    "check:studio": "go test ./studio/... && pnpm --filter @omnigo/studio-ui typecheck"
+  },
+  "packageManager": "pnpm@10.33.0"
+}
