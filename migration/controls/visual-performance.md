@@ -13,7 +13,7 @@
 
 ```sh
 CGO_ENABLED=0 go run ./examples/control-showcase
-CGO_ENABLED=0 go run ./studio/cmd/gallery -controls button,input,slider,card,tabs,dialog -scale 2 -out build/visual-refresh/after
+CGO_ENABLED=0 go run ./examples/studio/cmd/gallery -controls button,input,slider,card,tabs,dialog -scale 2 -out build/visual-refresh/after
 ```
 
 截图：`build/control-showcase/{light,dark}-{default,keyboard}.png`。同一组合页面的旧样式位于 `build/visual-refresh/showcase-before`；既有 Studio 演示的前后截图位于 `build/visual-refresh/{before,after}`。这些是当前机器上的本地产物，不是 golet 同状态截图，也不证明审美上的量化倍数。

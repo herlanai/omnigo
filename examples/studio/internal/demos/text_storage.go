@@ -3,7 +3,7 @@ package demos
 import (
 	"fmt"
 	ui "github.com/herlanai/omnigo/omniui/baseui"
-	"github.com/herlanai/omnigo/text/rope"
+	"github.com/herlanai/omnigo/internal/text/rope"
 	"strings"
 )
 

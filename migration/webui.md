@@ -6,7 +6,7 @@
 
 | 参考行为 | OmniWeb 位置 | 当前验收状态 |
 | --- | --- | --- |
-| Go 服务请求/响应 | omniweb + runtime/rpc | HTTP 与 TS SDK 已实现；桌面 WebView 传输待实现 |
+| Go 服务请求/响应 | omniweb + internal/runtime/rpc | HTTP 与 TS SDK 已实现；桌面 WebView 传输待实现 |
 | 错误类型、请求关联、取消 | omniweb/client | 已实现基本协议及取消 |
 | 类型安全客户端生成 | 模板显式 Services 契约 | 手写类型可用；自动生成待实现 |
 | 前端事件 on/once/event | 待规划事件传输 | 待实现，不能用 Go 内部 Topic 冒充 |

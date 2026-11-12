@@ -4,11 +4,11 @@
     {
       "evidence": [
         "omniwindow/accelerator/accelerator_test.go",
-        "studio/internal/demos/shortcuts_test.go"
+        "examples/studio/internal/demos/shortcuts_test.go"
       ],
       "existing": [
         "omniwindow/accelerator",
-        "studio/internal/demos/shortcuts.go"
+        "examples/studio/internal/demos/shortcuts.go"
       ],
       "id": "accelerator",
       "reference_files": 3,
@@ -76,12 +76,12 @@
     },
     {
       "evidence": [
-        "runtime/download/download_test.go",
-        "runtime/download/process_test.go",
+        "internal/runtime/download/download_test.go",
+        "internal/runtime/download/process_test.go",
         "omniui/plugins/updater/download_test.go"
       ],
       "existing": [
-        "runtime/download",
+        "internal/runtime/download",
         "omniui/plugins/updater/download.go"
       ],
       "id": "download",
@@ -253,14 +253,14 @@
     },
     {
       "evidence": [
-        "text/rope/rope_test.go",
+        "internal/text/rope/rope_test.go",
         "omniui/baseui/text_snapshot_test.go",
-        "studio/internal/demos/text_storage_test.go"
+        "examples/studio/internal/demos/text_storage_test.go"
       ],
       "existing": [
-        "text/rope",
+        "internal/text/rope",
         "omniui/baseui/text.go",
-        "studio/internal/demos/text_storage.go"
+        "examples/studio/internal/demos/text_storage.go"
       ],
       "id": "rope",
       "reference_files": 3,

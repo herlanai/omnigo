@@ -11,7 +11,7 @@ import (
 )
 
 func TestStudioUsesFrameworkInsteadOfNativeBindings(t *testing.T) {
-	err := filepath.WalkDir("studio", func(path string, d fs.DirEntry, err error) error {
+	err := filepath.WalkDir("examples/studio", func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
@@ -33,7 +33,7 @@ func TestStudioUsesFrameworkInsteadOfNativeBindings(t *testing.T) {
 			if err != nil {
 				return err
 			}
-			if strings.HasPrefix(dependency, "github.com/ebitengine/purego") || strings.Contains(dependency, "studio/internal/native") {
+			if strings.HasPrefix(dependency, "github.com/ebitengine/purego") || strings.Contains(dependency, "examples/studio/internal/native") {
 				t.Errorf("application contains native implementation: %s imports %s", path, dependency)
 			}
 		}

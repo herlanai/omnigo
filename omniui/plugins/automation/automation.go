@@ -9,10 +9,10 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"github.com/herlanai/omnigo/internal/runtime/dispatch"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"image/png"
 	"net"
-	ui "github.com/herlanai/omnigo/omniui/baseui"
-	"github.com/herlanai/omnigo/runtime/dispatch"
 	"os"
 	"path/filepath"
 	"sync"
@@ -43,7 +43,7 @@ type Server struct {
 
 // Listen requires an application-owned private directory (0700 on Unix). It
 // never deletes an existing socket or modifies a caller's directory permissions.
-func Listen(ctx context.Context, path string, queue *dispatch.Queue, handler Handler) (*Server, error) {
+func Listen(ctx context.Context, path string, queue *DispatchQueue, handler Handler) (*Server, error) {
 	if queue == nil || handler == nil || ctx == nil {
 		return nil, errors.New("automation: context, queue and handler required")
 	}
@@ -187,3 +187,10 @@ func SurfaceHandler(surface *ui.Surface, rebuild func() error) Handler {
 		return err == nil, err
 	}
 }
+
+// DispatchQueue is a bounded UI work queue. The application must consume Wake
+// and call Drain on its UI goroutine; workers may submit but must not drain it.
+type DispatchQueue = dispatch.Queue
+
+// NewDispatchQueue creates an application-owned queue for automation handlers.
+func NewDispatchQueue(capacity int) *DispatchQueue { return dispatch.New(capacity) }

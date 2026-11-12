@@ -1,6 +1,6 @@
 # Go 多语言运行时
 
-不可变 Catalog 可在窗口间共享；Translator 属于一个 UI goroutine。后台请求语言变化时使用 `runtime/dispatch` 或窗口 Post 回到 UI。
+不可变 Catalog 可在窗口间共享；Translator 属于一个 UI goroutine。后台请求语言变化时使用 `internal/runtime/dispatch` 或窗口 Post 回到 UI。
 
 ```go
 catalog, err := i18n.Load(os.DirFS("locales"), ".", "en")

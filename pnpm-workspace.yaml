@@ -1,4 +1,4 @@
 packages:
-  - studio/ui
+  - examples/studio/ui
 onlyBuiltDependencies:
   - esbuild

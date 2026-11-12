@@ -10,7 +10,7 @@ import (
 	"io"
 	"regexp"
 
-	"github.com/herlanai/omnigo/runtime/rpc"
+	"github.com/herlanai/omnigo/internal/runtime/rpc"
 )
 
 const Version = 1

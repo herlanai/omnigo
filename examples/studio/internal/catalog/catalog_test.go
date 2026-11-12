@@ -2,7 +2,7 @@ package catalog
 
 import (
 	"encoding/json"
-	"github.com/herlanai/omnigo/studio/internal/demos"
+	"github.com/herlanai/omnigo/examples/studio/internal/demos"
 	"os"
 	"testing"
 )
@@ -24,11 +24,11 @@ func TestCatalogTracksEveryReferenceEntryAndPlugin(t *testing.T) {
 			ID string `json:"id"`
 		} `json:"catalog"`
 	}
-	read(t, "../../../migration/controls/reference.json", &ref)
+	read(t, "../../../../migration/controls/reference.json", &ref)
 	var status struct {
 		Controls []Entry `json:"controls"`
 	}
-	read(t, "../../../migration/controls/status.json", &status)
+	read(t, "../../../../migration/controls/status.json", &status)
 	for _, e := range ref.Catalog {
 		if _, ok := seen[e.ID]; !ok {
 			t.Errorf("missing control %s", e.ID)
@@ -45,7 +45,7 @@ func TestCatalogTracksEveryReferenceEntryAndPlugin(t *testing.T) {
 	var baseline struct {
 		Plugins []string `json:"plugins"`
 	}
-	read(t, "../../../migration/reference.json", &baseline)
+	read(t, "../../../../migration/reference.json", &baseline)
 	for _, id := range baseline.Plugins {
 		if _, ok := seen["plugin/"+id]; !ok {
 			t.Errorf("missing plugin %s", id)
@@ -78,7 +78,7 @@ func TestAdvancedControlsRetainTheirOwnAudit(t *testing.T) {
 	var audit struct {
 		Controls []Entry `json:"controls"`
 	}
-	read(t, "../../../migration/controls/advanced.json", &audit)
+	read(t, "../../../../migration/controls/advanced.json", &audit)
 	entries := map[string]Entry{}
 	for _, entry := range Entries() {
 		entries[entry.ID] = entry

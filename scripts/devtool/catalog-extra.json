@@ -89,7 +89,7 @@
     "description": "Go 持久化文本树：编辑、快照、撤销与恢复；展示字节、rune、UTF-16 和行坐标。完整编辑器排版与字素簇处理另行跟踪。",
     "group": "framework",
     "id": "text-storage",
-    "implementation": "text/rope",
+    "implementation": "internal/text/rope",
     "kind": "feature",
     "status": "partial",
     "symbol": "Text",

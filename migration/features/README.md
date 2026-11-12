@@ -21,7 +21,7 @@
 
 - `omniwindow`：公共生命周期/窗口契约；`omniwindow/nativewindow`：可选 Win32/X11 驱动；Cocoa 已归入公共 `omniwindow/host`，Studio 通过根包应用 API 调用。Cocoa 与 Win32/X11 的完整窗口管理契约仍未全部统一。
 - `omniui/baseui`：控件、主题、绘制与交互状态；`omniui/baseui/internal/diff`：不依赖 Surface/平台的纯比较算法。`diff_view.go` 保留 UI 状态和绘制，公开 `DiffState`/`DiffHunk` 不变。
-- `runtime/dispatch`：跨 goroutine 的 UI 派发；原生资源所有权留在所属驱动线程。
+- `internal/runtime/dispatch`：跨 goroutine 的 UI 派发；原生资源所有权留在所属驱动线程。
 - `tools/featureaudit`：只读专项扫描；`migration/features`：参考索引与实现差距；原有 `migration/reference.json`、`controls`、`platform` 清单保留。
 
 新增模块已经落地，按以下边界继续扩展：

@@ -11,7 +11,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "ai-message",
@@ -55,7 +55,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "attachment",
@@ -71,7 +71,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "avatar",
@@ -96,7 +96,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "breadcrumb",
@@ -112,7 +112,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "bubble",
@@ -173,7 +173,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "chain-of-thought",
@@ -189,7 +189,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go",
+      "examples/studio/internal/demos/advanced.go",
       "omniui/baseui/chart_parity_test.go",
       "omniui/baseui/chart_geometry.go",
       "omniui/baseui/chart_paint.go",
@@ -212,7 +212,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "chat",
@@ -237,7 +237,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "checkpoint",
@@ -296,7 +296,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "confirmation",
@@ -312,7 +312,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "context",
@@ -355,7 +355,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "drawer",
@@ -425,7 +425,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "inline-citation",
@@ -468,7 +468,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "item",
@@ -502,7 +502,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "marker",
@@ -518,7 +518,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "menubar",
@@ -534,7 +534,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "message",
@@ -550,7 +550,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "message-scroller",
@@ -566,7 +566,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go",
+      "examples/studio/internal/demos/advanced.go",
       "omniui/baseui/model_selector_parity_test.go"
     ],
     "group": "ai",
@@ -593,7 +593,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "navigation-menu",
@@ -618,7 +618,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "plan",
@@ -652,7 +652,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "prompt-input",
@@ -668,7 +668,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "questionnaire",
@@ -684,7 +684,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "queue",
@@ -709,7 +709,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "reasoning",
@@ -770,7 +770,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "sidebar",
@@ -804,7 +804,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "sonner",
@@ -820,7 +820,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "sources",
@@ -845,7 +845,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "stack-trace",
@@ -861,7 +861,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "subagent",
@@ -877,7 +877,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "suggestion",
@@ -920,7 +920,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "task",
@@ -936,7 +936,7 @@
   {
     "evidence": [
       "omniui/baseui/terminal_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "terminal",
@@ -953,7 +953,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "test-results",
@@ -978,7 +978,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "toast",
@@ -1012,7 +1012,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "ai",
     "id": "tool",
@@ -1037,7 +1037,7 @@
   {
     "evidence": [
       "omniui/baseui/advanced_test.go",
-      "studio/internal/demos/advanced.go"
+      "examples/studio/internal/demos/advanced.go"
     ],
     "group": "forma",
     "id": "trace",
@@ -1075,7 +1075,7 @@
     "description": "可编辑样式文档：选区格式、文字和格式共同撤销/重做，以及实时 Go 富文本预览。",
     "evidence": [
       "omniui/baseui/rewrite_controls_test.go",
-      "studio/internal/demos/sweep_test.go"
+      "examples/studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
     "id": "richtext-editor",
@@ -1295,7 +1295,7 @@
     "description": "精确十进制输入：任意大整数运算、分组校验、范围、步进、草稿与取消。",
     "evidence": [
       "omniui/baseui/missing_controls_test.go",
-      "studio/internal/demos/sweep_test.go"
+      "examples/studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
     "id": "decimal-input",
@@ -1374,7 +1374,7 @@
     "description": "按视口虚拟化的固定行高网格，支持业务键、二维键盘选择和自定义 Go 子项。",
     "evidence": [
       "omniui/baseui/rewrite_controls_test.go",
-      "studio/internal/demos/sweep_test.go"
+      "examples/studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
     "id": "grid-view",
@@ -1394,7 +1394,7 @@
     "description": "固定行高虚拟列表：仅构建视口与 overscan，支持百万行、键盘选择、滚动和禁用项。",
     "evidence": [
       "omniui/baseui/rewrite_controls_test.go",
-      "studio/internal/demos/sweep_test.go"
+      "examples/studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
     "id": "virtual-list",
@@ -1414,7 +1414,7 @@
     "description": "通用键控树：业务键选择、展开折叠、键盘导航、typeahead 与禁用继承。",
     "evidence": [
       "omniui/baseui/missing_controls_test.go",
-      "studio/internal/demos/sweep_test.go"
+      "examples/studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
     "id": "outline",
@@ -1434,7 +1434,7 @@
     "description": "树形表格：固定表头、业务键层级选择、自定义 Go 单元格与固定/弹性列宽。",
     "evidence": [
       "omniui/baseui/missing_controls_test.go",
-      "studio/internal/demos/sweep_test.go"
+      "examples/studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
     "id": "outline-table",
@@ -1499,7 +1499,7 @@
     "description": "真实帧播放：像素快照、GIF 合成、解码接口、暂停、seek、循环与隐藏停播，解码后像素预算 64 MiB。",
     "evidence": [
       "omniui/baseui/rewrite_controls_test.go",
-      "studio/internal/demos/sweep_test.go"
+      "examples/studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
     "id": "video",
@@ -1519,7 +1519,7 @@
     "description": "原生视图布局/裁切/焦点与生命周期协议；Studio macOS arm64 接入真实 WKWebView，并有加载验证命令。",
     "evidence": [
       "omniui/baseui/rewrite_controls_test.go",
-      "studio/cmd/webviewcheck/main.go"
+      "examples/studio/cmd/webviewcheck/main.go"
     ],
     "group": "advanced",
     "id": "web-view",
@@ -1540,7 +1540,7 @@
     "description": "Go 代码编辑：等宽字体、行号、语法着色、缩进、换行、选区、撤销及查找。",
     "evidence": [
       "omniui/baseui/rewrite_controls_test.go",
-      "studio/internal/demos/sweep_test.go"
+      "examples/studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
     "id": "code-editor",
@@ -1560,7 +1560,7 @@
     "description": "共享显式时钟的时间轴：暂停、seek、延迟、重复、交替、反向与线性/平滑补间。",
     "evidence": [
       "omniui/baseui/rewrite_controls_test.go",
-      "studio/internal/demos/sweep_test.go"
+      "examples/studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
     "id": "timeline",
@@ -1600,7 +1600,7 @@
     "description": "Go 原生逐行比较、统一/双栏视图、差异导航、逐块还原与撤销。",
     "evidence": [
       "omniui/baseui/diff_view_test.go",
-      "studio/internal/demos/sweep_test.go"
+      "examples/studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
     "id": "diff-view",
@@ -1622,7 +1622,7 @@
     "description": "Go 编辑器辅助控件，支持键盘操作与边界校验。",
     "evidence": [
       "omniui/baseui/editor_navigation_test.go",
-      "studio/internal/demos/sweep_test.go"
+      "examples/studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
     "id": "go-to-line",
@@ -1641,7 +1641,7 @@
     "description": "Go 编辑器辅助控件，支持键盘操作与边界校验。",
     "evidence": [
       "omniui/baseui/editor_navigation_test.go",
-      "studio/internal/demos/sweep_test.go"
+      "examples/studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
     "id": "completion-menu",
@@ -2163,7 +2163,7 @@
     "description": "Go 持久化文本树：编辑、快照、撤销与恢复；展示字节、rune、UTF-16 和行坐标。完整编辑器排版与字素簇处理另行跟踪。",
     "group": "framework",
     "id": "text-storage",
-    "implementation": "text/rope",
+    "implementation": "internal/text/rope",
     "kind": "feature",
     "status": "partial",
     "symbol": "Text",

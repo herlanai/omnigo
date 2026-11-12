@@ -17,7 +17,7 @@ import (
 )
 
 func main() {
-	source := flag.String("source", "studio/assets/app-icon.svg", "vector source")
+	source := flag.String("source", "examples/studio/assets/app-icon.svg", "vector source")
 	output := flag.String("out", "build/studio/AppIcon.icns", "ICNS destination")
 	preview := flag.String("preview", "", "optional 1024px PNG destination")
 	flag.Parse()

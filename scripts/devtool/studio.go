@@ -29,19 +29,19 @@ func studio(ctx context.Context, root, mode string) error {
 	if err := catalog(); err != nil {
 		return err
 	}
-	if err := copyTree("omniweb/client/index.ts", "studio/ui/src/lib/omniweb.ts"); err != nil {
+	if err := copyTree("omniweb/client/index.ts", "examples/studio/ui/src/lib/omniweb.ts"); err != nil {
 		return err
 	}
 	if err := run(ctx, "pnpm", "--filter", "@omnigo/studio-ui", "build"); err != nil {
 		return err
 	}
-	if err := os.RemoveAll("studio/web/assets"); err != nil {
+	if err := os.RemoveAll("examples/studio/web/assets"); err != nil {
 		return err
 	}
-	if err := copyTree("studio/ui/dist/client", "studio/web"); err != nil {
+	if err := copyTree("examples/studio/ui/dist/client", "examples/studio/web"); err != nil {
 		return err
 	}
-	if err := run(ctx, "go", "run", "./studio/cmd/appicon", "-out", filepath.Join(output, "AppIcon.icns"), "-preview", "studio/assets/app-icon.png"); err != nil {
+	if err := run(ctx, "go", "run", "./examples/studio/cmd/appicon", "-out", filepath.Join(output, "AppIcon.icns"), "-preview", "examples/studio/assets/app-icon.png"); err != nil {
 		return err
 	}
 	if err := os.RemoveAll(bundle); err != nil {
@@ -50,7 +50,7 @@ func studio(ctx context.Context, root, mode string) error {
 	if err := os.MkdirAll(filepath.Dir(binary), 0755); err != nil {
 		return err
 	}
-	if err := run(ctx, "go", "build", "-trimpath", "-o", binary, "./studio/cmd/studio"); err != nil {
+	if err := run(ctx, "go", "build", "-trimpath", "-o", binary, "./examples/studio/cmd/studio"); err != nil {
 		return err
 	}
 	resources := filepath.Join(contents, "Resources")
@@ -73,7 +73,7 @@ func studio(ctx context.Context, root, mode string) error {
 		}
 	}
 	for _, name := range []string{"README.md", "THIRD_PARTY_NOTICES.md"} {
-		if err := copyTree(filepath.Join("studio", name), filepath.Join(resources, name)); err != nil {
+		if err := copyTree(filepath.Join("examples/studio", name), filepath.Join(resources, name)); err != nil {
 			return err
 		}
 	}

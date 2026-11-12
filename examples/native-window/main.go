@@ -7,7 +7,7 @@ import (
 	"github.com/herlanai/omnigo/omniwindow"
 	"github.com/herlanai/omnigo/omniwindow/nativewindow"
 	ui "github.com/herlanai/omnigo/omniui/baseui"
-	"github.com/herlanai/omnigo/runtime/lifecycle"
+	"github.com/herlanai/omnigo/internal/runtime/lifecycle"
 	"image"
 	"log"
 	"os"

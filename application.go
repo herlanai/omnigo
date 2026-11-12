@@ -9,11 +9,11 @@ import (
 	"sync"
 	"sync/atomic"
 
+	"github.com/herlanai/omnigo/internal/runtime/lifecycle"
+	"github.com/herlanai/omnigo/internal/runtime/rpc"
+	"github.com/herlanai/omnigo/omniui"
 	"github.com/herlanai/omnigo/omniwindow"
 	"github.com/herlanai/omnigo/omniwindow/host"
-	"github.com/herlanai/omnigo/omniui"
-	"github.com/herlanai/omnigo/runtime/lifecycle"
-	"github.com/herlanai/omnigo/runtime/rpc"
 )
 
 type WindowOptions = omniwindow.WindowOptions
@@ -27,6 +27,9 @@ const (
 
 var ErrNotReady = errors.New("omnigo: native host is not ready")
 
+// LifecycleOptions configures application extensions and shutdown.
+type LifecycleOptions = lifecycle.Options
+
 type Options struct {
 	// Window configures the primary Web window during construction.
 	Window *WindowOptions
@@ -38,7 +41,7 @@ type Options struct {
 	Icon          []byte
 	CreateWindow  host.WindowFactory
 	InitialWindow string
-	Lifecycle     lifecycle.Options
+	Lifecycle     LifecycleOptions
 }
 type Application struct {
 	mu        sync.Mutex

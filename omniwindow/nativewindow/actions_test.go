@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/herlanai/omnigo/omniwindow"
-	"github.com/herlanai/omnigo/runtime/dispatch"
+	"github.com/herlanai/omnigo/internal/runtime/dispatch"
 )
 
 type actionFake struct {

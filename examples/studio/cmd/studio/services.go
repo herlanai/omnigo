@@ -8,9 +8,9 @@ import (
 	"github.com/herlanai/omnigo"
 	"github.com/herlanai/omnigo/omniwindow/host"
 	"github.com/herlanai/omnigo/omniwindow/metrics"
-	"github.com/herlanai/omnigo/studio/internal/browser"
-	"github.com/herlanai/omnigo/studio/internal/catalog"
-	"github.com/herlanai/omnigo/studio/internal/insights"
+	"github.com/herlanai/omnigo/examples/studio/internal/browser"
+	"github.com/herlanai/omnigo/examples/studio/internal/catalog"
+	"github.com/herlanai/omnigo/examples/studio/internal/insights"
 )
 
 func studioRegistration(browsers *browser.Manager, monitor *metrics.Monitor) omnigo.Registration {

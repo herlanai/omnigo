@@ -3,7 +3,7 @@ package catalog
 import (
 	_ "embed"
 	"encoding/json"
-	"github.com/herlanai/omnigo/studio/internal/demos"
+	"github.com/herlanai/omnigo/examples/studio/internal/demos"
 	"strings"
 	"sync"
 )

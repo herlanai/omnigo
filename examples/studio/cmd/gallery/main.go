@@ -11,8 +11,8 @@ import (
 	"time"
 
 	ui "github.com/herlanai/omnigo/omniui/baseui"
-	"github.com/herlanai/omnigo/studio/internal/catalog"
-	"github.com/herlanai/omnigo/studio/internal/demos"
+	"github.com/herlanai/omnigo/examples/studio/internal/catalog"
+	"github.com/herlanai/omnigo/examples/studio/internal/demos"
 )
 
 func main() {

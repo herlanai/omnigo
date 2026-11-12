@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/herlanai/omnigo/runtime/rpc"
+	"github.com/herlanai/omnigo/internal/runtime/rpc"
 )
 
 // HTTPOptions is host configuration, never deserialized from a client message.
@@ -29,7 +29,7 @@ type HTTP struct {
 	origins map[string]bool
 }
 
-func NewHTTP(router *rpc.Router, o HTTPOptions) (*HTTP, error) {
+func NewHTTP(router *Router, o HTTPOptions) (*HTTP, error) {
 	if router == nil || o.Host == "" || len(o.Origins) == 0 {
 		return nil, errors.New("omniweb: router, host and origins required")
 	}

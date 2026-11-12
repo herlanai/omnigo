@@ -32,9 +32,9 @@ DataTable 数据源上限 10,000 行、每页上限 100 行。原有 Table 与 V
 以下生成真实 Go 离屏截图，不是网页截图：
 
 ```sh
-CGO_ENABLED=0 go run ./studio/cmd/gallery -controls all -exclude plugin/omnibrowser -scale 1.25 -style 0 -out build/shadcn-alignment/maia-all
-CGO_ENABLED=0 go run ./studio/cmd/gallery -controls all -exclude plugin/omnibrowser -scale 1.25 -style 1 -accent 1 -bold-menus -out build/shadcn-alignment/nova-all
-CGO_ENABLED=0 go run ./studio/cmd/gallery -controls all -exclude plugin/omnibrowser -scale 1.25 -style 2 -accent 2 -bold-menus -out build/shadcn-alignment/lyra-all
+CGO_ENABLED=0 go run ./examples/studio/cmd/gallery -controls all -exclude plugin/omnibrowser -scale 1.25 -style 0 -out build/shadcn-alignment/maia-all
+CGO_ENABLED=0 go run ./examples/studio/cmd/gallery -controls all -exclude plugin/omnibrowser -scale 1.25 -style 1 -accent 1 -bold-menus -out build/shadcn-alignment/nova-all
+CGO_ENABLED=0 go run ./examples/studio/cmd/gallery -controls all -exclude plugin/omnibrowser -scale 1.25 -style 2 -accent 2 -bold-menus -out build/shadcn-alignment/lyra-all
 CGO_ENABLED=0 go run ./examples/control-showcase -out build/shadcn-alignment/showcase
 ```
 

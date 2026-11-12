@@ -20,7 +20,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "Accordion",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/accordion-light.png",
       "darkSnapshot": "build/baseui-review/accordion-dark.png",
       "remaining": [
@@ -39,7 +39,7 @@
       ],
       "implementation": "omniui/baseui/messages.go",
       "symbol": "AIMessage",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/ai-message-light.png",
       "darkSnapshot": "build/baseui-review/ai-message-dark.png",
       "remaining": [
@@ -59,7 +59,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "Alert",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/alert-light.png",
       "darkSnapshot": "build/baseui-review/alert-dark.png",
       "remaining": [
@@ -78,7 +78,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "AlertDialog",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/alert-dialog-light.png",
       "darkSnapshot": "build/baseui-review/alert-dialog-dark.png",
       "remaining": [
@@ -97,7 +97,7 @@
       ],
       "implementation": "omniui/baseui/layout_controls.go",
       "symbol": "AspectRatio",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/aspect-ratio-light.png",
       "darkSnapshot": "build/baseui-review/aspect-ratio-dark.png",
       "remaining": [
@@ -116,7 +116,7 @@
       ],
       "implementation": "omniui/baseui/messages.go",
       "symbol": "Attachment",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/attachment-light.png",
       "darkSnapshot": "build/baseui-review/attachment-dark.png",
       "remaining": [
@@ -135,7 +135,7 @@
       ],
       "implementation": "omniui/baseui/avatar.go",
       "symbol": "Avatar",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/avatar-light.png",
       "darkSnapshot": "build/baseui-review/avatar-dark.png",
       "remaining": [
@@ -154,7 +154,7 @@
       ],
       "implementation": "omniui/baseui/element.go",
       "symbol": "Badge",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/badge-light.png",
       "darkSnapshot": "build/baseui-review/badge-dark.png",
       "remaining": [
@@ -173,7 +173,7 @@
       ],
       "implementation": "omniui/baseui/navigation.go",
       "symbol": "Breadcrumb",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/breadcrumb-light.png",
       "darkSnapshot": "build/baseui-review/breadcrumb-dark.png",
       "remaining": [
@@ -192,7 +192,7 @@
       ],
       "implementation": "omniui/baseui/messages.go",
       "symbol": "Bubble",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/bubble-light.png",
       "darkSnapshot": "build/baseui-review/bubble-dark.png",
       "remaining": [
@@ -211,7 +211,7 @@
       ],
       "implementation": "omniui/baseui/element.go",
       "symbol": "Button",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/button-light.png",
       "darkSnapshot": "build/baseui-review/button-dark.png",
       "remaining": [
@@ -230,7 +230,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "ButtonGroup",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/button-group-light.png",
       "darkSnapshot": "build/baseui-review/button-group-dark.png",
       "remaining": [
@@ -249,7 +249,7 @@
       ],
       "implementation": "omniui/baseui/calendar.go",
       "symbol": "Calendar",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/calendar-light.png",
       "darkSnapshot": "build/baseui-review/calendar-dark.png",
       "remaining": [
@@ -268,7 +268,7 @@
       ],
       "implementation": "omniui/baseui/element.go",
       "symbol": "Card",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/card-light.png",
       "darkSnapshot": "build/baseui-review/card-dark.png",
       "remaining": [
@@ -287,7 +287,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "Carousel",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/carousel-light.png",
       "darkSnapshot": "build/baseui-review/carousel-dark.png",
       "remaining": [
@@ -306,7 +306,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "ChainOfThought",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/chain-of-thought-light.png",
       "darkSnapshot": "build/baseui-review/chain-of-thought-dark.png",
       "remaining": [
@@ -325,7 +325,7 @@
       ],
       "implementation": "omniui/baseui/chart.go",
       "symbol": "Chart",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/chart-light.png",
       "darkSnapshot": "build/baseui-review/chart-dark.png",
       "remaining": [
@@ -346,7 +346,7 @@
       ],
       "implementation": "omniui/baseui/messages.go",
       "symbol": "Chat",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/chat-light.png",
       "darkSnapshot": "build/baseui-review/chat-dark.png",
       "remaining": [
@@ -365,7 +365,7 @@
       ],
       "implementation": "omniui/baseui/element.go",
       "symbol": "Checkbox",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/checkbox-light.png",
       "darkSnapshot": "build/baseui-review/checkbox-dark.png",
       "remaining": [
@@ -384,7 +384,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "Checkpoint",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/checkpoint-light.png",
       "darkSnapshot": "build/baseui-review/checkpoint-dark.png",
       "remaining": [
@@ -403,7 +403,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "CodeBlock",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/code-block-light.png",
       "darkSnapshot": "build/baseui-review/code-block-dark.png",
       "remaining": [
@@ -423,7 +423,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "Collapsible",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/collapsible-light.png",
       "darkSnapshot": "build/baseui-review/collapsible-dark.png",
       "remaining": [
@@ -442,7 +442,7 @@
       ],
       "implementation": "omniui/baseui/select.go",
       "symbol": "Combobox",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/combobox-light.png",
       "darkSnapshot": "build/baseui-review/combobox-dark.png",
       "remaining": [
@@ -461,7 +461,7 @@
       ],
       "implementation": "omniui/baseui/command.go",
       "symbol": "Command",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/command-light.png",
       "darkSnapshot": "build/baseui-review/command-dark.png",
       "remaining": [
@@ -480,7 +480,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "Confirmation",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/confirmation-light.png",
       "darkSnapshot": "build/baseui-review/confirmation-dark.png",
       "remaining": [
@@ -499,7 +499,7 @@
       ],
       "implementation": "omniui/baseui/messages.go",
       "symbol": "Context",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/context-light.png",
       "darkSnapshot": "build/baseui-review/context-dark.png",
       "remaining": [
@@ -518,7 +518,7 @@
       ],
       "implementation": "omniui/baseui/context_menu.go",
       "symbol": "ContextMenu",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/context-menu-light.png",
       "darkSnapshot": "build/baseui-review/context-menu-dark.png",
       "remaining": [
@@ -537,7 +537,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "Dialog",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/dialog-light.png",
       "darkSnapshot": "build/baseui-review/dialog-dark.png",
       "remaining": [
@@ -556,7 +556,7 @@
       ],
       "implementation": "omniui/baseui/layout_controls.go",
       "symbol": "Direction",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/direction-light.png",
       "darkSnapshot": "build/baseui-review/direction-dark.png",
       "remaining": [
@@ -575,7 +575,7 @@
       ],
       "implementation": "omniui/baseui/drawer.go",
       "symbol": "Drawer",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/drawer-light.png",
       "darkSnapshot": "build/baseui-review/drawer-dark.png",
       "remaining": [
@@ -594,7 +594,7 @@
       ],
       "implementation": "omniui/baseui/menu.go",
       "symbol": "DropdownMenu",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/dropdown-menu-light.png",
       "darkSnapshot": "build/baseui-review/dropdown-menu-dark.png",
       "remaining": [
@@ -613,7 +613,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "Empty",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/empty-light.png",
       "darkSnapshot": "build/baseui-review/empty-dark.png",
       "remaining": [
@@ -632,7 +632,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "Field",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/field-light.png",
       "darkSnapshot": "build/baseui-review/field-dark.png",
       "remaining": [
@@ -651,7 +651,7 @@
       ],
       "implementation": "omniui/baseui/file_tree.go",
       "symbol": "FileTree",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/file-tree-light.png",
       "darkSnapshot": "build/baseui-review/file-tree-dark.png",
       "remaining": [
@@ -670,7 +670,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "Form",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/form-light.png",
       "darkSnapshot": "build/baseui-review/form-dark.png",
       "remaining": [
@@ -689,7 +689,7 @@
       ],
       "implementation": "omniui/baseui/hover.go",
       "symbol": "HoverCard",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/hover-card-light.png",
       "darkSnapshot": "build/baseui-review/hover-card-dark.png",
       "remaining": [
@@ -708,7 +708,7 @@
       ],
       "implementation": "omniui/baseui/messages.go",
       "symbol": "InlineCitation",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/inline-citation-light.png",
       "darkSnapshot": "build/baseui-review/inline-citation-dark.png",
       "remaining": [
@@ -727,7 +727,7 @@
       ],
       "implementation": "omniui/baseui/element.go",
       "symbol": "Input",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/input-light.png",
       "darkSnapshot": "build/baseui-review/input-dark.png",
       "remaining": [
@@ -746,7 +746,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "InputGroup",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/input-group-light.png",
       "darkSnapshot": "build/baseui-review/input-group-dark.png",
       "remaining": [
@@ -765,7 +765,7 @@
       ],
       "implementation": "omniui/baseui/otp.go",
       "symbol": "InputOTP",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/input-otp-light.png",
       "darkSnapshot": "build/baseui-review/input-otp-dark.png",
       "remaining": [
@@ -784,7 +784,7 @@
       ],
       "implementation": "omniui/baseui/messages.go",
       "symbol": "Item",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/item-light.png",
       "darkSnapshot": "build/baseui-review/item-dark.png",
       "remaining": [
@@ -803,7 +803,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "Kbd",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/kbd-light.png",
       "darkSnapshot": "build/baseui-review/kbd-dark.png",
       "remaining": [
@@ -822,7 +822,7 @@
       ],
       "implementation": "omniui/baseui/element.go",
       "symbol": "Text",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/label-light.png",
       "darkSnapshot": "build/baseui-review/label-dark.png",
       "remaining": [
@@ -841,7 +841,7 @@
       ],
       "implementation": "omniui/baseui/messages.go",
       "symbol": "Marker",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/marker-light.png",
       "darkSnapshot": "build/baseui-review/marker-dark.png",
       "remaining": [
@@ -860,7 +860,7 @@
       ],
       "implementation": "omniui/baseui/navigation.go",
       "symbol": "Menubar",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/menubar-light.png",
       "darkSnapshot": "build/baseui-review/menubar-dark.png",
       "remaining": [
@@ -879,7 +879,7 @@
       ],
       "implementation": "omniui/baseui/messages.go",
       "symbol": "Message",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/message-light.png",
       "darkSnapshot": "build/baseui-review/message-dark.png",
       "remaining": [
@@ -898,7 +898,7 @@
       ],
       "implementation": "omniui/baseui/messages.go",
       "symbol": "MessageScroller",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/message-scroller-light.png",
       "darkSnapshot": "build/baseui-review/message-scroller-dark.png",
       "remaining": [
@@ -917,7 +917,7 @@
       ],
       "implementation": "omniui/baseui/prompt.go",
       "symbol": "ModelSelector",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/model-selector-light.png",
       "darkSnapshot": "build/baseui-review/model-selector-dark.png",
       "remaining": [
@@ -937,7 +937,7 @@
       ],
       "implementation": "omniui/baseui/select.go",
       "symbol": "Select",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/native-select-light.png",
       "darkSnapshot": "build/baseui-review/native-select-dark.png",
       "remaining": [
@@ -956,7 +956,7 @@
       ],
       "implementation": "omniui/baseui/navigation.go",
       "symbol": "NavigationMenu",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/navigation-menu-light.png",
       "darkSnapshot": "build/baseui-review/navigation-menu-dark.png",
       "remaining": [
@@ -975,7 +975,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "Pagination",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/pagination-light.png",
       "darkSnapshot": "build/baseui-review/pagination-dark.png",
       "remaining": [
@@ -994,7 +994,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "Plan",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/plan-light.png",
       "darkSnapshot": "build/baseui-review/plan-dark.png",
       "remaining": [
@@ -1013,7 +1013,7 @@
       ],
       "implementation": "omniui/baseui/overlay.go",
       "symbol": "Popover",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/popover-light.png",
       "darkSnapshot": "build/baseui-review/popover-dark.png",
       "remaining": [
@@ -1032,7 +1032,7 @@
       ],
       "implementation": "omniui/baseui/element.go",
       "symbol": "Progress",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/progress-light.png",
       "darkSnapshot": "build/baseui-review/progress-dark.png",
       "remaining": [
@@ -1051,7 +1051,7 @@
       ],
       "implementation": "omniui/baseui/prompt.go",
       "symbol": "PromptInput",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/prompt-input-light.png",
       "darkSnapshot": "build/baseui-review/prompt-input-dark.png",
       "remaining": [
@@ -1070,7 +1070,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "Questionnaire",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/questionnaire-light.png",
       "darkSnapshot": "build/baseui-review/questionnaire-dark.png",
       "remaining": [
@@ -1089,7 +1089,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "Queue",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/queue-light.png",
       "darkSnapshot": "build/baseui-review/queue-dark.png",
       "remaining": [
@@ -1108,7 +1108,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "RadioGroup",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/radio-group-light.png",
       "darkSnapshot": "build/baseui-review/radio-group-dark.png",
       "remaining": [
@@ -1127,7 +1127,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "Reasoning",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/reasoning-light.png",
       "darkSnapshot": "build/baseui-review/reasoning-dark.png",
       "remaining": [
@@ -1146,7 +1146,7 @@
       ],
       "implementation": "omniui/baseui/layout_controls.go",
       "symbol": "Resizable",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/resizable-light.png",
       "darkSnapshot": "build/baseui-review/resizable-dark.png",
       "remaining": [
@@ -1165,7 +1165,7 @@
       ],
       "implementation": "omniui/baseui/scroll.go",
       "symbol": "ScrollArea",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/scroll-area-light.png",
       "darkSnapshot": "build/baseui-review/scroll-area-dark.png",
       "remaining": [
@@ -1184,7 +1184,7 @@
       ],
       "implementation": "omniui/baseui/select.go",
       "symbol": "Select",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/select-light.png",
       "darkSnapshot": "build/baseui-review/select-dark.png",
       "remaining": [
@@ -1203,7 +1203,7 @@
       ],
       "implementation": "omniui/baseui/element.go",
       "symbol": "Separator",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/separator-light.png",
       "darkSnapshot": "build/baseui-review/separator-dark.png",
       "remaining": [
@@ -1222,7 +1222,7 @@
       ],
       "implementation": "omniui/baseui/layout_controls.go",
       "symbol": "Sheet",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/sheet-light.png",
       "darkSnapshot": "build/baseui-review/sheet-dark.png",
       "remaining": [
@@ -1241,7 +1241,7 @@
       ],
       "implementation": "omniui/baseui/navigation.go",
       "symbol": "Sidebar",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/sidebar-light.png",
       "darkSnapshot": "build/baseui-review/sidebar-dark.png",
       "remaining": [
@@ -1260,7 +1260,7 @@
       ],
       "implementation": "omniui/baseui/layout_controls.go",
       "symbol": "Skeleton",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/skeleton-light.png",
       "darkSnapshot": "build/baseui-review/skeleton-dark.png",
       "remaining": [
@@ -1279,7 +1279,7 @@
       ],
       "implementation": "omniui/baseui/element.go",
       "symbol": "Slider",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/slider-light.png",
       "darkSnapshot": "build/baseui-review/slider-dark.png",
       "remaining": [
@@ -1298,7 +1298,7 @@
       ],
       "implementation": "omniui/baseui/toast.go",
       "symbol": "Sonner",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/sonner-light.png",
       "darkSnapshot": "build/baseui-review/sonner-dark.png",
       "remaining": [
@@ -1317,7 +1317,7 @@
       ],
       "implementation": "omniui/baseui/messages.go",
       "symbol": "Sources",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/sources-light.png",
       "darkSnapshot": "build/baseui-review/sources-dark.png",
       "remaining": [
@@ -1336,7 +1336,7 @@
       ],
       "implementation": "omniui/baseui/element.go",
       "symbol": "Spinner",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/spinner-light.png",
       "darkSnapshot": "build/baseui-review/spinner-dark.png",
       "remaining": [
@@ -1355,7 +1355,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "StackTrace",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/stack-trace-light.png",
       "darkSnapshot": "build/baseui-review/stack-trace-dark.png",
       "remaining": [
@@ -1374,7 +1374,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "Subagent",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/subagent-light.png",
       "darkSnapshot": "build/baseui-review/subagent-dark.png",
       "remaining": [
@@ -1393,7 +1393,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "Suggestion",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/suggestion-light.png",
       "darkSnapshot": "build/baseui-review/suggestion-dark.png",
       "remaining": [
@@ -1412,7 +1412,7 @@
       ],
       "implementation": "omniui/baseui/element.go",
       "symbol": "Switch",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/switch-light.png",
       "darkSnapshot": "build/baseui-review/switch-dark.png",
       "remaining": [
@@ -1431,7 +1431,7 @@
       ],
       "implementation": "omniui/baseui/table.go",
       "symbol": "Table",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/table-light.png",
       "darkSnapshot": "build/baseui-review/table-dark.png",
       "remaining": [
@@ -1450,7 +1450,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "Tabs",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/tabs-light.png",
       "darkSnapshot": "build/baseui-review/tabs-dark.png",
       "remaining": [
@@ -1469,7 +1469,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "Task",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/task-light.png",
       "darkSnapshot": "build/baseui-review/task-dark.png",
       "remaining": [
@@ -1488,7 +1488,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "Terminal",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/terminal-light.png",
       "darkSnapshot": "build/baseui-review/terminal-dark.png",
       "remaining": [
@@ -1508,7 +1508,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "TestResults",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/test-results-light.png",
       "darkSnapshot": "build/baseui-review/test-results-dark.png",
       "remaining": [
@@ -1527,7 +1527,7 @@
       ],
       "implementation": "omniui/baseui/element.go",
       "symbol": "Textarea",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/textarea-light.png",
       "darkSnapshot": "build/baseui-review/textarea-dark.png",
       "remaining": [
@@ -1546,7 +1546,7 @@
       ],
       "implementation": "omniui/baseui/toast.go",
       "symbol": "Toast",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/toast-light.png",
       "darkSnapshot": "build/baseui-review/toast-dark.png",
       "remaining": [
@@ -1565,7 +1565,7 @@
       ],
       "implementation": "omniui/baseui/element.go",
       "symbol": "Toggle",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/toggle-light.png",
       "darkSnapshot": "build/baseui-review/toggle-dark.png",
       "remaining": [
@@ -1584,7 +1584,7 @@
       ],
       "implementation": "omniui/baseui/compose.go",
       "symbol": "ToggleGroup",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/toggle-group-light.png",
       "darkSnapshot": "build/baseui-review/toggle-group-dark.png",
       "remaining": [
@@ -1603,7 +1603,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "Tool",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/tool-light.png",
       "darkSnapshot": "build/baseui-review/tool-dark.png",
       "remaining": [
@@ -1622,7 +1622,7 @@
       ],
       "implementation": "omniui/baseui/hover.go",
       "symbol": "Tooltip",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/tooltip-light.png",
       "darkSnapshot": "build/baseui-review/tooltip-dark.png",
       "remaining": [
@@ -1641,7 +1641,7 @@
       ],
       "implementation": "omniui/baseui/workflow.go",
       "symbol": "Trace",
-      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "sharedInteractionSweep": "examples/studio/internal/demos/sweep_test.go",
       "lightSnapshot": "build/baseui-review/trace-light.png",
       "darkSnapshot": "build/baseui-review/trace-dark.png",
       "remaining": [

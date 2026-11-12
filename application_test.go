@@ -12,7 +12,7 @@ import (
 
 	"github.com/herlanai/omnigo/omniwindow/host"
 	"github.com/herlanai/omnigo/omniweb"
-	"github.com/herlanai/omnigo/runtime/lifecycle"
+	"github.com/herlanai/omnigo/internal/runtime/lifecycle"
 )
 
 func TestApplicationOwnsResourcesBindingsAndShutdown(t *testing.T) {

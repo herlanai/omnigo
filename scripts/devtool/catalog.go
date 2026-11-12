@@ -76,7 +76,7 @@ func catalog() error {
 		return err
 	}
 	entries = append(entries, extra...)
-	return writeJSON("studio/internal/catalog/catalog.json", entries)
+	return writeJSON("examples/studio/internal/catalog/catalog.json", entries)
 }
 func joinItems(value any) string {
 	items, _ := value.([]any)

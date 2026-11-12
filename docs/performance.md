@@ -14,7 +14,7 @@ baseui 新增 `BenchmarkMount100Controls`，测 100 控件的校验、快照与�
 - `BenchmarkPublish`：16 个已经满的订阅队列，测丢弃路径；不能拿它与同步调用 16 个回调的基准直接比较。
 
 ```sh
-go test -run '^$' -bench . -benchmem -count 5 ./omniui ./runtime/event
+go test -run '^$' -bench . -benchmem -count 5 ./omniui ./internal/runtime/event
 ```
 
 基准必须说明 CPU、OS、Go 版本、构建模式、样本数、工作负载、分配量与测量边界。不可用竞态检测版本的数据当发布性能。

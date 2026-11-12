@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/herlanai/omnigo/runtime/download"
+	"github.com/herlanai/omnigo/internal/runtime/download"
 )
 
 type Release struct {

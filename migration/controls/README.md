@@ -12,11 +12,11 @@
 
 本轮覆盖全部 86 个目录控件的参考入口映射、明暗离屏总览和共用交互巡检，逐项索引见 [review.json](review.json)。该索引保留既有缺口；入口映射不是逐行为等价证明，未逐项验证的能力明确保持未验收。
 
-`studio/internal/demos/sweep_test.go` 对所有演示在 320/720 宽度、明暗主题下使用确定事件检查键盘、文本/IME、禁用、只读、取消及卸载计时清理。控件专项回归见 `omniui/baseui/review_regression_test.go`：InputGroup 单一边框/焦点、输入命中、错误和高文本域；竖向 Separator；Link 按钮；来源空 URL/标题回退；消息作者末端对齐及空作者隐藏。
+`examples/studio/internal/demos/sweep_test.go` 对所有演示在 320/720 宽度、明暗主题下使用确定事件检查键盘、文本/IME、禁用、只读、取消及卸载计时清理。控件专项回归见 `omniui/baseui/review_regression_test.go`：InputGroup 单一边框/焦点、输入命中、错误和高文本域；竖向 Separator；Link 按钮；来源空 URL/标题回退；消息作者末端对齐及空作者隐藏。
 
 实际修复还包括 Item/Marker 垂直居中、Alert 危险样式和 Context 未知上限提示。字体层级、完整尺寸/视觉状态、ButtonGroup 连续边框、富文本/虚拟化及原生输入和无障碍仍有缺口。当前保持 **86 partial / 0 pending / 0 完整对齐**。
 
-全量截图可复现：`CGO_ENABLED=0 go run ./studio/cmd/gallery -controls all -out build/baseui-review -scale 1`，生成 172 张控件截图与 12 张明暗联系表。截图经过总览检查，但尚无参考框架逐状态像素差异验收或真实窗口全状态验收。
+全量截图可复现：`CGO_ENABLED=0 go run ./examples/studio/cmd/gallery -controls all -out build/baseui-review -scale 1`，生成 172 张控件截图与 12 张明暗联系表。截图经过总览检查，但尚无参考框架逐状态像素差异验收或真实窗口全状态验收。
 
 唯一实现位置：**`omniui/baseui`**。包括控件行为、组合、主题与绘制，以及可选的 Go 控件插件。React/shadcn Web 模板不计入这里的完成量。
 
@@ -62,7 +62,7 @@ go run ./tools/controlaudit -source /absolute/path/to/golet
 
 - `overlay_test.go`：滚轮边界/嵌套冒泡、内容缩小、滚动条拖动取消、焦点滚入；弹层翻转、外部点击消费、嵌套焦点恢复；菜单复选/typeahead；Select 键盘选择；Combobox 过滤、IME、只读；Command 关键字与禁用动作。
 - `layout_controls_test.go`：分栏最小尺寸、键盘、拖动取消、卸载后 ID 复用；比例容器、RTL 行序、四边 Sheet；骨架屏显式时钟/减少动态效果。
-- Studio 新增对应演示，`studio/cmd/gallery` 用真实事件生成明暗截图。AppKit 接入滚轮/触控板与悬停移动事件；尚未进行真实窗口的完整验收。
+- Studio 新增对应演示，`examples/studio/cmd/gallery` 用真实事件生成明暗截图。AppKit 接入滚轮/触控板与悬停移动事件；尚未进行真实窗口的完整验收。
 
 保留缺口：普通滚动未虚拟化/惯性化；菜单没有悬停意图、完整快捷键注册、触摸或平台无障碍；弹层没有完整阴影/碰撞/过渡策略；Direction 不覆盖双向整形；Resizable 没有吸附和折叠；其余 42 项、编辑器/富文本/图表/AI、可选插件及跨平台宿主仍待实现。测试通过不替代这些能力的验收。
 

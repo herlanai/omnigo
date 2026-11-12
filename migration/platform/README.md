@@ -29,8 +29,8 @@
 go run ./tools/platformaudit -source /absolute/path/to/golet
 go run ./cmd/omni doctor --all
 sh scripts/check.sh
-CGO_ENABLED=0 go run ./studio/cmd/titlebarcheck
-CGO_ENABLED=0 go run ./studio/cmd/webviewcheck
+CGO_ENABLED=0 go run ./examples/studio/cmd/titlebarcheck
+CGO_ENABLED=0 go run ./examples/studio/cmd/webviewcheck
 ```
 
 ## 后续实现依赖

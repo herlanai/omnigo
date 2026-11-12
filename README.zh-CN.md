@@ -4,7 +4,7 @@
   <p><strong>用 Go 构建桌面应用，让想法成为界面。</strong></p>
   <p>Go 控件 · Web 界面 · 类型化服务 · 可选插件</p>
   <p><strong>简体中文</strong> / <a href="README.md">English</a></p>
-  <p><a href="#quick-start">快速开始</a> · <a href="studio/README.md">Studio</a> · <a href="docs/architecture.md">架构</a> · <a href="examples">示例</a></p>
+  <p><a href="#quick-start">快速开始</a> · <a href="examples/studio/README.md">Studio</a> · <a href="docs/architecture.md">架构</a> · <a href="examples">示例</a></p>
 </div>
 
 ---
@@ -101,7 +101,7 @@ pnpm setup:chromium
 pnpm build
 ```
 
-CEF 宿主构建需要 CMake 和原生 C++ 工具链。普通 Go 目标支持 `CGO_ENABLED=0`；这个独立宿主有额外构建依赖。详见 [Studio 指南](studio/README.md) 和 [Chromium 插件](omniui/plugins/chromium/README.md)。
+CEF 宿主构建需要 CMake 和原生 C++ 工具链。普通 Go 目标支持 `CGO_ENABLED=0`；这个独立宿主有额外构建依赖。详见 [Studio 指南](examples/studio/README.md) 和 [Chromium 插件](omniui/plugins/chromium/README.md)。
 
 ## 选择界面方式
 
@@ -133,11 +133,13 @@ omnigo/                 应用入口、窗口配置、服务与注册
 ├── omniui/baseui/      Go 控件、布局、主题、输入与绘制
 ├── omniui/plugins/     可选功能插件
 ├── omniweb/            Web 协议、资源托管与 TypeScript 客户端
-├── runtime/            生命周期、调度、事件、RPC 与下载
-├── text/rope/          不可变文本存储
+├── internal/           框架内部实现
+│   ├── runtime/        生命周期、调度、事件、RPC 与下载
+│   ├── text/rope/      不可变文本存储
+│   └── scaffold/       项目模板
 ├── i18n/               语言目录与消息格式
-├── studio/             开发演示应用
 └── examples/           可运行的使用示例
+    └── studio/         开发演示应用
 ```
 
 ## 文档与开发
@@ -146,7 +148,7 @@ omnigo/                 应用入口、窗口配置、服务与注册
 - [Go 控件](omniui/baseui/README.md) · 控件使用方式与当前限制。
 - [插件目录](omniui/plugins/README.md) · 可选插件及实现状态。
 - [性能说明](docs/performance.md) · 测量口径与基准证据。
-- [Studio](studio/README.md) · 运行、打包和演示操作。
+- [Studio](examples/studio/README.md) · 运行、打包和演示操作。
 
 ```sh
 sh scripts/check.sh
@@ -154,4 +156,4 @@ sh scripts/check.sh
 
 检查包括 Go 测试、vet、race、TypeScript SDK 测试与六个桌面目标的 CGO 禁用构建。贡献时请遵循 [仓库规则](AGENTS.md)，使用确定事件与显式时钟验证交互，并提供等价负载的性能证据。
 
-配图来自 [`examples/control-showcase`](examples/control-showcase)，明暗图均为实际 Go 渲染输出。第三方组件、字体与资源的许可及署名随各自目录保留，分发说明见 [第三方声明](studio/THIRD_PARTY_NOTICES.md)。
+配图来自 [`examples/control-showcase`](examples/control-showcase)，明暗图均为实际 Go 渲染输出。第三方组件、字体与资源的许可及署名随各自目录保留，分发说明见 [第三方声明](examples/studio/THIRD_PARTY_NOTICES.md)。

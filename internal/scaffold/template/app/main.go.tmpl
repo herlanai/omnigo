@@ -12,17 +12,16 @@ import (
   "time"
 
   "github.com/herlanai/omnigo/omniweb"
-  "github.com/herlanai/omnigo/runtime/rpc"
 )
 
 func main() {
   dev := flag.Bool("dev", false, "allow the local Vite dev origin")
   assets := flag.String("assets", "ui/dist/client", "built SPA client directory")
   flag.Parse()
-  router := rpc.New(64, 1<<20)
+  router := omniweb.NewRouter(64, 1<<20)
   type Greeting struct { Name string `json:"name"` }
   type Reply struct { Message string `json:"message"` }
-  if err := rpc.Bind(router, "app.greet", "", func(ctx context.Context, input Greeting) (Reply, error) {
+  if err := omniweb.Bind(router, "app.greet", "", func(ctx context.Context, input Greeting) (Reply, error) {
     name := strings.TrimSpace(input.Name)
     if name == "" { name = "OmniWeb" }
     return Reply{Message: "你好，" + name + "。来自 Go 的问候。"}, nil

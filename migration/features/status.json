@@ -59,8 +59,8 @@
     },
     {
       "existing": [
-        "studio/cmd/titlebarcheck",
-        "studio/cmd/webviewcheck",
+        "examples/studio/cmd/titlebarcheck",
+        "examples/studio/cmd/webviewcheck",
         "omniwindow/nativewindow/native_test.go",
         "omniwindow/clipboard/native_darwin_test.go",
         "omniui/baseui/gpu/native_darwin_test.go"
@@ -95,7 +95,7 @@
     {
       "existing": [
         "i18n",
-        "studio/internal/demos/languages.go"
+        "examples/studio/internal/demos/languages.go"
       ],
       "id": "i18n",
       "remaining": [
@@ -108,7 +108,7 @@
       "status": "partial",
       "tests": [
         "i18n/catalog_test.go",
-        "studio/internal/demos/languages_test.go"
+        "examples/studio/internal/demos/languages_test.go"
       ]
     }
   ],

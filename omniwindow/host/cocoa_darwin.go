@@ -15,7 +15,7 @@ import (
 	"github.com/ebitengine/purego/objc"
 	"github.com/herlanai/omnigo/omniwindow/clipboard"
 	ui "github.com/herlanai/omnigo/omniui/baseui"
-	"github.com/herlanai/omnigo/runtime/dispatch"
+	"github.com/herlanai/omnigo/internal/runtime/dispatch"
 )
 
 const Available = true

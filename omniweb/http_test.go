@@ -10,7 +10,7 @@ import (
 	"testing"
 	"testing/fstest"
 
-	"github.com/herlanai/omnigo/runtime/rpc"
+	"github.com/herlanai/omnigo/internal/runtime/rpc"
 )
 
 func host(t testing.TB, counter *int) *HTTP {

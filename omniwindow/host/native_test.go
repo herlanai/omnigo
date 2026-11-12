@@ -6,7 +6,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/herlanai/omnigo/runtime/dispatch"
+	"github.com/herlanai/omnigo/internal/runtime/dispatch"
 )
 
 func TestShutdownPreventsReleasedControllerWake(t *testing.T) {

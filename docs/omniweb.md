@@ -1,6 +1,6 @@
 # OmniWeb v1
 
-OmniWeb 是 OmniGo 的 Web UI 协议。OmniUI 保持统一的控件、主题与扩展体系；Web 界面通过 OmniWeb 访问 Go 服务，使用与原生界面相同的 `runtime/rpc.Router`。
+OmniWeb 是 OmniGo 的 Web UI 协议。OmniUI 保持统一的控件、主题与扩展体系；Web 界面通过 OmniWeb 访问 Go 服务，通过公开的 `omniweb.NewRouter`、`omniweb.Bind` 和 `omniweb.NewHTTP` 组合宿主，内部复用原生界面的 RPC 实现。外部应用不需要也不能导入 `internal/runtime`。
 
 当前实现覆盖 HTTP 请求/响应与批处理、TypeScript 客户端、SPA 静态资源宿主和默认项目生成。尚未实现系统 WebView 适配、事件订阅、流式 Channel、自动类型生成与完整系统 API。协议版本为 1；本阶段仍是开发协议，未承诺稳定发布。
 

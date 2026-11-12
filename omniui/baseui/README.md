@@ -30,7 +30,7 @@ err = surface.Mount(build())
 image, err := surface.Render()
 ```
 
-此示例中的 `save` 为应用函数。所有 Surface、TextBuffer 和控件状态由同一 UI goroutine 使用；后台任务应通过已有 `runtime/dispatch` 回到 UI 线程。回调在调用线程同步运行，panic 转为错误。应用必须处理返回错误，状态改变后重建并 Mount；本阶段没有自动响应式订阅。
+此示例中的 `save` 为应用函数。所有 Surface、TextBuffer 和控件状态由同一 UI goroutine 使用；后台任务应通过已有 `internal/runtime/dispatch` 回到 UI 线程。回调在调用线程同步运行，panic 转为错误。应用必须处理返回错误，状态改变后重建并 Mount；本阶段没有自动响应式订阅。
 
 ## 控件和行为
 
@@ -65,7 +65,7 @@ go run ./examples/baseui-gallery
 
 ## 仍然缺失
 
-通用跨平台窗口、系统无障碍与 IME、GPU、完整排版、虚拟滚动/惯性/完整布局算法、全部控件和插件尚未完成。Studio 已提供 macOS arm64 实验宿主，可实际打开并交互现有 Go 控件；见 [Studio](../../studio/README.md)。CPU 绘制只支持当前基础形状和文字。没有证据证明性能优于参考框架，也没有把接口数量当作功能完成数量。
+通用跨平台窗口、系统无障碍与 IME、GPU、完整排版、虚拟滚动/惯性/完整布局算法、全部控件和插件尚未完成。Studio 已提供 macOS arm64 实验宿主，可实际打开并交互现有 Go 控件；见 [Studio](../../examples/studio/README.md)。CPU 绘制只支持当前基础形状和文字。没有证据证明性能优于参考框架，也没有把接口数量当作功能完成数量。
 
 ## 高 DPI 绘制与当前视觉边界
 
@@ -95,7 +95,7 @@ DropdownMenu 支持禁用、分隔符、复选项、子菜单、方向键、Home
 新增交互截图可复现：
 
 ```sh
-go run ./studio/cmd/gallery -scale 2
+go run ./examples/studio/cmd/gallery -scale 2
 ```
 
 输出 `build/baseui-interactions/` 中的明暗图片，来自实际 Go 控件和事件，而非静态设计图。
@@ -128,7 +128,7 @@ go run ./studio/cmd/gallery -scale 2
 这些实现复用同一 Go 布局、主题、焦点和事件系统；不引入额外依赖。新增截图示例：
 
 ```sh
-go run ./studio/cmd/gallery -controls ai-message,prompt-input,plan,chart,drawer,sonner,message-scroller -scale 2
+go run ./examples/studio/cmd/gallery -controls ai-message,prompt-input,plan,chart,drawer,sonner,message-scroller -scale 2
 ```
 
 ### 图表与模型选择的参考行为增量
@@ -140,7 +140,7 @@ Chart 新增 `Label`、`Height`、`Curve`、`HideLegend`、`HideGrid`、`ShowYAx
 ModelSelector 按 provider 首次出现顺序分组，显示描述并对缺失名称回退到 ID。新增可选 `ModelSelectorOptions{Placeholder, Disabled}`；动态禁用模型的 effort 不可编辑，空列表不打开弹层。重复选择相同值不触发回调、不重写 effort；切换模型才执行 effort 的保留/回退。
 
 ```sh
-go run ./studio/cmd/gallery -controls chart,model-selector -chart-kind 2 -chart-curve 1 -out build/baseui-parity -scale 2
+go run ./examples/studio/cmd/gallery -controls chart,model-selector -chart-kind 2 -chart-curve 1 -out build/baseui-parity -scale 2
 ```
 
 `ChartContainer(id, label, axes, paint)` 提供四轴与 16:9 布局，回调收到已剪裁的逻辑 plot 矩形；不能保留 Painter。`ChartLegend` 快照标签/颜色并使用主题回退；`ChartTooltip` 接受任意 Go 子控件，复用弹层焦点/关闭行为。
@@ -211,7 +211,7 @@ Studio 采用参考的 1040×840 逻辑画布、32 外边距、24 主间距，�
 - `Video`：独立帧像素所有权、时长播放、暂停/seek/循环、GIF 帧合成以及可取消的 VideoDecoder 加载接口。总解码像素限制 64 MiB。加载应在后台完成，再经 dispatch 交给 UI；当前预解码整个片段，没有音频、流式 decode-ahead 或通用编解码器。
 - `WebView`：只承载明确创建的原生网页视图，其他控件仍由 Go 绘制。宿主实现 NativeWebView，调用 Surface.SyncNativeViews 应用布局和裁切，创建者负责最终释放，Surface 卸载/关闭负责隐藏。Studio macOS arm64 使用 WKWebView；其他平台、完整弹层合成、圆角/变换裁切与 reusable 导航桥仍待补齐。
 
-新增行为测试见 `rewrite_controls_test.go`。真实 WebKit 加载、JS 读取与卸载验证：`CGO_ENABLED=0 go run ./studio/cmd/webviewcheck`（macOS arm64，会打开一个窗口并自动关闭）。CPU gallery 不冒充原生 WebView 的渲染验证。
+新增行为测试见 `rewrite_controls_test.go`。真实 WebKit 加载、JS 读取与卸载验证：`CGO_ENABLED=0 go run ./examples/studio/cmd/webviewcheck`（macOS arm64，会打开一个窗口并自动关闭）。CPU gallery 不冒充原生 WebView 的渲染验证。
 
 编辑器辅助控件另有 `DiffView`（逐行比较、切换视图、还原/撤销）、`GoToLine`（行号定位校验）和 `CompletionMenu`（候选过滤及快照校验插入）。状态由 UI goroutine 持有。完整缺口见迁移审计，语言服务、snippet、差异批注/补丁导入尚未实现。
 

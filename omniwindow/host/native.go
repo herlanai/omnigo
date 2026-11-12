@@ -7,7 +7,7 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/herlanai/omnigo/runtime/dispatch"
+	"github.com/herlanai/omnigo/internal/runtime/dispatch"
 )
 
 var ErrUnsupported = errors.New("host requires macOS amd64 or arm64; Windows/Linux WebView hosts are unavailable (software windows: omniwindow/nativewindow)")

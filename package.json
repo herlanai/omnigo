@@ -15,7 +15,7 @@
     "start": "go run ./scripts/devtool start",
     "package": "go run ./scripts/devtool package",
     "studio:catalog": "go run ./scripts/devtool catalog",
-    "check:studio": "go test ./studio/... && pnpm --filter @omnigo/studio-ui typecheck",
+    "check:studio": "go test ./examples/studio/... && pnpm --filter @omnigo/studio-ui typecheck",
     "setup:chromium": "go run ./scripts/devtool chromium",
     "dev:browser": "go run ./examples/chromium"
   },

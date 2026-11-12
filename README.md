@@ -4,7 +4,7 @@
   <p><strong>Build desktop apps in Go. Bring your ideas to the screen.</strong></p>
   <p>Go controls · Web interfaces · Typed services · Optional plugins</p>
   <p><a href="README.zh-CN.md">简体中文</a> / <strong>English</strong></p>
-  <p><a href="#quick-start">Quick start</a> · <a href="studio/README.md">Studio</a> · <a href="docs/architecture.md">Architecture</a> · <a href="examples">Examples</a></p>
+  <p><a href="#quick-start">Quick start</a> · <a href="examples/studio/README.md">Studio</a> · <a href="docs/architecture.md">Architecture</a> · <a href="examples">Examples</a></p>
 </div>
 
 ---
@@ -101,7 +101,7 @@ pnpm setup:chromium
 pnpm build
 ```
 
-Building the CEF host requires CMake and a native C++ toolchain. Ordinary Go targets support `CGO_ENABLED=0`; this separate host has additional build dependencies. See the [Studio guide](studio/README.md) and [Chromium plugin](omniui/plugins/chromium/README.md).
+Building the CEF host requires CMake and a native C++ toolchain. Ordinary Go targets support `CGO_ENABLED=0`; this separate host has additional build dependencies. See the [Studio guide](examples/studio/README.md) and [Chromium plugin](omniui/plugins/chromium/README.md).
 
 ## Choose your interface
 
@@ -133,11 +133,13 @@ omnigo/                 Application entry points, windows, services, registratio
 ├── omniui/baseui/      Go controls, layout, themes, input, and rendering
 ├── omniui/plugins/     Optional feature plugins
 ├── omniweb/            Web protocol, asset hosting, and TypeScript client
-├── runtime/            Lifecycle, dispatch, events, RPC, and downloads
-├── text/rope/          Immutable text storage
+├── internal/           Framework implementation details
+│   ├── runtime/        Lifecycle, dispatch, events, RPC, and downloads
+│   ├── text/rope/      Immutable text storage
+│   └── scaffold/       Project templates
 ├── i18n/               Language catalogs and message formatting
-├── studio/             Developer showcase application
 └── examples/           Runnable examples
+    └── studio/         Developer showcase application
 ```
 
 ## Documentation and development
@@ -146,7 +148,7 @@ omnigo/                 Application entry points, windows, services, registratio
 - [Go controls](omniui/baseui/README.md) · Usage and current limitations.
 - [Plugin directory](omniui/plugins/README.md) · Optional plugins and implementation status.
 - [Performance](docs/performance.md) · Measurement methodology and benchmark evidence.
-- [Studio](studio/README.md) · Running, packaging, and exploring demos.
+- [Studio](examples/studio/README.md) · Running, packaging, and exploring demos.
 
 The linked detailed guides are primarily in Chinese.
 
@@ -156,4 +158,4 @@ sh scripts/check.sh
 
 The checks cover Go tests, vet, race detection, TypeScript SDK tests, and CGO-disabled builds for six desktop targets. Follow the [repository rules](AGENTS.md), validate interactions with deterministic events and explicit clocks, and support performance claims with equivalent workloads.
 
-The light and dark illustrations are actual Go-rendered output from [`examples/control-showcase`](examples/control-showcase). Third-party component, font, and asset licenses and attribution remain in their respective directories. See the [distribution notices](studio/THIRD_PARTY_NOTICES.md).
+The light and dark illustrations are actual Go-rendered output from [`examples/control-showcase`](examples/control-showcase). Third-party component, font, and asset licenses and attribution remain in their respective directories. See the [distribution notices](examples/studio/THIRD_PARTY_NOTICES.md).

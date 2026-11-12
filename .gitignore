@@ -6,10 +6,10 @@ node_modules/
 !/docs/**
 
 # Studio generated frontend outputs
-studio/ui/dist/
-studio/ui/.output/
-studio/ui/.tanstack/
-studio/ui/node_modules/
-studio/ui/src/routeTree.gen.ts
-studio/web/*
-!studio/web/README.txt
+examples/studio/ui/dist/
+examples/studio/ui/.output/
+examples/studio/ui/.tanstack/
+examples/studio/ui/node_modules/
+examples/studio/ui/src/routeTree.gen.ts
+examples/studio/web/*
+!examples/studio/web/README.txt

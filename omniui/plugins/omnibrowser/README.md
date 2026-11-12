@@ -79,7 +79,7 @@ MCP 使用逐行 JSON-RPC stdio，依次 initialize → notifications/initialize
 
 ## Studio 与绘制
 
-演示初始页面为内置 HTML，加载时真实执行 JavaScript，按钮操作改变 DOM。URL 导航与 JS 执行由 native host 后台任务完成，结果通过 `runtime/dispatch` 返回 UI；关闭演示窗口关闭 Page。离屏测试使用同步执行器，导航入口禁用以避免测试依赖公网。
+演示初始页面为内置 HTML，加载时真实执行 JavaScript，按钮操作改变 DOM。URL 导航与 JS 执行由 native host 后台任务完成，结果通过 `internal/runtime/dispatch` 返回 UI；关闭演示窗口关闭 Page。离屏测试使用同步执行器，导航入口禁用以避免测试依赖公网。
 
 Studio 导航后显示 **Page** CSS 图像预览，原有可交互 Go 控件保留在 **DOM controls** 页。原生语义预览支持标题、正文、列表、按钮、输入、链接文本和分隔线；有 ID 的按钮/输入可交互。最多生成 500 个节点，图片显示 alt 文本。它与 CSS 截图是两个明确不同的渲染入口。
 

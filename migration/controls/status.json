@@ -15,7 +15,7 @@
       "symbol": "AIMessage",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Streaming Markdown, fenced-code highlighting and selectable rich text",
@@ -47,7 +47,7 @@
       "symbol": "Attachment",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "File drop/upload integration, progress fraction and richer previews"
@@ -60,7 +60,7 @@
       "symbol": "Avatar",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "High-quality image resampling, image loading/error lifecycle and size variants"
@@ -79,7 +79,7 @@
       "symbol": "Breadcrumb",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Overflow collapse, complete current-page platform accessibility"
@@ -92,7 +92,7 @@
       "symbol": "Bubble",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Full visual variants and selectable rich text"
@@ -135,7 +135,7 @@
       "symbol": "ChainOfThought",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Rich step content, aggregate status indicator and platform live announcements"
@@ -148,7 +148,7 @@
       "symbol": "Chart",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go",
+        "examples/studio/internal/demos/advanced.go",
         "omniui/baseui/chart_parity_test.go",
         "omniui/baseui/chart_geometry.go",
         "omniui/baseui/chart_paint.go",
@@ -168,7 +168,7 @@
       "symbol": "Chat",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Virtualized message history, prepend anchoring and rich response composition"
@@ -187,7 +187,7 @@
       "symbol": "Checkpoint",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Restore-pending/error feedback and platform accessibility"
@@ -231,7 +231,7 @@
       "symbol": "Confirmation",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Rich decision content and platform live announcements"
@@ -244,7 +244,7 @@
       "symbol": "Context",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Complete formatting/visual variants and platform accessibility"
@@ -275,7 +275,7 @@
       "symbol": "Drawer",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Touch gestures, velocity/animation and physical-device validation"
@@ -324,7 +324,7 @@
       "symbol": "InlineCitation",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Inline rich-text flow, multiple-source previews and native link semantics"
@@ -355,7 +355,7 @@
       "symbol": "Item",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Full appearance, size, icon and media variants"
@@ -380,7 +380,7 @@
       "symbol": "Marker",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Full appearance and text-layout variants"
@@ -393,7 +393,7 @@
       "symbol": "Menubar",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Pointer switching between open top-level menus, hover intent and platform menu integration"
@@ -406,7 +406,7 @@
       "symbol": "Message",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Full header/footer alignment variants and selectable rich content"
@@ -419,7 +419,7 @@
       "symbol": "MessageScroller",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Virtualization, prepend anchoring and inertial scrolling"
@@ -432,7 +432,7 @@
       "symbol": "ModelSelector",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go",
+        "examples/studio/internal/demos/advanced.go",
         "omniui/baseui/model_selector_parity_test.go"
       ],
       "remaining": [
@@ -453,7 +453,7 @@
       "symbol": "NavigationMenu",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Dropdown content, overflow behavior and full navigation accessibility"
@@ -472,7 +472,7 @@
       "symbol": "Plan",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Rich/custom step content and platform live announcements"
@@ -497,7 +497,7 @@
       "symbol": "PromptInput",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "File drag/drop, rich tools toolbar, auto-growing editor and native IME adapter"
@@ -510,7 +510,7 @@
       "symbol": "Questionnaire",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Full layouts, richer validation feedback and native accessibility"
@@ -523,7 +523,7 @@
       "symbol": "Queue",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Rich item content, virtualization and platform live announcements"
@@ -542,7 +542,7 @@
       "symbol": "Reasoning",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Streaming Markdown, live elapsed-time display and native accessibility"
@@ -585,7 +585,7 @@
       "symbol": "Sidebar",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Sections, icons, resizing/collapsing, nested navigation and mobile layout"
@@ -610,7 +610,7 @@
       "symbol": "Sonner",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Stack overflow, placement variants, animation, swipe dismissal and platform live regions"
@@ -623,7 +623,7 @@
       "symbol": "Sources",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Expanded metadata/icon variants, localized counts and native link semantics"
@@ -642,7 +642,7 @@
       "symbol": "StackTrace",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Selectable code, syntax highlighting and source navigation integration"
@@ -655,7 +655,7 @@
       "symbol": "Subagent",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Rich/streamed output, live duration and platform live announcements"
@@ -668,7 +668,7 @@
       "symbol": "Suggestion",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Size/icon variants and native accessibility"
@@ -699,7 +699,7 @@
       "symbol": "Task",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Rich/custom steps and platform live announcements"
@@ -712,7 +712,7 @@
       "symbol": "Terminal",
       "evidence": [
         "omniui/baseui/terminal_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Selectable text, incremental code highlighting and complete reference CodeBlock actions",
@@ -726,7 +726,7 @@
       "symbol": "TestResults",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Virtualization, source navigation and rich selectable failure output"
@@ -745,7 +745,7 @@
       "symbol": "Toast",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Appearance/position variants, keyboard dismissal policy and platform announcements"
@@ -770,7 +770,7 @@
       "symbol": "Tool",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Syntax highlighting, selectable input/output, rich previews and platform live announcements"
@@ -789,7 +789,7 @@
       "symbol": "Trace",
       "evidence": [
         "omniui/baseui/advanced_test.go",
-        "studio/internal/demos/advanced.go"
+        "examples/studio/internal/demos/advanced.go"
       ],
       "remaining": [
         "Rich tree connectors, selectable content and platform accessibility"

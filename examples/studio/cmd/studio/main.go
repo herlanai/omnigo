@@ -9,9 +9,9 @@ import (
 	"github.com/herlanai/omnigo"
 	"github.com/herlanai/omnigo/omniwindow/host"
 	"github.com/herlanai/omnigo/omniwindow/metrics"
-	"github.com/herlanai/omnigo/studio"
-	"github.com/herlanai/omnigo/studio/internal/browser"
-	"github.com/herlanai/omnigo/studio/internal/demos"
+	"github.com/herlanai/omnigo/examples/studio"
+	"github.com/herlanai/omnigo/examples/studio/internal/browser"
+	"github.com/herlanai/omnigo/examples/studio/internal/demos"
 )
 
 func main() {

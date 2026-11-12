@@ -9,9 +9,9 @@ sh scripts/check.sh
 
 本轮实际落地：
 
-- `rope` → `text/rope`：独立实现持久化 UTF-8 文本树，字节/rune/UTF-16/行定位、替换、不可变版本、分块与行遍历；接入 `baseui.TextBuffer` 编辑、撤销、重做和快照。当前渲染仍物化字符串，未宣称完整编辑器增量绘制或参考性能等价。
+- `rope` → `internal/text/rope`：独立实现持久化 UTF-8 文本树，字节/rune/UTF-16/行定位、替换、不可变版本、分块与行遍历；接入 `baseui.TextBuffer` 编辑、撤销、重做和快照。当前渲染仍物化字符串，未宣称完整编辑器增量绘制或参考性能等价。
 - `accelerator` → `omniwindow/accelerator`：跨平台修饰键/键名解析、格式化、XKB/XDG 表示、精确按键匹配；原生事件补独立 Ctrl/Alt/Super。全局热键注册、所有键盘布局与原生 IME 验收仍未实现。
-- `download` → `runtime/download`：有界下载、SHA-256、重试、取消、临时文件清理、原子发布、跨进程缓存锁；updater 已接入。完整更新安装与 delta 不包含在这个模块中。
+- `download` → `internal/runtime/download`：有界下载、SHA-256、重试、取消、临时文件清理、原子发布、跨进程缓存锁；updater 已接入。完整更新安装与 delta 不包含在这个模块中。
 - Studio 增加 **Text snapshots** 与 **Keyboard shortcuts**，使用真实 Go 状态和事件。下载属于服务层，没有用假进度动画冒充真实下载演示。
 
 基于独立事件测试验收状态变化，保留 Unicode/IME、历史、按键重复/释放、取消、资源清理及并发测试。没有执行参考测试体，没有复制参考算法实现。未修改 OmniBrowser，浏览器相关参考项仍保留，实施交给另一程序。

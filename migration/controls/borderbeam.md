@@ -20,7 +20,7 @@
 固定时钟截图：
 
 ```sh
-CGO_ENABLED=0 go run ./studio/cmd/gallery -controls plugin/borderbeam -beam-preset 4 -scale 1.25 -out build/borderbeam-alignment/preset-4
+CGO_ENABLED=0 go run ./examples/studio/cmd/gallery -controls plugin/borderbeam -beam-preset 4 -scale 1.25 -out build/borderbeam-alignment/preset-4
 ```
 
 `-beam-preset` 接受 0～4。已生成五组明暗截图，检查了 Medium 与 PulseOutside 的暗色效果。完整检查使用 `sh scripts/check.sh`，构建使用 `go run ./scripts/devtool build`。

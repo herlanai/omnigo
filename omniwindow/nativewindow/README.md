@@ -15,7 +15,7 @@ PowerShell 请用 `$env:CGO_ENABLED="0"` / `$env:OMNIGO_NATIVE_TEST="1"` 设置�
 
 - Win32：窗口注册/创建/关闭、主线程消息循环、鼠标捕获与取消、滚轮、键盘、UTF-16 代理对、IMM32 预编辑/结果/取消、GDI 软件帧提交、客户区缩放与最小尺寸。
 - Linux：X11 窗口、WM_DELETE_WINDOW、poll 事件等待、管道唤醒、XImage 帧提交、鼠标/滚轮/键盘/焦点、XIM UTF-8 提交、窗口缩放与最小尺寸。XIM 使用输入法服务器负责的预编辑样式，未实现控件内预编辑回调。XIM 不可用时基础按键输入仍可用，不能据此声称中文输入法可用。
-- `Window.Post` 通过 `runtime/dispatch` 回到 UI goroutine；context 取消唤醒原生等待；关闭后拒绝排队任务，原生资源在 UI 线程释放。回调中不能同步等待 Post 的结果。
+- `Window.Post` 通过 `internal/runtime/dispatch` 回到 UI goroutine；context 取消唤醒原生等待；关闭后拒绝排队任务，原生资源在 UI 线程释放。回调中不能同步等待 Post 的结果。
 - 静止窗口阻塞等待；调用方通过 `NextFrame` 请求动画/悬停定时，显式 `Tick` 推进控件时钟。绘制和输入不会由后台 goroutine 执行。
 - `Surface.Resize` 保留文本、焦点和组合状态并重新布局；示例展示输入框和有状态按钮。
 

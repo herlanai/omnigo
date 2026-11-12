@@ -5,6 +5,7 @@ import (
 	"go/parser"
 	"go/token"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -65,5 +66,48 @@ func TestTemplateLockIsPortable(t *testing.T) {
 	}
 	if strings.Contains(string(data), "file:") {
 		t.Fatal("local file dependency in default template")
+	}
+}
+
+// A separate module exercises Go's internal import boundary, unlike tests
+// running under github.com/herlanai/omnigo itself.
+func TestGeneratedProjectUsesPublicAPI(t *testing.T) {
+	root, err := filepath.Abs("../..")
+	if err != nil {
+		t.Fatal(err)
+	}
+	destination := filepath.Join(t.TempDir(), "external")
+	if err := Create(destination, "example.com/external", root); err != nil {
+		t.Fatal(err)
+	}
+	source := `package external_test
+import (
+ "context"
+ "testing"
+ "github.com/herlanai/omnigo"
+ "github.com/herlanai/omnigo/omniweb"
+ ui "github.com/herlanai/omnigo/omniui/baseui"
+ "github.com/herlanai/omnigo/omniui/plugins/automation"
+)
+func TestPublicTypes(t *testing.T) {
+ _ = omnigo.Options{Lifecycle:omnigo.LifecycleOptions{Permissions:[]string{"read"}}}
+ var snapshot ui.TextSnapshot = ui.NewTextBuffer("hello").Snapshot()
+ var summary ui.TextSummary = snapshot.Summary()
+ if summary.Bytes != 5 {t.Fatal(summary)}
+ queue := automation.NewDispatchQueue(1); defer queue.Close()
+ router := omniweb.NewRouter(1,1024)
+ if err:=omniweb.Bind(router,"echo","",func(_ context.Context,n int)(int,error){return n,nil});err!=nil{t.Fatal(err)}
+ result,err:=router.Call(t.Context(),"echo",[]byte("42"),nil)
+ if err!=nil || string(result)!="42" {t.Fatal(string(result),err)}
+}
+`
+	if err := os.WriteFile(filepath.Join(destination, "public_api_test.go"), []byte(source), 0600); err != nil {
+		t.Fatal(err)
+	}
+	command := exec.CommandContext(t.Context(), "go", "test", "-mod=mod", "./...")
+	command.Dir = destination
+	command.Env = append(os.Environ(), "GOWORK=off", "CGO_ENABLED=0", "GOPROXY=off")
+	if output, err := command.CombinedOutput(); err != nil {
+		t.Fatalf("external project failed: %v\n%s", err, output)
 	}
 }

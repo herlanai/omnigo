@@ -25,7 +25,7 @@
 
 ## 使用和生命周期
 
-网络、数据库、PTY 操作在应用 worker 中调用；返回结果通过 `runtime/dispatch` 交回 UI。绘制插件和其状态仅在 UI goroutine 使用，不保留 Painter。所有服务由调用方显式启动/关闭；导入不启动服务、不打开网络、不请求系统权限、不下载原生代码。
+网络、数据库、PTY 操作在应用 worker 中调用；返回结果通过 `internal/runtime/dispatch` 交回 UI。绘制插件和其状态仅在 UI goroutine 使用，不保留 Painter。所有服务由调用方显式启动/关闭；导入不启动服务、不打开网络、不请求系统权限、不下载原生代码。
 
 Loading 已统一到 `omniui/baseui/loading`，实现和测试均在该目录，`omniui/plugins/loading` 已移除。插件清单保留参考能力审计，指向实际实现位置。本轮没有复制 golet 实现体，也没有导入 golet。
 

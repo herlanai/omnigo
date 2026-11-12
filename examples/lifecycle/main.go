@@ -4,11 +4,11 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/herlanai/omnigo/runtime/lifecycle"
+	"github.com/herlanai/omnigo/internal/runtime/lifecycle"
 	"log"
 
 	"github.com/herlanai/omnigo/omniui"
-	"github.com/herlanai/omnigo/runtime/rpc"
+	"github.com/herlanai/omnigo/internal/runtime/rpc"
 )
 
 type demo struct{}

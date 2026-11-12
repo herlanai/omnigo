@@ -12,26 +12,26 @@
 | `omniwindow/metrics` | Go runtime 与原生进程/系统指标采样 | 性能面板展示 |
 | `omniwindow/nativewindow` | Win32/X11 窗口、事件路由、父子关系、帧提交 | WebView、控件树、业务状态 |
 | `omniwindow/clipboard`、`omniwindow/system`、`omniwindow/accelerator` | 各自独立的系统数据/服务契约与适配 | Studio 的展示和业务逻辑 |
-| `runtime/dispatch`、`event`、`rpc` | UI 派发、事件和调用基础设施 | 具体控件或平台初始化 |
-| `runtime/download` | 下载元数据校验、重试、哈希、暂存、缓存锁与发布 | 更新签名、版本选择、安装和重启 |
-| `text/rope` | 不可变文本版本、坐标和编辑算法 | 选择区、IME、控件、排版 |
+| `internal/runtime/dispatch`、`event`、`rpc` | UI 派发、事件和调用基础设施 | 具体控件或平台初始化 |
+| `internal/runtime/download` | 下载元数据校验、重试、哈希、暂存、缓存锁与发布 | 更新签名、版本选择、安装和重启 |
+| `internal/text/rope` | 不可变文本版本、坐标和编辑算法 | 选择区、IME、控件、排版 |
 | `i18n` | 语言目录、匹配、消息格式 | 窗口和控件生命周期 |
 | `omniui/baseui` | Go 控件、布局、主题、交互、编辑历史和 CPU 绘制 | 默认链接所有原生后端和可选插件 |
 | `omniui/baseui/gpu` 与可选控件子包 | 应用显式选择的渲染/控件能力 | 通过副作用注册到基础控件 |
 | `omniui/plugins` | 可选服务及其领域策略；updater 验证签名后复用下载层 | 重写通用下载、派发或文本存储 |
 | `omniweb` | Web UI 协议与 HTTP 宿主，复用 RPC | 冒充 Go 原生控件实现 |
-| `studio` | 组合、演示、目录与应用打包 | 成为公共框架功能的唯一实现位置 |
+| `examples/studio` | 组合、演示、目录与应用打包 | 成为公共框架功能的唯一实现位置 |
 
 ```mermaid
 flowchart TD
     Studio --> BaseUI[omniui/baseui]
     Studio --> Apps[application platform services]
     Studio --> Plugins[optional plugins]
-    BaseUI --> Rope[text/rope]
+    BaseUI --> Rope[internal/text/rope]
     Native[omniwindow/nativewindow] --> Contract[omniwindow contracts]
-    Native --> Dispatch[runtime/dispatch]
-    Plugins --> Download[runtime/download]
-    Web[omniweb] --> RPC[runtime/rpc]
+    Native --> Dispatch[internal/runtime/dispatch]
+    Plugins --> Download[internal/runtime/download]
+    Web[omniweb] --> RPC[internal/runtime/rpc]
 ```
 
 Cocoa 宿主已迁入公开的 `omniwindow/host`，不再反向依赖 Studio。Studio 通过根包 `omnigo.New`、`omnigo.Bind`、`app.ConfigureMainWindow` 和 `app.Run` 启动；资源服务器复用 OmniWeb，扩展生命周期复用 `lifecycle.Manager`。窗口工厂只提供 Go 控件内容与应用回调。Windows/Linux 的软件驱动仍在 `omniwindow/nativewindow`，当前 `host` 的 WebKit 宿主不支持这两个平台；跨编译不代表实机验收。
@@ -52,7 +52,7 @@ updater 只维护签名、版本、发布文件必须有确定大小等领域约
 
 ### 文本状态
 
-`TextBuffer` 的持久化文档和历史版本复用 `text/rope`。控件仍负责选择区、IME 组合和撤销/重做；当前字符串是绘制兼容缓存，不作为第二套编辑算法。全文字符串物化和字素簇/复杂文字整形仍是后续工作，不能将文本树优化等同于整个编辑器已完成。
+`TextBuffer` 的持久化文档和历史版本复用 `internal/text/rope`。控件仍负责选择区、IME 组合和撤销/重做；当前字符串是绘制兼容缓存，不作为第二套编辑算法。全文字符串物化和字素簇/复杂文字整形仍是后续工作，不能将文本树优化等同于整个编辑器已完成。
 
 ## 保持独立的相似代码
 
@@ -63,7 +63,7 @@ updater 只维护签名、版本、发布文件必须有确定大小等领域约
 
 ## 生命周期与并发约束
 
-Surface、控件状态、原生窗口与 GPU 设备由所属 UI goroutine 使用；后台结果经 `runtime/dispatch` 派发。不可变文本版本可并发读取，不代表可从后台修改 TextBuffer。不得跨帧保留 Painter。
+Surface、控件状态、原生窗口与 GPU 设备由所属 UI goroutine 使用；后台结果经 `internal/runtime/dispatch` 派发。不可变文本版本可并发读取，不代表可从后台修改 TextBuffer。不得跨帧保留 Painter。
 
 应用按依赖顺序启动，失败逆序回滚；停止使用独立清理上下文。派发队列有容量和单轮上限，UI 回调不能等待自己的派发结果。下载进度在下载调用 goroutine 同步执行，展示进度必须由宿主派发到 UI。
 
@@ -77,7 +77,7 @@ Surface、控件状态、原生窗口与 GPU 设备由所属 UI goroutine 使用
 
 公共应用入口仍是根包 `omnigo`。平台能力统一位于 `omniwindow`；原 `desktop/uiapp`
 迁为 `omniwindow/host`，控制对象为 `host.Controller`。扩展生命周期独立为
-`runtime/lifecycle.Manager`，不承担窗口配置和原生事件处理。
+`internal/runtime/lifecycle.Manager`，不承担窗口配置和原生事件处理。
 
 根包按职责拆分：application.go（构造）、run.go（运行）、window.go（窗口）、
 binding.go（RPC）、registration.go（注册组合）、service.go（后台服务）、
@@ -102,3 +102,14 @@ http.go（资源与路由）。平台实现使用 `_darwin.go` 等系统后缀�
 工厂入口；完整的统一窗口对象属于后续行为改造，不由这次改名提供。
 Studio 保持现有 RPC 路径兼容，在服务适配层将空标题栏请求转换为显式查询。
 通知回调逐步使用 On 前缀，能力布尔值使用 Supports 前缀。
+
+## 内部实现边界
+
+`runtime` 和 `text` 已迁到 `internal/runtime`、`internal/text`。外部模块不得
+直接导入这些路径；仓库内示例和测试仍可用于验证内部算法。
+
+公开入口保持可用：应用生命周期配置使用 `omnigo.LifecycleOptions`；独立 Web
+宿主使用 `omniweb.NewRouter` / `omniweb.Bind`；文本快照使用
+`baseui.TextSnapshot` / `TextSummary`；自动化自建队列使用
+`automation.NewDispatchQueue`。这些入口复用内部实现。生成的项目只导入公开包，
+并通过独立 module 的编译与调用测试验证 Go 的 internal 边界。

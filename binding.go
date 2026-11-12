@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/herlanai/omnigo/runtime/rpc"
+	"github.com/herlanai/omnigo/internal/runtime/rpc"
 )
 
 // Bind registers a typed service before Run. Existing RPC validation, concurrency

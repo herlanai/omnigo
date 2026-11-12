@@ -4,7 +4,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/herlanai/omnigo/text/rope"
+	"github.com/herlanai/omnigo/internal/text/rope"
 )
 
 type textSnapshot struct {
@@ -47,7 +47,7 @@ func (b *TextBuffer) Selected() string {
 
 // Snapshot is an immutable, concurrently readable version of the committed text.
 // Composition is deliberately separate until committed.
-func (b *TextBuffer) Snapshot() rope.Text    { return b.document }
+func (b *TextBuffer) Snapshot() TextSnapshot { return b.document }
 func (b *TextBuffer) snapshot() textSnapshot { return textSnapshot{b.document, b.anchor, b.caret} }
 func (b *TextBuffer) restore(s textSnapshot) {
 	b.document = s.document
@@ -192,3 +192,9 @@ func (b *TextBuffer) key(key KeyEvent, multiline, readOnly bool) bool {
 	}
 	return false
 }
+
+// TextSnapshot is an immutable document version. Editing returns a new version.
+type TextSnapshot = rope.Text
+
+// TextSummary describes the byte, rune, UTF-16 and newline counts of a snapshot.
+type TextSummary = rope.Summary

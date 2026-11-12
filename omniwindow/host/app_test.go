@@ -49,7 +49,7 @@ func TestFrameworkHostHasNoStudioDependency(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			if strings.HasPrefix(path, "github.com/herlanai/omnigo/studio") {
+			if strings.HasPrefix(path, "github.com/herlanai/omnigo/examples/studio") {
 				t.Fatal("framework imports application", file.Name(), path)
 			}
 		}
