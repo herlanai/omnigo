@@ -33,7 +33,7 @@ func run() error {
 	browsers := browser.New(context.Background())
 	monitor := metrics.NewMonitor()
 	return omnigo.Run(omnigo.Options{
-		Window: &omnigo.WindowOptions{Title: "Omni Studio", Width: 1280, Height: 820, MinWidth: 860, MinHeight: 640},
+		Window: &omnigo.WindowOptions{Title: "Omni Studio", Width: 1280, Height: 820, MinWidth: 860, MinHeight: 640,TitleBarStyle:omnigo.TitleBarHidden},
 		Assets: fsys, Icon: studio.ApplicationIcon(), CreateWindow: demos.Window,
 		Services: []omnigo.Service{
 			{ID: "studio.browser", Stop: func(context.Context) error { browsers.Close(); return nil }},
