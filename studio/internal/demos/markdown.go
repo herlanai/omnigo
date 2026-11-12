@@ -1,8 +1,8 @@
 package demos
 
 import (
-	ui "omnigo.dev/omnigo/omniui/baseui"
-	"omnigo.dev/omnigo/omniui/plugins/markdown"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
+	"github.com/herlanai/omnigo/omniui/plugins/markdown"
 )
 
 type markdownDemo struct {

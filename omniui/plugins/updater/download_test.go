@@ -45,3 +45,34 @@ func TestSignatureDownloadAndCleanup(t *testing.T) {
 		t.Fatal("partial artifact leaked")
 	}
 }
+
+func TestChunkedProgressUsesSignedManifestSize(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { w.(http.Flusher).Flush(); io.WriteString(w, "artifact") }))
+	defer server.Close()
+	sum := sha256.Sum256([]byte("artifact"))
+	release := Release{URL: server.URL, SHA256: hex.EncodeToString(sum[:]), Size: 8}
+	var received, total int64
+	path, err := Download(t.Context(), release, t.TempDir(), nil, func(n, size int64) { received, total = n, size })
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(path)
+	if received != 8 || total != 8 {
+		t.Fatal("progress lost manifest size", received, total)
+	}
+}
+
+func TestReleaseValidationRetainsNarrowHTTPPolicy(t *testing.T) {
+	for _, address := range []string{"http://127.0.0.2/file", "http://example.com/file", "https://user:password@example.com/file", "https://example.com/file#fragment"} {
+		r := Release{URL: address, SHA256: hex.EncodeToString(make([]byte, 32)), Size: 1}
+		if _, err := r.artifact(); err == nil {
+			t.Fatal("release policy broadened", address)
+		}
+	}
+	for _, address := range []string{"http://localhost/file", "http://127.0.0.1/file", "http://[::1]/file", "https://example.com/file"} {
+		r := Release{URL: address, SHA256: hex.EncodeToString(make([]byte, 32)), Size: 1}
+		if _, err := r.artifact(); err != nil {
+			t.Fatal(address, err)
+		}
+	}
+}

@@ -2,14 +2,11 @@ package baseui
 
 import (
 	"golang.org/x/image/font"
-	"golang.org/x/image/font/gofont/gobold"
-	"golang.org/x/image/font/gofont/gobolditalic"
-	"golang.org/x/image/font/gofont/goitalic"
 	"golang.org/x/image/font/gofont/gomono"
 	"golang.org/x/image/font/gofont/gomonobold"
-	"golang.org/x/image/font/gofont/goregular"
 	"golang.org/x/image/font/opentype"
 	"strings"
+	"sync"
 	"unicode"
 )
 
@@ -36,16 +33,18 @@ type richFragment struct {
 	link int
 }
 
-var richFonts = func() []*opentype.Font {
-	var out []*opentype.Font
-	for _, data := range [][]byte{goregular.TTF, gobold.TTF, goitalic.TTF, gobolditalic.TTF, gomono.TTF, gomonobold.TTF} {
-		f, e := opentype.Parse(data)
-		if e != nil {
-			panic(e)
-		}
-		out = append(out, f)
+var richFonts = func() []func() *opentype.Font {
+	out := []func() *opentype.Font{interFonts[400], interFonts[700], interFonts[401], interFonts[701]}
+	for _, data := range [][]byte{gomono.TTF, gomonobold.TTF} {
+		out = append(out, sync.OnceValue(func() *opentype.Font {
+			f, e := opentype.Parse(data)
+			if e != nil {
+				panic(e)
+			}
+			return f
+		}))
 	}
-	return platformFonts(out)
+	return out
 }()
 
 func richStyle(s TextSpan) int {
@@ -65,7 +64,7 @@ func richStyle(s TextSpan) int {
 	return n
 }
 func richFace(style int, size float64) font.Face {
-	f, e := opentype.NewFace(richFonts[style], &opentype.FaceOptions{Size: size, DPI: 72, Hinting: font.HintingFull})
+	f, e := opentype.NewFace(richFonts[style](), &opentype.FaceOptions{Size: size, DPI: 72, Hinting: font.HintingNone})
 	if e != nil {
 		panic(e)
 	}

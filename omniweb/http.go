@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"omnigo.dev/omnigo/runtime/rpc"
+	"github.com/herlanai/omnigo/runtime/rpc"
 )
 
 // HTTPOptions is host configuration, never deserialized from a client message.

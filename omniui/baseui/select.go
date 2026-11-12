@@ -64,7 +64,7 @@ func Select(id, label string, state *SelectState, options []Option, onChange ...
 		}).Variant(Ghost).Disabled(o.Disabled).Role("option")
 		row.selected = o.ID == state.Value
 		row.alignStart = true
-		row.CornerRadius(12)
+		row.FontWeight(400)
 		row.OnKey(func(ev KeyEvent) bool {
 			n := optionKey(ev, i, options)
 			if n >= 0 {
@@ -171,7 +171,7 @@ func Combobox(id, label string, state *ComboboxState, options []Option, change f
 		row := Button(id+"/option/"+o.ID, o.Label, func() { selectOption(o) }).Variant(Ghost).Disabled(o.Disabled).Role("option")
 		row.selected = i == active
 		row.alignStart = true
-		row.CornerRadius(12)
+		row.FontWeight(400)
 		rows = append(rows, row)
 	}
 	if len(rows) == 0 {

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"omnigo.dev/omnigo/omniui/plugins/chromium"
+	"github.com/herlanai/omnigo/omniui/plugins/chromium"
 	"os"
 	"runtime"
 	"testing"

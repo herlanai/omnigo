@@ -10,7 +10,7 @@ import (
 	"strings"
 	"sync"
 
-	"omnigo.dev/omnigo/omniui/icon"
+	"github.com/herlanai/omnigo/omniui/icon"
 )
 
 const Version = "1.71.0"

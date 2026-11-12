@@ -102,7 +102,7 @@ func selectionRow(id, label, value string, options []Option, change func(string)
 			child = Button(id+"/"+o.ID, o.Label, activate).Variant(Ghost)
 			child.selected = o.ID == value
 			child.role = "tab"
-			child.Height(30).FontSize(14).FontWeight(500).CornerRadius(12)
+			child.Height(30).FontSize(14).FontWeight(500)
 			child.controlPadding = 8
 		}
 		child.focusGroup = id

@@ -2,9 +2,9 @@
 
 面向 PC 桌面应用的新 Go 框架，当前处于**核心原型阶段**。OmniGo 管理应用与运行时；OmniUI 是控件、服务插件与渲染扩展共同使用的体系名称。
 
-本仓库从空目录开始编写，没有依赖、复制或换名导入参考框架实现。`omnigo.dev/omnigo` 是当前本地模块标识，不代表该域名或模块已经发布。
+本仓库从空目录开始编写，没有依赖、复制或换名导入参考框架实现。Go module 路径为 `github.com/herlanai/omnigo`。
 
-**目前不是可替换 golet 的完整桌面框架。尚无通用跨平台窗口驱动、GPU 渲染器或完整控件集；尚未达到功能覆盖与性能领先目标。** `omniui/baseui` 已提供 Go 控件、离屏 CPU 绘制与交互测试；OmniWeb 默认模板可构建浏览器界面，生成模板尚不打开原生桌面窗口。新增 Studio 已有 macOS arm64 实验客户端与 Go 演示窗口。
+**目前不是可替换 golet 的完整桌面框架，尚未达到完整功能覆盖与性能领先目标。** 已有可选 Win32/X11 窗口、macOS Studio 宿主和局部 Metal 绘制实现，完整平台行为与 GPU 控件管线仍待补齐。`omniui/baseui` 提供 Go 控件、CPU 绘制与交互测试；OmniWeb 默认模板可构建浏览器界面，生成模板尚不打开原生桌面窗口。
 
 **所有框架控件统一用 Go 实现，归属 `omniui/baseui`**。`ui`、`forma` 与控件插件的能力在此重写；Web 模板和 shadcn 配置不算 Go 控件移植成果。见 [baseui](omniui/baseui/README.md) 和 [控件审计](migration/controls/README.md)。
 
@@ -55,7 +55,7 @@ go test -run '^$' -bench . -benchmem ./omniui ./runtime/event
 ## 目录
 
 ```text
-desktop/             应用生命周期与平台驱动契约
+apps/             应用生命周期与平台驱动契约
 omniui/              统一扩展协议、不可变界面树、差分、虚拟化
 omniui/baseui/       Go 控件、布局、输入、主题、CPU 绘制与控件插件
 omniweb/             Web 协议、HTTP/静态资源宿主、唯一 TypeScript SDK
@@ -65,6 +65,9 @@ internal/scaffold/   默认 TanStack Start + shadcn 模板
 runtime/dispatch/    主线程工作队列
 runtime/event/       类型化事件
 runtime/rpc/         类型化服务调用
+runtime/download/    共享下载校验、暂存、重试与跨进程缓存
+text/rope/           共享不可变文本版本与坐标算法
+i18n/                语言目录和消息格式
 examples/lifecycle/  无界面核心示例
 tools/parity/        参考功能清单生成器
 migration/           源码指纹、迁移状态与验收范围
@@ -72,7 +75,7 @@ docs/                新架构与性能验收规则
 scripts/             可重复验证入口
 ```
 
-后续平台驱动放在 `platform/`；控件、主题、编辑器、图表、绘制适配和可选控件能力统一归属 `omniui/baseui/`。未实现的目录不提前填充空壳。
+原生窗口驱动归属 `apps/nativewindow`，系统服务按职责放在 `apps` 子包；控件、主题、编辑器、图表、绘制适配和可选控件能力统一归属 `omniui/baseui/`。共享算法与基础服务由上层复用，未实现的目录不提前填充空壳。具体依赖方向和复用边界见 [架构说明](docs/architecture.md)。
 
 ## 完整重写与验收
 

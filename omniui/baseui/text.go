@@ -3,10 +3,12 @@ package baseui
 import (
 	"strings"
 	"unicode/utf8"
+
+	"github.com/herlanai/omnigo/text/rope"
 )
 
 type textSnapshot struct {
-	text          string
+	document      rope.Text
 	anchor, caret int
 }
 
@@ -15,6 +17,7 @@ type textSnapshot struct {
 // edits. Grapheme-cluster navigation and platform IME adapters remain pending.
 type TextBuffer struct {
 	text          string
+	document      rope.Text
 	anchor, caret int
 	composition   string
 	undo, redo    []textSnapshot
@@ -25,7 +28,8 @@ type TextBuffer struct {
 func NewTextBuffer(text string) *TextBuffer {
 	b := &TextBuffer{}
 	b.text = strings.ToValidUTF8(text, "�")
-	b.anchor = utf8.RuneCountInString(b.text)
+	b.document = rope.New(b.text)
+	b.anchor = b.document.Summary().Runes
 	b.caret = b.anchor
 	return b
 }
@@ -33,17 +37,21 @@ func (b *TextBuffer) String() string        { return b.text }
 func (b *TextBuffer) Selection() (int, int) { return b.anchor, b.caret }
 func (b *TextBuffer) Composition() string   { return b.composition }
 func (b *TextBuffer) Select(anchor, caret int) {
-	n := utf8.RuneCountInString(b.text)
+	n := b.document.Summary().Runes
 	b.anchor = max(0, min(n, anchor))
 	b.caret = max(0, min(n, caret))
 }
 func (b *TextBuffer) Selected() string {
-	r := []rune(b.text)
-	return string(r[min(b.anchor, b.caret):max(b.anchor, b.caret)])
+	return b.document.Slice(b.document.FromRune(min(b.anchor, b.caret)), b.document.FromRune(max(b.anchor, b.caret)))
 }
-func (b *TextBuffer) snapshot() textSnapshot { return textSnapshot{b.text, b.anchor, b.caret} }
+
+// Snapshot is an immutable, concurrently readable version of the committed text.
+// Composition is deliberately separate until committed.
+func (b *TextBuffer) Snapshot() rope.Text    { return b.document }
+func (b *TextBuffer) snapshot() textSnapshot { return textSnapshot{b.document, b.anchor, b.caret} }
 func (b *TextBuffer) restore(s textSnapshot) {
-	b.text = s.text
+	b.document = s.document
+	b.text = s.document.String()
 	b.anchor = s.anchor
 	b.caret = s.caret
 	b.composition = ""
@@ -53,24 +61,25 @@ func (b *TextBuffer) restore(s textSnapshot) {
 }
 func (b *TextBuffer) Replace(text string) { b.replace(text, b.Limit) }
 func (b *TextBuffer) replace(text string, limit int) {
-	r := []rune(b.text)
 	start, end := min(b.anchor, b.caret), max(b.anchor, b.caret)
 	insert := []rune(strings.ToValidUTF8(text, "�"))
 	if limit > 0 {
-		insert = insert[:min(len(insert), max(0, limit-(len(r)-(end-start))))]
+		insert = insert[:min(len(insert), max(0, limit-(b.document.Summary().Runes-(end-start))))]
 	}
-	next := string(r[:start]) + string(insert) + string(r[end:])
-	if next == b.text {
+	next := b.document.Replace(b.document.FromRune(start), b.document.FromRune(end), string(insert))
+	if next.Same(b.document) {
 		b.Select(start+len(insert), start+len(insert))
 		return
 	}
 	b.undo = append(b.undo, b.snapshot())
 	if len(b.undo) > 100 {
 		copy(b.undo, b.undo[len(b.undo)-100:])
+		clear(b.undo[100:])
 		b.undo = b.undo[:100]
 	}
 	b.redo = nil
-	b.text = next
+	b.document = next
+	b.text = next.String()
 	b.anchor = start + len(insert)
 	b.caret = b.anchor
 	b.composition = ""
@@ -88,6 +97,7 @@ func (b *TextBuffer) Undo() bool {
 	}
 	b.redo = append(b.redo, b.snapshot())
 	last := b.undo[len(b.undo)-1]
+	b.undo[len(b.undo)-1] = textSnapshot{}
 	b.undo = b.undo[:len(b.undo)-1]
 	b.restore(last)
 	return true
@@ -98,6 +108,7 @@ func (b *TextBuffer) Redo() bool {
 	}
 	b.undo = append(b.undo, b.snapshot())
 	last := b.redo[len(b.redo)-1]
+	b.redo[len(b.redo)-1] = textSnapshot{}
 	b.redo = b.redo[:len(b.redo)-1]
 	b.restore(last)
 	return true

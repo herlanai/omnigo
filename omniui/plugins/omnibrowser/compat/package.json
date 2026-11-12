@@ -1,0 +1,7 @@
+{
+  "name": "omnibrowser-client-compat",
+  "private": true,
+  "type": "module",
+  "scripts": {"test": "node probe.mjs"},
+  "dependencies": {"playwright-core": "1.65.0", "puppeteer-core": "25.17.0"}
+}

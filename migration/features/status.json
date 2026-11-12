@@ -1,0 +1,118 @@
+{
+  "features": [
+    {
+      "existing": [
+        "apps/nativewindow/children.go",
+        "apps/nativewindow/win_windows.go",
+        "apps/nativewindow/x11_linux.go"
+      ],
+      "id": "childwindow",
+      "remaining": [
+        "native Windows/Linux verification",
+        "Cocoa public child driver",
+        "modal relationships",
+        "full cross-display/fullscreen/always-on-top behavior",
+        "multiple independent root trees"
+      ],
+      "status": "partial",
+      "tests": [
+        "apps/nativewindow/children_test.go",
+        "apps/nativewindow/native_test.go"
+      ]
+    },
+    {
+      "existing": [
+        "apps/clipboard",
+        "omniui/baseui/clipboard.go",
+        "apps/host/cocoa_darwin.go"
+      ],
+      "id": "clipboard",
+      "remaining": [
+        "native file formats and image conversions",
+        "Windows native verification and multi-item support",
+        "X11/Wayland selection backends",
+        "native delayed rendering and foreign ownership notifications"
+      ],
+      "status": "partial",
+      "tests": [
+        "apps/clipboard/data_test.go",
+        "apps/clipboard/native_darwin_test.go"
+      ]
+    },
+    {
+      "existing": [
+        "omniui/baseui/internal/diff",
+        "omniui/baseui/diff_view.go"
+      ],
+      "id": "diff",
+      "remaining": [
+        "Histogram",
+        "word and inline differences",
+        "compaction",
+        "unbounded-quality large differences and performance comparison"
+      ],
+      "status": "partial",
+      "tests": [
+        "omniui/baseui/internal/diff/lines_test.go",
+        "omniui/baseui/diff_view_test.go"
+      ]
+    },
+    {
+      "existing": [
+        "studio/cmd/titlebarcheck",
+        "studio/cmd/webviewcheck",
+        "apps/nativewindow/native_test.go",
+        "apps/clipboard/native_darwin_test.go",
+        "omniui/baseui/gpu/native_darwin_test.go"
+      ],
+      "id": "e2e",
+      "remaining": [
+        "Windows/Linux child and clipboard native execution",
+        "native IME/accessibility/drag/drop input suites",
+        "full GPU frame equivalence",
+        "six-platform native execution evidence"
+      ],
+      "status": "partial"
+    },
+    {
+      "existing": [
+        "omniui/baseui/gpu"
+      ],
+      "id": "gpu",
+      "remaining": [
+        "D3D/OpenGL/browser backends",
+        "text/paths/antialiasing/textures/effects/damage",
+        "device loss and native surface presentation",
+        "complete baseui integration and benchmarks",
+        "Intel native verification"
+      ],
+      "status": "partial",
+      "tests": [
+        "omniui/baseui/gpu/gpu_test.go",
+        "omniui/baseui/gpu/native_darwin_test.go"
+      ]
+    },
+    {
+      "existing": [
+        "i18n",
+        "studio/internal/demos/languages.go"
+      ],
+      "id": "i18n",
+      "remaining": [
+        "date/time/relative time skeletons and compact formatting",
+        "typed generation and pseudo-localization",
+        "all controls/native menus and system locale propagation",
+        "complete RTL and font fallback",
+        "high precision decimal scale semantics"
+      ],
+      "status": "partial",
+      "tests": [
+        "i18n/catalog_test.go",
+        "studio/internal/demos/languages_test.go"
+      ]
+    }
+  ],
+  "policy": "Reference discovery is not implementation coverage. Pending and remaining capabilities are preserved.",
+  "reference": "reference.json",
+  "schema": 1
+}

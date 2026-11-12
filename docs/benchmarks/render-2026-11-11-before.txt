@@ -1,6 +1,6 @@
 goos: darwin
 goarch: arm64
-pkg: omnigo.dev/omnigo/omniui/baseui
+pkg: github.com/herlanai/omnigo/omniui/baseui
 cpu: Apple M2 Max
 BenchmarkControlsRender1x-12    	     102	  10734796 ns/op	 1242158 B/op	     125 allocs/op
 BenchmarkControlsRender1x-12    	     100	  10727374 ns/op	 1242055 B/op	     125 allocs/op
@@ -18,4 +18,4 @@ BenchmarkMount100Controls-12    	   18802	     63585 ns/op	   81946 B/op	     31
 BenchmarkMount100Controls-12    	   18934	     63238 ns/op	   81946 B/op	     312 allocs/op
 BenchmarkMount100Controls-12    	   19023	     63214 ns/op	   81946 B/op	     312 allocs/op
 PASS
-ok  	omnigo.dev/omnigo/omniui/baseui	18.760s
+ok  	github.com/herlanai/omnigo/omniui/baseui	18.760s

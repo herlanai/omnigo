@@ -1,4 +1,4 @@
-// Package omniweb defines the versioned Web UI protocol shared by desktop hosts
+// Package omniweb defines the versioned Web UI protocol shared by apps hosts
 // and browser transports. It reuses the same service router as native OmniUI.
 package omniweb
 
@@ -10,7 +10,7 @@ import (
 	"io"
 	"regexp"
 
-	"omnigo.dev/omnigo/runtime/rpc"
+	"github.com/herlanai/omnigo/runtime/rpc"
 )
 
 const Version = 1

@@ -7,9 +7,9 @@ import (
 	"image"
 	"time"
 
-	"omnigo.dev/omnigo/omnibrowser"
-	browserrender "omnigo.dev/omnigo/omnibrowser/render"
-	ui "omnigo.dev/omnigo/omniui/baseui"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
+	"github.com/herlanai/omnigo/omniui/plugins/omnibrowser"
+	browserrender "github.com/herlanai/omnigo/omniui/plugins/omnibrowser/render"
 )
 
 const browserExample = `<!doctype html>
@@ -36,6 +36,7 @@ type browserDemo struct {
 	busy                              bool
 	scroll                            ui.ScrollState
 	shot                              image.Image
+	preview                           image.Image
 }
 
 // Close releases demo-owned services; native windows call this before disposal.
@@ -46,7 +47,7 @@ func (d *Demo) Close() {
 }
 func (d *Demo) browserContent() *ui.Element {
 	if d.browser == nil {
-		s := &browserDemo{page: omnibrowser.New(omnibrowser.Options{Timeout: 2 * time.Second}), source: ui.NewTextBuffer(browserExample), script: ui.NewTextBuffer(`Array.from(document.querySelectorAll('.feature')).map(el => el.textContent)`), selector: ui.NewTextBuffer(".feature"), address: ui.NewTextBuffer("https://example.com"), tab: "preview"}
+		s := &browserDemo{page: omnibrowser.New(omnibrowser.Options{Timeout: 15 * time.Second}), source: ui.NewTextBuffer(browserExample), script: ui.NewTextBuffer(`Array.from(document.querySelectorAll('.feature')).map(el => el.textContent)`), selector: ui.NewTextBuffer(".feature"), address: ui.NewTextBuffer("https://example.com"), tab: "preview"}
 		if err := s.page.SetContent(context.Background(), browserExample); err != nil {
 			d.Message = err.Error()
 		}
@@ -62,6 +63,10 @@ func (d *Demo) browserContent() *ui.Element {
 		work := func() func() {
 			output, shot, err := action()
 			snapshot, snapshotErr := s.page.Snapshot(context.Background())
+			var preview image.Image
+			if snapshotErr == nil {
+				preview, snapshotErr = browserrender.Screenshot(snapshot, 1024, 768, false)
+			}
 			if err == nil {
 				err = snapshotErr
 			}
@@ -73,6 +78,7 @@ func (d *Demo) browserContent() *ui.Element {
 					return
 				}
 				s.snapshot = snapshot
+				s.preview = preview
 				s.output = output
 				if shot != nil {
 					s.shot = shot
@@ -92,6 +98,12 @@ func (d *Demo) browserContent() *ui.Element {
 	ctx := context.Background()
 	var content *ui.Element
 	switch s.tab {
+	case "web":
+		if s.preview != nil {
+			content = ui.Image("browser/page-image", "CSS page preview", s.preview, ui.ImageOptions{Fit: ui.ImageContain}).Height(420).Grow(1)
+		} else {
+			content = ui.Text("browser/page-empty", "Navigate to view the CSS-rendered page.")
+		}
 	case "html":
 		content = ui.Column("browser/html", ui.Textarea("browser/source", "HTML source", s.source).Height(220), ui.Button("browser/load", "Load HTML", func() {
 			source := s.source.String()
@@ -139,8 +151,9 @@ func (d *Demo) browserContent() *ui.Element {
 			run(func() (string, image.Image, error) { return "Input updated", nil, s.page.Fill(ctx, selector, value) })
 		})).Height(340)
 	}
-	return ui.Column("browser", ui.Text("browser/info", "Pure Go document engine · no Chromium · semantic HTML preview").Muted(true).Wrap(true), ui.Row("browser/navigation", ui.Input("browser/url", "Page URL", s.address).Grow(1), ui.Button("browser/navigate", "Navigate", func() {
+	return ui.Column("browser", ui.Text("browser/info", "Pure Go document engine · CSS page preview and DOM controls").Muted(true).Wrap(true), ui.Row("browser/navigation", ui.Input("browser/url", "Page URL", s.address).Grow(1), ui.Button("browser/navigate", "Navigate", func() {
 		address := s.address.String()
+		s.tab = "web"
 		run(func() (string, image.Image, error) { return "Loaded " + address, nil, s.page.Navigate(ctx, address) })
-	}).Variant(ui.Outline).Disabled(d.RunTask == nil)), ui.Text("browser/title", fmt.Sprintf("%s · %s", s.snapshot.Title, s.snapshot.URL)).Wrap(true), ui.Tabs("browser/tabs", "Browser tools", s.tab, []ui.Option{{ID: "preview", Label: "Preview"}, {ID: "html", Label: "HTML"}, {ID: "script", Label: "JavaScript"}, {ID: "extract", Label: "Extract"}, {ID: "screenshot", Label: "Screenshot"}}, func(tab string) { s.tab = tab; s.scroll = ui.ScrollState{} }), content).ReadOnly(s.busy)
+	}).Variant(ui.Outline).Disabled(d.RunTask == nil)), ui.Text("browser/title", fmt.Sprintf("%s · %s", s.snapshot.Title, s.snapshot.URL)).Wrap(true), ui.Tabs("browser/tabs", "Browser tools", s.tab, []ui.Option{{ID: "web", Label: "Page"}, {ID: "preview", Label: "DOM controls"}, {ID: "html", Label: "HTML"}, {ID: "script", Label: "JavaScript"}, {ID: "extract", Label: "Extract"}, {ID: "screenshot", Label: "Screenshot"}}, func(tab string) { s.tab = tab; s.scroll = ui.ScrollState{} }), content).ReadOnly(s.busy)
 }

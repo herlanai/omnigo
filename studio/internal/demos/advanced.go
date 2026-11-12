@@ -2,14 +2,13 @@ package demos
 
 import (
 	"fmt"
-	ui "omnigo.dev/omnigo/omniui/baseui"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"time"
 )
 
 var advancedIDs = []string{"ai-message", "attachment", "avatar", "breadcrumb", "bubble", "chain-of-thought", "chart", "chat", "checkpoint", "confirmation", "context", "drawer", "inline-citation", "item", "marker", "menubar", "message", "message-scroller", "model-selector", "navigation-menu", "plan", "prompt-input", "questionnaire", "queue", "reasoning", "sidebar", "sonner", "sources", "stack-trace", "subagent", "suggestion", "task", "terminal", "test-results", "toast", "tool", "trace"}
 
 type advancedState struct {
-	terminalMode  int
 	chartKind     ui.ChartKind
 	chartCurve    ui.ChartCurve
 	disclosure    ui.DisclosureState
@@ -60,28 +59,7 @@ func (d *Demo) advancedContent() *ui.Element {
 	case "terminal":
 		exit := 0
 		output := ui.TerminalOutput{Command: "go test ./...", Output: terminalSampleOutput(), ExitCode: &exit}
-		if a.terminalMode == 1 {
-			output.Running = true
-			output.Output = "Running tests...\n"
-		}
-		if a.terminalMode == 2 {
-			exit = 1
-			output.Output = "FAIL  controls\n    expected focus to return to trigger\nexit status 1"
-		}
-		if a.terminalMode == 3 {
-			output.ExitCode = nil
-			output.Output = "Waiting to start..."
-		}
-		stateButtons := make([]*ui.Element, 0, 4)
-		for mode, name := range []string{"Success", "Running", "Failure", "Pending"} {
-			variant := ui.Outline
-			if mode == a.terminalMode {
-				variant = ui.Secondary
-			}
-			stateButtons = append(stateButtons, ui.Button("terminal/"+[]string{"success", "running", "failure", "pending"}[mode], name, func() { a.terminalMode = mode }).Variant(variant))
-		}
-		return ui.Column("terminal/demo", ui.Text("terminal/help", "Sample output · choose a state to preview"), ui.Row("terminal/states", stateButtons...),
-			ui.Terminal("demo", output, d.Scroll, ui.TerminalOptions{Open: &a.disclosure, OnCopy: d.copyText}))
+		return ui.Terminal("demo", output, d.Scroll, ui.TerminalOptions{Open: &a.disclosure, OnCopy: d.copyText})
 
 	case "subagent":
 		return ui.Subagent("demo", ui.SubagentRun{Name: "Review controls", Task: "Inspect keyboard and cancellation behavior", Model: "Application model", Status: ui.AIRunning, Steps: steps[:2], Duration: 12 * time.Second}, &a.disclosure)
@@ -157,9 +135,7 @@ func (d *Demo) advancedContent() *ui.Element {
 	return nil
 }
 
-// Fixed column widths belong to this sample data, not the terminal renderer.
-// A tab advances to the next stop; it does not align arbitrary table columns.
+// Match the read-only Forma Terminal demonstration fixture.
 func terminalSampleOutput() string {
-	return fmt.Sprintf("%-20s %-8s %s\n%-20s %-8s %s\n%-20s %-8s %s\n\nDone.",
-		"PACKAGE", "STATUS", "DURATION", "omniui/baseui", "ok", "0.42s", "runtime/dispatch", "ok", "0.03s")
+	return "ok  example/backend\nok  example/ui"
 }

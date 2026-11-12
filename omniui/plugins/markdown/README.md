@@ -1,6 +1,6 @@
 # Native Markdown
 
-Import `omnigo.dev/omnigo/omniui/plugins/markdown`.
+Import `github.com/herlanai/omnigo/omniui/plugins/markdown`.
 
 `State.View(id, source, Options)` parses CommonMark/GFM with optional Goldmark and composes Go controls. Importing baseui alone does not link the parser. Source is limited to 1 MiB; AST depth and node count are bounded. State belongs to the UI goroutine.
 

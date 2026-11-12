@@ -4,12 +4,12 @@ package main
 
 import (
 	"fmt"
-	"omnigo.dev/omnigo/studio/internal/native"
+	"github.com/herlanai/omnigo/apps/host"
 	"os"
 )
 
 func main() {
-	if err := native.CheckEmbeddedWeb(); err != nil {
+	if err := host.CheckEmbeddedWeb(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}

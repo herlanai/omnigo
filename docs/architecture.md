@@ -1,44 +1,103 @@
-# OmniGo 新架构
+# OmniGo 架构与复用边界
 
-状态：首批核心代码与 OmniWeb 浏览器宿主已实现，原生桌面宿主与完整组件库待开发。
+框架按职责分层，依赖由宿主和组合层指向基础能力。共享实现放在实际拥有该职责的模块，不建立跨领域的 `utils` 集合，也不为了目录对称复制一套实现。
 
-最新控件边界：所有框架控件只用 Go 编写，统一位于 `omniui/baseui`。已有树/差分协议仍在 `omniui`；baseui 新增控件树快照、行列布局、焦点/输入、文本状态、Go CPU 绘制和插件 Painter。当前是离屏原生控件实现，不代表系统窗口与 GPU 已接通。Web 模板不参与控件完成量统计。
+## 模块归属
 
-## 分层
+| 模块 | 负责 | 不负责 |
+| --- | --- | --- |
+| 根包 `omnigo` | 公开应用入口、类型化服务绑定、窗口配置；组合现有生命周期与资源托管 | 演示数据、Studio 专属业务 |
+| `apps` | 窗口与平台契约 | 控件布局和绘制 |
+| `apps/host` | 可选 Cocoa/WebKit 宿主、Go 内容窗口、输入、绘制提交、标题栏、资源清理 | Studio 的演示 ID、图标和 HTML 示例 |
+| `apps/metrics` | Go runtime 与原生进程/系统指标采样 | 性能面板展示 |
+| `apps/nativewindow` | Win32/X11 窗口、事件路由、父子关系、帧提交 | WebView、控件树、业务状态 |
+| `apps/clipboard`、`apps/system`、`apps/accelerator` | 各自独立的系统数据/服务契约与适配 | Studio 的展示和业务逻辑 |
+| `runtime/dispatch`、`event`、`rpc` | UI 派发、事件和调用基础设施 | 具体控件或平台初始化 |
+| `runtime/download` | 下载元数据校验、重试、哈希、暂存、缓存锁与发布 | 更新签名、版本选择、安装和重启 |
+| `text/rope` | 不可变文本版本、坐标和编辑算法 | 选择区、IME、控件、排版 |
+| `i18n` | 语言目录、匹配、消息格式 | 窗口和控件生命周期 |
+| `omniui/baseui` | Go 控件、布局、主题、交互、编辑历史和 CPU 绘制 | 默认链接所有原生后端和可选插件 |
+| `omniui/baseui/gpu` 与可选控件子包 | 应用显式选择的渲染/控件能力 | 通过副作用注册到基础控件 |
+| `omniui/plugins` | 可选服务及其领域策略；updater 验证签名后复用下载层 | 重写通用下载、派发或文本存储 |
+| `omniweb` | Web UI 协议与 HTTP 宿主，复用 RPC | 冒充 Go 原生控件实现 |
+| `studio` | 组合、演示、目录与应用打包 | 成为公共框架功能的唯一实现位置 |
 
-应用依赖 `desktop` 与 `omniui`。`desktop.Application` 持有自身的扩展计划和生命周期；没有全局应用单例。`omniui.Registry` 是应用内的注册表，控件和插件使用同一个描述结构及依赖解析过程。
+```mermaid
+flowchart TD
+    Studio --> BaseUI[omniui/baseui]
+    Studio --> Apps[application platform services]
+    Studio --> Plugins[optional plugins]
+    BaseUI --> Rope[text/rope]
+    Native[apps/nativewindow] --> Contract[apps contracts]
+    Native --> Dispatch[runtime/dispatch]
+    Plugins --> Download[runtime/download]
+    Web[omniweb] --> RPC[runtime/rpc]
+```
 
-`runtime` 提供独立的调度、事件与类型化调用。底层协议不依赖 AppKit、GTK、WebView2、浏览器或某一种渲染器。
+Cocoa 宿主已迁入公开的 `apps/host`，不再反向依赖 Studio。Studio 通过根包 `omnigo.New`、`omnigo.Bind`、`app.ConfigureMainWindow` 和 `app.Run` 启动；资源服务器复用 OmniWeb，扩展生命周期复用 `lifecycle.Manager`。窗口工厂只提供 Go 控件内容与应用回调。Windows/Linux 的软件驱动仍在 `apps/nativewindow`，当前 `host` 的 WebKit 宿主不支持这两个平台；跨编译不代表实机验收。
 
-`omniweb` 定义版本化 Web UI 协议，HTTP 宿主复用 `runtime/rpc`，TypeScript SDK 为浏览器调用提供类型契约与运行时信封检查。默认构建采用 TanStack Start SPA + shadcn；`cmd/omni init` 从嵌入式模板生成 Go 应用与 ui 目录。详见 [OmniWeb](omniweb.md)。原生 UI 和 Web UI 是并列入口，不将 Web-only 能力冒充原生控件。
+## 已合并的实现
 
-未来 `platform` 实现窗口、消息循环、输入法、无障碍与系统服务；`omniui/baseui` 的绘制层继续补齐文本整形和 GPU 路径。统一协议不要求把所有实现链接进默认程序：应用显式注册所需扩展，未选用的可选包不应引入资源或初始化开销。
+### 原生窗口
 
-## 生命周期和并发
+父窗和子窗共享 `frameState` 以及 `drainFrame`、`handleEvent`、`renderFrame`、`frameTimeout`。输入/尺寸事件、关闭拦截、绘制结果校验和动画截止时间只维护一份。每个窗口仍拥有自己的状态和截止时间，根循环提供同一显式时钟。
 
-1. 先校验并复制扩展描述，再在启动前解析完整依赖和权限，禁止部分启动后才发现缺失依赖。
-2. 启动按确定性的依赖拓扑排序执行。扩展 Start 失败时负责释放自身半初始化资源；应用逆序停止此前成功启动的扩展。
-3. `Driver.Run` 在调用方执行，不能偷偷迁移到后台 goroutine。未来桌面入口必须满足平台主线程要求。
-4. 驱动退出后先取消应用上下文，再调用 Stop。清理使用独立超时上下文，原上下文取消不会跳过清理。Stop 必须遵守上下文；框架不能强制杀死 goroutine。
-5. 队列 Submit 不阻塞，满队列明确报错。驱动每轮只 Drain 有限任务，避免输入与绘制被无限任务饿死。主线程不能等待自己队列的返回结果。
-6. 事件发布不阻塞慢消费者。当前策略为丢弃新事件并返回数量；重要的不可丢消息应使用请求/响应或另行设计确认协议。
-7. 请求必须携带来自宿主策略的授权，不能相信来自客户端 JSON 的权限字段。调用并发达到上限立即返回 Busy，不无限启动 goroutine。
+`window.go` 负责根循环与驱动生命周期；`children.go` 负责窗口树和叶子优先销毁；`frame.go` 负责单窗口的帧行为。Win32/X11 文件只处理原生操作和事件转换。根窗口退出与子树关闭的责任不同，保留在各自所有者中，不强行合并成布尔参数众多的通用循环。
 
-## 界面数据模型
+### 下载和更新
 
-Node 属性和子节点在构造时复制，外部不能直接改写内部字段。一个父节点内的 key 必须唯一。事件通过 `Props.Action` 表示逻辑动作，未来宿主负责将输入路由至动作处理器；当前没有实现动作执行或控件交互。
+`File.Validate` 是元数据校验入口；`Get` 发布到指定路径；`Stage` 返回调用方拥有的私有已校验文件；`Cached` 加入跨进程锁。三个执行入口共用规范化后的下载循环，不重复克隆请求配置、实现网络重试或管理验证算法。
 
-更新生成新节点并共享未变化的子树。相同指针的节点直接跳过。兄弟顺序不变时逐项比较而不构造映射；顺序变化时才创建键查找表。补丁按子节点增删改、父节点最终排序的顺序产生；渲染器需将整批补丁作为一个事务应用。
+updater 只维护签名、版本、发布文件必须有确定大小等领域约束，并将签名清单的总大小映射给进度回调。其原有 HTTP 主机白名单比通用下载层更严格，继续保留这一差异，避免“去重”意外扩大允许范围。临时文件预留、失败清理和下载归下载层所有。
 
-本实现不是完整布局系统。宽度、间距等仅为描述数据；无文本测量、布局求解、绘制、焦点、无障碍与 IME 实现。固定行高虚拟化仅解决可见范围计算。
+### 文本状态
 
-## 后续实现边界
+`TextBuffer` 的持久化文档和历史版本复用 `text/rope`。控件仍负责选择区、IME 组合和撤销/重做；当前字符串是绘制兼容缓存，不作为第二套编辑算法。全文字符串物化和字素簇/复杂文字整形仍是后续工作，不能将文本树优化等同于整个编辑器已完成。
 
-- `platform`: macOS、Windows、Linux 与测试宿主，共同运行窗口/输入/事件循环契约测试；不能用空操作冒充平台支持。
-- `omniui/baseui` 绘制层：已实现基础 CPU 绘制；GPU 资源所有权、损坏恢复、文本/图形批处理仍须实现与实机验证。
-- `omniui/baseui`: Go 基础控件、布局、主题、输入和绘制。每个组件必须覆盖交互状态和视觉状态，系统无障碍和国际化仍须补齐。
-- `omniui/baseui/editor`, `omniui/baseui/chart`, `omniui/baseui/media`: 后续大型 Go 控件按需链接。
-- `omniui/baseui` 的可选子包统一承接控件插件；当前只有 loading 的三种新指标。网络、存储等服务插件仍通过 OmniUI 扩展协议注册。
-- `cmd/omni`: 已实现默认 Web 项目创建。开发热重载、代码生成、打包和诊断仍待实现；没有可靠桌面宿主前不宣称脚手架可交付桌面应用。
+## 保持独立的相似代码
 
-任何跨平台“支持”必须区分源码编译、契约测试、真实桌面运行与发布打包四个层次。
+- `omniui` 的不可变节点和补丁是协议数据模型；`baseui` 是真实控件、布局和交互。两者不因名称相似就合并。
+- 文本 diff、界面树 diff、图像比较处理不同数据和语义，不合并为含大量模式开关的算法。
+- 平台句柄、IME、窗口所有权和销毁顺序存在 ABI/系统差异；共享行为与原生适配分开，不能抽成空操作统一接口来宣称支持。
+- 测试夹具服务于不同故障场景，少量重复优先于跨包共享可变测试状态。
+
+## 生命周期与并发约束
+
+Surface、控件状态、原生窗口与 GPU 设备由所属 UI goroutine 使用；后台结果经 `runtime/dispatch` 派发。不可变文本版本可并发读取，不代表可从后台修改 TextBuffer。不得跨帧保留 Painter。
+
+应用按依赖顺序启动，失败逆序回滚；停止使用独立清理上下文。派发队列有容量和单轮上限，UI 回调不能等待自己的派发结果。下载进度在下载调用 goroutine 同步执行，展示进度必须由宿主派发到 UI。
+
+## 验证
+
+核心修改运行 `sh scripts/check.sh`：测试、vet、race、SDK 测试、六个 `CGO_ENABLED=0` 桌面目标构建。窗口共享行为用显式时钟验证独立截止时间、关闭/失败清理及错误帧拒绝；下载验证取消、校验失败、旧文件保留、分块进度、URL 策略和真实跨进程缓存串行化。
+
+检查依赖时使用 `go list`，确认基础控件没有引入原生窗口、GPU 或服务插件。性能提升须有等价负载 benchmark；重构减少重复不能直接换算为性能倍数。
+
+## 应用命名与包迁移（2026-11-12）
+
+公共应用入口仍是根包 `omnigo`。平台能力统一位于 `apps`；原 `desktop/uiapp`
+迁为 `apps/host`，控制对象为 `host.Controller`。扩展生命周期独立为
+`runtime/lifecycle.Manager`，不承担窗口配置和原生事件处理。
+
+根包按职责拆分：application.go（构造）、run.go（运行）、window.go（窗口）、
+binding.go（RPC）、registration.go（注册组合）、service.go（后台服务）、
+http.go（资源与路由）。平台实现使用 `_darwin.go` 等系统后缀。
+
+此次是源码级破坏性迁移，仓库内所有调用已更新；没有保留旧导入路径的转发包。
+
+| 旧 API | 新 API |
+| --- | --- |
+| desktop / desktop/uiapp | apps / apps/host |
+| desktop.Application、desktop.Options、desktop.New | lifecycle.Manager、lifecycle.Options、lifecycle.New |
+| uiapp.Host、uiapp.Services | host.Controller、host.WindowServices |
+| Module、Modules、Compose | Registration、Registrations、Group |
+| Content、WindowContext | ContentWindowOptions、WindowEnvironment |
+| NewWindow（主窗口配置） | ConfigureMainWindow |
+| OpenWindow（注册内容窗口） | OpenContentWindow |
+| SetTitlebar（含查询） | TitleBarState / SetTitleBar |
+| Content.HTML、WebViewReady、WebPageReady | ContentWindowOptions.WebView 下的 HTML、OnStateReady、OnReady |
+
+默认应用仍使用 `omnigo.Run` 和 `Options.Window` / `GoWindow`。多内容窗口保留
+工厂入口；完整的统一窗口对象属于后续行为改造，不由这次改名提供。
+Studio 保持现有 RPC 路径兼容，在服务适配层将空标题栏请求转换为显式查询。
+通知回调逐步使用 On 前缀，能力布尔值使用 Supports 前缀。

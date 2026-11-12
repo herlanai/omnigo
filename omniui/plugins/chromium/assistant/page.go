@@ -7,7 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
-	"omnigo.dev/omnigo/omniui/plugins/chromium"
+	"github.com/herlanai/omnigo/omniui/plugins/chromium"
 )
 
 // Page is an explicit, bounded snapshot. Form values and password fields are excluded.

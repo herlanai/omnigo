@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"omnigo.dev/omnigo/omniui/baseui/theme"
+	"github.com/herlanai/omnigo/omniui/baseui/theme"
 )
 
 type Kind uint8
@@ -58,6 +58,8 @@ func intersect(a, b Rect) Rect {
 }
 
 type Theme struct {
+	Style                                                                                                    VisualStyle
+	BoldMenus                                                                                                bool
 	Chart                                                                                                    [5]color.NRGBA
 	Background, Text, Surface, Muted, MutedText, Border, Accent, AccentText, Hover, Danger, Focus, Selection color.NRGBA
 	Height, Radius, Spacing, FontSize                                                                        float64
@@ -83,6 +85,8 @@ func NewTheme(dark bool) Theme {
 // Element is a build description. Mount snapshots it before handling input,
 // so changes to caller-owned builders cannot alter the displayed frame.
 type Element struct {
+	decorationOutside                     bool
+	paddingExplicit, gapExplicit          bool
 	inlineLink                            bool
 	nativeView                            *WebViewState
 	monospace, captureTab                 bool
@@ -171,8 +175,8 @@ func (e *Element) Height(n float64) *Element    { e.height = n; return e }
 func (e *Element) Grow(n float64) *Element      { e.grow = n; return e }
 func (e *Element) MinHeight(n float64) *Element { e.minHeight = n; return e }
 
-func (e *Element) Gap(n float64) *Element     { e.gap = n; return e }
-func (e *Element) Padding(n float64) *Element { e.padding = n; return e }
+func (e *Element) Gap(n float64) *Element     { e.gap = n; e.gapExplicit = true; return e }
+func (e *Element) Padding(n float64) *Element { e.padding = n; e.paddingExplicit = true; return e }
 func (e *Element) Disabled(v bool) *Element   { e.disabled = v; return e }
 func (e *Element) ReadOnly(v bool) *Element   { e.readOnly = v; return e }
 func (e *Element) Invalid(v bool) *Element    { e.invalid = v; return e }
@@ -201,6 +205,14 @@ func (e *Element) Animate(v bool) *Element     { e.animated = v; return e }
 // PaintSurface draws after this element's own surface and before its children.
 // The callback runs on the UI goroutine and must not retain Painter.
 func (e *Element) PaintSurface(fn func(*Painter, Rect)) *Element { e.paint = fn; return e }
+
+// PaintDecoration draws outside the element, bounded by ancestor clipping.
+// The painter is transient and must not be retained.
+func (e *Element) PaintDecoration(fn func(*Painter, Rect)) *Element {
+	e.paint = fn
+	e.decorationOutside = true
+	return e
+}
 
 func (e *Element) Role(role string) *Element { e.role = role; return e }
 
@@ -233,6 +245,7 @@ func Button(id, label string, action func()) *Element {
 	e.label = label
 	e.text = label
 	e.role = "button"
+	e.fontWeight = 500
 	e.activate = action
 	return e
 }

@@ -1,7 +1,7 @@
 package demos
 
 import (
-	ui "omnigo.dev/omnigo/omniui/baseui"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"strings"
 	"testing"
 )
@@ -17,7 +17,8 @@ func TestDemoBrandAndInputGroupPresentation(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, node := range s.Accessibility() {
-		if strings.Contains(strings.ToLower(node.Label+node.Value+node.Description), "maia") {
+		// Theme names are now intentional in the appearance selector, never the brand.
+		if node.ID != "appearance/style" && strings.Contains(strings.ToLower(node.Label+node.Value+node.Description), "maia") {
 			t.Fatal("reference theme name remains in UI", node.ID)
 		}
 	}

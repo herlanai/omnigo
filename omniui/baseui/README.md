@@ -9,7 +9,7 @@
 Go 构造 Element → Mount 校验并快照 → Row/Column 布局 → 指针/键盘命中与焦点 → 控件状态/回调 → Go CPU 绘制。`Surface.Accessibility()` 输出角色、名称、值、几何与状态，供未来平台无障碍适配器使用；目前尚未接入系统屏幕阅读器。
 
 ```go
-import "omnigo.dev/omnigo/omniui/baseui"
+import "github.com/herlanai/omnigo/omniui/baseui"
 
 name := baseui.NewTextBuffer("OmniGo")
 enabled := true
@@ -49,7 +49,7 @@ InputGroup 共用外框及 focus-within，内部输入不重复绘制边框，�
 
 `theme/tokens.json` 仅保存设计数据，由 Go 读取：14 DIP 正文、36 DIP 基础控件高度、16 DIP 基础圆角（按钮/单行输入为胶囊，文本域为 12 DIP）、4 DIP 间距单位，以及参照 golet Forma 的中性明暗语义颜色。错误文字使用更深的浅色主题红色以维持对比度。控件共用边框、焦点、禁用、选中、危险和表单错误表现。没有逐组件独立 CSS。
 
-默认文本对比度测试检查正文、辅助文字、主按钮文字与错误文字。自定义主题不自动保证对比度；颜色可通过返回的 Theme 值覆盖。字体绘制使用 `golang.org/x/image` 的纯 Go 字体栈，macOS 默认读取已安装的 SF 系统正文与 Helvetica 静态强调字形，读取失败或其他平台使用 Go 字体；系统字体不随应用分发。默认字形覆盖仍主要为 Latin；CJK 需要调用方通过 `NewSurfaceWithFont` 提供合适字体。复杂文字整形、字素簇导航、系统字体回退和平台 IME 连接仍待实现。
+默认文本对比度测试检查正文、辅助文字、主按钮文字与错误文字。自定义主题不自动保证对比度；颜色可通过返回的 Theme 值覆盖。字体绘制使用 `golang.org/x/image` 的纯 Go 字体栈，所有平台默认嵌入 Inter 4.1，使用真实 400/500/600/700 静态字重；富文本使用同族斜体，代码使用 Go Mono。Inter 的 OFL 许可证随资源与 Studio 分发。默认字形覆盖 Latin/Greek/Cyrillic；CJK 需要调用方通过 `NewSurfaceWithFont` 提供合适字体。复杂文字整形、字素簇导航、系统字体回退和平台 IME 连接仍待实现。
 
 ## 验证与展示
 
@@ -175,7 +175,7 @@ go run ./studio/cmd/gallery -controls chart,model-selector -chart-kind 2 -chart-
 
 ### 共用视觉层级与控件尺寸
 
-新增 `Heading`、`Label`、`FontSize`、`FontWeight`、`Muted`、`CornerRadius` 和 `Size`。标题/正文/说明使用不同字号与字重，文字测量、换行、输入点击命中和 DPI 绘制使用一致的字体指标。字体对象由 Surface 缓存并在 Close 释放；字号按半 DIP 量化。内置 Go 字体目前只有常规/粗体映射（400/500→regular，600/700→bold），不是完整可变字重；调用方提供的自定义 face 保持原有字号和所有权，不会被默认字体替换。
+新增 `Heading`、`Label`、`FontSize`、`FontWeight`、`Muted`、`CornerRadius` 和 `Size`。标题/正文/说明使用不同字号与字重，文字测量、换行、输入点击命中和 DPI 绘制使用一致的字体指标。字体对象由 Surface 缓存并在 Close 释放；字号按半 DIP 量化。Inter 的 400/500/600/700 分别使用 Regular/Medium/SemiBold/Bold，不合成字重；调用方提供的自定义 face 保持原有字号和所有权，不会被默认字体替换。
 
 按钮尺寸为 24/32/36/40 DIP；Badge 为 20 DIP、12 DIP 文字和内容宽度，不再在 Column 中拉伸。菜单项圆角统一，Tabs 使用低对比轨道与选中表面，表格增加左对齐标题、稳定行高和轻量交替行背景。Field、Dialog、Alert、Empty、Item、计划/问卷和代码标题已接入文字层级。
 
@@ -188,7 +188,7 @@ go run ./studio/cmd/gallery -controls chart,model-selector -chart-kind 2 -chart-
 
 按只读参考 `ui/forma/theme.go`、`inputs.go`、`layout.go`、`navigation.go` 的尺寸与状态规则调整：Card 外边距 24、区段间距 24，CardHeader 间距 8、标题 16/500、说明 14，CardContent 间距 16；Field 间距 8、Form 间距 24；Tabs 内容 30 + 上下各 3、条目圆角 12。新增 CardHeader/CardTitle/CardDescription/CardContent/CardFooter 组合入口。
 
-输入和 Outline 使用半透明 input 底色；按钮各变体有独立悬停色，禁用按钮使用半透明绘制，保留底层背景。macOS 的默认与高 DPI 字体、文字测量和富文本使用同一解析字体集合；不支持的系统字体回退到 Go 字体。x/image 尚不提供可变字重轴，500 仍使用 regular，600/700 使用静态 bold；这不是完整 CoreText 文字整形或 CJK 回退实现。
+Maia 输入和 Outline 使用半透明 input 底色；按钮各变体有独立悬停色，禁用按钮使用半透明绘制，保留底层背景。默认与高 DPI 字体、文字测量和富文本使用同一 Inter 解析字体集合，500 使用真正的 Medium；这不是完整 CoreText 文字整形或 CJK 回退实现。
 
 Studio 采用参考的 1040×840 逻辑画布、32 外边距、24 主间距，统一卡片章节及可滚动演示区，输入/按钮/Badge 同屏展示更多状态。`gallery -controls all` 现在包含所有可运行 Go 控件与绘制插件；CEF 浏览器是独立宿主，不作为 CPU gallery 绘制。
 
@@ -214,3 +214,17 @@ Studio 采用参考的 1040×840 逻辑画布、32 外边距、24 主间距，�
 新增行为测试见 `rewrite_controls_test.go`。真实 WebKit 加载、JS 读取与卸载验证：`CGO_ENABLED=0 go run ./studio/cmd/webviewcheck`（macOS arm64，会打开一个窗口并自动关闭）。CPU gallery 不冒充原生 WebView 的渲染验证。
 
 编辑器辅助控件另有 `DiffView`（逐行比较、切换视图、还原/撤销）、`GoToLine`（行号定位校验）和 `CompletionMenu`（候选过滤及快照校验插入）。状态由 UI goroutine 持有。完整缺口见迁移审计，语言服务、snippet、差异批注/补丁导入尚未实现。
+
+## 表面层次与栅格加速（2026-11-12）
+
+圆角填充批量写入完全覆盖像素，边框跳过空心内部；高 DPI 字体按当前比例复用并在切换或关闭时释放。原有独立图像所有权和 UI goroutine 约束不变。视觉基线已进一步采用下述 shadcn 预设：CardTitle 为 16 DIP/500，卡片保留轻边框。
+
+可运行 `go run ./examples/control-showcase` 查看真实 Go 控件组合的明暗与键盘状态截图。[视觉与性能记录](../../migration/controls/visual-performance.md) 说明基准、像素一致性测试和剩余限制；不宣称相对 golet 的 100 倍提升。
+
+## shadcn 样式与组合控件
+
+默认样式对应用户指定预设 `bbVJxYW` 的 Maia / Inter / Neutral。`ThemePreset(dark, StyleMaia, AccentNeutral, false)` 可选择 Maia/Nova/Lyra、Neutral/Blue/Violet 以及菜单的强调选中背景。`surface.SetTheme(theme)` 必须在 UI goroutine 调用，保留输入缓冲、选择和焦点，取消按压并释放旧字体缓存；自定义 face 的生命周期仍由调用方管理。Studio 演示顶部提供三项实时切换。
+
+`DatePicker` 将 Calendar 与 Popover 组合，支持单日/范围选择、禁用日期、键盘打开、取消和焦点恢复。初始显示月份由调用方提供，不读取系统时钟。`DataTable` 支持文本筛选、稳定文本排序、分页、列显隐及跨页选择；每页最多 100 行、数据源最多 10,000 行，不隐式推断数字排序，也不是服务端表格。
+
+完整的 66 项 shadcn 目录盘点及未实现行为见 [shadcn 审计](../../migration/controls/shadcn.md)。这次覆盖共享绘制层并补充上述组合控件，不表示所有变体和平台行为已逐项对齐。

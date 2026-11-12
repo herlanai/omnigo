@@ -129,7 +129,10 @@ func Calendar(id string, state *CalendarState, options CalendarOptions) *Element
 	headings := []*Element{}
 	for i := 0; i < 7; i++ {
 		day := time.Weekday((int(options.WeekStart) + i) % 7)
-		headings = append(headings, Text(fmt.Sprintf("%s/weekday/%d", id, i), day.String()[:2]).Width(32))
+		headings = append(headings, Text(fmt.Sprintf("%s/weekday/%d", id, i), day.String()[:2]).Width(32).FontSize(12).Muted(true))
+	}
+	for _, heading := range headings {
+		heading.textIndent = 8
 	}
 	rows = append(rows, Row(id+"/weekdays", headings...).Gap(4))
 	for week := 0; week < 6; week++ {
@@ -138,6 +141,8 @@ func Calendar(id string, state *CalendarState, options CalendarOptions) *Element
 			date := first.AddDays(week*7 + day)
 			unavailable := !date.Valid() || options.Disabled != nil && options.Disabled(date)
 			button := Button(id+"/date/"+date.String(), fmt.Sprint(date.Day), func() { state.Choose(date, options) }).Width(32).Height(32).Variant(Ghost).Disabled(unavailable).Label(date.String())
+			button.fontWeight = 400
+			button.mutedText = date.Month != month.Month
 			button.selected = state.isSelected(date, options.Mode)
 			button.role = "gridcell"
 			button.OnKey(func(ev KeyEvent) bool {
@@ -187,7 +192,7 @@ func Calendar(id string, state *CalendarState, options CalendarOptions) *Element
 		}
 		rows = append(rows, Row(fmt.Sprintf("%s/week/%d", id, week), days...).Gap(4))
 	}
-	e := Card(id, rows...).Width(280).Gap(4)
+	e := Card(id, rows...).Width(280).Padding(12).Gap(4)
 	e.role = "grid"
 	e.label = "Calendar"
 	return e

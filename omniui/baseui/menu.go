@@ -155,9 +155,8 @@ func menuView(id string, trigger *Element, state *MenuState, items []MenuItem) *
 				text += "   " + item.Shortcut
 			}
 
-			row := Button(rowID, text, activate).Variant(Ghost).Disabled(item.Disabled).Role("menuitem")
+			row := Button(rowID, text, activate).Variant(Ghost).Disabled(item.Disabled).Role("menuitem").FontWeight(400)
 			row.alignStart = true
-			row.CornerRadius(12)
 			row.textIndent = 20
 			if len(item.Children) > 0 {
 				row.submenu = true

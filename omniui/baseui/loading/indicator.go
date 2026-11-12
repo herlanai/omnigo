@@ -8,7 +8,7 @@ import (
 	"math"
 	"time"
 
-	"omnigo.dev/omnigo/omniui/baseui"
+	"github.com/herlanai/omnigo/omniui/baseui"
 )
 
 type Style uint8

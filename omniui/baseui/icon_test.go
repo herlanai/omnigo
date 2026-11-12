@@ -3,8 +3,8 @@ package baseui_test
 import (
 	"bytes"
 	"image/color"
-	ui "omnigo.dev/omnigo/omniui/baseui"
-	"omnigo.dev/omnigo/omniui/icon/lucide"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
+	"github.com/herlanai/omnigo/omniui/icon/lucide"
 	"testing"
 )
 

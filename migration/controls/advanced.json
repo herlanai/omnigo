@@ -548,6 +548,40 @@
         "omniui/baseui/editor_navigation_test.go",
         "studio/internal/demos/sweep_test.go"
       ]
+    },
+    {
+      "id": "date-picker",
+      "title": "Date Picker",
+      "symbol": "DatePicker",
+      "status": "partial",
+      "implementation": "omniui/baseui/date_picker.go",
+      "reference": "https://ui.shadcn.com/docs/components/date-picker",
+      "description": "Go 原生日期选择：日历弹层、单选/范围、键盘导航、Escape 与焦点恢复。",
+      "evidence": [
+        "omniui/baseui/date_picker_test.go"
+      ],
+      "remaining": [
+        "Natural-language input, locale formats and preset shortcuts",
+        "Year/month dropdown variants and multiple calendar panels",
+        "Native accessibility and exact browser pixel parity"
+      ]
+    },
+    {
+      "id": "data-table",
+      "title": "Data Table",
+      "symbol": "DataTable",
+      "status": "partial",
+      "implementation": "omniui/baseui/data_table.go",
+      "reference": "https://ui.shadcn.com/docs/components/data-table",
+      "description": "Go 原生客户端表格：筛选、稳定文本排序、分页、当页全选、跨页选中及列显隐。",
+      "evidence": [
+        "omniui/baseui/data_table_test.go"
+      ],
+      "remaining": [
+        "Numeric/custom comparators, multi-column sorting and server-driven data",
+        "Resizable/reorderable columns, row actions and advanced filter UI",
+        "Client-side data limited to 10000 rows; no claim of full TanStack parity"
+      ]
     }
   ]
 }

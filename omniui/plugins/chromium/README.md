@@ -88,7 +88,7 @@ for state := range browser.Events() {
 return browser.Wait()
 ```
 
-导入路径为 `omnigo.dev/omnigo/omniui/plugins/chromium`。也可调用 `Back(ctx)`、`Forward(ctx)`、`Reload(ctx)`、`Stop(ctx)`。`Close(ctx)` 关闭全部标签页；超时会强制结束进程组，正常关闭则让 CEF 刷新用户配置。生命周期 context 取消时也会关闭宿主。
+导入路径为 `github.com/herlanai/omnigo/omniui/plugins/chromium`。也可调用 `Back(ctx)`、`Forward(ctx)`、`Reload(ctx)`、`Stop(ctx)`。`Close(ctx)` 关闭全部标签页；超时会强制结束进程组，正常关闭则让 CEF 刷新用户配置。生命周期 context 取消时也会关闭宿主。
 
 `Events()` 是容量为 1 的最新状态流，消费者较慢时跳过中间状态；不是完整事件日志。没有轮询线程、调试 HTTP 端口或 WebSocket 控制端口。公开导航接口接受 HTTP、HTTPS 和 `about:blank`，自定义地址栏支持网址与 Google 搜索。
 

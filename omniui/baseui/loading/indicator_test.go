@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"omnigo.dev/omnigo/omniui/baseui"
+	"github.com/herlanai/omnigo/omniui/baseui"
 )
 
 func TestPauseAndReducedMotion(t *testing.T) {

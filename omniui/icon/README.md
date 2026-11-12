@@ -6,8 +6,8 @@ CGO, runtime download or external resource loading is involved.
 
 ```go
 import (
-    ui "omnigo.dev/omnigo/omniui/baseui"
-    "omnigo.dev/omnigo/omniui/icon/lucide"
+    ui "github.com/herlanai/omnigo/omniui/baseui"
+    "github.com/herlanai/omnigo/omniui/icon/lucide"
 )
 
 search := ui.Icon("search-icon", "", lucide.Search(), ui.IconOptions{Size: 20})
@@ -26,7 +26,7 @@ Only requested icons are parsed. Importing the catalog embeds the entire asset
 set; use `icon.ParseSVG` with individually embedded SVGs to minimize binary size.
 
 ```go
-import "omnigo.dev/omnigo/omniui/icon"
+import "github.com/herlanai/omnigo/omniui/icon"
 
 //go:embed search.svg
 var data []byte

@@ -24,7 +24,7 @@ func (e *Element) FontSize(size float64) *Element {
 	return e
 }
 
-// FontWeight selects regular (400/500) or bold (600/700) in the bundled Go fonts.
+// FontWeight selects a real bundled Inter weight: regular, medium, semibold or bold.
 func (e *Element) FontWeight(weight int) *Element {
 	if weight != 400 && weight != 500 && weight != 600 && weight != 700 {
 		panic("baseui: unsupported font weight")
@@ -77,9 +77,9 @@ func Heading(id, text string, level int) *Element {
 func Label(id, text string) *Element { return Text(id, text).FontSize(14).FontWeight(500) }
 
 type textFaceKey struct {
-	size float64
-	bold bool
-	mono bool
+	size   float64
+	weight int
+	mono   bool
 }
 
 func (s *Surface) elementFace(e *Element) font.Face {
@@ -93,25 +93,18 @@ func (s *Surface) elementFace(e *Element) font.Face {
 			size = max(6, size-1)
 		}
 	}
-	bold := e.fontWeight >= 600
-	if size == s.theme.FontSize && !bold && !e.monospace {
+	weight := textWeight(e)
+	if size == s.theme.FontSize && weight == 0 && !e.monospace {
 		return s.face
 	}
-	key := textFaceKey{size, bold, e.monospace}
+	key := textFaceKey{size, weight, e.monospace}
 	if s.textFaces == nil {
 		s.textFaces = map[textFaceKey]font.Face{}
 	}
 	if face := s.textFaces[key]; face != nil {
 		return face
 	}
-	style := 0
-	if bold {
-		style = 1
-	}
-	if e.monospace {
-		style += 4
-	}
-	face := richFace(style, size)
+	face := weightedFace(weight, e.monospace, size)
 	s.textFaces[key] = face
 	return face
 }
@@ -123,4 +116,29 @@ func (s *Surface) textSurface(e *Element) *Surface {
 	local := *s
 	local.face = face
 	return &local
+}
+
+// Keep only the current backing scale. DPI changes release the previous faces,
+// avoiding per-frame font construction without accumulating arbitrary scales.
+func (s *Surface) clearRasterFaces() {
+	for _, face := range s.rasterFaces {
+		_ = face.Close()
+	}
+	s.rasterFaces = nil
+	s.rasterScale = 0
+}
+func (s *Surface) rasterFace(key textFaceKey, scale float64) font.Face {
+	if s.rasterScale != scale {
+		s.clearRasterFaces()
+		s.rasterScale = scale
+	}
+	if s.rasterFaces == nil {
+		s.rasterFaces = make(map[textFaceKey]font.Face)
+	}
+	if face := s.rasterFaces[key]; face != nil {
+		return face
+	}
+	face := weightedFace(key.weight, key.mono, key.size*scale)
+	s.rasterFaces[key] = face
+	return face
 }

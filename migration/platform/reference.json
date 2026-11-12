@@ -1,0 +1,1788 @@
+{
+  "source": "backend/internal/platform/platform.go",
+  "policy": "Read-only API inventory. No implementation copied; presence does not establish parity.",
+  "methods": [
+    {
+      "interface": "AppController",
+      "method": "Activate",
+      "signature": "func()",
+      "line": 221
+    },
+    {
+      "interface": "AppController",
+      "method": "AddRecentDocument",
+      "signature": "func(path string) error",
+      "line": 309
+    },
+    {
+      "interface": "AppController",
+      "method": "AllowForeground",
+      "signature": "func()",
+      "line": 224
+    },
+    {
+      "interface": "AppController",
+      "method": "Badge",
+      "signature": "func() string",
+      "line": 236
+    },
+    {
+      "interface": "AppController",
+      "method": "Bounce",
+      "signature": "func(critical bool) int",
+      "line": 238
+    },
+    {
+      "interface": "AppController",
+      "method": "CancelBounce",
+      "signature": "func(id int)",
+      "line": 239
+    },
+    {
+      "interface": "AppController",
+      "method": "ClearBrowsingData",
+      "signature": "func(store DataStore, types SiteData, done func(error))",
+      "line": 250
+    },
+    {
+      "interface": "AppController",
+      "method": "ClearCookies",
+      "signature": "func(store DataStore, done func(error))",
+      "line": 259
+    },
+    {
+      "interface": "AppController",
+      "method": "ClearRecentDocuments",
+      "signature": "func() error",
+      "line": 310
+    },
+    {
+      "interface": "AppController",
+      "method": "CompileContentRules",
+      "signature": "func(id, identifier, rules string, done func(list any, err error))",
+      "line": 267
+    },
+    {
+      "interface": "AppController",
+      "method": "DeleteCookie",
+      "signature": "func(store DataStore, key CookieKey, done func(error))",
+      "line": 258
+    },
+    {
+      "interface": "AppController",
+      "method": "Hide",
+      "signature": "func()",
+      "line": 229
+    },
+    {
+      "interface": "AppController",
+      "method": "IsActive",
+      "signature": "func() bool",
+      "line": 234
+    },
+    {
+      "interface": "AppController",
+      "method": "IsHidden",
+      "signature": "func() bool",
+      "line": 231
+    },
+    {
+      "interface": "AppController",
+      "method": "IsURLSchemeRegistered",
+      "signature": "func(scheme, id, name string) bool",
+      "line": 295
+    },
+    {
+      "interface": "AppController",
+      "method": "ListCookies",
+      "signature": "func(store DataStore, url string, done func([]Cookie, error))",
+      "line": 256
+    },
+    {
+      "interface": "AppController",
+      "method": "NewDataStore",
+      "signature": "func(opts DataStoreOptions) (DataStore, error)",
+      "line": 247
+    },
+    {
+      "interface": "AppController",
+      "method": "OpenAtLogin",
+      "signature": "func(id, name, arg string) bool",
+      "line": 300
+    },
+    {
+      "interface": "AppController",
+      "method": "OpenedAtLogin",
+      "signature": "func() bool",
+      "line": 301
+    },
+    {
+      "interface": "AppController",
+      "method": "Package",
+      "signature": "func() (info PackageInfo, ok bool)",
+      "line": 305
+    },
+    {
+      "interface": "AppController",
+      "method": "PreferredLanguages",
+      "signature": "func() []string",
+      "line": 273
+    },
+    {
+      "interface": "AppController",
+      "method": "Region",
+      "signature": "func() Region",
+      "line": 275
+    },
+    {
+      "interface": "AppController",
+      "method": "RegisterURLScheme",
+      "signature": "func(scheme, id, name string) error",
+      "line": 293
+    },
+    {
+      "interface": "AppController",
+      "method": "SaveLocale",
+      "signature": "func(tag string) bool",
+      "line": 284
+    },
+    {
+      "interface": "AppController",
+      "method": "SavedLocale",
+      "signature": "func() (tag string, kept bool)",
+      "line": 281
+    },
+    {
+      "interface": "AppController",
+      "method": "SetActivationPolicy",
+      "signature": "func(policy string)",
+      "line": 220
+    },
+    {
+      "interface": "AppController",
+      "method": "SetBadge",
+      "signature": "func(label string)",
+      "line": 235
+    },
+    {
+      "interface": "AppController",
+      "method": "SetCookie",
+      "signature": "func(store DataStore, cookie Cookie, done func(error))",
+      "line": 257
+    },
+    {
+      "interface": "AppController",
+      "method": "SetDockIcon",
+      "signature": "func(png []byte) error",
+      "line": 240
+    },
+    {
+      "interface": "AppController",
+      "method": "SetDockMenu",
+      "signature": "func(m *Menu)",
+      "line": 242
+    },
+    {
+      "interface": "AppController",
+      "method": "SetJumpList",
+      "signature": "func(list JumpList) error",
+      "line": 313
+    },
+    {
+      "interface": "AppController",
+      "method": "SetLanguages",
+      "signature": "func(tags []string, rtl bool)",
+      "line": 290
+    },
+    {
+      "interface": "AppController",
+      "method": "SetOpenAtLogin",
+      "signature": "func(open bool, id, name, arg string) error",
+      "line": 299
+    },
+    {
+      "interface": "AppController",
+      "method": "ShowAboutPanel",
+      "signature": "func(opts AboutPanelOptions)",
+      "line": 268
+    },
+    {
+      "interface": "AppController",
+      "method": "Unhide",
+      "signature": "func()",
+      "line": 230
+    },
+    {
+      "interface": "AppController",
+      "method": "UnregisterURLScheme",
+      "signature": "func(scheme, id, name string) error",
+      "line": 294
+    },
+    {
+      "interface": "AppController",
+      "method": "WithActivationToken",
+      "signature": "func(token string, fn func())",
+      "line": 228
+    },
+    {
+      "interface": "AppHandler",
+      "method": "Activated",
+      "signature": "func(hasVisibleWindows bool)",
+      "line": 195
+    },
+    {
+      "interface": "AppHandler",
+      "method": "DidBecomeActive",
+      "signature": "func()",
+      "line": 196
+    },
+    {
+      "interface": "AppHandler",
+      "method": "DidResignActive",
+      "signature": "func()",
+      "line": 197
+    },
+    {
+      "interface": "AppHandler",
+      "method": "Dispatch",
+      "signature": "func()",
+      "line": 185
+    },
+    {
+      "interface": "AppHandler",
+      "method": "DisplaysChanged",
+      "signature": "func()",
+      "line": 202
+    },
+    {
+      "interface": "AppHandler",
+      "method": "HotkeyPressed",
+      "signature": "func(id int)",
+      "line": 211
+    },
+    {
+      "interface": "AppHandler",
+      "method": "LocaleChanged",
+      "signature": "func()",
+      "line": 205
+    },
+    {
+      "interface": "AppHandler",
+      "method": "MediaCommand",
+      "signature": "func(cmd MediaCommand, position time.Duration)",
+      "line": 215
+    },
+    {
+      "interface": "AppHandler",
+      "method": "MenuItemClicked",
+      "signature": "func(id int)",
+      "line": 200
+    },
+    {
+      "interface": "AppHandler",
+      "method": "NetworkChanged",
+      "signature": "func(status NetworkStatus)",
+      "line": 210
+    },
+    {
+      "interface": "AppHandler",
+      "method": "NotificationClicked",
+      "signature": "func(id string)",
+      "line": 212
+    },
+    {
+      "interface": "AppHandler",
+      "method": "OpenFiles",
+      "signature": "func(paths []string)",
+      "line": 199
+    },
+    {
+      "interface": "AppHandler",
+      "method": "OpenURLs",
+      "signature": "func(urls []string)",
+      "line": 198
+    },
+    {
+      "interface": "AppHandler",
+      "method": "PowerEvent",
+      "signature": "func(event string)",
+      "line": 207
+    },
+    {
+      "interface": "AppHandler",
+      "method": "QuitRequested",
+      "signature": "func() bool",
+      "line": 189
+    },
+    {
+      "interface": "AppHandler",
+      "method": "Ready",
+      "signature": "func()",
+      "line": 183
+    },
+    {
+      "interface": "AppHandler",
+      "method": "Terminating",
+      "signature": "func()",
+      "line": 192
+    },
+    {
+      "interface": "AppHandler",
+      "method": "ThemeChanged",
+      "signature": "func()",
+      "line": 201
+    },
+    {
+      "interface": "Backend",
+      "method": "App",
+      "signature": "func() AppController",
+      "line": 89
+    },
+    {
+      "interface": "Backend",
+      "method": "Applications",
+      "signature": "func() ([]Application, error)",
+      "line": 103
+    },
+    {
+      "interface": "Backend",
+      "method": "Clipboard",
+      "signature": "func() Clipboard",
+      "line": 91
+    },
+    {
+      "interface": "Backend",
+      "method": "Dialogs",
+      "signature": "func() Dialogs",
+      "line": 90
+    },
+    {
+      "interface": "Backend",
+      "method": "Init",
+      "signature": "func(h AppHandler, opts AppOptions) error",
+      "line": 59
+    },
+    {
+      "interface": "Backend",
+      "method": "IsMainThread",
+      "signature": "func() bool",
+      "line": 68
+    },
+    {
+      "interface": "Backend",
+      "method": "Name",
+      "signature": "func() string",
+      "line": 55
+    },
+    {
+      "interface": "Backend",
+      "method": "Network",
+      "signature": "func() Network",
+      "line": 96
+    },
+    {
+      "interface": "Backend",
+      "method": "NewFileWatch",
+      "signature": "func(notify func(FileWatchNotice)) (FileWatch, error)",
+      "line": 108
+    },
+    {
+      "interface": "Backend",
+      "method": "NewTray",
+      "signature": "func(h TrayHandler) (Tray, error)",
+      "line": 116
+    },
+    {
+      "interface": "Backend",
+      "method": "NewWindow",
+      "signature": "func(opts *WindowOptions, h WindowHandler) (Window, error)",
+      "line": 78
+    },
+    {
+      "interface": "Backend",
+      "method": "NotificationsSupported",
+      "signature": "func() bool",
+      "line": 120
+    },
+    {
+      "interface": "Backend",
+      "method": "NowPlaying",
+      "signature": "func() NowPlaying",
+      "line": 97
+    },
+    {
+      "interface": "Backend",
+      "method": "PopupMenu",
+      "signature": "func(m *Menu, w Window, pos *Point)",
+      "line": 84
+    },
+    {
+      "interface": "Backend",
+      "method": "Power",
+      "signature": "func() Power",
+      "line": 95
+    },
+    {
+      "interface": "Backend",
+      "method": "Quit",
+      "signature": "func()",
+      "line": 64
+    },
+    {
+      "interface": "Backend",
+      "method": "RegisterHotkey",
+      "signature": "func(id int, accelerator string) error",
+      "line": 117
+    },
+    {
+      "interface": "Backend",
+      "method": "RemoveAllNotifications",
+      "signature": "func()",
+      "line": 127
+    },
+    {
+      "interface": "Backend",
+      "method": "RemoveNotification",
+      "signature": "func(id string)",
+      "line": 124
+    },
+    {
+      "interface": "Backend",
+      "method": "ReplaceFile",
+      "signature": "func(target, replacement string) error",
+      "line": 114
+    },
+    {
+      "interface": "Backend",
+      "method": "Run",
+      "signature": "func() error",
+      "line": 62
+    },
+    {
+      "interface": "Backend",
+      "method": "Screen",
+      "signature": "func() Screen",
+      "line": 93
+    },
+    {
+      "interface": "Backend",
+      "method": "Secrets",
+      "signature": "func() Secrets",
+      "line": 99
+    },
+    {
+      "interface": "Backend",
+      "method": "SetApplicationMenu",
+      "signature": "func(m *Menu)",
+      "line": 80
+    },
+    {
+      "interface": "Backend",
+      "method": "Shell",
+      "signature": "func() Shell",
+      "line": 92
+    },
+    {
+      "interface": "Backend",
+      "method": "ShowNotification",
+      "signature": "func(n *Notification, done func(error))",
+      "line": 123
+    },
+    {
+      "interface": "Backend",
+      "method": "Signal",
+      "signature": "func()",
+      "line": 71
+    },
+    {
+      "interface": "Backend",
+      "method": "Step",
+      "signature": "func()",
+      "line": 74
+    },
+    {
+      "interface": "Backend",
+      "method": "Theme",
+      "signature": "func() Theme",
+      "line": 94
+    },
+    {
+      "interface": "Backend",
+      "method": "UnregisterHotkey",
+      "signature": "func(id int)",
+      "line": 118
+    },
+    {
+      "interface": "Backend",
+      "method": "UpdateMenuItem",
+      "signature": "func(item *MenuItem)",
+      "line": 87
+    },
+    {
+      "interface": "Backend",
+      "method": "Wake",
+      "signature": "func()",
+      "line": 76
+    },
+    {
+      "interface": "Backend",
+      "method": "WebViewAvailable",
+      "signature": "func() bool",
+      "line": 134
+    },
+    {
+      "interface": "Clipboard",
+      "method": "AvailableFormats",
+      "signature": "func() []string",
+      "line": 1157
+    },
+    {
+      "interface": "Clipboard",
+      "method": "Clear",
+      "signature": "func()",
+      "line": 1156
+    },
+    {
+      "interface": "Clipboard",
+      "method": "Close",
+      "signature": "func()",
+      "line": 1149
+    },
+    {
+      "interface": "Clipboard",
+      "method": "Flush",
+      "signature": "func() error",
+      "line": 1148
+    },
+    {
+      "interface": "Clipboard",
+      "method": "Formats",
+      "signature": "func() []transfer.Format",
+      "line": 1145
+    },
+    {
+      "interface": "Clipboard",
+      "method": "ReadData",
+      "signature": "func(formats []transfer.Format) (transfer.Data, error)",
+      "line": 1143
+    },
+    {
+      "interface": "Clipboard",
+      "method": "ReadHTML",
+      "signature": "func() string",
+      "line": 1152
+    },
+    {
+      "interface": "Clipboard",
+      "method": "ReadImage",
+      "signature": "func() []byte",
+      "line": 1154
+    },
+    {
+      "interface": "Clipboard",
+      "method": "ReadText",
+      "signature": "func() string",
+      "line": 1150
+    },
+    {
+      "interface": "Clipboard",
+      "method": "WriteData",
+      "signature": "func(data transfer.Data, released func()) error",
+      "line": 1144
+    },
+    {
+      "interface": "Clipboard",
+      "method": "WriteHTML",
+      "signature": "func(markup string)",
+      "line": 1153
+    },
+    {
+      "interface": "Clipboard",
+      "method": "WriteImage",
+      "signature": "func(png []byte) error",
+      "line": 1155
+    },
+    {
+      "interface": "Clipboard",
+      "method": "WriteText",
+      "signature": "func(text string)",
+      "line": 1151
+    },
+    {
+      "interface": "DataStore",
+      "method": "Close",
+      "signature": "func()",
+      "line": 504
+    },
+    {
+      "interface": "Dialogs",
+      "method": "ShowMessageBox",
+      "signature": "func(parent Window, opts *MessageBoxOptions, cb func(res MessageBoxResult, err error))",
+      "line": 1133
+    },
+    {
+      "interface": "Dialogs",
+      "method": "ShowOpenDialog",
+      "signature": "func(parent Window, opts *OpenDialogOptions, cb func(paths []string, err error))",
+      "line": 1131
+    },
+    {
+      "interface": "Dialogs",
+      "method": "ShowSaveDialog",
+      "signature": "func(parent Window, opts *SaveDialogOptions, cb func(path string, err error))",
+      "line": 1132
+    },
+    {
+      "interface": "LaterClipboard",
+      "method": "WriteTextThen",
+      "signature": "func(text string, done func(error))",
+      "line": 1165
+    },
+    {
+      "interface": "Network",
+      "method": "Status",
+      "signature": "func() NetworkStatus",
+      "line": 1346
+    },
+    {
+      "interface": "Network",
+      "method": "Watch",
+      "signature": "func()",
+      "line": 1344
+    },
+    {
+      "interface": "NowPlaying",
+      "method": "Set",
+      "signature": "func(info *NowPlayingInfo)",
+      "line": 1331
+    },
+    {
+      "interface": "Page",
+      "method": "CallAsyncFunction",
+      "signature": "func(body string, cb func(result string, err error))",
+      "line": 675
+    },
+    {
+      "interface": "Page",
+      "method": "CanGoBack",
+      "signature": "func() bool",
+      "line": 656
+    },
+    {
+      "interface": "Page",
+      "method": "CanGoForward",
+      "signature": "func() bool",
+      "line": 657
+    },
+    {
+      "interface": "Page",
+      "method": "CapturePage",
+      "signature": "func(cb func(png []byte, err error))",
+      "line": 732
+    },
+    {
+      "interface": "Page",
+      "method": "CaptureState",
+      "signature": "func(kind CaptureKind) CaptureState",
+      "line": 702
+    },
+    {
+      "interface": "Page",
+      "method": "CloseDevTools",
+      "signature": "func()",
+      "line": 729
+    },
+    {
+      "interface": "Page",
+      "method": "DroppedFiles",
+      "signature": "func() []string",
+      "line": 738
+    },
+    {
+      "interface": "Page",
+      "method": "Eval",
+      "signature": "func(js string)",
+      "line": 661
+    },
+    {
+      "interface": "Page",
+      "method": "GPUProcessID",
+      "signature": "func() int",
+      "line": 687
+    },
+    {
+      "interface": "Page",
+      "method": "GoBack",
+      "signature": "func()",
+      "line": 654
+    },
+    {
+      "interface": "Page",
+      "method": "GoForward",
+      "signature": "func()",
+      "line": 655
+    },
+    {
+      "interface": "Page",
+      "method": "IsAudible",
+      "signature": "func() bool",
+      "line": 691
+    },
+    {
+      "interface": "Page",
+      "method": "IsAudioMuted",
+      "signature": "func() bool",
+      "line": 698
+    },
+    {
+      "interface": "Page",
+      "method": "IsDevToolsOpened",
+      "signature": "func() bool",
+      "line": 730
+    },
+    {
+      "interface": "Page",
+      "method": "IsLoading",
+      "signature": "func() bool",
+      "line": 659
+    },
+    {
+      "interface": "Page",
+      "method": "LoadFile",
+      "signature": "func(path, readAccessDir string)",
+      "line": 651
+    },
+    {
+      "interface": "Page",
+      "method": "LoadHTML",
+      "signature": "func(html, baseURL string)",
+      "line": 650
+    },
+    {
+      "interface": "Page",
+      "method": "LoadURL",
+      "signature": "func(url string)",
+      "line": 649
+    },
+    {
+      "interface": "Page",
+      "method": "OpenDevTools",
+      "signature": "func()",
+      "line": 728
+    },
+    {
+      "interface": "Page",
+      "method": "PictureInPictureActive",
+      "signature": "func(cb func(active bool))",
+      "line": 717
+    },
+    {
+      "interface": "Page",
+      "method": "Print",
+      "signature": "func()",
+      "line": 739
+    },
+    {
+      "interface": "Page",
+      "method": "PrintToPDF",
+      "signature": "func(opts PDFOptions, cb func(pdf []byte, err error))",
+      "line": 734
+    },
+    {
+      "interface": "Page",
+      "method": "ProcessID",
+      "signature": "func() int",
+      "line": 683
+    },
+    {
+      "interface": "Page",
+      "method": "Reload",
+      "signature": "func(ignoreCache bool)",
+      "line": 652
+    },
+    {
+      "interface": "Page",
+      "method": "RestoreSessionState",
+      "signature": "func(state []byte) bool",
+      "line": 727
+    },
+    {
+      "interface": "Page",
+      "method": "SessionState",
+      "signature": "func() []byte",
+      "line": 721
+    },
+    {
+      "interface": "Page",
+      "method": "SetAudioMuted",
+      "signature": "func(muted bool)",
+      "line": 695
+    },
+    {
+      "interface": "Page",
+      "method": "SetCaptureState",
+      "signature": "func(kind CaptureKind, state CaptureState)",
+      "line": 707
+    },
+    {
+      "interface": "Page",
+      "method": "SetContentRules",
+      "signature": "func(lists []any)",
+      "line": 670
+    },
+    {
+      "interface": "Page",
+      "method": "SetUserAgent",
+      "signature": "func(ua string)",
+      "line": 678
+    },
+    {
+      "interface": "Page",
+      "method": "SetUserScripts",
+      "signature": "func(scripts []UserScript)",
+      "line": 666
+    },
+    {
+      "interface": "Page",
+      "method": "SetZoom",
+      "signature": "func(factor float64)",
+      "line": 676
+    },
+    {
+      "interface": "Page",
+      "method": "StopLoading",
+      "signature": "func()",
+      "line": 653
+    },
+    {
+      "interface": "Page",
+      "method": "TogglePictureInPicture",
+      "signature": "func()",
+      "line": 712
+    },
+    {
+      "interface": "Page",
+      "method": "URL",
+      "signature": "func() string",
+      "line": 658
+    },
+    {
+      "interface": "Page",
+      "method": "UserAgent",
+      "signature": "func() string",
+      "line": 679
+    },
+    {
+      "interface": "Page",
+      "method": "WebViewHandle",
+      "signature": "func() uintptr",
+      "line": 647
+    },
+    {
+      "interface": "Page",
+      "method": "Zoom",
+      "signature": "func() float64",
+      "line": 677
+    },
+    {
+      "interface": "Power",
+      "method": "IdleTime",
+      "signature": "func() time.Duration",
+      "line": 1297
+    },
+    {
+      "interface": "Power",
+      "method": "KeepAwake",
+      "signature": "func(display bool, reason string) (release func())",
+      "line": 1295
+    },
+    {
+      "interface": "Power",
+      "method": "OnBattery",
+      "signature": "func() bool",
+      "line": 1296
+    },
+    {
+      "interface": "Power",
+      "method": "Watch",
+      "signature": "func()",
+      "line": 1292
+    },
+    {
+      "interface": "SchemeBodyWriter",
+      "method": "WriteBody",
+      "signature": "func(p []byte) error",
+      "line": 1017
+    },
+    {
+      "interface": "SchemeResponder",
+      "method": "Fail",
+      "signature": "func(err error)",
+      "line": 1006
+    },
+    {
+      "interface": "SchemeResponder",
+      "method": "Finish",
+      "signature": "func()",
+      "line": 1005
+    },
+    {
+      "interface": "SchemeResponder",
+      "method": "Respond",
+      "signature": "func(status int, header map[string][]string)",
+      "line": 1003
+    },
+    {
+      "interface": "SchemeResponder",
+      "method": "Write",
+      "signature": "func(p []byte)",
+      "line": 1004
+    },
+    {
+      "interface": "Screen",
+      "method": "CursorPoint",
+      "signature": "func() Point",
+      "line": 1208
+    },
+    {
+      "interface": "Screen",
+      "method": "Displays",
+      "signature": "func() []Display",
+      "line": 1207
+    },
+    {
+      "interface": "Secrets",
+      "method": "DeleteSecret",
+      "signature": "func(service, account string) error",
+      "line": 1366
+    },
+    {
+      "interface": "Secrets",
+      "method": "Secret",
+      "signature": "func(service, account string) ([]byte, error)",
+      "line": 1364
+    },
+    {
+      "interface": "Secrets",
+      "method": "SetSecret",
+      "signature": "func(service, account string, secret []byte) error",
+      "line": 1362
+    },
+    {
+      "interface": "Shell",
+      "method": "Beep",
+      "signature": "func()",
+      "line": 1174
+    },
+    {
+      "interface": "Shell",
+      "method": "FileIcon",
+      "signature": "func(path string, size int) ([]byte, error)",
+      "line": 1177
+    },
+    {
+      "interface": "Shell",
+      "method": "OpenApplication",
+      "signature": "func(path string) error",
+      "line": 1184
+    },
+    {
+      "interface": "Shell",
+      "method": "OpenExternal",
+      "signature": "func(url string) error",
+      "line": 1170
+    },
+    {
+      "interface": "Shell",
+      "method": "OpenPath",
+      "signature": "func(path string) error",
+      "line": 1171
+    },
+    {
+      "interface": "Shell",
+      "method": "ShowItemInFolder",
+      "signature": "func(path string)",
+      "line": 1172
+    },
+    {
+      "interface": "Shell",
+      "method": "TrashItem",
+      "signature": "func(path string) error",
+      "line": 1173
+    },
+    {
+      "interface": "Shell",
+      "method": "TypeIcon",
+      "signature": "func(ext string, size int) ([]byte, error)",
+      "line": 1181
+    },
+    {
+      "interface": "StyleBackend",
+      "method": "SetStyleSheet",
+      "signature": "func(css string) error",
+      "line": 159
+    },
+    {
+      "interface": "Theme",
+      "method": "FontRendering",
+      "signature": "func() FontRendering",
+      "line": 1221
+    },
+    {
+      "interface": "Theme",
+      "method": "IsDark",
+      "signature": "func() bool",
+      "line": 1213
+    },
+    {
+      "interface": "Theme",
+      "method": "Preferences",
+      "signature": "func() Preferences",
+      "line": 1224
+    },
+    {
+      "interface": "Theme",
+      "method": "SetSource",
+      "signature": "func(source string)",
+      "line": 1215
+    },
+    {
+      "interface": "Theme",
+      "method": "UIFont",
+      "signature": "func() string",
+      "line": 1218
+    },
+    {
+      "interface": "Tray",
+      "method": "Bounds",
+      "signature": "func() Rect",
+      "line": 1393
+    },
+    {
+      "interface": "Tray",
+      "method": "Dark",
+      "signature": "func() bool",
+      "line": 1383
+    },
+    {
+      "interface": "Tray",
+      "method": "Destroy",
+      "signature": "func()",
+      "line": 1394
+    },
+    {
+      "interface": "Tray",
+      "method": "PopUpMenu",
+      "signature": "func(m *Menu)",
+      "line": 1388
+    },
+    {
+      "interface": "Tray",
+      "method": "SetActivatable",
+      "signature": "func(on bool)",
+      "line": 1392
+    },
+    {
+      "interface": "Tray",
+      "method": "SetID",
+      "signature": "func(id string)",
+      "line": 1381
+    },
+    {
+      "interface": "Tray",
+      "method": "SetImage",
+      "signature": "func(png []byte, template bool) error",
+      "line": 1384
+    },
+    {
+      "interface": "Tray",
+      "method": "SetMenu",
+      "signature": "func(m *Menu)",
+      "line": 1387
+    },
+    {
+      "interface": "Tray",
+      "method": "SetTitle",
+      "signature": "func(title string)",
+      "line": 1385
+    },
+    {
+      "interface": "Tray",
+      "method": "SetToolTip",
+      "signature": "func(tip string)",
+      "line": 1386
+    },
+    {
+      "interface": "TrayHandler",
+      "method": "AppearanceChanged",
+      "signature": "func()",
+      "line": 1375
+    },
+    {
+      "interface": "TrayHandler",
+      "method": "Clicked",
+      "signature": "func()",
+      "line": 1371
+    },
+    {
+      "interface": "TrayHandler",
+      "method": "RightClicked",
+      "signature": "func()",
+      "line": 1372
+    },
+    {
+      "interface": "WebView",
+      "method": "\u003cembedded\u003e",
+      "signature": "Page",
+      "line": 769
+    },
+    {
+      "interface": "WebView",
+      "method": "Close",
+      "signature": "func()",
+      "line": 781
+    },
+    {
+      "interface": "WebView",
+      "method": "Focus",
+      "signature": "func()",
+      "line": 771
+    },
+    {
+      "interface": "WebView",
+      "method": "SetBackgroundColor",
+      "signature": "func(c Color)",
+      "line": 777
+    },
+    {
+      "interface": "WebView",
+      "method": "TabInto",
+      "signature": "func(back bool)",
+      "line": 775
+    },
+    {
+      "interface": "Window",
+      "method": "\u003cembedded\u003e",
+      "signature": "Page",
+      "line": 641
+    },
+    {
+      "interface": "Window",
+      "method": "Blur",
+      "signature": "func()",
+      "line": 578
+    },
+    {
+      "interface": "Window",
+      "method": "Bounds",
+      "signature": "func() Rect",
+      "line": 556
+    },
+    {
+      "interface": "Window",
+      "method": "Center",
+      "signature": "func()",
+      "line": 588
+    },
+    {
+      "interface": "Window",
+      "method": "Close",
+      "signature": "func()",
+      "line": 639
+    },
+    {
+      "interface": "Window",
+      "method": "ContentBounds",
+      "signature": "func() Rect",
+      "line": 558
+    },
+    {
+      "interface": "Window",
+      "method": "FlashFrame",
+      "signature": "func(flash bool)",
+      "line": 612
+    },
+    {
+      "interface": "Window",
+      "method": "Focus",
+      "signature": "func()",
+      "line": 577
+    },
+    {
+      "interface": "Window",
+      "method": "Handle",
+      "signature": "func() uintptr",
+      "line": 540
+    },
+    {
+      "interface": "Window",
+      "method": "HasShadow",
+      "signature": "func() bool",
+      "line": 593
+    },
+    {
+      "interface": "Window",
+      "method": "Hide",
+      "signature": "func()",
+      "line": 575
+    },
+    {
+      "interface": "Window",
+      "method": "IsAlwaysOnTop",
+      "signature": "func() bool",
+      "line": 572
+    },
+    {
+      "interface": "Window",
+      "method": "IsClosable",
+      "signature": "func() bool",
+      "line": 570
+    },
+    {
+      "interface": "Window",
+      "method": "IsFocused",
+      "signature": "func() bool",
+      "line": 579
+    },
+    {
+      "interface": "Window",
+      "method": "IsFullScreen",
+      "signature": "func() bool",
+      "line": 587
+    },
+    {
+      "interface": "Window",
+      "method": "IsMaximizable",
+      "signature": "func() bool",
+      "line": 568
+    },
+    {
+      "interface": "Window",
+      "method": "IsMaximized",
+      "signature": "func() bool",
+      "line": 584
+    },
+    {
+      "interface": "Window",
+      "method": "IsMinimizable",
+      "signature": "func() bool",
+      "line": 566
+    },
+    {
+      "interface": "Window",
+      "method": "IsMinimized",
+      "signature": "func() bool",
+      "line": 581
+    },
+    {
+      "interface": "Window",
+      "method": "IsMovable",
+      "signature": "func() bool",
+      "line": 564
+    },
+    {
+      "interface": "Window",
+      "method": "IsResizable",
+      "signature": "func() bool",
+      "line": 562
+    },
+    {
+      "interface": "Window",
+      "method": "IsVisible",
+      "signature": "func() bool",
+      "line": 576
+    },
+    {
+      "interface": "Window",
+      "method": "Maximize",
+      "signature": "func()",
+      "line": 582
+    },
+    {
+      "interface": "Window",
+      "method": "Minimize",
+      "signature": "func()",
+      "line": 580
+    },
+    {
+      "interface": "Window",
+      "method": "Opacity",
+      "signature": "func() float64",
+      "line": 591
+    },
+    {
+      "interface": "Window",
+      "method": "PlaceFlyout",
+      "signature": "func(f Flyout, size Size)",
+      "line": 637
+    },
+    {
+      "interface": "Window",
+      "method": "Restore",
+      "signature": "func()",
+      "line": 585
+    },
+    {
+      "interface": "Window",
+      "method": "SetActiveAppearance",
+      "signature": "func(v bool)",
+      "line": 603
+    },
+    {
+      "interface": "Window",
+      "method": "SetAlwaysOnTop",
+      "signature": "func(v bool)",
+      "line": 571
+    },
+    {
+      "interface": "Window",
+      "method": "SetAutoHideMenu",
+      "signature": "func(v bool)",
+      "line": 622
+    },
+    {
+      "interface": "Window",
+      "method": "SetBackgroundColor",
+      "signature": "func(c Color)",
+      "line": 589
+    },
+    {
+      "interface": "Window",
+      "method": "SetBounds",
+      "signature": "func(r Rect)",
+      "line": 555
+    },
+    {
+      "interface": "Window",
+      "method": "SetClosable",
+      "signature": "func(v bool)",
+      "line": 569
+    },
+    {
+      "interface": "Window",
+      "method": "SetContentBounds",
+      "signature": "func(r Rect)",
+      "line": 557
+    },
+    {
+      "interface": "Window",
+      "method": "SetContentProtection",
+      "signature": "func(v bool)",
+      "line": 595
+    },
+    {
+      "interface": "Window",
+      "method": "SetDocumentEdited",
+      "signature": "func(edited bool)",
+      "line": 554
+    },
+    {
+      "interface": "Window",
+      "method": "SetFullScreen",
+      "signature": "func(v bool)",
+      "line": 586
+    },
+    {
+      "interface": "Window",
+      "method": "SetHasShadow",
+      "signature": "func(v bool)",
+      "line": 592
+    },
+    {
+      "interface": "Window",
+      "method": "SetIcon",
+      "signature": "func(png []byte) error",
+      "line": 617
+    },
+    {
+      "interface": "Window",
+      "method": "SetIgnoreMouseEvents",
+      "signature": "func(v bool)",
+      "line": 594
+    },
+    {
+      "interface": "Window",
+      "method": "SetMaximizable",
+      "signature": "func(v bool)",
+      "line": 567
+    },
+    {
+      "interface": "Window",
+      "method": "SetMaximumSize",
+      "signature": "func(s Size)",
+      "line": 560
+    },
+    {
+      "interface": "Window",
+      "method": "SetMenu",
+      "signature": "func(m *Menu)",
+      "line": 619
+    },
+    {
+      "interface": "Window",
+      "method": "SetMinimizable",
+      "signature": "func(v bool)",
+      "line": 565
+    },
+    {
+      "interface": "Window",
+      "method": "SetMinimumSize",
+      "signature": "func(s Size)",
+      "line": 559
+    },
+    {
+      "interface": "Window",
+      "method": "SetMovable",
+      "signature": "func(v bool)",
+      "line": 563
+    },
+    {
+      "interface": "Window",
+      "method": "SetOpacity",
+      "signature": "func(v float64)",
+      "line": 590
+    },
+    {
+      "interface": "Window",
+      "method": "SetProgressBar",
+      "signature": "func(state string, value float64)",
+      "line": 611
+    },
+    {
+      "interface": "Window",
+      "method": "SetRepresentedFile",
+      "signature": "func(path string)",
+      "line": 550
+    },
+    {
+      "interface": "Window",
+      "method": "SetResizable",
+      "signature": "func(v bool)",
+      "line": 561
+    },
+    {
+      "interface": "Window",
+      "method": "SetSkipTaskbar",
+      "signature": "func(v bool)",
+      "line": 613
+    },
+    {
+      "interface": "Window",
+      "method": "SetTitle",
+      "signature": "func(title string)",
+      "line": 545
+    },
+    {
+      "interface": "Window",
+      "method": "SetVibrancy",
+      "signature": "func(material string)",
+      "line": 596
+    },
+    {
+      "interface": "Window",
+      "method": "SetVibrancyTint",
+      "signature": "func(c *Color)",
+      "line": 600
+    },
+    {
+      "interface": "Window",
+      "method": "SetVisibleOnAllWorkspaces",
+      "signature": "func(v bool)",
+      "line": 614
+    },
+    {
+      "interface": "Window",
+      "method": "SetWindowButtonsTheme",
+      "signature": "func(source string)",
+      "line": 607
+    },
+    {
+      "interface": "Window",
+      "method": "Show",
+      "signature": "func()",
+      "line": 573
+    },
+    {
+      "interface": "Window",
+      "method": "ShowInactive",
+      "signature": "func()",
+      "line": 574
+    },
+    {
+      "interface": "Window",
+      "method": "StartDrag",
+      "signature": "func()",
+      "line": 629
+    },
+    {
+      "interface": "Window",
+      "method": "Surface",
+      "signature": "func() Surface",
+      "line": 543
+    },
+    {
+      "interface": "Window",
+      "method": "Title",
+      "signature": "func() string",
+      "line": 546
+    },
+    {
+      "interface": "Window",
+      "method": "TitleBar",
+      "signature": "func() TitleBar",
+      "line": 627
+    },
+    {
+      "interface": "Window",
+      "method": "TitleBarDoubleClicked",
+      "signature": "func()",
+      "line": 632
+    },
+    {
+      "interface": "Window",
+      "method": "Unmaximize",
+      "signature": "func()",
+      "line": 583
+    },
+    {
+      "interface": "WindowButtonsBackend",
+      "method": "WindowButtons",
+      "signature": "func() (start, end []string)",
+      "line": 167
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "AudibleChanged",
+      "signature": "func(audible bool)",
+      "line": 912
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "AuthRequested",
+      "signature": "func(req AuthRequest) AuthResponse",
+      "line": 929
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "Blurred",
+      "signature": "func()",
+      "line": 880
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "CaptureStateChanged",
+      "signature": "func(kind CaptureKind, state CaptureState)",
+      "line": 915
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "CertificateError",
+      "signature": "func(e CertificateError) bool",
+      "line": 935
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "Closed",
+      "signature": "func()",
+      "line": 878
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "ClosedByPage",
+      "signature": "func()",
+      "line": 909
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "ContextMenu",
+      "signature": "func(m *ContextMenu) ContextMenuResponse",
+      "line": 940
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "DownloadFinished",
+      "signature": "func(url, path string, err error)",
+      "line": 920
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "DownloadStarted",
+      "signature": "func(url, suggestedName string) string",
+      "line": 919
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "EnteredFullScreen",
+      "signature": "func()",
+      "line": 890
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "Focused",
+      "signature": "func()",
+      "line": 879
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "HandlesCertificateErrors",
+      "signature": "func() bool",
+      "line": 936
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "HandlesContextMenu",
+      "signature": "func() bool",
+      "line": 941
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "LeftFullScreen",
+      "signature": "func()",
+      "line": 891
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "LoadFailed",
+      "signature": "func(url string, code int, description string)",
+      "line": 903
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "LoadFinished",
+      "signature": "func()",
+      "line": 902
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "Maximized",
+      "signature": "func()",
+      "line": 888
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "MenuItemClicked",
+      "signature": "func(id int)",
+      "line": 883
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "Message",
+      "signature": "func(msg string)",
+      "line": 897
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "Minimized",
+      "signature": "func()",
+      "line": 886
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "Moved",
+      "signature": "func()",
+      "line": 885
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "NavigationCommitted",
+      "signature": "func(url string)",
+      "line": 901
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "NavigationStarted",
+      "signature": "func(url string)",
+      "line": 900
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "NewWindow",
+      "signature": "func(req NewWindowRequest) Window",
+      "line": 907
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "PermissionRequested",
+      "signature": "func(kinds []string, origin string) bool",
+      "line": 926
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "RenderProcessGone",
+      "signature": "func(reason string)",
+      "line": 910
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "Resized",
+      "signature": "func()",
+      "line": 884
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "Restored",
+      "signature": "func()",
+      "line": 887
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "SchemeDownload",
+      "signature": "func(url string)",
+      "line": 923
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "SchemeRequest",
+      "signature": "func(req *SchemeRequest)",
+      "line": 916
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "ShouldClose",
+      "signature": "func() bool",
+      "line": 876
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "SurfaceEvent",
+      "signature": "func(ev SurfaceEvent) bool",
+      "line": 951
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "TitleBarChanged",
+      "signature": "func()",
+      "line": 894
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "TitleChanged",
+      "signature": "func(title string)",
+      "line": 904
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "Unmaximized",
+      "signature": "func()",
+      "line": 889
+    },
+    {
+      "interface": "WindowHandler",
+      "method": "WillNavigate",
+      "signature": "func(nav Navigation) bool",
+      "line": 899
+    },
+    {
+      "interface": "WindowStateBackend",
+      "method": "RestoreWindowState",
+      "signature": "func(opts *WindowOptions, pixels Rect) bool",
+      "line": 151
+    },
+    {
+      "interface": "WindowStateWindow",
+      "method": "WindowStateBounds",
+      "signature": "func() Rect",
+      "line": 142
+    }
+  ]
+}

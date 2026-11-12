@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"omnigo.dev/omnigo/omniweb/client"
+	"github.com/herlanai/omnigo/omniweb/client"
 )
 
 func TestDefaultProjectAndNoOverwrite(t *testing.T) {

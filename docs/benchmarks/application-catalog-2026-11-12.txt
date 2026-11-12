@@ -1,0 +1,26 @@
+Studio catalog benchmark; darwin/arm64 Apple M5. Same BenchmarkEntries and catalog input, three runs each. Warm calls; excludes startup, rendering, HTTP and native windows. Other repository checks ran concurrently; timings are indicative, not an end-to-end speed claim.
+
+Before:
+goos: darwin
+goarch: arm64
+pkg: github.com/herlanai/omnigo/studio/internal/catalog
+cpu: Apple M5
+BenchmarkEntries-10    	    4320	    273955 ns/op	   66174 B/op	    1282 allocs/op
+BenchmarkEntries-10    	    4488	    272036 ns/op	   66168 B/op	    1282 allocs/op
+BenchmarkEntries-10    	    4322	    275483 ns/op	   66168 B/op	    1282 allocs/op
+PASS
+ok  	github.com/herlanai/omnigo/studio/internal/catalog	4.289s
+
+After (Entries still returns independent mutable snapshots):
+goos: darwin
+goarch: arm64
+pkg: github.com/herlanai/omnigo/studio/internal/catalog
+cpu: Apple M5
+BenchmarkEntries-10    	  250290	      4408 ns/op	   23488 B/op	     277 allocs/op
+BenchmarkEntries-10    	  319580	      3644 ns/op	   23488 B/op	     277 allocs/op
+BenchmarkEntries-10    	  331682	      5232 ns/op	   23488 B/op	     277 allocs/op
+BenchmarkHasDemo-10    	158607007	         7.866 ns/op	       0 B/op	       0 allocs/op
+BenchmarkHasDemo-10    	199942946	         5.895 ns/op	       0 B/op	       0 allocs/op
+BenchmarkHasDemo-10    	209099941	         5.737 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/herlanai/omnigo/studio/internal/catalog	8.192s

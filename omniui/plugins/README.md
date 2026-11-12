@@ -1,13 +1,13 @@
 # OmniUI 可选插件
 
-所有插件的规范路径为 `omnigo.dev/omnigo/omniui/plugins/<name>`，按应用实际需要导入。该目录没有统一导入全部插件的注册器，不会因导入 `baseui` 而链接 SQLite、WebSocket、PTY 或 AppKit。用户指定的新目录覆盖此前仓库规则中的可选控件插件路径约定。
+所有插件的规范路径为 `github.com/herlanai/omnigo/omniui/plugins/<name>`，按应用实际需要导入。该目录没有统一导入全部插件的注册器，不会因导入 `baseui` 而链接 SQLite、WebSocket、PTY 或 AppKit。用户指定的新目录覆盖此前仓库规则中的可选控件插件路径约定。
 
 **16 个目录均有部分代码，但没有任何插件达到 golet 全量对齐。** 完整能力与缺口逐项保留在 [status.json](status.json)。Chromium 已按用户明确要求直接移植 Golet 的 CEF 浏览器与配套工具，保留 MIT 许可证和署名，macOS 实际浏览器测试已通过；Terminal 有真实 Unix PTY，但尚无完整 VT 模拟器和交互视口。这些边界不能由测试、目录数量或跨平台构建代替。
 
 | 插件 | 本批实际能力 | 主要缺口 |
 | --- | --- | --- |
 | automation | 私有 socket、UI 调度、控件快照/输入/截图 | 多窗口、菜单/页面、settle、CLI |
-| borderbeam | 五种独立边框动画、暂停和交互穿透 | 参考色场、辉光、完整参数/相位 |
+| borderbeam | 五种色场/辉光模式、配色、暂停/隐藏、强度/周期/范围、Studio 同结构演示 | 参考色场精确系数、完整色相参数及逐像素/实机对比；见 [对齐记录](../../migration/controls/borderbeam.md) |
 | chromium | CEF 原生浏览器、标签页、导航、主题、Chrome 扩展、CDP、助手、打包与 Studio 启动 | Windows/Intel 原生验收、Linux 宿主、布局内嵌视图 |
 | dsh-go | 流式模型客户端、工具调用增量、usage | 对话编排、工具审批/执行、原生面板 |
 | fetch | 有界流式 HTTP、重定向策略、取消 | OmniWeb 客户端和页面生命周期 |
@@ -39,4 +39,4 @@ Chromium 的 `Launch` 使用可选安装的 CEF 原生宿主。`pnpm setup:chrom
 
 Markdown 阅读组件位于 `omniui/plugins/markdown`，通过可选 Goldmark 解析器组合 Go 原生控件。实现、测试和许可证均在该目录；Studio 保留 Markdown 演示入口，能力缺口继续由 `migration/controls/advanced.json` 审计。
 
-新增独立服务演示 **OmniBrowser**（非 golet 原有 16 项之一）：核心位于 `omnibrowser`，提供纯 Go HTTP/DOM/JS 与抓取；可选 `omnibrowser/render` 提供 Go 语义预览，Studio 入口为 `plugin/omnibrowser`。它不是现有 Chromium 插件的替代，也没有完整浏览器兼容性；具体能力与限制见 `omnibrowser/README.md`。
+新增独立服务演示 **OmniBrowser**（非 golet 原有 16 项之一）：核心位于 `omniui/plugins/omnibrowser`，提供纯 Go HTTP/DOM/JS 与抓取；可选 `omniui/plugins/omnibrowser/render` 提供 Go 语义预览，Studio 入口为 `plugin/omnibrowser`。它不是现有 Chromium 插件的替代，也没有完整浏览器兼容性；具体能力与限制见 `omniui/plugins/omnibrowser/README.md`。

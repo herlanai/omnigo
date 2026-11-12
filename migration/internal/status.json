@@ -1,0 +1,479 @@
+{
+  "directories": 42,
+  "features": [
+    {
+      "evidence": [
+        "apps/accelerator/accelerator_test.go",
+        "studio/internal/demos/shortcuts_test.go"
+      ],
+      "existing": [
+        "apps/accelerator",
+        "studio/internal/demos/shortcuts.go"
+      ],
+      "id": "accelerator",
+      "reference_files": 3,
+      "reference_test_declarations": 4,
+      "remaining": [
+        "Native keyboard-layout/IME validation on all platforms",
+        "Global shortcut registration and portal integration are separate missing platform capabilities"
+      ],
+      "status": "partial"
+    },
+    {
+      "coordination": "Browser-related implementation remains with the other OmniBrowser program; inventory retains all reference capabilities",
+      "id": "automationcli",
+      "reference_files": 8,
+      "reference_test_declarations": 14,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "bridge",
+      "reference_files": 2,
+      "reference_test_declarations": 0,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "coordination": "Browser-related implementation remains with the other OmniBrowser program; inventory retains all reference capabilities",
+      "id": "contentrules",
+      "reference_files": 3,
+      "reference_test_declarations": 8,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "existing": [
+        "apps/host",
+        "apps/clipboard/adapter_darwin.go"
+      ],
+      "id": "darwin",
+      "reference_files": 57,
+      "reference_test_declarations": 39,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "existing": [
+        "omniui/baseui/internal/diff",
+        "omniui/baseui/diff_view.go"
+      ],
+      "id": "diff",
+      "reference_files": 6,
+      "reference_test_declarations": 8,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "runtime/download/download_test.go",
+        "runtime/download/process_test.go",
+        "omniui/plugins/updater/download_test.go"
+      ],
+      "existing": [
+        "runtime/download",
+        "omniui/plugins/updater/download.go"
+      ],
+      "id": "download",
+      "reference_files": 5,
+      "reference_test_declarations": 2,
+      "remaining": [
+        "Windows/Linux native runtime verification of cache process locks",
+        "Full plugin manifest/CLI cache integration",
+        "Equivalent reference workload benchmarks"
+      ],
+      "status": "partial"
+    },
+    {
+      "existing": [
+        "apps/nativewindow/native_test.go",
+        "apps/clipboard/native_darwin_test.go",
+        "omniui/baseui/gpu/native_darwin_test.go"
+      ],
+      "id": "e2e",
+      "reference_files": 115,
+      "reference_test_declarations": 276,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "fake",
+      "reference_files": 5,
+      "reference_test_declarations": 0,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "gamut",
+      "reference_files": 2,
+      "reference_test_declarations": 9,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "existing": [
+        "omniui/baseui/gpu"
+      ],
+      "id": "gpu",
+      "reference_files": 80,
+      "reference_test_declarations": 129,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "i18ngen",
+      "reference_files": 19,
+      "reference_test_declarations": 7,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "i18nlink",
+      "reference_files": 1,
+      "reference_test_declarations": 0,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "idlemem",
+      "reference_files": 6,
+      "reference_test_declarations": 2,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "inputlatency",
+      "reference_files": 3,
+      "reference_test_declarations": 0,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "existing": [
+        "i18n"
+      ],
+      "id": "l10n",
+      "reference_files": 7,
+      "reference_test_declarations": 4,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "existing": [
+        "apps/nativewindow/x11_linux.go"
+      ],
+      "id": "linux",
+      "reference_files": 60,
+      "reference_test_declarations": 25,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "menuicon",
+      "reference_files": 2,
+      "reference_test_declarations": 6,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "nsis",
+      "reference_files": 2,
+      "reference_test_declarations": 3,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "existing": [
+        "desktop",
+        "migration/platform"
+      ],
+      "id": "platform",
+      "reference_files": 26,
+      "reference_test_declarations": 17,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "prefetch",
+      "reference_files": 1,
+      "reference_test_declarations": 0,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "existing": [
+        "omniui/baseui/paint.go",
+        "omniui/baseui/raster_span.go"
+      ],
+      "id": "raster",
+      "reference_files": 21,
+      "reference_test_declarations": 30,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "evidence": [
+        "text/rope/rope_test.go",
+        "omniui/baseui/text_snapshot_test.go",
+        "studio/internal/demos/text_storage_test.go"
+      ],
+      "existing": [
+        "text/rope",
+        "omniui/baseui/text.go",
+        "studio/internal/demos/text_storage.go"
+      ],
+      "id": "rope",
+      "reference_files": 3,
+      "reference_test_declarations": 4,
+      "remaining": [
+        "Reference-equivalent performance and batching validation",
+        "No claim of complete editor/text shaping parity"
+      ],
+      "status": "partial"
+    },
+    {
+      "existing": [
+        "omniui/baseui/element.go",
+        "omniui/baseui/surface.go"
+      ],
+      "id": "scene",
+      "reference_files": 13,
+      "reference_test_declarations": 16,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "schemehost",
+      "reference_files": 2,
+      "reference_test_declarations": 5,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "shader",
+      "reference_files": 185,
+      "reference_test_declarations": 143,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "shaderir",
+      "reference_files": 29,
+      "reference_test_declarations": 18,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "existing": [
+        "omniui/baseui/surface.go"
+      ],
+      "id": "surface",
+      "reference_files": 2,
+      "reference_test_declarations": 0,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "existing": [
+        "omniui/icon"
+      ],
+      "id": "svg",
+      "reference_files": 9,
+      "reference_test_declarations": 26,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "existing": [
+        "omniui/baseui/typography.go",
+        "omniui/baseui/font_inter.go"
+      ],
+      "id": "text",
+      "reference_files": 39,
+      "reference_test_declarations": 118,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "tsgen",
+      "reference_files": 9,
+      "reference_test_declarations": 13,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "uigen",
+      "reference_files": 2,
+      "reference_test_declarations": 1,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "uimigrate",
+      "reference_files": 4,
+      "reference_test_declarations": 11,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "uivet",
+      "reference_files": 2,
+      "reference_test_declarations": 1,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "unsupported",
+      "reference_files": 2,
+      "reference_test_declarations": 0,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "existing": [
+        "omniui/plugins/updater"
+      ],
+      "id": "update",
+      "reference_files": 14,
+      "reference_test_declarations": 20,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "existing": [
+        "omniui/baseui/paint.go"
+      ],
+      "id": "vec",
+      "reference_files": 1,
+      "reference_test_declarations": 0,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "wait",
+      "reference_files": 2,
+      "reference_test_declarations": 2,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "existing": [
+        "omniui/plugins/watch"
+      ],
+      "id": "watchdriver",
+      "reference_files": 2,
+      "reference_test_declarations": 1,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    },
+    {
+      "coordination": "Browser-related implementation remains with the other OmniBrowser program; inventory retains all reference capabilities",
+      "id": "web",
+      "reference_files": 12,
+      "reference_test_declarations": 10,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "webview2",
+      "reference_files": 4,
+      "reference_test_declarations": 3,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "pending"
+    },
+    {
+      "existing": [
+        "apps/nativewindow/win_windows.go",
+        "apps/clipboard/adapter_windows.go"
+      ],
+      "id": "windows",
+      "reference_files": 91,
+      "reference_test_declarations": 79,
+      "remaining": [
+        "Complete behavior-by-behavior mapping and reference-equivalent tests; native execution where relevant"
+      ],
+      "status": "partial"
+    }
+  ],
+  "files": 861,
+  "policy": "All backend/internal directories retained. File/test counts are discovery, not completion. No reference implementation bodies copied.",
+  "reference": "reference.json",
+  "schema": 1,
+  "test_declarations": 1054
+}

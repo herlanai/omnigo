@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"omnigo.dev/omnigo/omniui/baseui"
-	"omnigo.dev/omnigo/omniui/baseui/loading"
+	"github.com/herlanai/omnigo/omniui/baseui"
+	"github.com/herlanai/omnigo/omniui/baseui/loading"
 )
 
 type records struct{}

@@ -21,6 +21,10 @@ var codeFont = func() *opentype.Font {
 // codeText keeps display tab expansion separate from the original copy payload.
 // It paints only visible rows and leaves selection/highlighting to future work.
 func codeText(id, source string, danger bool) *Element {
+	return codeTextSpaced(id, source, danger, 18)
+}
+
+func codeTextSpaced(id, source string, danger bool, lineHeight float64) *Element {
 	lines := strings.Split(strings.ReplaceAll(source, "\r\n", "\n"), "\n")
 	face, err := opentype.NewFace(codeFont, &opentype.FaceOptions{Size: 12, DPI: 72, Hinting: font.HintingFull})
 	if err != nil {
@@ -60,12 +64,12 @@ func codeText(id, source string, danger bool) *Element {
 		if danger {
 			fg = p.theme.Danger
 		}
-		first := max(0, int(math.Floor((p.clip.Y-r.Y)/18)))
-		last := min(len(lines), int(math.Ceil((p.clip.Y+p.clip.H-r.Y)/18)))
+		first := max(0, int(math.Floor((p.clip.Y-r.Y)/lineHeight)))
+		last := min(len(lines), int(math.Ceil((p.clip.Y+p.clip.H-r.Y)/lineHeight)))
 		for i := first; i < last; i++ {
-			q.Text(r.X, r.Y+float64(i)*18+float64(f.Metrics().Ascent)/64/scale, lines[i], fg)
+			q.Text(r.X, r.Y+float64(i)*lineHeight+float64(f.Metrics().Ascent)/64/scale, lines[i], fg)
 		}
-	}).Width(width).Height(float64(len(lines)) * 18).Role("text")
+	}).Width(width).Height(float64(len(lines)) * lineHeight).Role("text")
 	e.description = source
 	return e
 }

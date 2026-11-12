@@ -1,8 +1,8 @@
 package demos
 
 import (
-	ui "omnigo.dev/omnigo/omniui/baseui"
-	"omnigo.dev/omnigo/omniui/icon/lucide"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
+	"github.com/herlanai/omnigo/omniui/icon/lucide"
 	"strings"
 	"testing"
 )

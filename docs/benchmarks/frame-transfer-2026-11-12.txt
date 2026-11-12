@@ -1,0 +1,14 @@
+Same 640x480 Go scene at 2x scale, warmed shared buffers. PNG versus raw rendering plus pixel copy. Excludes AppKit allocation/upload, PNG decode, compositor and screen latency. Checks ran concurrently; not an application FPS or RSS result.
+
+goos: darwin
+goarch: arm64
+pkg: github.com/herlanai/omnigo/apps/host
+cpu: Apple M5
+BenchmarkFrameTransfer/png-10         	      91	  12967648 ns/op	    2124 B/op	      17 allocs/op
+BenchmarkFrameTransfer/png-10         	      94	  12624133 ns/op	    2124 B/op	      17 allocs/op
+BenchmarkFrameTransfer/png-10         	      94	  14528281 ns/op	    2124 B/op	      17 allocs/op
+BenchmarkFrameTransfer/pixels-copy-10 	     478	   2519230 ns/op	    2100 B/op	      16 allocs/op
+BenchmarkFrameTransfer/pixels-copy-10 	     476	   2585964 ns/op	    2100 B/op	      16 allocs/op
+BenchmarkFrameTransfer/pixels-copy-10 	     418	   2610718 ns/op	    2100 B/op	      16 allocs/op
+PASS
+ok  	github.com/herlanai/omnigo/apps/host	8.761s

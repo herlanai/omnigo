@@ -1,0 +1,43 @@
+# Public UI application host
+
+`apps/host` owns Cocoa application/windows, input forwarding, frame submission, same-origin WebKit shells, embedded WebViews, titlebar changes, dispatch and teardown. It does not import Studio, know demo IDs, contain demo HTML, or supply application icons. Applications provide `Options`, a `WindowFactory` and `Content` callbacks.
+
+Most applications use root `omnigo.New`, `omnigo.Bind`, `app.ConfigureMainWindow` and `app.Run`. That entry point also composes the existing desktop extension lifecycle, OmniWeb assets/RPC and loopback resource server. `host.Run` is available for hosts that already own their resource server or need a native-only application.
+
+- Call Run from the process main thread. The current Cocoa backend is single-use per process.
+- Window factories, View, BeforeRender, Close and titlebar getters run on the UI goroutine. They must not block on Host.Open/SetTitleBar, which queue work to that same goroutine.
+- Services.RunTask runs work in a worker and dispatches the returned callback to the live content window. Workers must cooperate with application cancellation; arbitrary Go work is not forcibly terminated.
+- Each content window owns a Surface and application callbacks; the framework owns native handles, timers and a shared reusable RGBA framebuffer. Application Close runs before Surface teardown.
+- Content windows currently have fixed canvas dimensions. The shell supports initial/minimum size and titlebar options. This is not the full nativewindow API or complete golet parity.
+- HTML fixtures and WebView state consumers are supplied by the application. Embedded positioning uses the actual parent view height.
+- macOS amd64/arm64 is implemented; only ARM64 native evidence is available. Windows/Linux return ErrUnsupported here; their separate software driver remains in apps/nativewindow.
+
+Public-API examples: `go run ./examples/desktop-counter`; `go run ./examples/desktop-smoke` briefly opens a window and verifies rendering/closure without sleeps. Titlebar and WebView probes remain available through the public package and Studio diagnostic commands. Unit tests guard the absence of framework-to-Studio dependencies.
+
+Root application conveniences: `omnigo.Options.GoWindow` accepts a
+`func(omnigo.WindowEnvironment) (omnigo.ContentWindowOptions, error)` for a single native main
+window, without a string-keyed factory. The context exposes window-scoped task
+and clipboard services. `RunMain()` handles SIGINT/SIGTERM; `Run(ctx)` remains
+available to hosts that own cancellation. Both must run on the process main thread.
+
+`Options.Registrations` registers typed RPC methods/routes during construction.
+Modules should only configure the application, not start resources.
+`Options.Services` uses the existing desktop extension lifecycle: namespaced IDs,
+deterministic ID order, cancellation before reverse-order cleanup, and a bounded
+shutdown context. `omnigo.Background(id, work)` starts cooperative background
+work and joins it on exit; failures are returned at shutdown, not automatically
+used to terminate the application. Work must honor cancellation. Each background
+adapter is single-use. Services with ordering dependencies should continue to use
+the extension registry's Requires mechanism.
+
+These conveniences do not unify native and Web window handles or add unsupported
+platform hosts. `GoWindow` conflicts with InitialWindow/CreateWindow; applications
+with multiple content types can continue using the existing factory.
+
+For a small Web application, declare `Options{Assets: files, Window:
+&omnigo.WindowOptions{Title: "Example"}, Registrations: []omnigo.Registration{
+omnigo.Query("app.version", func() string { return "1.0" }),
+}}` and call `omnigo.Run(options)` once. Empty window URL defaults to `/`.
+For Go content, use GoWindow instead of Window. Method/Query registration stays
+statically typed and shares Bind's permissions, strict JSON validation and limits.
+New/Run(ctx) remain available when explicit construction or cancellation is needed.

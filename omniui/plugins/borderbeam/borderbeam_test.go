@@ -2,7 +2,7 @@ package borderbeam
 
 import (
 	"bytes"
-	ui "omnigo.dev/omnigo/omniui/baseui"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"testing"
 	"time"
 )

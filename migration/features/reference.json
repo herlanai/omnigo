@@ -1,0 +1,5841 @@
+{
+  "schema": 1,
+  "policy": "Path-based discovery of internals and tests, not complete behavioral coverage. No implementation bodies copied. A reference test name is not OmniGo test evidence.",
+  "features": [
+    {
+      "id": "childwindow",
+      "files": [
+        {
+          "path": "backend/internal/darwin/child_window.go",
+          "sha256": "fad34653d103b647e0c5e558ae83954d18e2d9b28ce0e761d6ec0a1d6a4a1b5b",
+          "declarations": [
+            "childOrder",
+            "method:applyLevel",
+            "method:attach",
+            "method:attachChildren",
+            "method:children",
+            "method:descends",
+            "method:detach",
+            "method:detachChildren",
+            "method:frontmost",
+            "method:hasChildren",
+            "method:hideChildren",
+            "method:hideChildrenNow",
+            "method:isChild",
+            "method:leftFullScreen",
+            "method:onScreen",
+            "method:orderAbove",
+            "method:orderChildren",
+            "method:orderChildrenLater",
+            "method:releaseChildren",
+            "method:showAboveParent",
+            "method:windowsFrontToBack",
+            "orderWindowRelativeTo"
+          ]
+        },
+        {
+          "path": "backend/internal/darwin/child_window_test.go",
+          "sha256": "0ceb9ed1d8e7f5949b476463d89de6d4e6fa4843a9fe78daf754ed720816dd6c",
+          "tests": [
+            "TestChildOrder"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/child_window_darwin_test.go",
+          "sha256": "a008ee8d7cae0eb19e7fd71e913b3c82eb5638e1e1a5e454f7dd62651b9e12d5",
+          "declarations": [
+            "childWindowsOrigin",
+            "inFrontOf",
+            "onActiveSpace",
+            "pointFromEnv",
+            "windowLevel"
+          ],
+          "tests": [
+            "TestChildPanelAboveRaisedParent",
+            "TestChildWindowAboveOnTopParent",
+            "TestChildWindowAboveRaisedParent",
+            "TestChildWindowFollowsFullScreenParent",
+            "TestChildWindowHidesWithParent",
+            "TestChildWindowOnAnotherDisplay",
+            "TestChildWindowsOrderByFocus"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clipboard",
+      "files": [
+        {
+          "path": "backend/clipboard.go",
+          "sha256": "d6707e36191a25ce9a5b80d9892b62c20de1cdde19fbe84c3b7fe570ad515393",
+          "declarations": [
+            "clipboardNativeValue",
+            "clipboardOnMain",
+            "method:Flush",
+            "method:Formats",
+            "method:Read",
+            "method:ReadFiles",
+            "method:ReadFormat",
+            "method:Write",
+            "method:WriteFiles",
+            "method:release",
+            "queueClipboardRelease",
+            "type:ClipboardOptions",
+            "type:clipboardLifetime",
+            "withClipboardOperation"
+          ]
+        },
+        {
+          "path": "backend/clipboard_test.go",
+          "sha256": "178fa81a898e7ad4cf23b3ec8041d00742c7149c2a44024b005618d0ad3eaf91",
+          "declarations": [
+            "clipboardRelease"
+          ],
+          "tests": [
+            "TestClipboardFailedWriteAndReservedSession",
+            "TestClipboardFilesAndConveniences",
+            "TestClipboardItemsAndNegotiation",
+            "TestClipboardOwnershipAndWindowClosure",
+            "TestClipboardProviderFailures",
+            "TestClipboardProviderReentry",
+            "TestClipboardReleaseWaitsForNestedStorage"
+          ]
+        },
+        {
+          "path": "backend/internal/darwin/clipboard.go",
+          "sha256": "38e3d445fec91c6aef5f8c9e7143e339c9f37497ca8c813fc48bbf2f2dec3dd7",
+          "declarations": [
+            "currentMacClipboard",
+            "macClipboardFormat",
+            "macClipboardReadItem",
+            "macClipboardTypes",
+            "method:Close",
+            "method:Flush",
+            "method:Formats",
+            "method:ReadData",
+            "method:WriteData",
+            "method:release",
+            "registerClipboardClass",
+            "type:macClipboardSource"
+          ]
+        },
+        {
+          "path": "backend/internal/darwin/clipboard_test.go",
+          "sha256": "576064fb6c81fb512080300d336e31de4c178c79b261594e7a019f00b679931b",
+          "tests": [
+            "TestClipboardFileReferenceURL",
+            "TestClipboardNativeAliasesAndFileList"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/clipboard_linux_test.go",
+          "sha256": "532d0c360d622493f6b9b47342dfdb0dabcf1b134bf51db440711d819de8fef0",
+          "tests": [
+            "TestUnifiedClipboardGTKForeignHTML"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/clipboard_test.go",
+          "sha256": "bb8766bf60b5adf271b3e6cce9789afd93b2c90e897cb2471fad39ad2952e183",
+          "declarations": [
+            "clipboardPeer",
+            "clipboardTestData",
+            "preserveClipboard",
+            "readClipboardPeer",
+            "type:clipboardPeerResult"
+          ],
+          "tests": [
+            "TestUnifiedClipboardForeignOwnershipAndShutdown",
+            "TestUnifiedClipboardNativeFilesAndFailures",
+            "TestUnifiedClipboardNativePersistence",
+            "TestUnifiedClipboardNativeRoundTrip"
+          ]
+        },
+        {
+          "path": "backend/internal/linux/clipboard.go",
+          "sha256": "c4a3bd735a8a16fb812b8d9e1eef853e36e93d67731ddf6e811bff837fb8020d",
+          "declarations": [
+            "clipboardTargets",
+            "initClipboardCallbacks",
+            "method:Close",
+            "method:Flush",
+            "method:Formats",
+            "method:ReadData",
+            "method:WriteData",
+            "method:release",
+            "type:gtkClipboardSource"
+          ]
+        },
+        {
+          "path": "backend/internal/platform/clipboard.go",
+          "sha256": "407856aafb1c673d1cbfc135c7bf55a5b53f9575f4dac729b670ddefa848737b"
+        },
+        {
+          "path": "backend/internal/windows/clipboard.go",
+          "sha256": "2e66a43db693266ca123077ffd46adf46a74bed1d25f19886936d291ebde810f",
+          "declarations": [
+            "clipboardBytes",
+            "clipboardFormats",
+            "currentWinClipboard",
+            "method:Close",
+            "method:Flush",
+            "method:Formats",
+            "method:ReadData",
+            "method:WriteData",
+            "method:release",
+            "privateClipboardFormat",
+            "readClipboardRep",
+            "type:winClipboardSource"
+          ]
+        },
+        {
+          "path": "backend/internal/windows/clipboard_test.go",
+          "sha256": "7973f6d358aaf6239108406c2550e3b86de8ae06b8cf503700a795963c0cd71d",
+          "tests": [
+            "TestClipboardDIBRejectsInvalidGeometry",
+            "TestClipboardReadDataSkipsUnreadable"
+          ]
+        },
+        {
+          "path": "backend/plugins/terminal/internal/vt/clipboard.go",
+          "sha256": "e955cdbbd7f4c270edf4c0a412ba2aca9cf1b5c2d177813ba289f082c7e2cdbe",
+          "declarations": [
+            "method:AnswerClipboard",
+            "method:kittyAnswer",
+            "method:setRefusal",
+            "type:ClipboardAnswer",
+            "type:DeferredClipboardRead"
+          ]
+        },
+        {
+          "path": "backend/transfer/data.go",
+          "sha256": "6553b40efb192103a875b405407c91f6815418b80210b8a1f431f7a150abf25a",
+          "declarations": [
+            "Bytes",
+            "FileData",
+            "Lazy",
+            "New",
+            "NewItem",
+            "PreferredFormat",
+            "TextData",
+            "URLData",
+            "method:Files",
+            "method:Formats",
+            "method:Formats",
+            "method:Items",
+            "method:Materialize",
+            "method:Preferred",
+            "method:Read",
+            "method:Read",
+            "method:Snapshot",
+            "method:URLs",
+            "type:Data",
+            "type:Format",
+            "type:Item",
+            "type:Representation",
+            "type:value",
+            "validateFormat"
+          ]
+        },
+        {
+          "path": "backend/transfer/data_test.go",
+          "sha256": "245e0f47fa3a66e06cff78a7595ad38c940355cee82e7b5dd398df1f028d0493",
+          "tests": [
+            "TestFileAndURLRepresentations",
+            "TestMaterializeAndProviderFailure",
+            "TestMultipleItemsCoalesceAndKeepAlternatives",
+            "TestOperationNegotiation",
+            "TestProviderPanicIsCachedAndNegotiationIsLazy",
+            "TestRepresentationsAndSnapshots"
+          ]
+        },
+        {
+          "path": "backend/transfer/drag.go",
+          "sha256": "0e73dfe7c520b4cbf6c928a8c25d9edd4852a9eb4e364a5973ef9538b0df3ad1",
+          "declarations": [
+            "Negotiate",
+            "method:Allowed",
+            "method:Preferred",
+            "type:DragOptions",
+            "type:Drop",
+            "type:DropOptions",
+            "type:Offer",
+            "type:Operation",
+            "type:Result"
+          ]
+        },
+        {
+          "path": "backend/ui/richtext/clipboard.go",
+          "sha256": "25587804310a71bc60d11a819152cadb624653ed5fe7c802fe57fcc40151f38a",
+          "declarations": [
+            "clipOf",
+            "clipboardData",
+            "decodeClip",
+            "encodeClip",
+            "method:MarshalJSON",
+            "method:PlainText",
+            "method:UnmarshalJSON",
+            "method:copySelection",
+            "method:paste",
+            "method:text",
+            "type:clipAttachment",
+            "type:clipAttributes",
+            "type:clipParagraph",
+            "type:clipRun",
+            "type:clipText"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff",
+      "files": [
+        {
+          "path": "backend/internal/diff/compact.go",
+          "sha256": "b408a0886a4ce0e48ade0f11b7024d8daeccf3b35b6be35f62a8e2aa9881ad92",
+          "declarations": [
+            "compact",
+            "groupInit",
+            "indent",
+            "measure",
+            "method:add",
+            "method:cmp",
+            "method:next",
+            "method:previous",
+            "method:slideDown",
+            "method:slideUp",
+            "pick",
+            "type:group",
+            "type:score",
+            "type:split"
+          ]
+        },
+        {
+          "path": "backend/internal/diff/diff.go",
+          "sha256": "7a26631f3a76b084864531999ecf811ecc6fd8577a9e54541d7f5068db1bce9d",
+          "declarations": [
+            "Intern",
+            "Ints",
+            "Lines",
+            "method:hunks",
+            "method:mark",
+            "type:Hunk",
+            "type:differ",
+            "type:record"
+          ]
+        },
+        {
+          "path": "backend/internal/diff/diff_test.go",
+          "sha256": "32153c9910c4f4d5d928e38989f1abba9cfa18c9a98ca1b21e29fe59fefaaa04",
+          "declarations": [
+            "apply",
+            "lines"
+          ],
+          "tests": [
+            "BenchmarkLines",
+            "TestHistogramRarity",
+            "TestLines",
+            "TestLinesHistogram",
+            "TestLinesRandom",
+            "TestLinesSlide",
+            "TestMyersCostLimit",
+            "TestWords"
+          ]
+        },
+        {
+          "path": "backend/internal/diff/histogram.go",
+          "sha256": "265beb54d8bcb664c15a71b951f12b3cca24c03ca34b83a80709bee720500ba6",
+          "declarations": [
+            "method:histogram",
+            "method:lcs"
+          ]
+        },
+        {
+          "path": "backend/internal/diff/myers.go",
+          "sha256": "0cd3c44f274e5a42e18001f16cda424b65626701553fb233f694899741d9e071",
+          "declarations": [
+            "method:myers",
+            "method:recsCmp",
+            "method:split"
+          ]
+        },
+        {
+          "path": "backend/internal/diff/words.go",
+          "sha256": "84601d25c2cfd5158de988f1bd0fe63c7f20c5484edcfd5e73af98100da7059f",
+          "declarations": [
+            "Chars",
+            "Words",
+            "charTokens",
+            "isWord",
+            "join",
+            "tokens",
+            "type:Range",
+            "wordTokens"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e",
+      "files": [
+        {
+          "path": "backend/internal/e2e/access_autocomplete_darwin_test.go",
+          "sha256": "41e90551b193da17355702fd2477757822182807f3e7fd895e2dbce6b10041ba",
+          "tests": [
+            "TestAccessAutoComplete"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_autocomplete_linux_test.go",
+          "sha256": "aaa3e66ce289dd5ccd21b89c5de0ee28b16416270a2443b6025c4cc11fc66b2b",
+          "tests": [
+            "TestAccessAutoComplete"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_disabled_darwin_test.go",
+          "sha256": "8697c688646b30619eed58fe4d930db762c5634c129793f8f2b9a8527c5318f6",
+          "tests": [
+            "TestAccessDisabled"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_disabled_linux_test.go",
+          "sha256": "aa75ca4c636ab8054d01b564917795858d4df267329a2b9d9295b7c85b845765",
+          "tests": [
+            "TestAccessDisabled"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_grid_darwin_test.go",
+          "sha256": "11ac622e2407db7c01cc889da39541236434ab88777df2ad87c5a152710dfa99",
+          "tests": [
+            "TestAccessGrid"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_grid_linux_test.go",
+          "sha256": "01e66ee24c751627ffc029da9031f2bc60838c373b0020ea420658daaaa73950",
+          "tests": [
+            "TestAccessGrid"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_keyshortcuts_darwin_test.go",
+          "sha256": "624db725259411c8ad1049c5c633e0582c79e3713355e81eb1472ae5983bdb78",
+          "tests": [
+            "TestAccessKeyShortcuts"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_keyshortcuts_linux_test.go",
+          "sha256": "f0c4d7cfbe034f03d83bc3e662e451b538b4e81e9841d28dabd68eea27795e34",
+          "tests": [
+            "TestAccessKeyShortcuts"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_listbox_linux_test.go",
+          "sha256": "e2674c05445fbd9190c7a1469819992797ac40d7e9eb70edc2d8176c7264ebaa",
+          "tests": [
+            "TestAccessListBox"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_relations_darwin_test.go",
+          "sha256": "12a76c47ded8f15cf8fef8363c988dc0c156c4e13e3b88c029faf8cdea8abff5",
+          "tests": [
+            "TestAccessDescribedByErrorMessageSearch"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_relations_linux_test.go",
+          "sha256": "24fd37e00f47836f4b656ae867e3be795899cd5028c78b1cf87caf6b75673d0c",
+          "tests": [
+            "TestAccessDescribedByErrorOrientationSearch"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_roles_linux_test.go",
+          "sha256": "bad40c212c45ef6f55a19da0925e71c36fcf26e2d6643bb4b1a10468e6cd8429",
+          "tests": [
+            "TestAccessLiveRegionAttributes"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_roles_test.go",
+          "sha256": "b28878fda2a25edad8d0621ef931779187e1a36d988b00abdcce4c619ba36dfe",
+          "declarations": [
+            "landmarksAndLiveRegions"
+          ],
+          "tests": [
+            "TestAccessDeletionInsertion",
+            "TestAccessLandmarksAndLiveRegions"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_states_linux_test.go",
+          "sha256": "af4ba9236794fb177a42bb7e8fc887f38868e97aa63e81718683088b0fd0ea32",
+          "tests": [
+            "TestAccessBusyAndCurrent"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_states_more_darwin_test.go",
+          "sha256": "91f572580b02475cbc9a17d76ae28f829778ccbfcb8079a8ddaaec1f5ba99364",
+          "tests": [
+            "TestAccessRoleDescriptionPopupSelected"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/access_states_more_linux_test.go",
+          "sha256": "f59387d1dd99f18c69247a38e2ce36aa49d6b4249ed4475558b217806232b86d",
+          "tests": [
+            "TestAccessControlsPopupSortSelected"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/activate_windows_test.go",
+          "sha256": "5d92d9c012aed1df23ef37824697db75cca754a8c3e632821b1daf2e48c71b5b",
+          "tests": [
+            "TestAppFocusKeepsFront"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/apps_test.go",
+          "sha256": "d43d8497d17d7f21ad3719c7fc4055a00437cc70b3130c60273f01e52856c6d7",
+          "tests": [
+            "TestInstalledApps"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/audio_test.go",
+          "sha256": "761fcb40c69afa6aa634a7c04e0288e275e9c10964b7408f0687fdb47dc6b5fa",
+          "declarations": [
+            "listen"
+          ],
+          "tests": [
+            "TestPageAudible",
+            "TestPageAudioMuted"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/auth_test.go",
+          "sha256": "9e2c410c32d14e79e81607781b126814f97bb339ab40c9f2cb33a2eaf189960d",
+          "declarations": [
+            "basicAuthServer",
+            "offer",
+            "selfSigned"
+          ],
+          "tests": [
+            "TestAuthHandler",
+            "TestCertificateErrorHandler"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/automation_cli_test.go",
+          "sha256": "472e634015420f123586b75dce935f2114bdb960c1997d28211cae6c1daff789",
+          "tests": [
+            "TestAutomationCLI"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/automation_off_test.go",
+          "sha256": "491ceee27e288e20caff2e8ab15fb41b4bc46db54ab59192b5f93ba87cf9ab72",
+          "declarations": [
+            "automationApp"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/automation_test.go",
+          "sha256": "1c3a48811d43b268b0f3d5c8987a85597f49ee7e56fb0ab7ee87490366658417",
+          "declarations": [
+            "automationApp",
+            "method:call",
+            "method:dial",
+            "method:must",
+            "startAutomationApp",
+            "type:automationClient",
+            "type:automationError",
+            "type:automationNode",
+            "type:automationProc"
+          ],
+          "tests": [
+            "TestAutomation"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/autoplay_test.go",
+          "sha256": "9716adef857f3afff705c04ac80a618906971ad8b70431db610558db9c9ddce8",
+          "declarations": [
+            "autoplayIn",
+            "method:played",
+            "type:autoplayState"
+          ],
+          "tests": [
+            "TestAutoplay"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/background_throttling_test.go",
+          "sha256": "c256ee33e108f6e02ac5c274eb214d60c506a92f7269327cbe371d40644c1ba4",
+          "declarations": [
+            "throttlingPageIn"
+          ],
+          "tests": [
+            "TestBackgroundThrottling"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/bench_test.go",
+          "sha256": "b3520c83a7425c8efcb66f62345418e6e3d0e08e702a90675f05995a2d278037",
+          "declarations": [
+            "benchPage",
+            "benchWindow",
+            "method:Items",
+            "method:Noop",
+            "type:Bench",
+            "type:BenchItem",
+            "useBench"
+          ],
+          "tests": [
+            "BenchmarkContentWindowOpen",
+            "BenchmarkPageCall",
+            "BenchmarkPageCallItems",
+            "BenchmarkPageChannel",
+            "BenchmarkPageEvent",
+            "BenchmarkPageFetch1MB",
+            "BenchmarkWindowOpen"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/browser_keys_windows_test.go",
+          "sha256": "323b0ea1a6a80e2281e47b554f73937f0e3e0cfa9fa279d7636bf959d0660c61",
+          "tests": [
+            "TestBrowserAcceleratorKeys"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/capture_test.go",
+          "sha256": "7e24f1be25b97ab3a99d97a11fa5b8812825faec1619364a6f4e4b43fb2b02ed",
+          "tests": [
+            "TestCaptureState",
+            "TestCaptureStateWithoutCapture"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/chart_frames_test.go",
+          "sha256": "bb00a8ce04412b63c45fc499c62d4b2b72c4bde7e8d098212905149c385871aa",
+          "tests": [
+            "TestContentPolylineFrames",
+            "TestContentWindowAnimationFrames"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/child_window_darwin_test.go",
+          "sha256": "a008ee8d7cae0eb19e7fd71e913b3c82eb5638e1e1a5e454f7dd62651b9e12d5",
+          "declarations": [
+            "childWindowsOrigin",
+            "inFrontOf",
+            "onActiveSpace",
+            "pointFromEnv",
+            "windowLevel"
+          ],
+          "tests": [
+            "TestChildPanelAboveRaisedParent",
+            "TestChildWindowAboveOnTopParent",
+            "TestChildWindowAboveRaisedParent",
+            "TestChildWindowFollowsFullScreenParent",
+            "TestChildWindowHidesWithParent",
+            "TestChildWindowOnAnotherDisplay",
+            "TestChildWindowsOrderByFocus"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/clipboard_linux_test.go",
+          "sha256": "532d0c360d622493f6b9b47342dfdb0dabcf1b134bf51db440711d819de8fef0",
+          "tests": [
+            "TestUnifiedClipboardGTKForeignHTML"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/clipboard_test.go",
+          "sha256": "bb8766bf60b5adf271b3e6cce9789afd93b2c90e897cb2471fad39ad2952e183",
+          "declarations": [
+            "clipboardPeer",
+            "clipboardTestData",
+            "preserveClipboard",
+            "readClipboardPeer",
+            "type:clipboardPeerResult"
+          ],
+          "tests": [
+            "TestUnifiedClipboardForeignOwnershipAndShutdown",
+            "TestUnifiedClipboardNativeFilesAndFailures",
+            "TestUnifiedClipboardNativePersistence",
+            "TestUnifiedClipboardNativeRoundTrip"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/code_editor_test.go",
+          "sha256": "39ff4d01bf8cf20721de15a40daf44b650820ea10572ef4dcecdc2d9458f81d8",
+          "tests": [
+            "TestContentWindowCodeEditor",
+            "TestContentWindowCodeEditorNoInputMethod"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/color_scheme_linux_test.go",
+          "sha256": "2e5f6db315bb7ab7e4b640dcc6c92aae4b6a6193e6b02de3dfaacf6f8c50beed",
+          "declarations": [
+            "fakePortal"
+          ],
+          "tests": [
+            "TestPageColorSchemePortal",
+            "TestPageColorSchemePortalApp"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/color_scheme_other_test.go",
+          "sha256": "7e70736699edddadf9efde8243f96abb6a0311dd4262b66d17e8172596183d9f",
+          "declarations": [
+            "fakePortal"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/color_scheme_test.go",
+          "sha256": "3b0885110bf9dae41942a1a743bd4f1988e5ce3dd8d559aaf69c9ebc9e060c7d",
+          "tests": [
+            "TestPageColorScheme",
+            "TestPageColorSchemeDarkTheme"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/content_rules_test.go",
+          "sha256": "04edb96545ea5783c6e2a371724f86020e5c4b887c76d99ed67f647726818dbe",
+          "tests": [
+            "TestContentRules"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/context_menu_test.go",
+          "sha256": "ac83afe141ce17dcacd5d1bf0b9f33e8f72ce8f9dfe7905a3148ad5980f9106d",
+          "declarations": [
+            "menuIDs",
+            "type:contextMenuSeen"
+          ],
+          "tests": [
+            "TestPageContextMenu",
+            "TestPageContextMenuCancelled"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/cookie_view_other_test.go",
+          "sha256": "3c039857867ffa086385b51c88bc3bc4cfe278d197cb4b7b64385096702f7216",
+          "declarations": [
+            "cookieViewApp",
+            "webViewProcesses"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/cookie_view_windows_test.go",
+          "sha256": "aad7ed4c0deb7eb09257387a1eafe77d3340d2dc3694ae1c3973830ea85c8415",
+          "declarations": [
+            "cookieViewApp",
+            "webViewProcesses"
+          ],
+          "tests": [
+            "TestCookieViewReleased"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/cookies_test.go",
+          "sha256": "67f3e5c1fe04e3c1fb177b302d2575d905ebf5e711208e63fac8917785a07191",
+          "declarations": [
+            "cookiesWhileOpening",
+            "getCookie"
+          ],
+          "tests": [
+            "TestCookieCallbackStress",
+            "TestCookieCallsWhileWindowOpens",
+            "TestCookies",
+            "TestCookiesBeforePages"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/data_drag_darwin_test.go",
+          "sha256": "09402d28da1e603164d13f852d74531607a54c5102758508cbf0896d593a6e9c",
+          "declarations": [
+            "dropNativeData"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/data_drag_linux_test.go",
+          "sha256": "0ff4cdf48affae7fcf8c41ec402814fc21efd6c11b05638f33dbd937e30f8c2c",
+          "declarations": [
+            "gtkDragResult",
+            "gtkPressSource"
+          ],
+          "tests": [
+            "TestNativeGTKDataDrag",
+            "TestNativeGTKDragCancellationCleanup"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/data_drag_other_test.go",
+          "sha256": "cb913fee0b9c460e7fbd26ed321b507252d0ebde25aee8d92deaf7d56f92753c",
+          "declarations": [
+            "dropNativeData"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/data_drag_test.go",
+          "sha256": "61603e927cf513671d68904674fe4052be6949910b809fb052177e2b105cea80",
+          "tests": [
+            "TestNativeDataRepresentations"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/data_drag_windows_test.go",
+          "sha256": "c4657db1d4ac9bdf90bcf6d462baf4b37c764059dc89438bc151a39993b38d54",
+          "declarations": [
+            "dropNativeData"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/decorations_linux_test.go",
+          "sha256": "372eccd0f4377d62e6e39873ae0d6858783fd6fea90f533bfd84b74c65c2638a",
+          "declarations": [
+            "decorations"
+          ],
+          "tests": [
+            "TestClientSideDecorations"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/dialog_darwin_test.go",
+          "sha256": "c61a075395819bbc25b8945f78426f5c5dd707f4284885e85c4e03aa91a016fa",
+          "tests": [
+            "TestDialogFromClick",
+            "TestMessageButtonRoles"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/document_test.go",
+          "sha256": "a09899d7491df6fab72275f02356308bac7db9904a4e1d3162f3309bee961632",
+          "declarations": [
+            "renameAsApps"
+          ],
+          "tests": [
+            "TestDocumentMenuTargetsWindow",
+            "TestDocumentOtherApps",
+            "TestDocumentWindow"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/e2e_test.go",
+          "sha256": "e8a797fb3038b17366832581166f9eab394d900c3eb4e46467c3ab140b3d138c",
+          "declarations": [
+            "beforeRun",
+            "deviceScale",
+            "eventually",
+            "expectClick",
+            "firstPages",
+            "method:Count",
+            "method:Divide",
+            "method:Forever",
+            "method:Greet",
+            "method:Touch",
+            "method:WindowID",
+            "mustEval",
+            "newWindow",
+            "pageCalls",
+            "pageState",
+            "quitDuringDialog",
+            "type:Greeter",
+            "type:Probe",
+            "type:Streams",
+            "type:Tick",
+            "type:accessNode",
+            "type:callEnd",
+            "waitCalls",
+            "waitFor",
+            "waitForPage",
+            "warmUp"
+          ],
+          "tests": [
+            "TestAutoHideMenuBar",
+            "TestBeforeRun",
+            "TestCallsEndWithTheWindow",
+            "TestCaptionlessContentSize",
+            "TestCapturePage",
+            "TestCenterThenResize",
+            "TestChannels",
+            "TestClearBrowsingData",
+            "TestClick",
+            "TestCloseEvents",
+            "TestCloseInFrame",
+            "TestContentBounds",
+            "TestContentWindow",
+            "TestContentWindowAccessHidden",
+            "TestContentWindowAccessibility",
+            "TestContentWindowComposingKeys",
+            "TestContentWindowComposingReturn",
+            "TestContentWindowContextMenu",
+            "TestContentWindowDrawnEditMenu",
+            "TestContentWindowEditMenuEnabled",
+            "TestContentWindowFileDrop",
+            "TestContentWindowIgnoreInput",
+            "TestContentWindowInputMethod",
+            "TestContentWindowListAccessibility",
+            "TestContentWindowListTypeToChoose",
+            "TestContentWindowMenuButton",
+            "TestContentWindowObserved",
+            "TestContentWindowPopoverMenuButton",
+            "TestContentWindowRepaintsWhatChanged",
+            "TestContentWindowTextAreaInputMethod",
+            "TestContentWindowTextKeys",
+            "TestContentWindowTextSelection",
+            "TestContentWindowTransparent",
+            "TestContentWindowTyping",
+            "TestContentWindowValueText",
+            "TestContentWindowVibrancy",
+            "TestDockMenu",
+            "TestDockedDevTools",
+            "TestDownloads",
+            "TestDraggableByDragging",
+            "TestEarlyWindow",
+            "TestEmptyWindowMenu",
+            "TestEvalForms",
+            "TestFileDrop",
+            "TestFindInPage",
+            "TestFirstClick",
+            "TestFramelessResizeEdges",
+            "TestFullScreenMenuBar",
+            "TestFullScreenToolbar",
+            "TestGlass",
+            "TestGlassWithoutTransparent",
+            "TestGlobalShortcut",
+            "TestGlobalShortcutPortal",
+            "TestHiddenTitleBar",
+            "TestHiddenWindowButtons",
+            "TestHideInFrame",
+            "TestIPCAndProtocol",
+            "TestIframeCannotCall",
+            "TestJavaScriptAlert",
+            "TestMain",
+            "TestMenuActivation",
+            "TestMenuActivationWindow",
+            "TestMenuAndClipboard",
+            "TestMenuBarAppearance",
+            "TestMenuLetters",
+            "TestNativeGlassOverWebView",
+            "TestNewWindowBounds",
+            "TestOpenAtLogin",
+            "TestPageGPUProcessID",
+            "TestPageProcessID",
+            "TestPermissions",
+            "TestPopupMenu",
+            "TestPower",
+            "TestPrintToPDF",
+            "TestQuitDuringDialog",
+            "TestReloadLoadHTML",
+            "TestReorderByDragging",
+            "TestResizeBelowMinimum",
+            "TestResizeFixedWindow",
+            "TestRestoreMaximizedCaptionless",
+            "TestRoundedOpaqueWindow",
+            "TestRoundedSystemBacking",
+            "TestRouterSideButtons",
+            "TestSchemeCORS",
+            "TestSmallFixedWindow",
+            "TestSrcdocIframes",
+            "TestStrictCSP",
+            "TestThemePreferencesReachThePage",
+            "TestTrafficLightPosition",
+            "TestURLScheme",
+            "TestUserAgentSuffix",
+            "TestUserInitiated",
+            "TestVibrancy",
+            "TestVibrancyWindowControls",
+            "TestVisibleOnAllWorkspacesWithoutFullScreen",
+            "TestWebViewFails",
+            "TestWindowButtonsTheme",
+            "TestWindowExtras",
+            "TestWindowGeometryAndState",
+            "TestWindowOnEveryDisplay",
+            "TestWindowOpenAllowed",
+            "TestWindowOpenHandler",
+            "TestWindowState"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/first_frame_other_test.go",
+          "sha256": "836839cbbea09036237317533f10e5a89f1392e3b1ca7a46a8310a3d3b4e7948",
+          "declarations": [
+            "firstFrameRevealed"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/first_frame_test.go",
+          "sha256": "91393409f49cfd79b1721c81fcf33f8056fd0b8d058de2bb781e507125540177",
+          "tests": [
+            "TestContentViewRunsAfterNewWindow",
+            "TestContentWindowHiddenReadyToShow"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/first_frame_windows_test.go",
+          "sha256": "a5cff85bcc8c36c9b9aa8588d4fdca8976b0f5b6f56ea66a99a4a565314c990a",
+          "declarations": [
+            "cloaked",
+            "firstFrameRevealed"
+          ],
+          "tests": [
+            "TestContentWindowCloakedUntilFirstFrame"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/fit_content_test.go",
+          "sha256": "e55caa6e274b242edf825b278416a90e1022ef7f7488f506d0bdbc1b95c52360",
+          "declarations": [
+            "pageMeasures",
+            "scrollbarHeight",
+            "waitSize"
+          ],
+          "tests": [
+            "TestFlyoutFitContent",
+            "TestFlyoutFitNativeContent",
+            "TestFlyoutFitNativeContentHidden",
+            "TestWindowFitContent"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/flyout_test.go",
+          "sha256": "bfce1b6ecab838053840c58d32d107ec29c7dd069599efd955e6d521a8dcd53f",
+          "declarations": [
+            "eventuallyAt",
+            "squarePNG",
+            "waitTrayLaidOut"
+          ],
+          "tests": [
+            "TestFlyout",
+            "TestFlyoutEscape",
+            "TestFlyoutModalWindow",
+            "TestFlyoutToggle",
+            "TestFocusableFlyout",
+            "TestPopoverFlyout",
+            "TestTrayFlyout"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/frame_clock_linux_test.go",
+          "sha256": "adb09b544738f7d71d05ef3ca7be34fb93a798baf99c86a3dc22cdb4dbf43a76",
+          "tests": [
+            "TestFrameClockFollowsMonitor"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/frameless_edges_windows_test.go",
+          "sha256": "39ba9803377b9f192aa904d9ab6ffe4f76212647d55f5d5c86d46c8cf86d6800",
+          "tests": [
+            "TestNativeUIFramelessEdges"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/gl_damage_linux_test.go",
+          "sha256": "b3e54f3e0182d5fb616ae4002e604f600f9cb0ba6d3c66dbc194550be0071941",
+          "tests": [
+            "TestGLDamageWayland"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/glprobe_linux_test.go",
+          "sha256": "5576fc9a8d9f863975bcb09f94d7c9282cdb92725356eb238e37409aa3d3066c",
+          "tests": [
+            "TestGLProbeWindow"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/gtk_css_linux_test.go",
+          "sha256": "b3983558c2f3d42301c12e800e43d8682a670db7d85a3158ae3e5d38114a7437",
+          "declarations": [
+            "gtkCSSBeforeRun",
+            "sameColor",
+            "titleBarStyle",
+            "titleButtonSizes"
+          ],
+          "tests": [
+            "TestGTKCSS"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/gtk_css_other_test.go",
+          "sha256": "72cb2752c3598f893d5247883d7e7f4159b8f4ff3995329988a7fe8941bab28b",
+          "declarations": [
+            "gtkCSSBeforeRun"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/hooks_darwin_test.go",
+          "sha256": "bc4aa5481b0002a54b7e0e3b48d346e8ba292c1ccf76dda18e8317f1387767dd",
+          "declarations": [
+            "accessPerform",
+            "accessibility",
+            "activateAccelerator",
+            "activateApp",
+            "activateMenu",
+            "appActive",
+            "appClick",
+            "axAttribute",
+            "canCompose",
+            "choosePageMenuItem",
+            "choosePopupItem",
+            "click",
+            "clickAndType",
+            "clickPage",
+            "closeMenus",
+            "collectionBehavior",
+            "compose",
+            "composeOver",
+            "composition",
+            "controlClick",
+            "deactivateApp",
+            "defaultURLHandler",
+            "dismissPageMenu",
+            "dismissPopups",
+            "dockDevTools",
+            "dockMenu",
+            "dockTileImage",
+            "dockedDevToolsPlace",
+            "documentChrome",
+            "drag",
+            "dragFiles",
+            "dropFiles",
+            "endSheet",
+            "endSheetButton",
+            "enterMenuBar",
+            "failWebViews",
+            "fullScreenHidesToolbar",
+            "glSurface",
+            "glassTint",
+            "heldAppClick",
+            "hitView",
+            "inputClient",
+            "keyboardState",
+            "loseComposition",
+            "material",
+            "materialState",
+            "memoryUI",
+            "menuBarColors",
+            "menuBarShown",
+            "menuItemEnabled",
+            "mockCapture",
+            "movePointer",
+            "nativeGlass",
+            "nativeGlassSupported",
+            "nativeGlassTint",
+            "observe",
+            "openMenus",
+            "pageGestures",
+            "pageMenu",
+            "panelStyles",
+            "pinch",
+            "pinchPage",
+            "popupItemEnabled",
+            "popupMenus",
+            "pressButton",
+            "pressCtrlShiftK",
+            "pressEscape",
+            "pressKey",
+            "pressKeyComposing",
+            "pressKeys",
+            "pressLetter",
+            "pressShortcut",
+            "pressTab",
+            "pressTitleButton",
+            "recentDocumentRecorded",
+            "resizeCursor",
+            "rightClick",
+            "rightClickPage",
+            "roundedBacking",
+            "screenColor",
+            "secondaryClickAsPrimary",
+            "setDroppedFiles",
+            "setWindowAppearance",
+            "sheet",
+            "sideButton",
+            "surfaceOnScreen",
+            "takeForeground",
+            "throttlingOff",
+            "titleButtonColor",
+            "titleButtons",
+            "topNonClient",
+            "trafficLights",
+            "usePortalShortcuts",
+            "waitOnScreen",
+            "webViewAttached",
+            "wheel",
+            "windowBacking"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/hooks_linux_test.go",
+          "sha256": "6f3a38b69c0904f5945b15f2105b1c15a547bdb1c813d50e62c5bf94a595047e",
+          "declarations": [
+            "accessPerform",
+            "accessibility",
+            "activateAccelerator",
+            "activateApp",
+            "activateMenu",
+            "appActive",
+            "appClick",
+            "axAttribute",
+            "canCompose",
+            "choosePageMenuItem",
+            "choosePopupItem",
+            "click",
+            "clickAndType",
+            "clickPage",
+            "closeMenus",
+            "collectionBehavior",
+            "compose",
+            "composeOver",
+            "composition",
+            "controlClick",
+            "deactivateApp",
+            "defaultURLHandler",
+            "dismissPageMenu",
+            "dismissPopups",
+            "dockDevTools",
+            "dockMenu",
+            "dockTileImage",
+            "dockedDevToolsPlace",
+            "documentChrome",
+            "drag",
+            "dragFiles",
+            "dropFiles",
+            "endSheet",
+            "endSheetButton",
+            "enterMenuBar",
+            "failWebViews",
+            "fake",
+            "fullScreenHidesToolbar",
+            "glSurface",
+            "glassTint",
+            "heldAppClick",
+            "hitView",
+            "inputClient",
+            "loseComposition",
+            "material",
+            "materialState",
+            "memoryUI",
+            "menuBarColors",
+            "menuBarShown",
+            "menuItemEnabled",
+            "mockCapture",
+            "movePointer",
+            "nativeGlass",
+            "nativeGlassSupported",
+            "nativeGlassTint",
+            "observe",
+            "openMenus",
+            "pageGestures",
+            "pageMenu",
+            "panelStyles",
+            "pinch",
+            "pinchPage",
+            "popupItemEnabled",
+            "popupMenus",
+            "pressButton",
+            "pressCtrlShiftK",
+            "pressEscape",
+            "pressKey",
+            "pressKeyComposing",
+            "pressKeys",
+            "pressLetter",
+            "pressShortcut",
+            "pressTab",
+            "pressTitleButton",
+            "recentDocumentRecorded",
+            "resizeCursor",
+            "rightClick",
+            "rightClickPage",
+            "roundedBacking",
+            "screenColor",
+            "secondaryClickAsPrimary",
+            "setDroppedFiles",
+            "setWindowAppearance",
+            "sheet",
+            "sideButton",
+            "surfaceOnScreen",
+            "takeForeground",
+            "throttlingOff",
+            "titleButtonColor",
+            "titleButtons",
+            "topNonClient",
+            "trafficLights",
+            "usePortalShortcuts",
+            "webViewAttached",
+            "wheel",
+            "windowBacking"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/hooks_other_test.go",
+          "sha256": "28ec221c3f916e2e37d94eb1690c8994887fd712c78c0323414b6e8a76116484",
+          "declarations": [
+            "accessPerform",
+            "accessibility",
+            "activateAccelerator",
+            "activateApp",
+            "activateMenu",
+            "appActive",
+            "appClick",
+            "axAttribute",
+            "canCompose",
+            "choosePageMenuItem",
+            "choosePopupItem",
+            "click",
+            "clickAndType",
+            "clickPage",
+            "closeMenus",
+            "collectionBehavior",
+            "compose",
+            "composeOver",
+            "composition",
+            "controlClick",
+            "deactivateApp",
+            "defaultURLHandler",
+            "dismissPageMenu",
+            "dismissPopups",
+            "dockDevTools",
+            "dockMenu",
+            "dockTileImage",
+            "dockedDevToolsPlace",
+            "documentChrome",
+            "drag",
+            "dragFiles",
+            "dropFiles",
+            "endSheet",
+            "endSheetButton",
+            "enterMenuBar",
+            "failWebViews",
+            "fullScreenHidesToolbar",
+            "glSurface",
+            "glassTint",
+            "heldAppClick",
+            "hitView",
+            "inputClient",
+            "keyboardState",
+            "loseComposition",
+            "material",
+            "materialState",
+            "memoryUI",
+            "menuBarColors",
+            "menuBarShown",
+            "menuItemEnabled",
+            "mockCapture",
+            "movePointer",
+            "nativeGlass",
+            "nativeGlassSupported",
+            "nativeGlassTint",
+            "observe",
+            "openMenus",
+            "pageGestures",
+            "pageMenu",
+            "panelStyles",
+            "pinch",
+            "pinchPage",
+            "popupItemEnabled",
+            "popupMenus",
+            "pressButton",
+            "pressCtrlShiftK",
+            "pressEscape",
+            "pressKey",
+            "pressKeyComposing",
+            "pressKeys",
+            "pressLetter",
+            "pressShortcut",
+            "pressTab",
+            "pressTitleButton",
+            "recentDocumentRecorded",
+            "resizeCursor",
+            "rightClick",
+            "rightClickPage",
+            "roundedBacking",
+            "screenColor",
+            "secondaryClickAsPrimary",
+            "setDroppedFiles",
+            "setWindowAppearance",
+            "sheet",
+            "sideButton",
+            "surfaceOnScreen",
+            "takeForeground",
+            "throttlingOff",
+            "titleButtonColor",
+            "titleButtons",
+            "topNonClient",
+            "trafficLights",
+            "usePortalShortcuts",
+            "webViewAttached",
+            "wheel",
+            "windowBacking"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/hooks_windows_test.go",
+          "sha256": "eb77bb5d856ca56e44e555a5293e33add55e3178f37e37cbb789867e476917b3",
+          "declarations": [
+            "accessPerform",
+            "accessibility",
+            "activateAccelerator",
+            "activateApp",
+            "activateMenu",
+            "appActive",
+            "appClick",
+            "axAttribute",
+            "canCompose",
+            "choosePageMenuItem",
+            "choosePopupItem",
+            "click",
+            "clickAndType",
+            "clickPage",
+            "closeMenus",
+            "collectionBehavior",
+            "compose",
+            "composeOver",
+            "composition",
+            "controlClick",
+            "deactivateApp",
+            "defaultURLHandler",
+            "dismissPageMenu",
+            "dismissPopups",
+            "dockDevTools",
+            "dockMenu",
+            "dockTileImage",
+            "dockedDevToolsPlace",
+            "documentChrome",
+            "drag",
+            "dragFiles",
+            "dropFiles",
+            "endSheet",
+            "endSheetButton",
+            "enterMenuBar",
+            "failWebViews",
+            "frameExtension",
+            "fullScreenHidesToolbar",
+            "glSurface",
+            "glassTint",
+            "heldAppClick",
+            "hitView",
+            "inputClient",
+            "keyboardState",
+            "loseComposition",
+            "material",
+            "materialState",
+            "memoryUI",
+            "menuBarColors",
+            "menuBarShown",
+            "menuItemEnabled",
+            "mockCapture",
+            "movePointer",
+            "nativeGlass",
+            "nativeGlassSupported",
+            "nativeGlassTint",
+            "observe",
+            "openMenus",
+            "pageGestures",
+            "pageMenu",
+            "panelStyles",
+            "pinch",
+            "pinchPage",
+            "popupItemEnabled",
+            "popupMenus",
+            "pressButton",
+            "pressCtrlShiftK",
+            "pressEscape",
+            "pressKey",
+            "pressKeyComposing",
+            "pressKeys",
+            "pressLetter",
+            "pressShortcut",
+            "pressTab",
+            "pressTitleButton",
+            "recentDocumentRecorded",
+            "resizeCursor",
+            "rightClick",
+            "rightClickPage",
+            "roundedBacking",
+            "screenColor",
+            "secondaryClickAsPrimary",
+            "setDroppedFiles",
+            "setWindowAppearance",
+            "sheet",
+            "sideButton",
+            "surfaceOnScreen",
+            "takeForeground",
+            "throttlingOff",
+            "titleButtonColor",
+            "titleButtons",
+            "topNonClient",
+            "trafficLights",
+            "usePortalShortcuts",
+            "webViewAttached",
+            "wheel",
+            "windowBacking"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/icon_test.go",
+          "sha256": "8bb7b3cc95b56f9e698ecfe56b4840503095a56a8a59387336140d73bbd78beb",
+          "declarations": [
+            "checkIcon"
+          ],
+          "tests": [
+            "TestFileIcon",
+            "TestTypeIcon"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/inspector_test.go",
+          "sha256": "441f8212bc02c65631074284266835ef199d2cc1a2545266c73f87690842b599",
+          "tests": [
+            "TestContentWindowInspector"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/key_repeat_linux_test.go",
+          "sha256": "61a49eb7acef1c386c89fa3bf20d1ab89c9b4e8b8b526a001a690943e84ebaaa",
+          "declarations": [
+            "countTrue"
+          ],
+          "tests": [
+            "TestShortcutRepeatedGTK"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/keys_by_position_linux_test.go",
+          "sha256": "3fbfa0cdaedefbea9cb18607d9d429c48271c0a9846d8be95fb62a26553a5609",
+          "tests": [
+            "TestKeysByPositionGTK"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/left_behind_linux_test.go",
+          "sha256": "7314503384cbc9d5172313f7f018114cb24cd91632af774894d4da2b18acf076",
+          "declarations": [
+            "keyboardState"
+          ],
+          "tests": [
+            "TestLeftBehindKeyboard"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/left_behind_test.go",
+          "sha256": "2abcd2b4f31287615692d44684af9868c07ffc943ee4093440119b3f3e292b99",
+          "declarations": [
+            "watchLeftBehind"
+          ],
+          "tests": [
+            "TestLeftBehindWindow"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/locale_test.go",
+          "sha256": "a2729e23a82e94b444f5123378b4537ea8d6e42a5a7dfc03ab7f11ccbb51f825",
+          "declarations": [
+            "hasFonts",
+            "localeLanguages"
+          ],
+          "tests": [
+            "TestLocaleAtDocumentStart",
+            "TestTextLanguage"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/material_frame_windows_test.go",
+          "sha256": "bcf33b1e2448f28567dd2c1aa0ac9953bd1ab24f542e68894aceb50271a59663",
+          "tests": [
+            "TestContentWindowMaximizedMaterialFrame"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/maximize_button_windows_test.go",
+          "sha256": "41a6e2cc2580a3e76db3d09291b8d6b37801175234dfc2c1f130e964d037c93a",
+          "tests": [
+            "TestViewMaximizeButton"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/menu_alt_windows_test.go",
+          "sha256": "b97737fcfad5520cb82bfaeccf23bf000e7449902e65e970c578a2cd584a0a76",
+          "tests": [
+            "TestMenuBarClosesOnAlt",
+            "TestPageMenuKeepsOpenOnAlt"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/menu_icons_linux_test.go",
+          "sha256": "7bbec933d5846df81c8c280960caa7acddada16fabc1fb6d9327fefed0fa1eb5",
+          "tests": [
+            "TestMenuIconsLinux"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/menu_icons_test.go",
+          "sha256": "2f6878ab229a81cdd1cf403432c6f732151329912b63fe57295704db41e517de",
+          "declarations": [
+            "menuIcon"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/menu_icons_windows_test.go",
+          "sha256": "156d5d1090af4a78124396fb7e69567c985378a26ca55c55403a81fc19c090a9",
+          "tests": [
+            "TestMenuIconsWindows"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/menu_shortcuts_linux_test.go",
+          "sha256": "53e15c55133e22cdfe746ddbae1f4872b9ca92adf5f36c87b0e7995477c6abb7",
+          "tests": [
+            "TestNativeMenuShortcutsLinux",
+            "TestWebViewEditShortcutLinux"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/menu_shortcuts_windows_test.go",
+          "sha256": "7155cbee0e62c38b84b21af328da812270db542a8832f704a46d7b47f9d2c765",
+          "tests": [
+            "TestNativeFieldPastesOnce",
+            "TestNativeMenuShortcuts",
+            "TestPageEditKeys",
+            "TestPageMenuPaste"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/menu_subtitle_darwin_test.go",
+          "sha256": "f78dceaa44ace8302139f7fee2129c43fa30b16585bc9005d9c44a22c7b37196",
+          "tests": [
+            "TestMenuItemSubtitle"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/menu_width_windows_test.go",
+          "sha256": "283fe4dda114fc1b9df23339c8c6d8bc5464cc778513200f7676399eaaa3153c",
+          "tests": [
+            "TestContextMenuItemWidths"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/network_test.go",
+          "sha256": "b1189830abac840a4ae5453f56843f6e8fea7c40db61dedfc27c531d4759fdde",
+          "tests": [
+            "TestNetwork"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/nowplaying_linux_test.go",
+          "sha256": "080c58f2752217fa2cd741753559627f56d3cc67fc1f5ffd9c8d009c546656e3",
+          "tests": [
+            "TestNowPlayingMPRIS"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/page_gestures_test.go",
+          "sha256": "1fe9994bf1e064211edd48c74777968eca6b5839858e96ede9e849463b89f81c",
+          "tests": [
+            "TestPageGestures",
+            "TestPinchZoomPage"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/panel_test.go",
+          "sha256": "3eabfac80cb343235d707b898f4e4b2c6bb48cdb3432628c380a566591620257",
+          "tests": [
+            "TestPanel",
+            "TestPanelNativeUI"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/panel_windows_test.go",
+          "sha256": "230d15d57b064918ff8c29e3dfffe6eee9ed63214956d2853de22710cd386408",
+          "tests": [
+            "TestPanelAltF4",
+            "TestPanelMaximizedInWorkArea"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/pdf_text_test.go",
+          "sha256": "eae01f5a8184f528f7d84416b50c7264bdbb90fe2fc5b76a13de9ef86d6cbfb4",
+          "declarations": [
+            "cmapText",
+            "printedTexts",
+            "utf16Hex"
+          ],
+          "tests": [
+            "TestPrintToPDFText"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/picture_in_picture_darwin_test.go",
+          "sha256": "c33bb1dffb9c8474425d9ae86923eec7eeff5f05ae90ef3732ec83c4c4668d75",
+          "declarations": [
+            "allowsPictureInPicture"
+          ],
+          "tests": [
+            "TestPictureInPicturePreference"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/picture_in_picture_test.go",
+          "sha256": "f3f5e2250b2b0cc432f72a6959dc1c58a99677c6554d6d2f5ca7cf0e230fca78",
+          "tests": [
+            "TestPictureInPicture",
+            "TestPictureInPictureWithoutVideo"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/pinch_test.go",
+          "sha256": "25c97b594d4289eb711adbb15859f3f81eeb0cf0fe3a3412a8340ae1406bb9e9",
+          "tests": [
+            "TestPinchZooms"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/plugins_test.go",
+          "sha256": "f89db5d4c03b3c6dd0e1448fe6a175ea6f70a25d47c543cca7fb1f39e0b9edfc",
+          "declarations": [
+            "pluginServer",
+            "readClientFrame",
+            "usePlugins",
+            "wsEcho"
+          ],
+          "tests": [
+            "TestPlugins",
+            "TestSQLitePlugin"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/recent_docs_test.go",
+          "sha256": "114107f24326b8e5b689bab0eadb1a1f02199bfa211c40045aac47afe94554be",
+          "declarations": [
+            "registerFileType"
+          ],
+          "tests": [
+            "TestJumpListTasks",
+            "TestRecentDocuments"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/resize_after_frame_darwin_test.go",
+          "sha256": "1fcc5e90da4aad221ff97244677f2167248c42b9865da2d6a4a1a199d72a21c2",
+          "declarations": [
+            "firstSquare",
+            "idle",
+            "squares",
+            "squaresWidth"
+          ],
+          "tests": [
+            "TestContentWindowResizeRightAfterFrame"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/resize_background_windows_test.go",
+          "sha256": "cd57b0abd9d9acec8b66b0e5e2bc80f8894be64ae138b295cb19c494dd3c77db",
+          "tests": [
+            "TestNativeUIWindowPixelsUnderSurface"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/rich_text_test.go",
+          "sha256": "1745c9f119dbfef2f33b2d69c0d8a6ac0fa21cd201331f6c70d053d478e6f968",
+          "tests": [
+            "TestRichTextEditor"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/session_state_test.go",
+          "sha256": "d9ede6d39b3bb9b0c19fbddbd617c6090f16b61ce6930043d6cb0f1b670f0b35",
+          "declarations": [
+            "holds",
+            "holdsScroll",
+            "savedSession",
+            "sessionPage",
+            "visit"
+          ],
+          "tests": [
+            "TestSessionState",
+            "TestSessionStateHiddenWindow"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/session_test.go",
+          "sha256": "530aa81661fefe6e85004cf9e75a17b6dfe1bfe2ddfc1cac70724e2286030a36",
+          "declarations": [
+            "sessionCookie",
+            "sessionServer",
+            "sessionWindow",
+            "webViewOffMain"
+          ],
+          "tests": [
+            "TestEphemeralSession",
+            "TestSessions",
+            "TestWebViewAvailableOffMain"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/swipe_darwin_test.go",
+          "sha256": "55b89f0ef20123493defcdd07606a7e260fc781002dc8ea5192c1db42b4eb438",
+          "tests": [
+            "TestRouterSwipe"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/tab_focus_darwin_test.go",
+          "sha256": "010b5307d4670a02bda0e89ee729e17e159c35e91089574c1320c62a11274ffd",
+          "declarations": [
+            "keyboardNavigationOn",
+            "tabFocusesLinks"
+          ],
+          "tests": [
+            "TestTabFocusesLinks"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/text_buffer_test.go",
+          "sha256": "d4ce8d03f0836ce4711fedc6903cd2f3f1053132c98fb40121b711cc0e6286ba",
+          "tests": [
+            "TestContentWindowTextBufferInputMethod"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/text_input_primitive_test.go",
+          "sha256": "3c0319824628ace5227596a4d19c1cb4426e27619dfb847c7122c11c80de1a7d",
+          "declarations": [
+            "method:BoundsForRange",
+            "method:IndexForPoint",
+            "method:MarkedRange",
+            "method:ReplaceText",
+            "method:Selection",
+            "method:SetMarkedText",
+            "method:TextForRange",
+            "method:UnmarkText",
+            "method:target",
+            "type:nativeInputClient"
+          ],
+          "tests": [
+            "TestContentWindowTextInputPrimitive"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/theme_color_test.go",
+          "sha256": "fb9cd5c7545ee5e72efabb7b86655a5566d633224cb91fac4123fb859b8888be",
+          "declarations": [
+            "type:themeColorChange"
+          ],
+          "tests": [
+            "TestPageThemeColor"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/top_edge_windows_test.go",
+          "sha256": "a2f3587a86b939912c8a37c1152c711d4243fe2c8416ed0e7874ec8840edca39",
+          "tests": [
+            "TestCaptionlessTopEdge"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/transforms_test.go",
+          "sha256": "57522053093fcfd02f08a6104077a289d29d98fa552bb4539dbe809ac39afbbb",
+          "tests": [
+            "TestContentWindowGroupOpacity",
+            "TestContentWindowPerspective",
+            "TestContentWindowTransforms",
+            "TestContentWindowTransitionBlur"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/tray_darwin_test.go",
+          "sha256": "769be967aa6b9c82bce897cd50e34665a7c8a63e8ed19393d41bae7cc1443b5f",
+          "tests": [
+            "TestTrayPopoverToggle"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/tray_linux_test.go",
+          "sha256": "a5539f6425d3f9326dbb106c9fa21cf3da3275890d283854cde51176cabcd694",
+          "tests": [
+            "TestTrayActivation",
+            "TestTrayIconPath"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/tray_windows_test.go",
+          "sha256": "5813a0bfe6acc713d887e5df078cb859af5862304d495a3f1995e75dc4d887c4",
+          "tests": [
+            "TestTrayAdded"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/watch_test.go",
+          "sha256": "b7ef7e8d51c1b813aa4409205c102b8b9c70295a00790d82c2671094d963bf98",
+          "tests": [
+            "TestFileWatch",
+            "TestFileWatchAtomicSave",
+            "TestFileWatchFile",
+            "TestFileWatchManyFiles",
+            "TestFileWatchPluginPages"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/webview2_variables_windows_test.go",
+          "sha256": "9438b90428ac57ac4cf4f6815b55c5d6b8e876a514911be1c1b3b2f6cd525778",
+          "tests": [
+            "TestWebView2LoaderVariables"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/webview_present_test.go",
+          "sha256": "973bd904aacf8f79e17352d37064de3572c0a6fef30e84c41abb3c21cea22545",
+          "declarations": [
+            "greenish",
+            "reddish",
+            "screenPixel"
+          ],
+          "tests": [
+            "TestContentWindowWebViewRoundedScaled"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/webview_test.go",
+          "sha256": "269679bd9a07059ac89d4b2f7c88df12f4165ae63aeab13adacffb15ead83035",
+          "tests": [
+            "TestContentWindowWebView",
+            "TestContentWindowWebViewDrop",
+            "TestContentWindowWebViewEditMenu",
+            "TestContentWindowWebViewScrollToContainer",
+            "TestContentWindowWebViewTab",
+            "TestContentWindowWebViewUnhandledKeys",
+            "TestContentWindowWebViewUnhandledKeysInFrame"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/window_active_test.go",
+          "sha256": "252fd6c11c6dc0d7fd638c6401080a512dd65b0707e830a6f00be2c5173c9982",
+          "tests": [
+            "TestMaterialFollowsActive",
+            "TestWindowActive"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/window_drag_darwin_test.go",
+          "sha256": "0d94d14423a04c6e314533d3b3c8e48575d4c254043ca2dbcbc5e32d30c18294",
+          "declarations": [
+            "abs",
+            "dragRegion"
+          ],
+          "tests": [
+            "TestDragRegionMovesWindow"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/window_startup_resize_test.go",
+          "sha256": "9db4d668d2b2cecafc3c3e234b112e488e21c49fa3c426ae24d09d41efba10f3",
+          "tests": [
+            "TestContentWindowResizeFromFirstFrame"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gpu",
+      "files": [
+        {
+          "path": "backend/internal/gpu/bands.go",
+          "sha256": "e45e2e5df26e2fd997d5ed0146f09d7b9a8213a4fe0a65f8283904484b27e290",
+          "declarations": [
+            "bandsCost",
+            "method:addBands",
+            "method:narrowest",
+            "method:planBands",
+            "method:span",
+            "method:strips",
+            "method:widest",
+            "type:band",
+            "type:rounded"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/bench_test.go",
+          "sha256": "f9b3ddad4be1479d3466833c28df8a04d33f46cd97df91b89395f4563e72d44c",
+          "declarations": [
+            "benchBuild",
+            "benchBuildBoxes"
+          ],
+          "tests": [
+            "BenchmarkBuildBoxes",
+            "BenchmarkBuildRows",
+            "BenchmarkBuildSprites",
+            "BenchmarkBuildSpritesZoomedOut",
+            "BenchmarkBuildTranslatedBoxes",
+            "BenchmarkBuildTranslatedBoxesUnfolded",
+            "BenchmarkDiffRows"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/corners.go",
+          "sha256": "048477e097e26968d543e84baacc2f3631e8066dff83f76c067128a46e671c43",
+          "declarations": [
+            "abs32",
+            "continuous",
+            "cornerLines",
+            "cornersOf",
+            "method:SplitCorners",
+            "method:addCorners",
+            "method:addCut"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/cull.go",
+          "sha256": "76f4178dcdc0f845bbaf7e4e8c4da0593f88e51d44697c1d27a707b5d7ae75de",
+          "declarations": [
+            "cullMargin",
+            "glyphsVisible",
+            "method:contains",
+            "method:occluderOf",
+            "method:planCull",
+            "shadowSupport",
+            "type:cullInfo",
+            "visibleOf"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/bench_test.go",
+          "sha256": "f4ced2f41c9f50a302437a0e3b356b0c38a5331111a6aa0eeb7e515f1a7d8e52",
+          "declarations": [
+            "benchRender"
+          ],
+          "tests": [
+            "BenchmarkRenderEmpty",
+            "BenchmarkRenderSprites"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/canvas_test.go",
+          "sha256": "6f1883fb0fa9906e9ccef78c56e421f02b2e20c2c3b15b6f5b63496f69a0624e",
+          "tests": [
+            "TestCanvases",
+            "TestSweepBetweenUnchangedFrames",
+            "TestTransientCanvas"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/classes.hlsl",
+          "sha256": "eb1fa28a3376548949927abd2fb78a690d09444097ee679dada8fb7da2dc2732"
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/classes_test.go",
+          "sha256": "43b01e01d2bbe3472fdf482cfeac2957c93254aa48ece4e3c97891081acc882b",
+          "declarations": [
+            "compareToGeneral",
+            "drawClasses"
+          ],
+          "tests": [
+            "TestClassPipelines",
+            "TestClassesDrawAsTheGeneralShader",
+            "TestDwmFlushedShared",
+            "TestFittingFrameWaitsForComposition",
+            "TestFrameCostFits",
+            "TestFrameCostWithoutReady",
+            "TestFrameThatWaitedDoesNotKeepNextOnesWaiting"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/d3d11.go",
+          "sha256": "1421d4c98d3ceef90295b7d2e2bd585006a8d4f68b8d5e3fb080e6a3dea80a2d",
+          "declarations": [
+            "New",
+            "NewComposed",
+            "beyondFrame",
+            "call",
+            "dwmFlushed",
+            "failed",
+            "free",
+            "freeCanvas",
+            "meets",
+            "method:Composed",
+            "method:FrameInfo",
+            "method:Ready",
+            "method:Release",
+            "method:Render",
+            "method:SetPost",
+            "method:Software",
+            "method:armSettle",
+            "method:awaitDisplay",
+            "method:background",
+            "method:batchKey",
+            "method:bindShader",
+            "method:bindState",
+            "method:blurImage",
+            "method:buffers",
+            "method:buildScene",
+            "method:classPipeFor",
+            "method:clearWhole",
+            "method:composeSwapChain",
+            "method:draw",
+            "method:drawBuilt",
+            "method:drawCanvas",
+            "method:drawCanvases",
+            "method:drawFrame",
+            "method:drawScene",
+            "method:effectShader",
+            "method:fitBackdrop",
+            "method:imageView",
+            "method:init",
+            "method:newTarget",
+            "method:newTexture",
+            "method:pass",
+            "method:pipeline",
+            "method:present",
+            "method:presentPending",
+            "method:readBackdrop",
+            "method:refreshed",
+            "method:resize",
+            "method:setBackground",
+            "method:setSourceSize",
+            "method:show",
+            "method:shown",
+            "method:sweep",
+            "method:syncAtlas",
+            "method:syncStops",
+            "method:waitComposed",
+            "method:waitRefresh",
+            "method:woke",
+            "newRenderer",
+            "ptr",
+            "type:Renderer",
+            "type:blendDesc",
+            "type:box",
+            "type:bufferDesc",
+            "type:canvasTexture",
+            "type:classPipe",
+            "type:effectShader",
+            "type:guid",
+            "type:inputElement",
+            "type:mapped",
+            "type:presentParameters",
+            "type:rasterizerDesc",
+            "type:redrawn",
+            "type:rtBlend",
+            "type:samplerDesc",
+            "type:subresourceData",
+            "type:swapChainDesc1",
+            "type:texture",
+            "type:texture2DDesc",
+            "type:viewport"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/d3d11_test.go",
+          "sha256": "312c4e8444d66dc8c5b4990cf9ba4356c413cc04cfad288d482f1b32a143c6db",
+          "declarations": [
+            "hiddenWindow",
+            "method:readBack",
+            "releaseImages",
+            "resizeSettles"
+          ],
+          "tests": [
+            "TestBeyondFrame",
+            "TestBorderedCardDrawsAsTheCPURenderer",
+            "TestComposed",
+            "TestDrawsAsTheCPURenderer",
+            "TestReleasedImageUploadsFromItsRestore",
+            "TestReleasedImageWithNewRenderer",
+            "TestResizeSettles",
+            "TestShaderBytecode",
+            "TestSwapChainBackground"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/damage_test.go",
+          "sha256": "30292d46c0a7f1a7336a650cb35838f36c2c377c06fff4ed528bb4e73ec95344",
+          "declarations": [
+            "changingScenes",
+            "differing"
+          ],
+          "tests": [
+            "TestPartialFramesMatchWhole",
+            "TestPresentsInPart"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/device/device.go",
+          "sha256": "80130471bab183988285ae85baa4a7d02f308aa5b6e7143dc72cb5631d2577c4",
+          "declarations": [
+            "New",
+            "SystemDir"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/device/device_test.go",
+          "sha256": "920422c3157ad7bcbc596cc3acf9919fdb56afa86da54ad9531dc2234ededd7f",
+          "declarations": [
+            "call"
+          ],
+          "tests": [
+            "TestNew"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/effect.hlsl",
+          "sha256": "3d5a76577015b3d4508889e0bdd749be4fd42d9121be617ba185fbc16a545b1c"
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/effectcache.go",
+          "sha256": "6b1c0f2bc0fbfda9774f19cf5a10a2edc1ca89a4488461b5591f22201fa5248c",
+          "declarations": [
+            "PrecompileEffect",
+            "compileEffectCode",
+            "effectCacheDir",
+            "method:code",
+            "method:entry",
+            "method:run",
+            "saveEffectCode",
+            "trimEffectCache",
+            "type:effectCache",
+            "type:effectEntry",
+            "validDXBC"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/effectcache_test.go",
+          "sha256": "cf6be6e684587c04630370fedf430247f00a1c704f5e852788feea4eaa87572a",
+          "tests": [
+            "TestEffectCache",
+            "TestTrimEffectCache"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/gen.go",
+          "sha256": "2db31493a52c69d096f03901eefae41ba12879f51fb66ad579515f1887441376",
+          "declarations": [
+            "blobBytes",
+            "classDefines",
+            "main",
+            "set"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/geometry_test.go",
+          "sha256": "03676df7beccdab7cf37991d7407d48844d002dd0fa413d7dec94299241094d9",
+          "tests": [
+            "TestGeometryOptimizationsPreservePixels"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/latency.go",
+          "sha256": "8166f8d923bd419b4e66ea54204d57e1fe4b52b02202b0c7081cb46c45acba2c",
+          "declarations": [
+            "method:add",
+            "method:begin",
+            "method:end",
+            "method:fits",
+            "method:makeQueries",
+            "method:read",
+            "method:readPeriod",
+            "method:ready",
+            "method:refreshPeriod",
+            "method:release",
+            "method:release",
+            "method:take",
+            "method:took",
+            "method:waitObject",
+            "method:waitThen",
+            "type:frameCost",
+            "type:frameQuery",
+            "type:latency"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/latency_test.go",
+          "sha256": "817311f3889a5ec62d21f4fcdabf40f73d87dd660533af16167748fbf2397b1f",
+          "tests": [
+            "TestFrameLatencyTokens",
+            "TestLapsedWaitPresentsAtOnce",
+            "TestUnchangedFrameWaitsForRefresh"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/offscreen.go",
+          "sha256": "f6969424fb1cebcdde8f46f55103335c5cb794903870a279fff29387d80db128",
+          "declarations": [
+            "NewOffscreen",
+            "RenderOffscreen",
+            "destroyWindow",
+            "method:Release",
+            "method:Render",
+            "method:read",
+            "method:readPart",
+            "newHiddenWindow",
+            "type:Offscreen"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/shader.go",
+          "sha256": "9fb51d134eed5f1588f455439ac99225d24889753508f1a684e5ffcecde0bcf6",
+          "declarations": [
+            "CompileEffect",
+            "EffectSource",
+            "blobBytes",
+            "classDefines",
+            "compile",
+            "compileClass",
+            "compileShader",
+            "shaderCode",
+            "sourceSum",
+            "type:classShader",
+            "type:shaders"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/shader.hlsl",
+          "sha256": "1ce780608c89eda86d5b59eb674253f39eb7469dbb1e2f4c4cc5bb28d781d952"
+        },
+        {
+          "path": "backend/internal/gpu/d3d11/shaders.go",
+          "sha256": "4a1877801f406a74e220ac39db1e0450c7a62c4d6bdcc9abc38f6131739e6707"
+        },
+        {
+          "path": "backend/internal/gpu/damage.go",
+          "sha256": "90baf61a69ed651cf1582fae2743a917f02f219660e691569364b5e3460c4ea1",
+          "declarations": [
+            "addRect",
+            "method:Add",
+            "method:Bounds",
+            "method:Damage",
+            "method:Has",
+            "method:Intersect",
+            "method:Remember",
+            "method:Reset",
+            "method:Set",
+            "method:String",
+            "method:Take",
+            "pixels",
+            "type:Ages",
+            "type:Part",
+            "type:Pipelines",
+            "type:age",
+            "within"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/damage_test.go",
+          "sha256": "58c1ca97f29bb66809febce4c8b0a73995f38ccf5483d549ade2793361461535",
+          "tests": [
+            "TestAddRect",
+            "TestAges",
+            "TestPartial"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/bench_test.go",
+          "sha256": "0304763c32267abc75afe3d409f0fb0deee5ed2ea97d3fb202db2df452f313a5",
+          "declarations": [
+            "benchRender"
+          ],
+          "tests": [
+            "BenchmarkRenderEmpty",
+            "BenchmarkRenderSprites"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/canvas_test.go",
+          "sha256": "062d152705eaa8aa5993ac0ffec23aedf7fa2979020dbc51e366ba7828ab153c",
+          "tests": [
+            "TestCanvases",
+            "TestTransientCanvas"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/damage_test.go",
+          "sha256": "04f0de0b4106e38ad0743046028d8551d340935942842cd48cb0d18615010786",
+          "tests": [
+            "TestPartialFramesApart",
+            "TestPartialFramesMatchWhole"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/effect.glsl",
+          "sha256": "5cb65d6156bb09d160de533d5a167bf863e4026c18c634cb65fede0b2a09ed0f"
+        },
+        {
+          "path": "backend/internal/gpu/gl/geometry_test.go",
+          "sha256": "70329cee88071b1808923d28935303fd2af75f4b50fddec2e1295bd169033a9c",
+          "tests": [
+            "TestGeometryOptimizationsPreservePixels"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/gl.go",
+          "sha256": "90d47f20b30e6a6ae3b484ff270f53005ca06c8ce2682775901ee9ced2846c5c",
+          "declarations": [
+            "EffectSource",
+            "New",
+            "compile",
+            "link",
+            "meets",
+            "method:FrameInfo",
+            "method:Invalidate",
+            "method:Release",
+            "method:Render",
+            "method:Software",
+            "method:batchKey",
+            "method:bindShader",
+            "method:bindState",
+            "method:blendFunc",
+            "method:blurImage",
+            "method:buildScene",
+            "method:deleteCanvas",
+            "method:draw",
+            "method:drawBuilt",
+            "method:drawCanvas",
+            "method:drawCanvases",
+            "method:drawFrame",
+            "method:drawScene",
+            "method:effectProgram",
+            "method:fit",
+            "method:fitBackdrop",
+            "method:forget",
+            "method:imageTexture",
+            "method:init",
+            "method:pass",
+            "method:passInto",
+            "method:readBackdrop",
+            "method:release",
+            "method:set",
+            "method:sweep",
+            "method:syncAtlas",
+            "method:syncStops",
+            "newTexture",
+            "or",
+            "passLink",
+            "softwareRenderer",
+            "type:Renderer",
+            "type:canvasTexture",
+            "type:effectProgram",
+            "type:passProgram",
+            "type:redrawn",
+            "type:target",
+            "type:texture",
+            "unpack",
+            "unpackReset"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/gl_js_test.go",
+          "sha256": "7e4ef6bf6716de363409f7af8942357f1432a8aeae130e076f78f64a9f7acdb1",
+          "declarations": [
+            "canvas",
+            "withoutSubpixelGlyphs"
+          ],
+          "tests": [
+            "TestWebGLDrawsAsTheCPURenderer",
+            "TestWebGLPresentsFramesDrawnInMemory",
+            "TestWebGLRenewedContext"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/gl_test.go",
+          "sha256": "379106f8cee5ce7ac0ade1e785f62fd79f508e755d09865f9feb0caa7d3f1f8e",
+          "declarations": [
+            "offscreen"
+          ],
+          "tests": [
+            "TestBorderedCardDrawsAsTheCPURenderer",
+            "TestDrawsAsTheCPURenderer",
+            "TestPresentsFramesDrawnInMemory"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/load_js.go",
+          "sha256": "6b0cbc85c5888ff2bac7493909ee54dbbdf0837224f315b1feb7750130c6a17b",
+          "declarations": [
+            "NewContext",
+            "boolInt",
+            "call",
+            "contextVersion",
+            "currentContext",
+            "deleteObjects",
+            "genObjects",
+            "glActiveTexture",
+            "glAttachShader",
+            "glBindBuffer",
+            "glBindBufferBase",
+            "glBindFramebuffer",
+            "glBindTexture",
+            "glBindVertexArray",
+            "glBlendFunc",
+            "glBlendFuncSeparate",
+            "glBlitFramebuffer",
+            "glBufferData",
+            "glCheckFramebufferState",
+            "glClear",
+            "glClearColor",
+            "glCompileShader",
+            "glCopyTexSubImage2D",
+            "glCreateProgram",
+            "glCreateShader",
+            "glDeleteBuffers",
+            "glDeleteFramebuffers",
+            "glDeleteProgram",
+            "glDeleteShader",
+            "glDeleteTextures",
+            "glDeleteVertexArrays",
+            "glDisable",
+            "glDrawArraysInstanced",
+            "glEnable",
+            "glEnableVertexAttrib",
+            "glFramebufferTexture2D",
+            "glGenBuffers",
+            "glGenFramebuffers",
+            "glGenTextures",
+            "glGenVertexArrays",
+            "glGetError",
+            "glGetIntegerv",
+            "glGetProgramiv",
+            "glGetShaderiv",
+            "glGetUniformBlockIndex",
+            "glGetUniformLocation",
+            "glLinkProgram",
+            "glPixelStorei",
+            "glReadPixels",
+            "glScissor",
+            "glTexImage2D",
+            "glTexParameteri",
+            "glTexSubImage2D",
+            "glUniform1f",
+            "glUniform1i",
+            "glUniform2f",
+            "glUniform2i",
+            "glUniform4i",
+            "glUniformBlockBinding",
+            "glUseProgram",
+            "glVertexAttribDivisor",
+            "glVertexAttribPointer",
+            "glViewport",
+            "hasContext",
+            "hasExtension",
+            "jsBytes",
+            "jsPixels",
+            "load",
+            "location",
+            "method:ID",
+            "method:Lost",
+            "method:MakeCurrent",
+            "method:Renew",
+            "name",
+            "number",
+            "object",
+            "programLog",
+            "rendererString",
+            "setShaderSource",
+            "shaderLog",
+            "type:Context",
+            "uploadSize",
+            "versionString"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/load_linux.go",
+          "sha256": "0fd00d2d4de614a791355d33414bd07d247eadfd5f61894ff8dd306e198a76ee",
+          "declarations": [
+            "MakeAreaCurrent",
+            "contextVersion",
+            "currentContext",
+            "direct",
+            "goString",
+            "hasContext",
+            "hasExtension",
+            "infoLog",
+            "load",
+            "needsRestore",
+            "programLog",
+            "rendererString",
+            "setShaderSource",
+            "shaderLog",
+            "versionString"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/load_linux_test.go",
+          "sha256": "889cce38a248c9b8721836755b36d2db0376381c8b8a9839442b805f03dc5528",
+          "tests": [
+            "TestMakeAreaCurrentWithoutGTK",
+            "TestNeedsRestore"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/offscreen.go",
+          "sha256": "39a46469521d7081d29370e0ef194821894035227513735684d3b6e2f0a1c459",
+          "declarations": [
+            "NewOffscreen",
+            "method:Info",
+            "method:Release",
+            "method:Render",
+            "type:Offscreen"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/offscreen_linux_test.go",
+          "sha256": "8b846139c98d822cc18ee13352556715a2124d7d59198ee8212247436fc4761f",
+          "tests": [
+            "TestNewOffscreenFailsWithItsError"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/present.go",
+          "sha256": "8a60c66ecd0f8f15b3bea81eb6b1f4335eae36c4ae6fc8183da8ff72afe0c13d",
+          "declarations": [
+            "method:Present",
+            "type:Presenter"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/read.go",
+          "sha256": "cd075bab6bd6eb7e75117e3a0c131d109f41512580fce33804fc55bbc9ecf372",
+          "declarations": [
+            "ReadFramebuffer"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gl/shader.glsl",
+          "sha256": "1987961c567f983b75593ea98152296057ce99e8fb0b98b2fe8338167ffb4d96"
+        },
+        {
+          "path": "backend/internal/gpu/gpu.go",
+          "sha256": "cbbebe59024892d8150c45d606f1fcedabefa839c1da20de1bb0a66fd2b13d7c",
+          "declarations": [
+            "BlurPass",
+            "DownPass",
+            "GoBytes",
+            "ImageBlurPass",
+            "ImageDownPass",
+            "classOf",
+            "method:BackdropSize",
+            "method:Build",
+            "method:Classes",
+            "method:Empty",
+            "method:Release",
+            "method:StopsSize",
+            "method:add",
+            "method:addAround",
+            "method:addEffect",
+            "method:addFill",
+            "method:addHole",
+            "method:addMaskedEffect",
+            "method:addOpaque",
+            "method:addShadow",
+            "method:addStops",
+            "method:area",
+            "method:batchScissor",
+            "method:classOf",
+            "method:intersect",
+            "method:joinLast",
+            "method:markEnclosing",
+            "method:markFill",
+            "method:pushed",
+            "method:scissorBatches",
+            "method:uniformsOf",
+            "method:wideOf",
+            "opacity",
+            "rect",
+            "ringCore",
+            "shadowCore",
+            "straight",
+            "type:Batch",
+            "type:Builder",
+            "type:Class",
+            "type:Instance",
+            "type:Pass",
+            "type:Scissor",
+            "type:clip",
+            "wideColor",
+            "worthSplitting"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gpu_test.go",
+          "sha256": "464fad06008b9ba259797e246a5400744f615d20e82766150eb2a2fede214391",
+          "declarations": [
+            "coverageOf",
+            "ringFragments",
+            "sdRound",
+            "shadowFragments"
+          ],
+          "tests": [
+            "TestAffineClipMaskCacheFollowsClipInsteadOfContent",
+            "TestAffineInstancesPreserveGeometryAndWideColors",
+            "TestBandsCoverWhatDraws",
+            "TestBatchClasses",
+            "TestClipReachingRoundedCornersIsMasked",
+            "TestCornerSplitPaysForItsDrawCalls",
+            "TestCornerSplitShrinksTheCurved",
+            "TestCullDoesNotPlanSpriteOnlyScenes",
+            "TestCullKeepsTransformedShadows",
+            "TestCullLeavesOutCoveredOps",
+            "TestCullPlanIsBounded",
+            "TestFillsInsideTheirClipSkipItsCoverage",
+            "TestGrowingClipKeepsItsMask",
+            "TestIdleMasksStayWithinBudget",
+            "TestJoinBatches",
+            "TestMovedClipStaysInTheShader",
+            "TestOpaqueCores",
+            "TestPanesReachingRoundedCornersShareTheirMask",
+            "TestRingSplitShrinksTheShaded",
+            "TestRoundedClipMasksOnlyTheBranchWithATransform",
+            "TestShaderCapabilitiesAreOptIn",
+            "TestShaderWideUniforms",
+            "TestShadowSplitShrinksTheShaded",
+            "TestTransformComingAndGoingKeepsMasks",
+            "TestTransformOutsideAClipLeavesItUnmasked",
+            "TestTranslatedContentLeavesRoundedClipsUnmasked",
+            "TestTranslationsFold",
+            "TestTurningCardMasksKeepWithinBudget"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gputest/boxes.go",
+          "sha256": "6c556789212b86c1f47cdfbf562efe5932dcc53c3226a11188e659e12c6e673f",
+          "declarations": [
+            "BoxesScene",
+            "PanelsScene",
+            "RowsScene"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gputest/canvas.go",
+          "sha256": "6d7a8d625c5d20c15aac1041715420ead3d55646a6a0f844079f7d82588e5e0f",
+          "declarations": [
+            "CanvasScene"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gputest/card.go",
+          "sha256": "488071899484cbb4c1d2bb07a71d4e41f23d97f4097127052812c6dd190343d0",
+          "declarations": [
+            "BorderedCardScene",
+            "CompareStraightEdges"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gputest/changing.go",
+          "sha256": "0117fe496441cf9ffe544bfa8036ca44dbb91c9aab8ed12ac67106a630cbf65a",
+          "declarations": [
+            "NewChanging",
+            "method:Change",
+            "method:Scene",
+            "method:color",
+            "method:nest",
+            "method:op",
+            "method:pixels",
+            "method:rect",
+            "method:transform",
+            "method:wide",
+            "type:Changing"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gputest/corners.go",
+          "sha256": "acb8c970c1cf18da756a26403b5a04548999bf7e14fcabbfb57ce128734a6d55",
+          "declarations": [
+            "CornerClipScene"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gputest/cull.go",
+          "sha256": "3f5703535ac53de45e8c3eeb93691c7585a8b28f8b2fbe221ae0a2c96b29ac2b",
+          "declarations": [
+            "CullCases",
+            "FillScene"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gputest/effect.go",
+          "sha256": "77c100ad6f75388defb55d8ccf7eccc0c9a108768702724298ed66bf345ce849",
+          "declarations": [
+            "method:Begin",
+            "method:Color",
+            "type:testPixels"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gputest/gputest.go",
+          "sha256": "fbefdfc8d2a2a68e01660accb717cb9e687c37a049162ce6c853dc6bd2f45f16",
+          "declarations": [
+            "CardsScene",
+            "Compare",
+            "ContinuousScene",
+            "Continuously",
+            "MaskedCases",
+            "OpaqueScene",
+            "RingCases",
+            "Scene",
+            "ShadowCases",
+            "ShadowPanelScene",
+            "Transformed",
+            "WideScene",
+            "WithoutNewPaints",
+            "absInt",
+            "clamp",
+            "glyphContent",
+            "save",
+            "type:CullCase",
+            "type:MaskedCase",
+            "type:RingCase",
+            "type:ShadowCase"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gputest/mask.go",
+          "sha256": "0be84593f07183ea27cb5b8fbf6d7d13d5726702cd44601b0ce79cbe744951df",
+          "declarations": [
+            "MaskedClipScene"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gputest/sprites.go",
+          "sha256": "89c96260707e0de61690eaf9b10072c7f5a5c06adf3a10a5b30516fa6d9d73c2",
+          "declarations": [
+            "SpriteScene"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/gputest/transform.go",
+          "sha256": "3377b9de1cd31d4a7c67ad9710947c61fe36c93da6a4ccdfd3e43e59e13e977e",
+          "declarations": [
+            "AxisClipScene",
+            "BehindOriginScene",
+            "PerspectiveScene",
+            "TransformedScene",
+            "TranslatedScenes"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/batch_bench_test.go",
+          "sha256": "732806956a80c3f60ef595ef93278003f2a5b9c578a8b02647751659a12cd488",
+          "tests": [
+            "BenchmarkRenderBatches"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/bench_test.go",
+          "sha256": "aae7778a36200d528a56769c29c36309ef26fec099655074938f555c9f040112",
+          "declarations": [
+            "benchRender",
+            "benchRenderWith"
+          ],
+          "tests": [
+            "BenchmarkRenderBoxes",
+            "BenchmarkRenderCards",
+            "BenchmarkRenderEmpty",
+            "BenchmarkRenderPanels",
+            "BenchmarkRenderSprites",
+            "BenchmarkRenderSpritesZoomedOut",
+            "BenchmarkRenderTranslatedBoxes"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/canvas_test.go",
+          "sha256": "61a3baf138ca7deb52a872cf07e4e36b1d124c2cb4665f1376050ff04d5989e5",
+          "tests": [
+            "TestCanvases",
+            "TestTransientCanvas"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/compile.go",
+          "sha256": "b42ac8da3497f6c2072894e0378c6dd63eb84e11d285265a2aca0dbb819616c9",
+          "declarations": [
+            "CompileLibrary"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/damage_test.go",
+          "sha256": "ca5ba74f24d03dbd5df35e28c6fcbd168992c4602e7e07d69c223115daeaa9da",
+          "declarations": [
+            "partialFrames"
+          ],
+          "tests": [
+            "TestPartialFramesApart",
+            "TestPartialFramesMatchWhole",
+            "TestPartialFramesOfOneChange"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/effect.metal",
+          "sha256": "3b380dc6c1acce9aaa49ccc55099c184145372406d4136e102de3b9cff27ba24"
+        },
+        {
+          "path": "backend/internal/gpu/metal/fillrate_bench_test.go",
+          "sha256": "9993b01f852e9f13d304adb104032ae1d47435b5f2a182750f5f26bfac8c6b55",
+          "tests": [
+            "BenchmarkRenderFillRate"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/gen.go",
+          "sha256": "4fdb4b7ef96514276320691f7d281f52da86834aac31ab51a01c755dd9fa17a2",
+          "declarations": [
+            "main"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/joined_edges_test.go",
+          "sha256": "706189d80f85d031a8d5063097ae00a9e56d6c8e3a58b073636c2cf60c2244ea",
+          "tests": [
+            "TestGlyphProbeJoinedEdges"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/metal.go",
+          "sha256": "92250d548ba09fb388b8939596511d6462ad002f9f1c91f37c9b5a45efc8e515",
+          "declarations": [
+            "EffectSource",
+            "New",
+            "ShaderSource",
+            "bindInstances",
+            "class",
+            "describe",
+            "frameScissor",
+            "hasHoles",
+            "load",
+            "meets",
+            "method:FrameInfo",
+            "method:Ready",
+            "method:Release",
+            "method:Render",
+            "method:SetWide",
+            "method:armTrim",
+            "method:batchPipe",
+            "method:begin",
+            "method:bindShader",
+            "method:blurImage",
+            "method:build",
+            "method:clearArea",
+            "method:clearTexel",
+            "method:compiledLibrary",
+            "method:drawBuilt",
+            "method:drawCanvas",
+            "method:drawFrame",
+            "method:drawInto",
+            "method:effectPipeline",
+            "method:encode",
+            "method:fit",
+            "method:fitBackdrop",
+            "method:forgetFrames",
+            "method:imageTexture",
+            "method:init",
+            "method:initGPU",
+            "method:libraryFromData",
+            "method:makePipelines",
+            "method:newClassPipeline",
+            "method:newPipeline",
+            "method:newTexture",
+            "method:partIn",
+            "method:partOf",
+            "method:pass",
+            "method:passPipeline",
+            "method:pipelineDamage",
+            "method:prefetched",
+            "method:prepare",
+            "method:readBackdrop",
+            "method:release",
+            "method:releaseTextures",
+            "method:render",
+            "method:renderOffscreen",
+            "method:setLayerWide",
+            "method:setScissor",
+            "method:specialized",
+            "method:sweep",
+            "method:sweepIfDue",
+            "method:syncAtlas",
+            "method:syncStops",
+            "method:track",
+            "method:trim",
+            "method:trimIfIdle",
+            "method:waitLast",
+            "method:waitSlot",
+            "msg2",
+            "msg5",
+            "need",
+            "newRenderer",
+            "nsString",
+            "or",
+            "pool",
+            "ptr",
+            "release",
+            "respondsTo",
+            "sel",
+            "send",
+            "type:Renderer",
+            "type:blendMode",
+            "type:canvasTexture",
+            "type:cfTimerContext",
+            "type:cgRect",
+            "type:cgSize",
+            "type:drawState",
+            "type:effectPipe",
+            "type:formatState",
+            "type:id",
+            "type:mtlClearColor",
+            "type:mtlRegion",
+            "type:mtlScissorRect",
+            "type:passState",
+            "type:redrawn",
+            "type:texture"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/metal_test.go",
+          "sha256": "43dc314d492091f0be6a924ac128c0640e593f890a0679064aac3188dcb5d2eb",
+          "declarations": [
+            "differing",
+            "half",
+            "holdPipelineBuilds",
+            "identityCases",
+            "init",
+            "renderRaw",
+            "shaderIdentityCases",
+            "unavailable"
+          ],
+          "tests": [
+            "TestBorderedCardDrawsAsTheCPURenderer",
+            "TestClassesDrawTheSamePixels",
+            "TestCornerSplitDrawsTheSamePixels",
+            "TestCullDrawsTheSamePixels",
+            "TestCullKeepsHardShadowsWithNegativeBlur",
+            "TestCullTransformedShadows",
+            "TestDrawingResourcesOnDemand",
+            "TestDrawsAsTheCPURenderer",
+            "TestFastFillDrawsTheSamePixels",
+            "TestFramesInFlight",
+            "TestFramesNeverWaitForACompile",
+            "TestMatchesTheUpstreamShader",
+            "TestOpaqueCoreDrawsTheSamePixels",
+            "TestPrecompileShader",
+            "TestReleaseStopsQueuedPipelineCompiles",
+            "TestRingSplitDrawsTheSamePixels",
+            "TestShaderLibrary",
+            "TestShadowSplitDrawsTheSamePixels",
+            "TestSplitsDrawTheSamePixels",
+            "TestTranslatedBoxes",
+            "TestTrimDrawables",
+            "TestWideColors"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/offscreen.go",
+          "sha256": "a21fd75b77d36986f0817bdbc43b38295096116502c5922ebc7c393b4c51665f",
+          "declarations": [
+            "NewOffscreen",
+            "RenderOffscreen",
+            "method:Encoded",
+            "method:Release",
+            "method:Render",
+            "method:target",
+            "type:Offscreen"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/pipelines.go",
+          "sha256": "40b2bcfe168e3897c0e8ebd74f89986073f4954d2955530ecb679003be3da40c",
+          "declarations": [
+            "method:buildPipeline",
+            "method:enqueueLocked",
+            "method:pipeFor",
+            "method:pipelineCounts",
+            "method:pipelineWorker",
+            "method:startPipelines",
+            "method:stopPipelines",
+            "method:usedSpecialized",
+            "specializable",
+            "type:deviceKey",
+            "type:pipeKey",
+            "type:pipeState",
+            "warmSet"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/precompile.go",
+          "sha256": "da1acf03b5d1d64f8a3f5186323ee6b612a6a2c22967e5132693459ac16fecc7",
+          "declarations": [
+            "PrecompileShader",
+            "method:make",
+            "sharedShader",
+            "type:shaderEntry"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/present.go",
+          "sha256": "c5d64beeca1942bae88f613d7f9f898cb014428f9635f8159ef7a81b2d118f5b",
+          "declarations": [
+            "method:SetPost",
+            "method:drain",
+            "method:dropPending",
+            "method:finishPending",
+            "method:layerChanges",
+            "method:ready",
+            "method:run",
+            "method:start",
+            "method:stash",
+            "method:stop",
+            "method:take",
+            "method:wait",
+            "method:wakeContent",
+            "type:pendingFrame",
+            "type:presenter"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/present_test.go",
+          "sha256": "75db51dd8b448e0530c5c478e4210984cb0bfe2c887a80712274e427093e6253",
+          "declarations": [
+            "drawableID"
+          ],
+          "tests": [
+            "TestDroppedPendingFrame",
+            "TestPendingFrames",
+            "TestPendingFramesSweep",
+            "TestPrefetchedFrames",
+            "TestPresenter",
+            "TestStalePost"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/metal/shader.metal",
+          "sha256": "b24c61ab166a3669c251f6ea5e72f09fb1cd2928be6e47fdfe25409aec409ea9"
+        },
+        {
+          "path": "backend/internal/gpu/metal/shadereffect.metal",
+          "sha256": "0c84dabe06f26e23061ea5aa0ef6f1b303de790e8401341adca25279c041297c"
+        },
+        {
+          "path": "backend/internal/gpu/metal/shaderlib.go",
+          "sha256": "4803efddbb59099263c72b95c48bd9468cd0f84d28fc10a79c08159f821a329a"
+        },
+        {
+          "path": "backend/internal/gpu/metal/testdata/shader_upstream.metal",
+          "sha256": "8be731906ebe8e150b13fccc88d9a3b03294e6ffdc1246be06fee616cca343cb"
+        },
+        {
+          "path": "backend/internal/gpu/metal/zoom_test.go",
+          "sha256": "96d3529620af4b198a59461f751429490905f95334d070d8994dc88643e84388",
+          "tests": [
+            "TestZoomedFrames"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/stats.go",
+          "sha256": "f98c3400b061765b3886322f865e34db809621ca6191e3f858a68e990de38d59",
+          "declarations": [
+            "method:Summary"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/sum.go",
+          "sha256": "090df5fbb7746d524ab5029bfcb8beb5a7e5b31512f6653a5284adc53ee600c3",
+          "declarations": [
+            "SourceSum"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/sum_test.go",
+          "sha256": "0c1a7f7ffc6f6e17279b42d8207d296c70483c3dbfc595fe0906d2876a8dca03",
+          "tests": [
+            "TestSourceSum"
+          ]
+        },
+        {
+          "path": "backend/internal/gpu/transform.go",
+          "sha256": "3e7330f42258eee3bd96884d5c6c7c0ecd7e597a563ec07c9fe1e78ee6c3987b",
+          "declarations": [
+            "areaRect",
+            "maskArea",
+            "method:clipTexture",
+            "method:dropIdleMasks",
+            "method:keep",
+            "method:prepare",
+            "type:clipMaskSlot"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/bridge.go",
+          "sha256": "91d53af3f2cd8c610b9daca1a8e7a921067f2d7d3c16a74305733034115433cb",
+          "declarations": [
+            "CompileFragment"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/doc.go",
+          "sha256": "ec1a879d6b2972f16e8f859732f67ad22f079beac15250c1751a8849d91066d3"
+        },
+        {
+          "path": "backend/internal/shader/ebitenbridge_test.go",
+          "sha256": "487b34b4324bf5caba70468582533c76e46efc28d9e3f4b11763d299228c8807",
+          "declarations": [
+            "compileEbitenShader",
+            "completeShaderSource",
+            "parseKageUnitDirective",
+            "writeShaderBridge"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/expr.go",
+          "sha256": "3685d199be11e143adac5759504eda6252adcd607d45354e00fd01dedad0dfc6",
+          "declarations": [
+            "argCountErrorPos",
+            "argumentName",
+            "canTruncateToFloat",
+            "canTruncateToInteger",
+            "integerKind",
+            "isValidSwizzling",
+            "method:parseCallee",
+            "method:parseExpr",
+            "method:parseIdent",
+            "method:shiftCount",
+            "normalizeSwizzling",
+            "resolveConstKind"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/fragment_test.go",
+          "sha256": "687b5834b05d3da66ca9d402930e3e1585694de8d069d1a80c97a9688ce975fa",
+          "tests": [
+            "TestFragment",
+            "TestNoEntry",
+            "TestRedeclaredBridge",
+            "TestUint",
+            "TestUntypedShift"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/shader.go",
+          "sha256": "ef195cadb9881ff2bc068fee741634bfe119cfc7193752d760ad087f2cb3fc97",
+          "declarations": [
+            "Compile",
+            "calledFunctionIndices",
+            "callsFunction",
+            "declared",
+            "isTerminating",
+            "method:Error",
+            "method:Positions",
+            "method:addError",
+            "method:addNamedLocalVariable",
+            "method:checkIntConstRange",
+            "method:checkPackageLevelNames",
+            "method:checkRecursiveCalls",
+            "method:checkUintConstRange",
+            "method:findConstant",
+            "method:findFunction",
+            "method:findLocalVariable",
+            "method:findUniformVariable",
+            "method:functionReturnTypes",
+            "method:inInternalRegion",
+            "method:inLoop",
+            "method:parse",
+            "method:parseBlock",
+            "method:parseConstant",
+            "method:parseDecl",
+            "method:parseFunc",
+            "method:parseFuncParams",
+            "method:parseInternalRegion",
+            "method:parseVariable",
+            "method:totalLocalVariableCount",
+            "ordinal",
+            "type:ParseError",
+            "type:block",
+            "type:compileError",
+            "type:compileState",
+            "type:constant",
+            "type:function",
+            "type:variable"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/shader_test.go",
+          "sha256": "2d0d2139fdb77bd6eac513cfb5b0ce39d6b84f663330794018fdcedb28f67857",
+          "declarations": [
+            "compare",
+            "compileFragmentStmt",
+            "glslFragmentNormalize",
+            "glslVertexNormalize",
+            "hlslNormalize",
+            "metalNormalize"
+          ],
+          "tests": [
+            "TestCompile",
+            "TestCompileArrayLengthLimit",
+            "TestCompileAssignFromNoReturnValue",
+            "TestCompileBareReturnInNonVoidFunc",
+            "TestCompileBareReturnInVoidFunc",
+            "TestCompileBlankAsValue",
+            "TestCompileBlankFunctions",
+            "TestCompileBoolArithmetic",
+            "TestCompileCompositeLitBoolConstant",
+            "TestCompileCompositeLitElementType",
+            "TestCompileCompoundAssignmentErrors",
+            "TestCompileConstantFloatIndex",
+            "TestCompileEllipsisArrayOutsideCompositeLit",
+            "TestCompileEntryPointTypesWithNoFragmentArguments",
+            "TestCompileFunctionAsValue",
+            "TestCompileHLSLIntModulo",
+            "TestCompileHLSLSwizzlingStpq",
+            "TestCompileHugeShift",
+            "TestCompileIndexType",
+            "TestCompileInternalRegionDirectives",
+            "TestCompileLargeFloatConstant",
+            "TestCompileMSLSwizzlingStpq",
+            "TestCompileNonIntegerArrayLength",
+            "TestCompileReservedUniformName",
+            "TestCompileReservedUniformNameWithBridge",
+            "TestCompileShiftCountWithVariable",
+            "TestCompileTextureVariable",
+            "TestCompileUnaryOperandType",
+            "TestCompileVarCountMismatch",
+            "TestCompileVaryingTypeMismatchPosition",
+            "TestCompileZeroLengthArray"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/stmt.go",
+          "sha256": "212c3a52d678f622fee23c020abe8c1bcb6336fbcc0711f1469335353afc0635",
+          "declarations": [
+            "canAssign",
+            "hasDuplicatedSwizzlingComponent",
+            "isConstZero",
+            "method:assign",
+            "method:checkAssignmentTarget",
+            "method:checkLocalVariableType",
+            "method:forceToInt",
+            "method:parseFor",
+            "method:parseForRange",
+            "method:parseRangeVar",
+            "method:parseStmt",
+            "returnCountErrorPos",
+            "toDefaultType",
+            "typeString"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/swizzling_test.go",
+          "sha256": "902c0f22d00672ed3951f35d1758acca7544b428e54f321e490912a0857a0cd8",
+          "declarations": [
+            "walkSwizzlingExprs"
+          ],
+          "tests": [
+            "TestSwizzlingCanonical",
+            "TestSwizzlingSet",
+            "TestSwizzlingValidation"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/syntax_test.go",
+          "sha256": "88d5e78d6a31607f3af8ab8758ea939fe935853a2c5f47ea21b41d7e31693f54",
+          "declarations": [
+            "compileToIR"
+          ],
+          "tests": [
+            "TestSyntaxArgumentWithoutValue",
+            "TestSyntaxArrayOutOfBounds",
+            "TestSyntaxAssignToDuplicatedSwizzling",
+            "TestSyntaxAssignToEntryPointArguments",
+            "TestSyntaxAssignToNonVariable",
+            "TestSyntaxAssignToUniformVariablePartially",
+            "TestSyntaxAssignToUniformVariables",
+            "TestSyntaxAtan",
+            "TestSyntaxBitwiseOperator",
+            "TestSyntaxBitwiseOperatorAssign",
+            "TestSyntaxBlankLhs",
+            "TestSyntaxBoolLiteral",
+            "TestSyntaxBranchOutsideLoop",
+            "TestSyntaxBuiltinFuncArgsMinMax",
+            "TestSyntaxBuiltinFuncClampType",
+            "TestSyntaxBuiltinFuncCrossType",
+            "TestSyntaxBuiltinFuncDoubleArgsType",
+            "TestSyntaxBuiltinFuncDoubleArgsType2",
+            "TestSyntaxBuiltinFuncMixType",
+            "TestSyntaxBuiltinFuncRefractType",
+            "TestSyntaxBuiltinFuncSingleArgType",
+            "TestSyntaxBuiltinFuncSingleArgTypeInteger",
+            "TestSyntaxBuiltinFuncSmoothstepType",
+            "TestSyntaxBuiltinFuncStepType",
+            "TestSyntaxBuiltinFuncTransposeType",
+            "TestSyntaxBuiltinFuncTripleArgsType",
+            "TestSyntaxCast",
+            "TestSyntaxCompare",
+            "TestSyntaxCompositeLit",
+            "TestSyntaxConstType",
+            "TestSyntaxConstType2",
+            "TestSyntaxConstType3",
+            "TestSyntaxConstTypeFromValue",
+            "TestSyntaxConstValueCount",
+            "TestSyntaxConstructorFuncType",
+            "TestSyntaxDiscard",
+            "TestSyntaxDivisionByConstantZero",
+            "TestSyntaxDuplicatedBlankNames",
+            "TestSyntaxDuplicatedConstNames",
+            "TestSyntaxDuplicatedEntryPoints",
+            "TestSyntaxDuplicatedFunctions",
+            "TestSyntaxDuplicatedLocalNames",
+            "TestSyntaxDuplicatedPackageLevelNames",
+            "TestSyntaxDuplicatedParamNames",
+            "TestSyntaxDuplicatedUniformVariables",
+            "TestSyntaxDuplicatedVariables",
+            "TestSyntaxDuplicatedVarsAndConstants",
+            "TestSyntaxEqual",
+            "TestSyntaxEqualArray",
+            "TestSyntaxForNonConstantInitialValue",
+            "TestSyntaxForRange",
+            "TestSyntaxForWithLocalVariable",
+            "TestSyntaxForbidAssigningSpecialVariables",
+            "TestSyntaxIfAndConstBool",
+            "TestSyntaxIncDecOperand",
+            "TestSyntaxInit",
+            "TestSyntaxInitWithNegativeInteger",
+            "TestSyntaxIntConstantRange",
+            "TestSyntaxInvalidArgument",
+            "TestSyntaxLabel",
+            "TestSyntaxLoopVariableScope",
+            "TestSyntaxMeaninglessSentence",
+            "TestSyntaxMethod",
+            "TestSyntaxMultipleAssignmentsAndTypeCheck",
+            "TestSyntaxMultipleValueReturn",
+            "TestSyntaxNoNewVariables",
+            "TestSyntaxNonTypeExpression",
+            "TestSyntaxOmittedReturnType",
+            "TestSyntaxOperatorAssign",
+            "TestSyntaxOperatorAssignBool",
+            "TestSyntaxOperatorAssignOperand",
+            "TestSyntaxOperatorAssignValueCount",
+            "TestSyntaxOperatorMod",
+            "TestSyntaxOperatorMultiply",
+            "TestSyntaxOperatorMultiplyAssign",
+            "TestSyntaxOperatorShift",
+            "TestSyntaxOperatorShiftAssign",
+            "TestSyntaxOperatorVecAndNumber",
+            "TestSyntaxRecursiveCall",
+            "TestSyntaxReturnConst",
+            "TestSyntaxReturnOnEveryPath",
+            "TestSyntaxReturnVoidCall",
+            "TestSyntaxScalarAndVector",
+            "TestSyntaxShadowing",
+            "TestSyntaxShortVarDeclRHSScope",
+            "TestSyntaxShortVarRedeclaration",
+            "TestSyntaxSwizzling",
+            "TestSyntaxTailingUnaryOperator",
+            "TestSyntaxTextureIndexOutOfRange",
+            "TestSyntaxTooManyElementsAtInitialization",
+            "TestSyntaxTooManyFragmentArguments",
+            "TestSyntaxType",
+            "TestSyntaxTypeBlankVar",
+            "TestSyntaxTypeDeclaration",
+            "TestSyntaxTypeFuncCall",
+            "TestSyntaxUnaryOperator",
+            "TestSyntaxUnmatchedArgs",
+            "TestSyntaxUnnamedParams",
+            "TestSyntaxUnsupportedSyntax",
+            "TestSyntaxUnusedBuiltinCall",
+            "TestSyntaxUnusedVariable",
+            "TestSyntaxVarDeclConstantKind",
+            "TestSyntaxVarDeclValueCount",
+            "TestSyntaxWrongReturn"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/array.go",
+          "sha256": "7f73adb6fc4e664dcec5762fabe5d403d8684ae348d1a7b12b32dc622c3e3bbf",
+          "declarations": [
+            "Bar",
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/array2.expected.metal",
+          "sha256": "8d9d32ffd8269a21d6df9eee70eafa836f668bca6aa1addbc68c15271fbf6aab"
+        },
+        {
+          "path": "backend/internal/shader/testdata/array2.go",
+          "sha256": "aa1118a313d3d00584577dc6f2e91194f9e1f684a50653c5df20907f4f7fdb4f",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/array3.go",
+          "sha256": "799e4d1bcc52b975317fa7fb5f4049eaf347380d3cda4b86dc132a1d68cc10ee",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/assign.go",
+          "sha256": "af32bce883f348fdf8a6b97733e03567540a3f61a3be0768ba02f170a13a43b6",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/assign_multiple.go",
+          "sha256": "fe04a0e1328f44a152b496018d09fdb4707046883e5d830647bea221da04efdc",
+          "declarations": [
+            "Bar",
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/assign_multiple2.go",
+          "sha256": "529c2c68b406ec16e7b4a50c2a33667e941823b9fb682b1ae49a68fd5cb6282c",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/atan.expected.metal",
+          "sha256": "3e2daeaaebd7e64b8d2e346c259849c95918ba8f12e4c44880a4d0c633e98100"
+        },
+        {
+          "path": "backend/internal/shader/testdata/atan.go",
+          "sha256": "392652dcb30a8070c75a7106e6727286e07b4ff81e6a18ce99cec0a931b28908",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/blank.go",
+          "sha256": "aee92fc2c407cd83434b3da50ac5dc39681acd5ae7ad7e00239c0751f90b8415",
+          "declarations": [
+            "Bar",
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/blocks.go",
+          "sha256": "ad904bc2da0ce8a6df4561f14e7c5366aa4e77f17c373707d9866c475264ca97",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/blocks2.go",
+          "sha256": "c47d2cbc537883340f40060e11703619340a6d9bd70d3f1be964140ba380d436",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/blocks3.go",
+          "sha256": "1ac660ee92fd33a2fdea872ec7abe8962742ec66448513f7b120340e0e8cb097",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/bool.go",
+          "sha256": "e00678b5ae934697791b90b3bacb05d90e8c53057b37232270fe2ca19dbd3323",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/call.go",
+          "sha256": "1e4050ec22db38c69cd2b57b9212447bbb0713fb3bc9fe992e8858198ba4c024",
+          "declarations": [
+            "Bar",
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/call_multiple.go",
+          "sha256": "8c2be65830cfda493a4c673fc23b69f5e80cc0bfe9d585dce34060d01154d9d0",
+          "declarations": [
+            "Bar",
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/call_multiple_nested.go",
+          "sha256": "dffbd162d04b1768a44a12a44e6f27209b716dd5e0ce420c01b808f144fac33f",
+          "declarations": [
+            "Bar",
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/const.go",
+          "sha256": "ea14ac8f3352117b896669c4128b74a930af531668b99d3a57f48bd49edd6899",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/const2.go",
+          "sha256": "f7b6668fe27a1eec6e1c72f4a6a08b1dcb700901a505ee2822b0229dec033583",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/const3.go",
+          "sha256": "e10a2931802735eca6816430af9df52f67fad879b2d74bbe46d49228ca080b83",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/const4.go",
+          "sha256": "0ad90b82efcd18f3057178086f0217f5697d3bd16e4fc47350f988c0937f6251",
+          "declarations": [
+            "Bar",
+            "Baz",
+            "Foo",
+            "Qux"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/define.go",
+          "sha256": "355f02469075eaff97099e64154eae29932414767771e982f1bb8c3a0909846b",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/define2.go",
+          "sha256": "a93cc42b5c6293269a4dc1c9f851f1e3ed8897c8cff785b4f200609c98d1f54c",
+          "declarations": [
+            "Bar",
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/define_multiple.go",
+          "sha256": "319147f44705817e7b82a25a34575be74ce02d7ba18a15fb8cf860317db285db",
+          "declarations": [
+            "Bar",
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/define_redeclare.go",
+          "sha256": "d449d6689391ac77ea0706df6e143eb2496f8a485162c8df315243619a9f631d",
+          "declarations": [
+            "Bar",
+            "Foo",
+            "Foo2",
+            "Foo3",
+            "Foo4"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/define_scope.go",
+          "sha256": "251e27517c1074aa7a3a124f1e3eb8003b2ba9e08207fcf76c3fe7420150d112",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/define_type.go",
+          "sha256": "f1a60e72b5f34b87781d406a2b38010c287063763ec2a8ba22653bd6295bbeca",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/for.go",
+          "sha256": "16a67af554b241e734c422c9be2189983a2b349d4d627c9201dce72cce90baf9",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/for2.go",
+          "sha256": "5e1b80b99ca03efbf262401f2026927dcb01e624a6c4b66a456cb56f34a0d146",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/for3.go",
+          "sha256": "21bc7729399410a00ffeebc4d77ccdb8a13776fbcd55e6b5d3fb2de7897c7550",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/for4.go",
+          "sha256": "c32317f41ffc6979fb8fd933608cedb487120a3d957dab4ef123a7d1a2bffe87",
+          "declarations": [
+            "Foo",
+            "Ident"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/for5.go",
+          "sha256": "cd43875c38945de39e4a5ef4d44750c92f9db8e03e85a300c758bbe97b7e97a9",
+          "declarations": [
+            "Fragment",
+            "Ident",
+            "Vertex"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/for_range.go",
+          "sha256": "e396f00313a1dfb2b726edc5ece51f379bac77f6beb503a107ab5bf9da304cc0",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/for_range_array.go",
+          "sha256": "b0f1a728b451404a0631ad0a2ba3d791cef69114ce5c6cf8e524ce5784d44655",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/func.go",
+          "sha256": "7ea5c70b5037b44cf1fccea5731258704dee999b9ba7cbed16d8562904a86deb",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/func_body.go",
+          "sha256": "24d2e8bc9bd730e1144d46cfc77afed55dfb344a5ee3cac87178042982e06e56",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/func_multiple.go",
+          "sha256": "cfa67f8af2a13c78e1278bc07e0fc369880431177de36dbdc70602f261dd2033",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/golet/fragment.expected.glsl",
+          "sha256": "f232b41d388698e802f9db8d13b63ed6da9b89e1d230c720142147f8ecd86e4b"
+        },
+        {
+          "path": "backend/internal/shader/testdata/golet/fragment.expected.hlsl",
+          "sha256": "f877db41ae4bc0851aa265cdf25a783daa5d5305a0da6d2aba55f10a6fa0358f"
+        },
+        {
+          "path": "backend/internal/shader/testdata/golet/fragment.expected.metal",
+          "sha256": "20c474f338096d39b77cb6f999c515674168c8f778b10d0b22fa3d17db65fd8f"
+        },
+        {
+          "path": "backend/internal/shader/testdata/golet/fragment.go",
+          "sha256": "0e893a09d1b048e70057cc7a8ad9ba9b2770a8966daba483770bcc4ee1e57366",
+          "declarations": [
+            "Fragment",
+            "pcg"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/if.go",
+          "sha256": "30fb0b2bb1398cce5bdd8ae968cd9ee9a5bb0604b41d54d4c1660dc11e2f5d28",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/if_else.go",
+          "sha256": "50684ecec36826320b16c625652bb9e892eb4d12598c35e76d27e2d83bafcf1f",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/if_init.go",
+          "sha256": "b55cb1be34e9b2b3cff8e61071ac0db05570e38d3e68744bcfe5eb4e5e5ad2b8",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/inc.go",
+          "sha256": "c654747ae5dbcabdf70421de7e0053c3c2a39f69136c48002fbe4f454c3cd4ab",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue1236.expected.hlsl",
+          "sha256": "51e3e6f6708fd8e80a1e03812be655ce6e5018f3e64c7a7470e602da94a6eb26"
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue1236.go",
+          "sha256": "b3ae7bd10ab0fc27ec06dab8a628e543d846a59a299359c35bf9a09300878c40",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue1238.go",
+          "sha256": "7c564716e779f89dfb31cf4ef47695773dcc207fe183055dc0cbf045ec9de29c",
+          "declarations": [
+            "Fragment",
+            "Vertex"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue1245.go",
+          "sha256": "ca6daa2ea76f1aaa95c3ad995bc77bced7d146adebdf3a74b48b8b810e9ef809",
+          "declarations": [
+            "Fragment",
+            "Vertex"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue1248.go",
+          "sha256": "a64cbb9b969c8896d4e8292b7b88aaab8d43a2cb41b1b004988fbfa325dd8bdb",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue1298.go",
+          "sha256": "511100fee21bcdffe4beeaac55009d2355d1cd73f4d6b1d75b670ce1cfc02773",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue1299.go",
+          "sha256": "c2cc9cc1bcd47dc3d024dfc9d387773f0bbdc691159274cf9897957073aea622",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue1701.go",
+          "sha256": "c00d39ea6a0fbb2d24409137a28cc0a1cf5c08f6b2077f818ff33bf0ef111955",
+          "declarations": [
+            "Bar",
+            "Baz",
+            "Foo",
+            "Fragment",
+            "NeverCalled",
+            "Quux",
+            "Vertex"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue1874.go",
+          "sha256": "e42fd0b265a2798ac5667de7a1ce9b2baaccf67b395117f8613c8501769b469b",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue2011.go",
+          "sha256": "1032fe7c46a1463b7e48995a56a4bc36391501dbe7d5b095dfdd6d63ffb108e8",
+          "declarations": [
+            "Bar",
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue2655.go",
+          "sha256": "98cc2e856d87a900ca9d179ebdd522a137cb7152fd279e58b95ee908ef011c6f",
+          "declarations": [
+            "Ret1",
+            "Ret2",
+            "Ret2Plus"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue2840.go",
+          "sha256": "3da34b5a761b9d2900767c85deb26ff55005f9fed6b8a1d6464b7da5babb2faa",
+          "declarations": [
+            "Floats",
+            "Ints"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue3759.expected.hlsl",
+          "sha256": "ccec2acfc84aa5efdf94f92418c693833b0735cef465408292a25291a20eddb8"
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue3759.expected.metal",
+          "sha256": "d32f65f7720de8b4176aa2d343d1fc645c255c64f6bc76509c27259ee8868648"
+        },
+        {
+          "path": "backend/internal/shader/testdata/issue3759.go",
+          "sha256": "2ed8a0f42905ac51f5c4f58cfd5122d2165d149af86ce138a0a335ea9f219ad5",
+          "declarations": [
+            "Fragment",
+            "Vertex"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/len.go",
+          "sha256": "f19ce4a19c970b7b0bc18d89f2b0b824f13691d5a6c1788cde4f0254325d5c27",
+          "declarations": [
+            "Bar",
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/mat_copy.expected.hlsl",
+          "sha256": "d64f62632d2536ef964be63d2d558719ab69cb13fc6cdf50267baedc1eb3daf9"
+        },
+        {
+          "path": "backend/internal/shader/testdata/mat_copy.expected.metal",
+          "sha256": "f193e32f7db8de61670fc115eb98cdfa2a77257d3d02ed447d85ca2ba9659e0c"
+        },
+        {
+          "path": "backend/internal/shader/testdata/mat_copy.go",
+          "sha256": "749aa8811cc7d7c6c11fb625eee455e4ccbe69de57e4e1cbc2730fec3c542087",
+          "declarations": [
+            "Bar",
+            "Baz",
+            "Foo",
+            "Qux"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/number.go",
+          "sha256": "d3cc09b6d67e8bff48800d0157581eca11dca6a5d0cc88980a7acdaf8617cbec",
+          "declarations": [
+            "Float",
+            "Foo",
+            "Foo2",
+            "Foo3",
+            "TakeFloat",
+            "TakeInt"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/number_binary.go",
+          "sha256": "76b08ea5dd237f44aeeaa04251364d97b097204183d94b936793f38530330103",
+          "declarations": [
+            "Foo1",
+            "Foo2",
+            "Foo3"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/number_unary.go",
+          "sha256": "e9e85948bf6f704ddffb453750583568f349e35d7112d187a3eaf4c23f87b42e",
+          "declarations": [
+            "Foo1",
+            "Foo2"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/out.expected.hlsl",
+          "sha256": "1e508c18b794a6015874af53a95203959a5bb10f9b3eaba493a9dd28010cd99a"
+        },
+        {
+          "path": "backend/internal/shader/testdata/out.expected.metal",
+          "sha256": "08db711fe290762c8360c37fdbd3080e678fe4ed04bbbb13b9645dbcdbb45731"
+        },
+        {
+          "path": "backend/internal/shader/testdata/out.go",
+          "sha256": "c0d0edb33cf54a8e5ba8927110af1a44052a6da60cc13242ecd9e7c6f247f186",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/out2.go",
+          "sha256": "7607d782deb14826a221b1961320e32ea3c08a3b8ff739bf91a819540c3d090b",
+          "declarations": [
+            "Foo",
+            "Foo2"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/return.go",
+          "sha256": "ab4b1b616243d3cf19ac183b8eb86eb08d28e23062f5bd624fe77d09057876b6",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/sign.expected.metal",
+          "sha256": "8a8e940cc11cc64061548a3fdeff36543d18f8749ca7a80a04c92f04f99cff5e"
+        },
+        {
+          "path": "backend/internal/shader/testdata/sign.go",
+          "sha256": "86efbb3eb52311aa2ce7b8f603fd2cfd30b69430f64896c8d9f470d83b3dd500",
+          "declarations": [
+            "Bar",
+            "Baz",
+            "Foo",
+            "Qux"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/uniforms.expected.hlsl",
+          "sha256": "e88d49ecd12b4162caac98c00b864e6008528271fb25c965f08d1725d9b7c8f1"
+        },
+        {
+          "path": "backend/internal/shader/testdata/uniforms.expected.metal",
+          "sha256": "97d918cd5a8c1cadc1eebfb797dff054d5089f99688a5b0777e08bbeb5b48740"
+        },
+        {
+          "path": "backend/internal/shader/testdata/uniforms.go",
+          "sha256": "30755610620b5a9b4c3626e01b1c8442117005b078b404e7bea2733a554a553a"
+        },
+        {
+          "path": "backend/internal/shader/testdata/var.go",
+          "sha256": "0c2d2b6efc17b85c355b047b3c49dd535a56ba927eb0da8a09cfda31be4505dd",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/var2.go",
+          "sha256": "1d503abbe6812143c6df447248ef0bf364a7eddd37aa679189d8a4df48ffbb5e",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/var_multiple.go",
+          "sha256": "4161843a8dba91c23669f263dc8c5c06414d7eeea928599261e897cc987a3f35",
+          "declarations": [
+            "Bar",
+            "Foo",
+            "Foo2"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/vertex.expected.hlsl",
+          "sha256": "3b08f1da3c066e93c03e52fbb1d6f999f2c955bdcac9922ece4906ddbb19252e"
+        },
+        {
+          "path": "backend/internal/shader/testdata/vertex.expected.metal",
+          "sha256": "57c7ff6d80d48457386e3ebc1750a74db12960803de39d5925f7014b08da6339"
+        },
+        {
+          "path": "backend/internal/shader/testdata/vertex.go",
+          "sha256": "530a6c289f0ba3e4b5957f4ff555c66ce9acdf2e3078498b80a89c3cda0b7ccf",
+          "declarations": [
+            "Vertex"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/vertex_fragment.expected.metal",
+          "sha256": "b50ed792dd12d0dcc8093a9e178ac18f9a7a58f5ffa53f127093489d579ed85c"
+        },
+        {
+          "path": "backend/internal/shader/testdata/vertex_fragment.go",
+          "sha256": "89793100c10d8751ec96ff39a10a0f8da3c1848ed1323a641a6a884e68cdb34f",
+          "declarations": [
+            "Fragment",
+            "Vertex"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/vertex_fragment_call.expected.metal",
+          "sha256": "9825ea22c2a401c31d96b59f21fc46cc5fe7b8914052409142c94f55b5abbe65"
+        },
+        {
+          "path": "backend/internal/shader/testdata/vertex_fragment_call.go",
+          "sha256": "6aa2fbf555c92eca9da8e563d130dc14d84618d75a4a79264e84e37c7e82a253",
+          "declarations": [
+            "Fragment",
+            "Vertex",
+            "half",
+            "project",
+            "tint"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/vertex_no_attributes.expected.metal",
+          "sha256": "dfe4ab3b504a25fd965ad552bd0f97c7ed714213216a99c143bebdff3c95d2eb"
+        },
+        {
+          "path": "backend/internal/shader/testdata/vertex_no_attributes.go",
+          "sha256": "13bf3f61e8c91ec349598408cfabe942f2d8e4d5814a83ff1f992ea70b755e64",
+          "declarations": [
+            "Fragment",
+            "Vertex"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/vertex_no_varyings.expected.metal",
+          "sha256": "b28943677bcb4e7b5ef816d1b85c58a7dc384c21df3167d3b4dfbad01a6a04e0"
+        },
+        {
+          "path": "backend/internal/shader/testdata/vertex_no_varyings.go",
+          "sha256": "00ed06c8cdb2cb160c672c351b65561c6eba4024ab37a78f5455d8a02ab644dc",
+          "declarations": [
+            "Fragment",
+            "Vertex"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/testdata/xorassign.go",
+          "sha256": "052bf1de05a7e2c23b91e3aad92a427ee6b4108acd42236d654abe736fc885bc",
+          "declarations": [
+            "Foo"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/type.go",
+          "sha256": "1df48f493d1327cb759843087192773f0c01e5ed4c49653c0d32e2119c29d5a6",
+          "declarations": [
+            "checkArgsForBoolBuiltinFunc",
+            "checkArgsForFloatBuiltinFunc",
+            "checkArgsForIVec2BuiltinFunc",
+            "checkArgsForIVec3BuiltinFunc",
+            "checkArgsForIVec4BuiltinFunc",
+            "checkArgsForIntBuiltinFunc",
+            "checkArgsForMat2BuiltinFunc",
+            "checkArgsForMat3BuiltinFunc",
+            "checkArgsForMat4BuiltinFunc",
+            "checkArgsForUVecBuiltinFunc",
+            "checkArgsForUintBuiltinFunc",
+            "checkArgsForVec2BuiltinFunc",
+            "checkArgsForVec3BuiltinFunc",
+            "checkArgsForVec4BuiltinFunc",
+            "isEllipsis",
+            "isFloat",
+            "isInt",
+            "isUint",
+            "method:parseArrayType",
+            "method:parseType"
+          ]
+        },
+        {
+          "path": "backend/internal/shader/unsigned.go",
+          "sha256": "37e26aae0bc1f64c872e6309126d73aad06c160819b427932d0572d40fb54d2e",
+          "declarations": [
+            "flexible",
+            "method:FuncReturn",
+            "method:LocalType",
+            "method:UniformType",
+            "method:call",
+            "method:mark",
+            "method:operands",
+            "method:own",
+            "method:typeConsts",
+            "type:blockEnv",
+            "type:unsignedMarker"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/check.go",
+          "sha256": "ad99b46226ccbf364e37cc0dca626607caf0bbd80b0c1c65932993fba8539c4f",
+          "declarations": [
+            "ResolveUntypedConstsForBinaryOp",
+            "TypeFromBinaryOp"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/export_test.go",
+          "sha256": "3d0185d402b3fbc19584d81f19b67fe28b4ee8e5299e7919268336a9c1492d2b",
+          "declarations": [
+            "method:AppendReachableUniformVariablesFromBlock"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/exprtype.go",
+          "sha256": "97b357bf2a289e3666dea1fab9ec8e2070c214a6b60cb6d2e44cef68257af691",
+          "declarations": [
+            "TypeOf",
+            "binaryType",
+            "callType",
+            "operandType",
+            "type:TypeEnv"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/fragment.go",
+          "sha256": "f5f73ce0a7d7d351095e8721e183ef5d2d5f04221f0c971c105879bd12d3334c",
+          "declarations": [
+            "method:FragmentLibrary"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/glsl/fragment.go",
+          "sha256": "63984dc0549524edc2578b745eed9d240c8980acd63a32a235c7f917a8d9e137",
+          "declarations": [
+            "Fragment",
+            "type:Options"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/glsl/glsl.go",
+          "sha256": "461023a4644ecfc41f7fb0872f469def0139f819859aa2470f8bb50bd4eb6366",
+          "declarations": [
+            "Compile",
+            "FragmentPrelude",
+            "VertexPrelude",
+            "adjustProgram",
+            "attributeCopyName",
+            "constantToNumberLiteral",
+            "method:block",
+            "method:fragCoord",
+            "method:function",
+            "method:initVariable",
+            "method:localVariableName",
+            "method:structName",
+            "method:typ",
+            "method:varDecl",
+            "method:varInit",
+            "method:windowYFlipped",
+            "numberLiteral",
+            "type:GLSLVersion",
+            "type:compileContext"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/glsl/type.go",
+          "sha256": "464ae7f19e48b6c79993d1e28f84d20e4ee242ecbd94c45a299300968b3933a9",
+          "declarations": [
+            "basicTypeString",
+            "method:builtinFuncString",
+            "opString",
+            "typeString"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/glsl/uniform.go",
+          "sha256": "18422c82785e6cc0b6472b52c0b1a40f7142dcfa3129102a4a3043b9bd58e2f2",
+          "declarations": [
+            "UniformLanes",
+            "roundUp",
+            "std140"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/hlsl/fragment.go",
+          "sha256": "fdeac0ef5f84c3b48269c7a1a97d2e57259488f7e01aa2ed49e8a9254d5df045",
+          "declarations": [
+            "Fragment"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/hlsl/hlsl.go",
+          "sha256": "ccb046aa4f52e8cae4bc18fe88064f64c153016d1ddff0da2c1d377e8d91479f",
+          "declarations": [
+            "Compile",
+            "constantToNumberLiteral",
+            "method:block",
+            "method:function",
+            "method:initVariable",
+            "method:localVariableName",
+            "method:structName",
+            "method:typ",
+            "method:varDecl",
+            "method:varInit",
+            "numberLiteral",
+            "type:compileContext"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/hlsl/type.go",
+          "sha256": "ec6d3de6f0a5798151f3d14edbe1728447e9ca17e7f1babfb48c9f7307be93ff",
+          "declarations": [
+            "basicTypeString",
+            "method:builtinFuncString",
+            "opString",
+            "typeString"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/hlsl/uniform.go",
+          "sha256": "1fe5a007ddfff0141be5d6349310c4d567fe1c2ee35c6133ae0bbaabeae9d33c",
+          "declarations": [
+            "UniformLanes",
+            "UniformVariableOffsetsInDwords"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/interp/builtins.go",
+          "sha256": "6ba8c95b2eb30d9275a7f3648587d18a53c428a176ae5aae4865da817c11d870",
+          "declarations": [
+            "convert",
+            "dot",
+            "method:absSign",
+            "method:builtin",
+            "method:constBits",
+            "method:construct",
+            "method:fold",
+            "method:lanes2",
+            "method:lanes3",
+            "method:reduce",
+            "method:texelAt",
+            "minMax",
+            "stride",
+            "type:float1",
+            "type:float2"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/interp/exec.go",
+          "sha256": "04de3c3214defc61e624fcb921ef0e2ca7ece962f5f4673bb9c9beeb155f970f",
+          "declarations": [
+            "clampIndex",
+            "constBits",
+            "elements",
+            "eval",
+            "indexAt",
+            "memberOffset",
+            "method:assign",
+            "method:block",
+            "method:call",
+            "method:constant",
+            "method:expr",
+            "method:index",
+            "method:loop",
+            "method:lvalue",
+            "method:n",
+            "method:stmt",
+            "runBlock",
+            "swizzle",
+            "type:operand"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/interp/gpu_darwin_test.go",
+          "sha256": "ebc0c995d6d8bdb6d82eea2b588086dd03f5612d80d91df149001a95a54d278d",
+          "declarations": [
+            "metalEffect"
+          ],
+          "tests": [
+            "TestMetal"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/interp/gpu_linux_test.go",
+          "sha256": "e9be402263e55f2180c648c3048074c5f9e2fd7ae297f37b0dadc5291901b64e",
+          "tests": [
+            "TestOpenGL"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/interp/gpu_windows_test.go",
+          "sha256": "7a1041a15631b3b34d46822329c7295a0550d9bda139116de6b7c0f374ddb58d",
+          "tests": [
+            "TestDirect3D"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/interp/interp.go",
+          "sha256": "577f1419533bf97beb2d4ed4863e9f54844fa8b8cbba2b76244dbf9ede683f29",
+          "declarations": [
+            "New",
+            "UniformWords",
+            "lanes",
+            "method:Color",
+            "method:FuncReturn",
+            "method:LocalType",
+            "method:UniformType",
+            "method:alloc",
+            "method:declare",
+            "method:define",
+            "method:local",
+            "method:run",
+            "type:Image",
+            "type:Inputs",
+            "type:Program",
+            "type:compiler",
+            "type:control",
+            "type:env",
+            "type:function",
+            "type:slot",
+            "type:state",
+            "type:stmt"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/interp/interp_test.go",
+          "sha256": "87cbd89b2f32971d9d0428254882d2b36a50a3d737343951287287c00e77f9ab",
+          "declarations": [
+            "compile",
+            "f",
+            "method:At",
+            "method:Size",
+            "pcg",
+            "type:testImage",
+            "uniforms"
+          ],
+          "tests": [
+            "BenchmarkNoise",
+            "TestBuiltins",
+            "TestDiscard",
+            "TestHash",
+            "TestImages",
+            "TestRangeAndSmoothstep",
+            "TestScopes",
+            "TestStatements",
+            "TestUintForms"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/interp/ops.go",
+          "sha256": "1f46c3bf2e5522ef876e2693666a5c02a681d74f9f7ef9f71d307014400df264",
+          "declarations": [
+            "arith",
+            "bits",
+            "boolBits",
+            "compare",
+            "f32",
+            "method:binary",
+            "method:matrixMul",
+            "method:unary"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/interp/parity_test.go",
+          "sha256": "8e068f3ce80c83b235bd652e012a3a8f227684f3b84a086f59b7f65bfdc0fa6a",
+          "declarations": [
+            "constUniforms",
+            "effectScene",
+            "literal",
+            "method:Begin",
+            "method:Color",
+            "noiseUniforms",
+            "type:shaderPixels",
+            "typeName"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/ir_test.go",
+          "sha256": "00526d6c2765b4fc16ffcaad5383053271bd364690df19f0dffa4bc5768761c3",
+          "declarations": [
+            "assignStmt",
+            "binaryExpr",
+            "block",
+            "blockStmt",
+            "builtinFuncExpr",
+            "callExpr",
+            "exprStmt",
+            "fieldSelectorExpr",
+            "floatExpr",
+            "forStmt",
+            "functionExpr",
+            "ifStmt",
+            "localVariableExpr",
+            "returnStmt",
+            "selectionExpr",
+            "swizzlingExpr",
+            "uniformVariableExpr"
+          ],
+          "tests": [
+            "TestIsValidSwizzling",
+            "TestOutput",
+            "TestTypeFromBinaryOpArithmeticOnArrayAndTexture",
+            "TestTypeFromBinaryOpTextureComparison",
+            "TestTypeFromBinaryOpUntypedIntConsts"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/msl/fragment.go",
+          "sha256": "57c0c913691d1e4dc3a51677634089f11b97844cee76d0104f6d5fa1a9764f40",
+          "declarations": [
+            "Fragment"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/msl/msl.go",
+          "sha256": "2452f8b8b23a30bde1a958b4084db1281c696d199da0477e946c1eca5103cc10",
+          "declarations": [
+            "Compile",
+            "Prelude",
+            "attributeCopyName",
+            "attributeName",
+            "constantToNumberLiteral",
+            "method:block",
+            "method:function",
+            "method:initVariable",
+            "method:isVertexFunc",
+            "method:localVariableName",
+            "method:structName",
+            "method:typ",
+            "method:varDecl",
+            "method:varInit",
+            "numberLiteral",
+            "type:compileContext"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/msl/type.go",
+          "sha256": "d77e47f3937e0e173a5a3f86b18ba3fc291bf9b8bf51e7beb615a852ef9902b9",
+          "declarations": [
+            "basicTypeString",
+            "builtinFuncString",
+            "opString",
+            "typeString"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/msl/uniform.go",
+          "sha256": "8e9f35dd42996d55f6272a5bcd3eebad71f67af8196220da7a0b56c206a7ea66",
+          "declarations": [
+            "UniformLanes",
+            "UniformLayout",
+            "roundUp",
+            "sizeAlign",
+            "typeLanes"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/program.go",
+          "sha256": "64245b28dd99aa48626ae3246d81a581717163ff874ae5025f94edb306b7f346",
+          "declarations": [
+            "CalcSourceID",
+            "IsValidSwizzling",
+            "OpFromToken",
+            "ParseBuiltinFunc",
+            "ParseSourceID",
+            "method:AssignedAttributes",
+            "method:FilterUniformVariables",
+            "method:ReachableFuncsFromBlock",
+            "method:SourceSwizzling",
+            "method:String",
+            "method:appendReachableUniformVariablesFromBlock",
+            "type:Block",
+            "type:BuiltinFunc",
+            "type:Expr",
+            "type:ExprType",
+            "type:FragmentFunc",
+            "type:Func",
+            "type:Op",
+            "type:Program",
+            "type:SourceID",
+            "type:Stmt",
+            "type:StmtType",
+            "type:SwizzlingSet",
+            "type:VertexFunc",
+            "walkExprs",
+            "walkExprsInExpr"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/reachable_test.go",
+          "sha256": "7e362f47f804615f7a81c262c33137649e1da9f62a91b9b3e52500b2802ba07f",
+          "declarations": [
+            "compileToIR"
+          ],
+          "tests": [
+            "TestReachableUniformVariablesFromBlock"
+          ]
+        },
+        {
+          "path": "backend/internal/shaderir/type.go",
+          "sha256": "30f6100965828c1813aedffcce7548ac5cfa621517a2646773b6b8eec122cfc0",
+          "declarations": [
+            "VectorOf",
+            "descendantLocalVars",
+            "localVariableType",
+            "method:DwordCount",
+            "method:Equal",
+            "method:IsFloatVector",
+            "method:IsIntVector",
+            "method:IsInteger",
+            "method:IsIntegerVector",
+            "method:IsMatrix",
+            "method:IsUintVector",
+            "method:LocalVariableType",
+            "method:MatrixSize",
+            "method:Scalar",
+            "method:String",
+            "method:VectorElementCount",
+            "type:BasicType",
+            "type:Type"
+          ]
+        },
+        {
+          "path": "backend/plugins/glass/blur.metal",
+          "sha256": "31b4863583a693078ed0c61aa743887f360fdc00ded5c5d0d967c76abdc96a98"
+        },
+        {
+          "path": "backend/plugins/glass/glass.metal",
+          "sha256": "e816b8e2cdd547cdd8a1804c52929f12765e8bd4394e4eff6edf00fcc2175c67"
+        },
+        {
+          "path": "backend/plugins/glass/gpu_darwin_test.go",
+          "sha256": "0cfec052cdbd5784234e7bfbf9d2ae9faf1dd9ea8da4ec96f14bfea4cea76829",
+          "tests": [
+            "TestMetal",
+            "TestMetalBlur",
+            "TestMetalLibrary"
+          ]
+        },
+        {
+          "path": "backend/plugins/glass/gpu_linux_test.go",
+          "sha256": "a5db22558b1a46f5d3b35b7011be00655350714716268f633e413de05139de14",
+          "tests": [
+            "TestOpenGL"
+          ]
+        },
+        {
+          "path": "backend/plugins/glass/gpu_windows_test.go",
+          "sha256": "3a79b781c61eeaad36b9fa9fa6223134db701887e4e36d76cd39e5d6a497780b",
+          "tests": [
+            "TestBytecode",
+            "TestDirect3D"
+          ]
+        },
+        {
+          "path": "backend/plugins/glass/internal/gen/metal_darwin.go",
+          "sha256": "75f49c8cdf4c5de1268ef3b4842c04516843c703f2061c5d63011eb4d83dca98",
+          "declarations": [
+            "compile"
+          ]
+        },
+        {
+          "path": "backend/plugins/glass/shaders_nometal.go",
+          "sha256": "91a546ef526f6b993fc1fe45aec97c063d137f554f73afd5f281c012f116109f"
+        },
+        {
+          "path": "backend/ui/clip_gpu_test.go",
+          "sha256": "8aa3c0f4fa079f3c7515ce1b5f895fcde9b638a22d048df5e2a86d456262d355",
+          "tests": [
+            "TestNestedClipKeepsRoundedCornersGPU"
+          ]
+        },
+        {
+          "path": "backend/ui/gpu_darwin.go",
+          "sha256": "4d306c25ca62a0a770532aa8be2942a65337c98a2ea7e3ce7197736ba9a6ebf6",
+          "declarations": [
+            "newGPURenderer"
+          ]
+        },
+        {
+          "path": "backend/ui/gpu_js.go",
+          "sha256": "259706ee57ff2263d9582bd8625b1ea7072b0699cc9178f45f28a32b0b1445e5",
+          "declarations": [
+            "newGPURenderer"
+          ]
+        },
+        {
+          "path": "backend/ui/gpu_linux.go",
+          "sha256": "955c03707db59366429f4e1fa790d92e5f7b898eb19496274fd7f8f64906d412",
+          "declarations": [
+            "method:Render",
+            "newGPURenderer",
+            "type:areaRenderer"
+          ]
+        },
+        {
+          "path": "backend/ui/gpu_other.go",
+          "sha256": "3af26ea50bdb6aed3c2d4d6cc1f25fb6e94aee3e77237593d80912179ae7e13e",
+          "declarations": [
+            "newGPURenderer"
+          ]
+        },
+        {
+          "path": "backend/ui/gpu_test.go",
+          "sha256": "9103870cf77aa4f4bb8628c058f9d536cab76db4f5cf8f2f2185c4a5a2af8770",
+          "declarations": [
+            "bitmapView",
+            "gpuHost",
+            "method:AwaitRefresh",
+            "method:CancelDataDrag",
+            "method:FrameNow",
+            "method:Native",
+            "method:NewWebView",
+            "method:PlaceWebViews",
+            "method:PresentPixels",
+            "method:Ready",
+            "method:RefreshRate",
+            "method:Release",
+            "method:Render",
+            "method:Render",
+            "method:Render",
+            "method:RequestFrame",
+            "method:SetBackground",
+            "method:SetCursor",
+            "method:SetDropFormats",
+            "method:SetTextInput",
+            "method:Size",
+            "method:Software",
+            "method:StartDataDrag",
+            "method:UpdateAccessibility",
+            "type:backgroundSurface",
+            "type:bgGPU",
+            "type:pacedSurface",
+            "type:refreshSurface",
+            "type:sceneGPU",
+            "type:softGPU",
+            "type:testGPU",
+            "type:testSurface",
+            "type:waitingGPU"
+          ],
+          "tests": [
+            "TestAccelerated",
+            "TestClosedWindowKeepsNoFrame",
+            "TestEveryFrameOnTheGPU",
+            "TestFramesInMemoryWaitForTheRefresh",
+            "TestGPUComesBack",
+            "TestNoGPUFromTheStart",
+            "TestPacedFrameWaitsForTheDisplay",
+            "TestSoftwareUntilTheGPUIsBack",
+            "TestTransformedFramesStayOnGPU",
+            "TestWindowBackground"
+          ]
+        },
+        {
+          "path": "backend/ui/gpu_windows.go",
+          "sha256": "c9a542037785671f3b3263519d1df916ab8ce46ab73a11cf811f4ca629c92ff2",
+          "declarations": [
+            "newGPURenderer"
+          ]
+        },
+        {
+          "path": "backend/ui/polyline_gpu_test.go",
+          "sha256": "5e286e0297674762c725b11f1882638a34b1da3d69dca8d449195dca242101ea",
+          "tests": [
+            "TestStrokePolylineGPU"
+          ]
+        },
+        {
+          "path": "backend/ui/shader/code_darwin.go",
+          "sha256": "2b8caa915db85922e3111575f845af8be3fdb8de7c15fa7ac8caf826575c7b85",
+          "declarations": [
+            "code"
+          ]
+        },
+        {
+          "path": "backend/ui/shader/code_other.go",
+          "sha256": "5dbaba4a0badd616868b9f540c77a80d55f11c9b0ae22b66787ffd426e1b8d81",
+          "declarations": [
+            "code"
+          ]
+        },
+        {
+          "path": "backend/ui/shader/code_windows.go",
+          "sha256": "c336f7c10cec0ede2336f8857df390cbe61e63b76170544b5c762848c9d45573",
+          "declarations": [
+            "code"
+          ]
+        },
+        {
+          "path": "backend/ui/shader/gpu_darwin_test.go",
+          "sha256": "d350fbe86266b6664bc315d17f0408fff240f19b7811fc26406d12378616a4f7",
+          "tests": [
+            "TestMetal",
+            "TestMetalBackdrop",
+            "TestMetalBackdropEndsAtDrawn",
+            "TestMetalBools",
+            "TestMetalDfdy",
+            "TestMetalEffect",
+            "TestMetalMasked"
+          ]
+        },
+        {
+          "path": "backend/ui/shader/gpu_linux_test.go",
+          "sha256": "7374e758cb4d6082f634078ca7dee9fe7d6ed0fa5ae3efe95ac7eade1828906c",
+          "tests": [
+            "TestOpenGL",
+            "TestOpenGLBackdrop",
+            "TestOpenGLBools",
+            "TestOpenGLDfdy",
+            "TestOpenGLEffect",
+            "TestOpenGLMasked"
+          ]
+        },
+        {
+          "path": "backend/ui/shader/gpu_windows_test.go",
+          "sha256": "ff163f52324dae9b828c61ded2c1594be3392ebb2063a13f20c2cb8c17a0c922",
+          "tests": [
+            "TestDirect3D",
+            "TestDirect3DBackdrop",
+            "TestDirect3DBools",
+            "TestDirect3DDfdy",
+            "TestDirect3DEffect",
+            "TestDirect3DMasked"
+          ]
+        },
+        {
+          "path": "backend/ui/shader/scene_test.go",
+          "sha256": "5aab8a7dc7963033a0caccc72098bfc016a97ee3476ab7f51e56ec3bef02f9b4",
+          "declarations": [
+            "backdropCases",
+            "backdropScene",
+            "backdropSceneIn",
+            "boolScene",
+            "checkDfdy",
+            "dfdyScene",
+            "edgeBackdrops",
+            "effectScene",
+            "effectSceneIn",
+            "effectScenes",
+            "maskedScene",
+            "testScene"
+          ],
+          "tests": [
+            "TestBackdropEndsAtDrawn",
+            "TestEffectLargerCanvas"
+          ]
+        },
+        {
+          "path": "backend/ui/shader/set_test.go",
+          "sha256": "35d6b9b7ee681db425e3f99ca72db10a56a68a35c8f6c7684d83ff516bb88054",
+          "tests": [
+            "TestSet"
+          ]
+        },
+        {
+          "path": "backend/ui/shader/shader.go",
+          "sha256": "0e0ba93a2ae360592e57dbbffbc9ca65c181aa563f6040c5072f94c5f3bc013f",
+          "declarations": [
+            "Compile",
+            "MustCompile",
+            "kindOf",
+            "lane",
+            "method:At",
+            "method:At",
+            "method:Begin",
+            "method:Color",
+            "method:Draw",
+            "method:Effect",
+            "method:EffectMargin",
+            "method:Fill",
+            "method:FillPath",
+            "method:PaintEffect",
+            "method:Size",
+            "method:Size",
+            "method:StrokePath",
+            "method:Text",
+            "method:input",
+            "method:must",
+            "number",
+            "set",
+            "type:Effect",
+            "type:Options",
+            "type:Shader",
+            "type:backdropTexels",
+            "type:kind",
+            "type:pixels",
+            "type:sceneImage",
+            "type:uniform",
+            "type:wideColor"
+          ]
+        },
+        {
+          "path": "backend/ui/shader/shader_test.go",
+          "sha256": "740688111a0fcc40df383ab2635ee0e011b4f8e2e2fd8364eae245e3c1fa7ca7",
+          "declarations": [
+            "solid"
+          ],
+          "tests": [
+            "TestBackdrop",
+            "TestDraw",
+            "TestDrawReleasedBitmap",
+            "TestEffectTransformed",
+            "TestEffects",
+            "TestErrors",
+            "TestFill",
+            "TestKinds",
+            "TestValues"
+          ]
+        },
+        {
+          "path": "backend/ui/shader/values.go",
+          "sha256": "ee8c93b4498ebdb55a459a545d5a1907ae1452670d2a53706af8b29ca4726d16",
+          "declarations": [
+            "is",
+            "lanesOf",
+            "method:Bool",
+            "method:Color",
+            "method:Float",
+            "method:Floats",
+            "method:Int",
+            "method:Ints",
+            "method:NewValues",
+            "method:Uint",
+            "method:Uints",
+            "method:Uniform",
+            "method:Vec2",
+            "method:Vec3",
+            "method:Vec4",
+            "method:check",
+            "method:fits",
+            "method:floats",
+            "straightSRGB",
+            "type:Uniform",
+            "type:Values",
+            "type:colorValue",
+            "writeColor"
+          ]
+        },
+        {
+          "path": "backend/ui/shader/values_test.go",
+          "sha256": "d690435b0f9464f26d9e48505e19dd79dd4790838ab62a26862ccb35a2c368f0",
+          "tests": [
+            "TestBackdropImage",
+            "TestWideColors"
+          ]
+        },
+        {
+          "path": "backend/ui/stress_d3d11_bench_test.go",
+          "sha256": "4f693bc67e27b4b309ec89fd4cdaa4f2f9d700547d27b24e884f680da90322d0",
+          "declarations": [
+            "stressManyBoxes"
+          ],
+          "tests": [
+            "BenchmarkStressFrameGPU"
+          ]
+        },
+        {
+          "path": "backend/ui/stress_metal_bench_test.go",
+          "sha256": "b9493245e27f69e5aa2af85161efbdba5fdd5c3df7d3626b6af1e30339a8a83d",
+          "tests": [
+            "BenchmarkStressFrameGPU"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i18n",
+      "files": [
+        {
+          "path": "backend/cmd/golet/i18n.go",
+          "sha256": "4f9bd8f4253276eb7c3c35e0108e6b36f63a8f85e397f47a0c929923038556c0",
+          "declarations": [
+            "catalogImported",
+            "checkCatalogImported",
+            "compiledDirs",
+            "devLocale",
+            "generateI18n",
+            "i18nModule",
+            "loadCatalogs",
+            "pluralWord",
+            "runI18n",
+            "sameDir",
+            "type:i18nOutput",
+            "writeI18n"
+          ]
+        },
+        {
+          "path": "backend/cmd/golet/i18n_test.go",
+          "sha256": "c8a9b8e8089fc12fc84099508538741601ea042bba8a3042dfab8a6358ae4017",
+          "tests": [
+            "TestDevLocale",
+            "TestI18nApp",
+            "TestI18nConfig",
+            "TestI18nModule",
+            "TestWatchCatalogs",
+            "TestWriteI18n"
+          ]
+        },
+        {
+          "path": "backend/cmd/golet/locales_gen.go",
+          "sha256": "4e9ce4a02d8632795df7bd4779ae37ebaddf354e2583c4b4beaf551156ddd2bf"
+        },
+        {
+          "path": "backend/i18n/catalog.go",
+          "sha256": "598651c1efd027687c7f0089ec1ce1fe842940833f7533ee3a5f961319f7e374",
+          "declarations": [
+            "Locale",
+            "NewCatalog",
+            "NewLibraryCatalog",
+            "Register",
+            "SetLocaleFunc",
+            "catalogFiles",
+            "init",
+            "method:Add",
+            "method:Format",
+            "method:Languages",
+            "method:Message",
+            "method:Namespace",
+            "method:Source",
+            "method:candidates",
+            "method:format",
+            "method:langs",
+            "method:load",
+            "method:lookup",
+            "method:message",
+            "method:sources",
+            "newCatalog",
+            "newLibraryCatalog",
+            "registered",
+            "type:Catalog",
+            "type:candidates",
+            "type:langMsgs",
+            "type:langSet",
+            "type:lookupSource",
+            "type:textKey"
+          ]
+        },
+        {
+          "path": "backend/i18n/catalog_test.go",
+          "sha256": "a5ede41b0370799ee7f0115d7decb1823936c8f40d688f890adcd34b25ab3871",
+          "declarations": [
+            "ExampleCatalog_Format",
+            "files",
+            "method:Open",
+            "resetRegistry",
+            "type:countingFS"
+          ],
+          "tests": [
+            "BenchmarkCatalogFormat",
+            "BenchmarkCatalogText",
+            "TestCatalogAdd",
+            "TestCatalogFormat",
+            "TestCatalogFormatKeepsTexts",
+            "TestCatalogLazyAndConcurrent",
+            "TestLibraryCatalog",
+            "TestLocaleFunc",
+            "TestNewCatalog"
+          ]
+        },
+        {
+          "path": "backend/i18n/cldr.go",
+          "sha256": "d25537f14cea7fab00969ab14780fe32b4fe689c57e6c5fd7abc7039c428e8cc",
+          "declarations": [
+            "Autonym",
+            "DayPeriods",
+            "FirstWeekday",
+            "FormatLocales",
+            "HourCycle",
+            "Months",
+            "RegionFor",
+            "Weekdays",
+            "dataAt",
+            "dayWidth",
+            "fillRecords",
+            "fillSlots",
+            "keyOf",
+            "loadDates",
+            "loadTables",
+            "makeKey",
+            "method:at",
+            "method:dat",
+            "method:dates",
+            "method:defaultHour",
+            "method:fill",
+            "method:regionOrLikely",
+            "method:withDates",
+            "monthWidth",
+            "newPool",
+            "preferredHour",
+            "readUnicodeExtension",
+            "type:Width",
+            "type:localeData",
+            "type:localeKey",
+            "type:pool",
+            "uint16At",
+            "uint32At",
+            "unpack",
+            "uvarint",
+            "weekData"
+          ]
+        },
+        {
+          "path": "backend/i18n/compact.go",
+          "sha256": "5871092096ca69159466681028154e8150ca93b82dcb47cbb74b68444cbacd99",
+          "declarations": [
+            "compactAffixes",
+            "compactStyleOf",
+            "compactZeros",
+            "decimalMagnitude",
+            "formatCompact",
+            "initCompact",
+            "loadCompactLocale",
+            "method:compactRound",
+            "method:compactStyle",
+            "method:exp",
+            "method:form",
+            "method:parse",
+            "numberOf",
+            "parseCompactForm",
+            "shiftRight",
+            "type:Notation",
+            "type:compactAmounts",
+            "type:compactForm",
+            "type:compactLocale",
+            "type:compactMagnitude",
+            "type:compactStyle",
+            "type:currencyCompact"
+          ]
+        },
+        {
+          "path": "backend/i18n/compact_test.go",
+          "sha256": "a5cd3c61d1f84e208fc5ec4229a4138a73c1ef879dadd9506bc9d6a3c2af5d61",
+          "tests": [
+            "TestCompactNumbers",
+            "TestMaxFractionDigitsDefault"
+          ]
+        },
+        {
+          "path": "backend/i18n/currency.go",
+          "sha256": "dc7428e7e902b21941d07a89f57416471231ca1979c1e5b9e64dfd47e26261d7",
+          "declarations": [
+            "CurrencyOf",
+            "currencyFormatOf",
+            "currencyNames",
+            "initCurrency",
+            "loadCurrencies",
+            "method:Code",
+            "method:place",
+            "pluralForm",
+            "regionCurrency",
+            "type:Currency",
+            "type:CurrencyDisplay",
+            "type:currencyFormat",
+            "type:currencyLink"
+          ]
+        },
+        {
+          "path": "backend/i18n/currency_test.go",
+          "sha256": "d3d9fb32ff5717c67f516f85c438f5096395f057ce435bad2a3f7f4223cb3b90",
+          "tests": [
+            "TestCurrencyAllocations",
+            "TestCurrencyAmounts",
+            "TestCurrencyDigits",
+            "TestCurrencyOf"
+          ]
+        },
+        {
+          "path": "backend/i18n/date.go",
+          "sha256": "e57a7191e83f7a547c8d66fc76d17e2aef70978d9c2314598306ebfed8fded04",
+          "declarations": [
+            "FormatDate",
+            "NewDateFormatter",
+            "datePattern",
+            "hourOf",
+            "method:Format",
+            "method:Pattern",
+            "method:field",
+            "method:flexiblePeriod",
+            "method:index",
+            "method:num",
+            "method:setPattern",
+            "method:weekYear",
+            "method:write",
+            "method:zone",
+            "parsePeriodRules",
+            "periodRules",
+            "type:DateFormatter",
+            "type:DateOptions",
+            "type:Style",
+            "type:dateFormatterKey",
+            "type:dayPeriodRules"
+          ]
+        },
+        {
+          "path": "backend/i18n/dtpg.go",
+          "sha256": "6ecf18449809ee5dbaa5c7ba184c6558b65df558602046511869cf5bdb59a11f",
+          "declarations": [
+            "bucketOf",
+            "canonicalIndex",
+            "method:add",
+            "method:adjustFieldTypes",
+            "method:baseString",
+            "method:bestAppending",
+            "method:bestPattern",
+            "method:bestRaw",
+            "method:bestRawDist",
+            "method:distance",
+            "method:fieldMask",
+            "method:generator",
+            "method:mapHourMetacharacters",
+            "method:originalString",
+            "newSkeleton",
+            "parsePattern",
+            "patternHour",
+            "patternSkeleton",
+            "replaceHours",
+            "type:dtType",
+            "type:dtpEntry",
+            "type:patItem",
+            "type:patternGenerator",
+            "type:skeleton"
+          ]
+        },
+        {
+          "path": "backend/i18n/format.go",
+          "sha256": "df88450f8192e7810184b720cf874cf6f276b3b17b8b180d16311da7d35dd220",
+          "declarations": [
+            "findCase",
+            "formatDate",
+            "formatNumber",
+            "formatTime",
+            "isDecimal",
+            "linkFormats",
+            "method:Format",
+            "method:argument",
+            "method:format",
+            "method:minus",
+            "method:nodes",
+            "method:placeholder",
+            "method:shownOperands",
+            "selectKey",
+            "toNumber",
+            "type:formatter",
+            "type:number",
+            "type:pluralValue",
+            "valueString"
+          ]
+        },
+        {
+          "path": "backend/i18n/format_icu_test.go",
+          "sha256": "bbe10ce181b7332a90b672d3f487701d700c52afb02348f41324151295481ef2",
+          "declarations": [
+            "dateOptions",
+            "formatCase",
+            "knownDifference",
+            "method:String",
+            "numberOptions",
+            "type:icuCase",
+            "zoneOf"
+          ],
+          "tests": [
+            "TestFormatMatchesICU",
+            "TestKnownDifferencesDiffer"
+          ]
+        },
+        {
+          "path": "backend/i18n/format_tables.go",
+          "sha256": "dd618957e10f09b2e455a02819ef3938fa330f8f624743f665983dc3102c9ad7"
+        },
+        {
+          "path": "backend/i18n/format_test.go",
+          "sha256": "473791c00a891ecb85ae5062295a1e72ac9b0fd76f2a031b6aff5c33a13074a9",
+          "tests": [
+            "BenchmarkFormatDate",
+            "BenchmarkFormatNumber",
+            "BenchmarkLoadTables",
+            "BenchmarkMonths",
+            "TestAutonym",
+            "TestFormatDate",
+            "TestFormatLocale",
+            "TestFormatNumber",
+            "TestNames",
+            "TestPeriodRulesCrossMidnight",
+            "TestRegionData"
+          ]
+        },
+        {
+          "path": "backend/i18n/gen.go",
+          "sha256": "b14a76ac0f2344a1e75b2065f4b961120d2d2754fadf5459623e1be861a889cc"
+        },
+        {
+          "path": "backend/i18n/i18n.go",
+          "sha256": "9b8b06ac4f42ea55a4cf31c05f5aeb315f040ad27835d2fdec837531f33b368c",
+          "declarations": [
+            "Base",
+            "Direction",
+            "Match",
+            "Normalize",
+            "method:String",
+            "parse",
+            "type:Dir"
+          ]
+        },
+        {
+          "path": "backend/i18n/i18n_test.go",
+          "sha256": "da6dd5812da22137363c7703d21a18ded99ad8113076fd7244c8e48c8cd18160",
+          "tests": [
+            "TestBase",
+            "TestDirection",
+            "TestMatch",
+            "TestNormalize"
+          ]
+        },
+        {
+          "path": "backend/i18n/internal/gen/format.go",
+          "sha256": "33290ec983cadcf1186a8b9c287b79d415d44eb048cbe3544df91f5cd606195a",
+          "declarations": [
+            "compactSlots",
+            "currencyFormatOf",
+            "currencyNames",
+            "currencySlots",
+            "extraHalf",
+            "likelySubtags",
+            "makeAutonyms",
+            "method:diff",
+            "method:intern",
+            "method:sections",
+            "method:write",
+            "minutes",
+            "newHalf",
+            "newSlots",
+            "parentLocales",
+            "parentTag",
+            "patternFields",
+            "recordSections",
+            "syntheticRoot",
+            "type:gregorian",
+            "type:half",
+            "type:localeRecord",
+            "type:numbersData",
+            "type:packedSection",
+            "type:slots",
+            "writeFormatTables",
+            "writeLongString",
+            "writePacked"
+          ]
+        },
+        {
+          "path": "backend/i18n/internal/gen/main.go",
+          "sha256": "64eac06c1fd6beb521f2f757d27b8a92618f22972036073d482c6e6245f5bf27",
+          "declarations": [
+            "compileCondition",
+            "download",
+            "main",
+            "method:expr",
+            "method:url",
+            "parseRelation",
+            "powerOfTen",
+            "readPackage",
+            "type:cldrPackage",
+            "type:relation",
+            "type:ruleSet",
+            "writeInts",
+            "writeParents",
+            "writeRules",
+            "writeStrings"
+          ]
+        },
+        {
+          "path": "backend/i18n/internal/gen/relative.go",
+          "sha256": "1b711cb9e828ded9073c15b9a195a3dd0299bb6a324cb67d8306625f891275b6",
+          "declarations": [
+            "writeRelativeTables"
+          ]
+        },
+        {
+          "path": "backend/i18n/interval.go",
+          "sha256": "54cf4a282b1b657306a4fa6ecd596922d8b33ceb00dad338a710124c8641a150",
+          "declarations": [
+            "FormatDateRange",
+            "adjustFieldWidth",
+            "dateTimeSkeletons",
+            "fieldIgnored",
+            "intervalsOf",
+            "letterLevel",
+            "method:FormatRange",
+            "method:bestSkeleton",
+            "method:concatDate",
+            "method:fallbackFormat",
+            "method:fallbackRange",
+            "method:formatter",
+            "method:intervalPattern",
+            "method:normalizeHours",
+            "method:pattern",
+            "method:separateDateTime",
+            "method:setPart",
+            "method:skeletonIndex",
+            "newRangeFormat",
+            "replaceLetters",
+            "simpleFormat",
+            "skeletonWidths",
+            "splitInterval",
+            "type:extended",
+            "type:intervalLocale",
+            "type:rangeBuilder",
+            "type:rangeFormat",
+            "type:rangePart"
+          ]
+        },
+        {
+          "path": "backend/i18n/interval_test.go",
+          "sha256": "72a3b3f55e4ed107f9b8f682a707224d12afbca3fcdc25ecd5f402bc43db38b2",
+          "tests": [
+            "TestFormatDateRange"
+          ]
+        },
+        {
+          "path": "backend/i18n/languages.go",
+          "sha256": "68e5ffb6ccdb7a202ac1ff498112d852ef18c464536e8ec611b22c6e9330750e",
+          "declarations": [
+            "Languages",
+            "declare"
+          ]
+        },
+        {
+          "path": "backend/i18n/languages_test.go",
+          "sha256": "94df6bd099d0b8cad068b7777b1caf7ef30c510919d2f58d9d85bbc6f8f39881",
+          "tests": [
+            "TestLanguages"
+          ]
+        },
+        {
+          "path": "backend/i18n/message.go",
+          "sha256": "38c02121100bdbd12df233fe7df88a1460782ff46fd3df527f3dd3c670e7f4a0",
+          "declarations": [
+            "MustParseMessage",
+            "ParseMessage",
+            "contains",
+            "hasOther",
+            "isPatternSpace",
+            "isPatternSyntax",
+            "method:Args",
+            "method:Cases",
+            "method:Error",
+            "method:String",
+            "method:argument",
+            "method:errorf",
+            "method:message",
+            "method:quoted",
+            "method:space",
+            "method:style",
+            "method:word",
+            "parseMessage",
+            "type:Arg",
+            "type:Message",
+            "type:SyntaxError",
+            "type:msgCase",
+            "type:msgParser",
+            "type:node",
+            "type:nodeKind",
+            "validArgName"
+          ]
+        },
+        {
+          "path": "backend/i18n/message_test.go",
+          "sha256": "a9ae67a105a5c5f7b8a386f9a66a198679e55e0a6bc19d68b098d677b8707cea",
+          "declarations": [
+            "method:String",
+            "readMessageFixtures",
+            "type:messageCase",
+            "type:messageFixtures",
+            "type:stringer"
+          ],
+          "tests": [
+            "FuzzParseMessage",
+            "TestMessageArgs",
+            "TestMessageFixtures",
+            "TestMessageNesting",
+            "TestMessageValues",
+            "TestMustParseMessagePanics"
+          ]
+        },
+        {
+          "path": "backend/i18n/number.go",
+          "sha256": "c06be6515725fc1b3433a3ed64ede0b3fff8ee8fda07391eb2a9a4799a0c38a0",
+          "declarations": [
+            "FormatNumber",
+            "NewNumberFormatter",
+            "affix",
+            "method:Format",
+            "method:affixes",
+            "method:formatDecimal",
+            "method:numbers",
+            "method:round",
+            "method:sign",
+            "method:special",
+            "method:withSign",
+            "method:writeDigits",
+            "method:writeInteger",
+            "parseNumberPattern",
+            "roundDigits",
+            "shiftLeft",
+            "splitAffixes",
+            "splitDecimal",
+            "type:NumberFormatter",
+            "type:NumberOptions",
+            "type:SignDisplay",
+            "type:numberFormatterKey",
+            "type:numberPattern",
+            "type:numberSystem"
+          ]
+        },
+        {
+          "path": "backend/i18n/parent.go",
+          "sha256": "7a487f7906c70fe9d2f70a41f10348fb2f931d4d5551c21ac548da2da1afc296",
+          "declarations": [
+            "Parent",
+            "chain",
+            "isLetters"
+          ]
+        },
+        {
+          "path": "backend/i18n/parent_test.go",
+          "sha256": "4eff14e6ed5672ebd14c7f6c9327cc73238d12ed07600786f4edfbacdee61d25",
+          "tests": [
+            "TestChain",
+            "TestParent"
+          ]
+        },
+        {
+          "path": "backend/i18n/plural.go",
+          "sha256": "054bad30c86316c0aa3b1c6fa729b2756576e7b11fc549781caf64f73d0ddc62",
+          "declarations": [
+            "NewOperands",
+            "OrdinalCategories",
+            "OrdinalCategory",
+            "ParsePlural",
+            "PluralCategories",
+            "PluralCategory",
+            "categories",
+            "digits",
+            "digitsValue",
+            "floatOperands",
+            "intOperands",
+            "method:String",
+            "parseOperands",
+            "pluralRuleOf",
+            "search",
+            "stripExtensions",
+            "type:Operands",
+            "type:Plural",
+            "uintOperands"
+          ]
+        },
+        {
+          "path": "backend/i18n/plural_test.go",
+          "sha256": "b26e2973a59e5996e917323c6ab7b57bf60556574ece4cab0ba44073c9fdcd20",
+          "declarations": [
+            "category",
+            "cats",
+            "expandSamples"
+          ],
+          "tests": [
+            "TestNewOperands",
+            "TestParsePlural",
+            "TestPluralCategories",
+            "TestPluralCategory",
+            "TestPluralSamples",
+            "TestPluralsMatchICU"
+          ]
+        },
+        {
+          "path": "backend/i18n/pseudo.go",
+          "sha256": "08fdb0c27f70c9a8e383dfc42f5999f47a48fc7cca0d94d32dd66b12b17c50ca",
+          "declarations": [
+            "IsPseudo",
+            "method:placeholder",
+            "method:placeholder",
+            "method:text",
+            "method:text",
+            "method:wrap",
+            "method:wrap",
+            "pseudoFor",
+            "type:accents",
+            "type:bidi",
+            "type:pseudoMethod"
+          ]
+        },
+        {
+          "path": "backend/i18n/region.go",
+          "sha256": "91349c03b42bac95c1ea16eefd33a8faf7595608c96160997c1be3eb0d7977b3",
+          "declarations": [
+            "method:FormatLocale",
+            "type:Region"
+          ]
+        },
+        {
+          "path": "backend/i18n/relative.go",
+          "sha256": "6ae3242f457ae3d6e98ed93037d4d5ab505fd8659bdfdabedd6473829bf4789e",
+          "declarations": [
+            "FormatRelativeTime",
+            "NewRelativeTimeFormatter",
+            "method:Format",
+            "relativeOf",
+            "type:RelativeTimeFormatter",
+            "type:RelativeTimeOptions",
+            "type:RelativeTimeStyle",
+            "type:RelativeTimeUnit",
+            "type:relativeFormatterKey",
+            "type:relativeLocale"
+          ]
+        },
+        {
+          "path": "backend/i18n/relative_tables.go",
+          "sha256": "b3256ac5900e2fb4cac4723b2ad6a35d89604b43ec55d170be1b6e8e695c480f"
+        },
+        {
+          "path": "backend/i18n/relative_test.go",
+          "sha256": "9bd66a9c97d27deb2dc7d3ad93e9db189ce16fe074711a21edd747d5aa661d19",
+          "declarations": [
+            "ExampleFormatRelativeTime"
+          ],
+          "tests": [
+            "BenchmarkRelativeTime",
+            "TestFormatRelativeTime",
+            "TestRelativeTimeConcurrent",
+            "TestRelativeTimeInvalid",
+            "TestRelativeTimeMatchesICU"
+          ]
+        },
+        {
+          "path": "backend/i18n/sign_test.go",
+          "sha256": "7a71ca0a8027b1c74364367c2e073c79efb9af20bb043fb6db013c3109e8ba6f",
+          "tests": [
+            "TestNumberSignDisplay",
+            "TestNumberSignDisplayFormatter"
+          ]
+        },
+        {
+          "path": "backend/i18n/tables.go",
+          "sha256": "fcd3d894e96b9fb7f374bf34159c3a0acb9f8848801c3e30bbe0dadf532a0c92",
+          "declarations": [
+            "cardinalRule",
+            "ordinalRule"
+          ]
+        },
+        {
+          "path": "backend/i18n/testdata/format_icu.json",
+          "sha256": "6b0b58ebee07ba88e77691b40a67b68cd9464eaf128298f1eba56e773dfe4d04"
+        },
+        {
+          "path": "backend/i18n/testdata/format_locales.json",
+          "sha256": "938a27952acc86231dc71543d102c6ec4517c272b7a8ce7dc82bd9045085506f"
+        },
+        {
+          "path": "backend/i18n/testdata/messages.json",
+          "sha256": "e38999fb352ce04107fd2328a2695109187abca5d896502178bdc1cc43f942c7"
+        },
+        {
+          "path": "backend/i18n/testdata/plurals_icu.json",
+          "sha256": "60283b3b5ad153f7a351ca7f9a1460d763bea41bcb852b190959ed801a781f45"
+        },
+        {
+          "path": "backend/internal/darwin/locale.go",
+          "sha256": "a87a878ce4e225d6ad34de202f8d3c5e588b6f0fc773d86bd84b76d5380b72e7",
+          "declarations": [
+            "appleLanguages",
+            "hourCycle",
+            "loadPreferences",
+            "method:PreferredLanguages",
+            "method:Region",
+            "method:SaveLocale",
+            "method:SavedLocale",
+            "method:SetLanguages"
+          ]
+        },
+        {
+          "path": "backend/internal/darwin/locale_test.go",
+          "sha256": "02d8ca7ecf42c715b14f6a8dc226ffed5ec9dca31cea9488587fd1591639a3e6",
+          "tests": [
+            "TestHourCycle",
+            "TestLocales"
+          ]
+        },
+        {
+          "path": "backend/internal/e2e/locale_test.go",
+          "sha256": "a2729e23a82e94b444f5123378b4537ea8d6e42a5a7dfc03ab7f11ccbb51f825",
+          "declarations": [
+            "hasFonts",
+            "localeLanguages"
+          ],
+          "tests": [
+            "TestLocaleAtDocumentStart",
+            "TestTextLanguage"
+          ]
+        },
+        {
+          "path": "backend/internal/i18ngen/i18ngen_test.go",
+          "sha256": "5a3d9f872710f3424f56a119d2b168490bef1a45fae9cb4934c314150e8540b3",
+          "declarations": [
+            "diffLines",
+            "golden",
+            "library",
+            "loadDir"
+          ],
+          "tests": [
+            "TestApp",
+            "TestBad",
+            "TestGoldenBuilds",
+            "TestLibraryKeys",
+            "TestLoadSource",
+            "TestPackageName"
+          ]
+        },
+        {
+          "path": "backend/internal/i18ngen/testdata/app/locales.ts",
+          "sha256": "de02513f264290c286768cc81736da49c2ea51e2d29211f8d0db2367e8ccbbec"
+        },
+        {
+          "path": "backend/internal/i18nlink/i18nlink.go",
+          "sha256": "d745414c49371bfd37c8ea8da870bd69521459f96c8bce763adc269d3e945484"
+        },
+        {
+          "path": "backend/internal/linux/locale.go",
+          "sha256": "580d0586a995f67c43a8ba730efdb127231ff43efc8dd32d4a40cd3ee566a74b",
+          "declarations": [
+            "envLocale",
+            "hourCycleOf",
+            "loadLanginfo",
+            "method:PreferredLanguages",
+            "method:Region",
+            "method:SaveLocale",
+            "method:SavedLocale",
+            "method:SetLanguages",
+            "method:applyWebLanguages",
+            "method:get",
+            "type:langinfoLib"
+          ]
+        },
+        {
+          "path": "backend/internal/linux/locale_test.go",
+          "sha256": "a8aa27c270b999a3c36df390ba8bb84a6cc93a4f9931f17c0869ce5d4bca97ea",
+          "declarations": [
+            "splitLines"
+          ],
+          "tests": [
+            "TestHourCycleOf",
+            "TestPreferredLanguages",
+            "TestRegion"
+          ]
+        },
+        {
+          "path": "backend/internal/windows/locale.go",
+          "sha256": "e389e1213839eed317cdcb32b55b70329ea4b572540d19a22d14393174c84b32",
+          "declarations": [
+            "localeInfo",
+            "method:PreferredLanguages",
+            "method:Region",
+            "method:SaveLocale",
+            "method:SavedLocale",
+            "method:SetLanguages",
+            "multiString",
+            "timeFormatCycle"
+          ]
+        },
+        {
+          "path": "backend/locale.go",
+          "sha256": "6e191f1c94b712e2df159e71352d529b1716ccec2011888bf4830af37d04e3ae",
+          "declarations": [
+            "appDir",
+            "appLanguages",
+            "appRightToLeft",
+            "currentLocale",
+            "init",
+            "loadLocale",
+            "method:Languages",
+            "method:Locale",
+            "method:OnLocaleChanged",
+            "method:OnRegionChanged",
+            "method:PreferredLanguages",
+            "method:Region",
+            "method:SetLanguages",
+            "method:SetLocale",
+            "method:localeChangedFromSystem",
+            "method:shownLocale",
+            "method:startLocale",
+            "method:updateLocale",
+            "missingTranslations",
+            "normalizeTags",
+            "regionCode",
+            "regionLocale",
+            "regionOf",
+            "resolveLocale",
+            "saveLocale",
+            "savedLocale",
+            "type:Region",
+            "type:localeState",
+            "type:shownLocale",
+            "webLanguages"
+          ]
+        },
+        {
+          "path": "backend/locale_file.go",
+          "sha256": "277eaf152408fad99749d3a9ebc0f30a64897973e249e6be61a3303f7016fdd2",
+          "declarations": [
+            "localeFilePath",
+            "readLocaleFile",
+            "writeLocaleFile"
+          ]
+        },
+        {
+          "path": "backend/locale_file_js.go",
+          "sha256": "71b14b3ec2353adda7a06cf4b9c39867a82c24b5a2900f25241b6279068eab00",
+          "declarations": [
+            "readLocaleFile",
+            "writeLocaleFile"
+          ]
+        },
+        {
+          "path": "backend/locale_test.go",
+          "sha256": "31344228c4ebb4bd75252cc932bb2c7ce75af19529cdba8588241ffa87ca3ec4",
+          "declarations": [
+            "localeTest",
+            "method:add",
+            "method:get",
+            "pageLocale",
+            "type:heardList"
+          ],
+          "tests": [
+            "TestBackendTexts",
+            "TestCatalogsReadLocale",
+            "TestContentDirection",
+            "TestContentLocale",
+            "TestLocaleDefaultLanguages",
+            "TestLocaleFollowsSystem",
+            "TestLocaleSavedAndEnvironment",
+            "TestMenuBeforeRun",
+            "TestMenuRelabel",
+            "TestMissingTranslations",
+            "TestPagesLocale",
+            "TestRegion",
+            "TestResolveLocale",
+            "TestSavedLocaleWhereRunPutsIt",
+            "TestSetLocaleFromGoroutines",
+            "TestSetLocalePanicsOnBadTag",
+            "TestSetLocaleSavesInFile",
+            "TestSetLocaleSavesWithSystem"
+          ]
+        },
+        {
+          "path": "backend/locales/ja/locale_gen.go",
+          "sha256": "9f570a375ab71023a17d93ae96b35b0cb0a19650d41e6dce0b7fe29716e43999",
+          "declarations": [
+            "init"
+          ]
+        },
+        {
+          "path": "backend/locales/zh-Hans/locale_gen.go",
+          "sha256": "c43d161d56f55adc8ef6ae88f72db9ff44e0868ead53221afc8a77f4a873ca77",
+          "declarations": [
+            "init"
+          ]
+        },
+        {
+          "path": "backend/locales/zh-Hant/locale_gen.go",
+          "sha256": "6c9fc8d3d56f25dcf6256bc2b16d571432b32eddb873a477ca495017bc4e7919",
+          "declarations": [
+            "init"
+          ]
+        },
+        {
+          "path": "backend/ui/locale.go",
+          "sha256": "8beec05d2de42f82eaba57b8fc4d51165f705e9f487d1c85124525c2fc3adaf8",
+          "declarations": [
+            "dayNumber",
+            "method:Locale",
+            "method:Region",
+            "method:formatNumber",
+            "method:formats",
+            "method:formatted",
+            "method:texts",
+            "type:fmtKey"
+          ]
+        },
+        {
+          "path": "backend/ui/locale_test.go",
+          "sha256": "f9890c8ac7301b3f3c79d51bb800bd393c735fa92f3fefeac504064cafe310f0",
+          "tests": [
+            "TestLang"
+          ]
+        },
+        {
+          "path": "docs/i18n.md",
+          "sha256": "421146a8028f784035023e33d23e6cf9c50a0a58662de1b09287516193bc589b"
+        },
+        {
+          "path": "frontend/packages/runtime/src/i18n.test.ts",
+          "sha256": "f5463d6b31b4f80b090e966e1f45a73b8e7d7f198f0fb10132ce9d926a30a2a2"
+        },
+        {
+          "path": "frontend/packages/runtime/src/i18n.ts",
+          "sha256": "9c7c6e694623ed9648b6b3d4b6b6ca8ce376cb126d2692950006adee0275f77d"
+        }
+      ]
+    }
+  ]
+}

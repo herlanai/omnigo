@@ -166,39 +166,71 @@ func Terminal(id string, output TerminalOutput, scroll *ScrollState, options ...
 		}
 		title += fmt.Sprintf(" · exit %d", *output.ExitCode)
 	}
-	header := Text(id+"/command", title).Grow(1)
+	header := Text(id+"/command", title).FontSize(14).Grow(1)
 	if o.Open != nil {
-		header = Button(id+"/toggle", title, func() { o.Open.Open = !o.Open.Open }).Variant(Ghost).Grow(1)
+		header = Button(id+"/toggle", title, func() { o.Open.Open = !o.Open.Open }).Variant(Ghost).FontWeight(400).Height(36).Grow(1)
 		header.alignStart = true
 		header.branch = true
 		header.textIndent = 16
 		header.expanded = o.Open.Open
 		header.controls = id + "/output"
 	}
-	badge := Badge(id+"/status", statusLabel(status)).Variant(Secondary)
+	statusText := map[AIStatus]string{AIPending: "Pending", AIRunning: "Running", AIComplete: "Done", AIError: "Failed"}[status]
+	badge := Text(id+"/status", statusText).FontSize(12).Muted(true)
 	if status == AIError {
-		badge.Variant(Destructive)
+		badge.Variant(Destructive).Role("alert")
 	}
-	controls := []*Element{Text(id+"/title", "Terminal").FontSize(13).FontWeight(600).Grow(1)}
+	mark := Canvas(id+"/icon", "", func(p *Painter, r Rect) {
+		c := p.theme.Text
+		if status == AIError {
+			c = p.theme.Danger
+		}
+		p.Line(r.X+3, r.Y+4, r.X+8, r.Y+9, 1.25, c)
+		p.Line(r.X+8, r.Y+9, r.X+3, r.Y+14, 1.25, c)
+		p.Line(r.X+11, r.Y+14, r.X+16, r.Y+14, 1.25, c)
+	}).Width(18).Height(18).Role("presentation")
+	controls := []*Element{mark, Text(id+"/title", "Terminal").FontSize(12).FontWeight(500).Grow(1)}
 	if o.OnCopy != nil {
-		controls = append(controls, Button(id+"/copy", "Copy", func() { o.OnCopy(output.Output) }).Variant(Ghost))
+		copyButton := Button(id+"/copy", "", func() { o.OnCopy(output.Output) }).Label("Copy").Variant(Ghost).Width(28).Height(28).CornerRadius(6)
+		copyButton.PaintSurface(func(p *Painter, r Rect) {
+			c := p.theme.MutedText
+			p.Stroke(Rect{r.X + 12, r.Y + 11, 8, 9}, c, 1.5, 1)
+			p.Line(r.X+9, r.Y+17, r.X+7, r.Y+17, 1, c)
+			p.Line(r.X+7, r.Y+17, r.X+7, r.Y+7, 1, c)
+			p.Line(r.X+7, r.Y+7, r.X+16, r.Y+7, 1, c)
+		})
+		controls = append(controls, copyButton)
 	}
 	height := o.MaxHeight
 	if height <= 0 {
 		height = 320
 	}
-	text := codeText(id+"/text", output.Output, status == AIError)
+	text := codeTextSpaced(id+"/text", output.Output, status == AIError, 19.5)
 	viewport := ScrollArea(id+"/viewport", scroll, text).HorizontalScroll(true).Height(min(height, text.height+10))
 	viewport.followTail = true
-	actions := Row(id+"/actions", controls...)
+	actions := Row(id+"/actions", controls...).Gap(8).Height(28)
 	actions.centerItems = true
-	body := Column(id+"/output", actions, viewport).Gap(8)
+	body := Column(id+"/output", actions, viewport).Padding(12).Gap(8).PaintSurface(func(p *Painter, r Rect) {
+		border := p.theme.Text
+		border.A = 6
+		if status == AIError {
+			border = p.theme.Danger
+			border.A = 89
+		}
+		p.Fill(r, p.theme.Muted, 14)
+		p.Stroke(r, border, 14, 1)
+	})
 	if o.Open != nil {
 		body.Hidden(!o.Open.Open)
 	}
 	heading := Row(id+"/header", header, badge)
 	heading.centerItems = true
-	return Card(id, heading, body).Gap(8).Role("log")
+	// The trace panel is indented 24 DIP, independently of the outer page card.
+	panel := Row(id+"/panel", Canvas(id+"/indent", "", nil).Width(24), body.Grow(1)).Gap(0)
+	if o.Open != nil {
+		panel.Hidden(!o.Open.Open)
+	}
+	return Column(id, heading, panel).Gap(12).Role("log")
 }
 
 type SubagentRun struct {

@@ -20,7 +20,7 @@ func TestTerminalReferenceStatesAndDisclosure(t *testing.T) {
 			return Terminal("term", out, &scroll, TerminalOptions{Open: &open, OnCopy: func(v string) { copied = v }})
 		}
 		mount(t, s, build())
-		if e := s.entries[s.index["term/status"]].element; e.text != "error" || e.variant != Destructive {
+		if e := s.entries[s.index["term/status"]].element; e.text != "Failed" || e.variant != Destructive {
 			t.Fatal("failed exit not destructive")
 		}
 		click(t, s, "term/copy")
@@ -47,13 +47,13 @@ func TestTerminalReferenceStatesAndDisclosure(t *testing.T) {
 		}
 		out.Running = true
 		mount(t, s, build())
-		if s.entries[s.index["term/status"]].element.text != "running" {
+		if s.entries[s.index["term/status"]].element.text != "Running" {
 			t.Fatal("running precedence")
 		}
 		out.Running = false
 		out.ExitCode = nil
 		mount(t, s, build())
-		if s.entries[s.index["term/status"]].element.text != "pending" {
+		if s.entries[s.index["term/status"]].element.text != "Pending" {
 			t.Fatal("unknown exit reported finished")
 		}
 		mount(t, s, build().Disabled(true))
@@ -127,5 +127,39 @@ func TestTerminalHeaderAlignment(t *testing.T) {
 		if delta := (a.Y + a.H/2) - (b.Y + b.H/2); delta < -0.5 || delta > 0.5 {
 			t.Fatalf("unaligned row %v: %v / %v", pair, a, b)
 		}
+	}
+}
+
+func TestTerminalReferenceOutputFitsWithoutScrolling(t *testing.T) {
+	for _, dark := range []bool{false, true} {
+		s, err := NewSurface(640, 320, NewTheme(dark))
+		if err != nil {
+			t.Fatal(err)
+		}
+		state := DisclosureState{Open: true}
+		scroll := ScrollState{}
+		exit := 0
+		mount(t, s, Terminal("term", TerminalOutput{Command: "go test ./...", Output: "ok  example/backend\nok  example/ui", ExitCode: &exit}, &scroll, TerminalOptions{Open: &state, OnCopy: func(string) {}}))
+		if x, y := scroll.Limits(); x != 0 || y != 0 {
+			t.Fatalf("short reference output unexpectedly scrolls: %g,%g", x, y)
+		}
+		root, _ := s.Bounds("term")
+		body, _ := s.Bounds("term/output")
+		if body.X-root.X != 24 {
+			t.Fatal("trace indentation differs from reference")
+		}
+		text := s.entries[s.index["term/text"]]
+		if text.bounds.H != 39 || intersect(text.bounds, text.clip) != text.bounds {
+			t.Fatal("reference output clipped or wrong line spacing")
+		}
+		if s.entries[s.index["term/status"]].element.kind != TextKind {
+			t.Fatal("status must be plain text")
+		}
+		for _, scale := range []float64{1, 1.25, 2} {
+			if _, err := s.RenderScaled(scale, nil); err != nil {
+				t.Fatal(err)
+			}
+		}
+		s.Close()
 	}
 }

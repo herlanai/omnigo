@@ -4,8 +4,8 @@ package main
 import (
 	"context"
 	"flag"
+	"github.com/herlanai/omnigo/omniui/plugins/chromium"
 	"log"
-	"omnigo.dev/omnigo/omniui/plugins/chromium"
 	"os"
 	"os/signal"
 	"path/filepath"

@@ -1,0 +1,183 @@
+{
+  "categories": [
+    {
+      "id": "lifecycle-dispatch",
+      "implementation": [
+        "runtime/lifecycle/manager.go",
+        "runtime/dispatch",
+        "apps/host",
+        "apps/nativewindow"
+      ],
+      "interfaces": [
+        "Backend",
+        "AppController",
+        "AppHandler"
+      ],
+      "remaining": [
+        "Windows/Linux native runtime validation",
+        "multi-window application management",
+        "activation/reopen/single-instance integration"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "window",
+      "implementation": [
+        "apps/window.go",
+        "apps/host/cocoa_darwin.go",
+        "apps/host/chrome_darwin.go",
+        "apps/nativewindow",
+        "examples/native-window"
+      ],
+      "interfaces": [
+        "Window",
+        "WindowHandler",
+        "WindowStateWindow",
+        "WindowStateBackend",
+        "WindowButtonsBackend"
+      ],
+      "remaining": [
+        "Win32/X11 amd64/arm64 native-machine verification",
+        "native Wayland",
+        "Intel macOS native-machine verification",
+        "full public window/event API",
+        "persistent bounds and per-monitor DIP scaling",
+        "IMM32 native IME verification and candidate positioning",
+        "XIM inline preedit and native verification",
+        "touch/drag/drop/accessibility"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "webview",
+      "implementation": [
+        "apps/host/webview_darwin.go"
+      ],
+      "interfaces": [
+        "Page",
+        "WebView",
+        "DataStore",
+        "SchemeResponder",
+        "SchemeBodyWriter"
+      ],
+      "remaining": [
+        "WebView2 host",
+        "WebKitGTK host",
+        "navigation/download/session/protocol completeness",
+        "Intel macOS runtime verification"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "clipboard",
+      "implementation": [
+        "apps/clipboard",
+        "apps/host/cocoa_darwin.go"
+      ],
+      "interfaces": [
+        "Clipboard",
+        "LaterClipboard"
+      ],
+      "remaining": [
+        "Native file lists and additional image encodings",
+        "Windows native runtime verification and multi-item support",
+        "X11/Wayland selections",
+        "delayed clipboard ownership"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "shell",
+      "implementation": [
+        "apps/system"
+      ],
+      "interfaces": [
+        "Shell"
+      ],
+      "remaining": [
+        "Reveal/select file",
+        "trash",
+        "default application queries",
+        "platform runtime tests for Windows/Linux"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "dialogs",
+      "interfaces": [
+        "Dialogs"
+      ],
+      "remaining": [
+        "native open/save/message dialogs",
+        "filters",
+        "cancellation",
+        "parent window ownership"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "tray",
+      "interfaces": [
+        "Tray",
+        "TrayHandler"
+      ],
+      "remaining": [
+        "native tray lifecycle",
+        "context menus",
+        "icons",
+        "callbacks"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "display-theme",
+      "interfaces": [
+        "Screen",
+        "Theme",
+        "StyleBackend"
+      ],
+      "remaining": [
+        "display enumeration and hotplug",
+        "per-monitor DPI",
+        "system appearance changes",
+        "GTK style binding"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "system-state",
+      "interfaces": [
+        "Power",
+        "Network",
+        "NowPlaying",
+        "Secrets"
+      ],
+      "remaining": [
+        "power/network callbacks",
+        "media integration",
+        "Keychain/Credential Manager/Secret Service"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "backend-services",
+      "interfaces": [
+        "Backend"
+      ],
+      "remaining": [
+        "notifications",
+        "native menus",
+        "global shortcuts",
+        "installed applications",
+        "native file watches",
+        "metadata-preserving file replacement"
+      ],
+      "status": "pending"
+    }
+  ],
+  "default_status": "pending",
+  "policy": "Every reference method remains in scope. Category partial never marks every method implemented. Cross-build is not native runtime evidence.",
+  "reference": "reference.json",
+  "schema": 1,
+  "scope": "Reference platform interfaces, not all public golet APIs or plugin internals"
+}

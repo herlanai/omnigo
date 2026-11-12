@@ -1,0 +1,61 @@
+{
+  "reference": "https://github.com/h4ckf0r0day/obscura",
+  "checked": "2026-11-12",
+  "complete": false,
+  "areas": [
+    {
+      "id": "dom",
+      "status": "partial",
+      "implemented": "HTML5 parser, selectors, mutations, node identity",
+      "remaining": "Full DOM, events, forms, shadow DOM and standards conformance"
+    },
+    {
+      "id": "javascript",
+      "status": "partial",
+      "implemented": "Goja classic scripts, isolated globals/shared DOM, promise await/timers, same-origin fetch, basic Headers/Response/URL/storage",
+      "remaining": "Modules, full event loop, WHATWG URL, streams, workers, XHR and full Web API conformance"
+    },
+    {
+      "id": "network",
+      "status": "partial",
+      "implemented": "HTTP/cookies, stylesheet/script/fetch requests, bounded transport observations and response bodies",
+      "remaining": "Full redirect CDP semantics, proxy/cache/persistent sessions/CORS/CSP/TLS fingerprints and streaming events"
+    },
+    {
+      "id": "render",
+      "status": "partial",
+      "implemented": "External CSS, cascade/variables/media subset, viewport units, box edges, flex/grid subset, positioned elements, SVG paths, rounded borders, embedded Inter/Noto CJK font fallback, PNG/raster PDF; bundled Noto SC regular/bold, inline formatting subset, hidden inputs, percentage heights, content box, rectangular overflow, bounded raster image loading; layer/range-media/logical-edge subset, clamp/min/max, fr tracks, flex alignment, aspect ratio, gradients, 2D transforms and SVG invert; SVG text outlines/presentation cascade, before/after generated boxes, explicit-time first-transform animation sampling",
+      "remaining": "Full CSS/flex/grid/inline formatting, tables, stacking/rounded clipping, full animations/transitions/events, WOFF fonts/shaping, Canvas, complex SVG, paginated/searchable PDF"
+    },
+    {
+      "id": "automation",
+      "status": "partial",
+      "implemented": "Go Locator strict matching, text filters/nth, waits, click/fill/text/attributes with cancellation; parallel scrape",
+      "remaining": "Puppeteer/Playwright locator injection, actionability hit-testing, real input, default actions, navigation history and downloads"
+    },
+    {
+      "id": "cdp",
+      "status": "partial",
+      "implemented": "Targets/sessions/realms/handles, PNG/PDF, actual HTTP events and response bodies tested with Puppeteer 25.17.0 and Playwright 1.65.0",
+      "remaining": "Full protocol, locator/Input, redirect chains, interception, live streaming, shared context cookies, init-script timing, emulation"
+    },
+    {
+      "id": "mcp",
+      "status": "partial",
+      "implemented": "2025-06-18 stdio lifecycle, eight tools, schemas, cancellation and bounded concurrency",
+      "remaining": "HTTP transport, resources/prompts/subscriptions and full MCP conformance"
+    },
+    {
+      "id": "stealth",
+      "status": "pending",
+      "implemented": "",
+      "remaining": "Fingerprint profiles, anti-detect transport and tracker blocking"
+    },
+    {
+      "id": "performance",
+      "status": "pending",
+      "implemented": "",
+      "remaining": "Equivalent benchmarks, memory budgets and process isolation"
+    }
+  ]
+}

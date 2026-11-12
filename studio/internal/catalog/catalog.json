@@ -1,198 +1,192 @@
 [
   {
-    "id": "accordion",
     "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
+    "id": "accordion",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Accordion",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "ai-message",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/messages.go",
-    "symbol": "AIMessage",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "ai-message",
+    "implementation": "omniui/baseui/messages.go",
+    "kind": "control",
     "remaining": [
       "Streaming Markdown, fenced-code highlighting and selectable rich text",
       "Clipboard completion/error feedback and native accessibility"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "AIMessage",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "alert",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Alert",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "alert-dialog",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "AlertDialog",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "aspect-ratio",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/layout_controls.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "AspectRatio",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "attachment",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/messages.go",
-    "symbol": "Attachment",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "attachment",
+    "implementation": "omniui/baseui/messages.go",
+    "kind": "control",
     "remaining": [
       "File drop/upload integration, progress fraction and richer previews"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Attachment",
+    "target": "omniui/baseui"
   },
   {
-    "id": "avatar",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/avatar.go",
-    "symbol": "Avatar",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "avatar",
+    "implementation": "omniui/baseui/avatar.go",
+    "kind": "control",
     "remaining": [
       "High-quality image resampling, image loading/error lifecycle and size variants"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Avatar",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "badge",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/element.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Badge",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "breadcrumb",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/navigation.go",
-    "symbol": "Breadcrumb",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "breadcrumb",
+    "implementation": "omniui/baseui/navigation.go",
+    "kind": "control",
     "remaining": [
       "Overflow collapse, complete current-page platform accessibility"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Breadcrumb",
+    "target": "omniui/baseui"
   },
   {
-    "id": "bubble",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/messages.go",
-    "symbol": "Bubble",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "bubble",
+    "implementation": "omniui/baseui/messages.go",
+    "kind": "control",
     "remaining": [
       "Full visual variants and selectable rich text"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Bubble",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "button",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/element.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Button",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "button-group",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "ButtonGroup",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "calendar",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/calendar.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Calendar",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "card",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/element.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Card",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "carousel",
     "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
+    "id": "carousel",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Carousel",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "chain-of-thought",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "ChainOfThought",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "chain-of-thought",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Rich step content, aggregate status indicator and platform live announcements"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "ChainOfThought",
+    "target": "omniui/baseui"
   },
   {
-    "id": "chart",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/chart.go",
-    "symbol": "Chart",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go",
@@ -202,1408 +196,1417 @@
       "omniui/baseui/chart_compose_test.go",
       "omniui/baseui/chart_compose.go"
     ],
+    "group": "forma",
+    "id": "chart",
+    "implementation": "omniui/baseui/chart.go",
+    "kind": "control",
     "remaining": [
       "Remaining ui/chart scale, normalized geometry, stack, time-axis and downsample APIs; arbitrary composable accessible marks",
       "Native screen-reader announcements and per-mark accessibility; real-window/DPI visual comparison",
       "Equivalent-load reference benchmarks; broader font and visual-token alignment"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Chart",
+    "target": "omniui/baseui"
   },
   {
-    "id": "chat",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/messages.go",
-    "symbol": "Chat",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "chat",
+    "implementation": "omniui/baseui/messages.go",
+    "kind": "control",
     "remaining": [
       "Virtualized message history, prepend anchoring and rich response composition"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Chat",
+    "target": "omniui/baseui"
   },
   {
-    "id": "checkbox",
     "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
+    "id": "checkbox",
     "implementation": "omniui/baseui/element.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Checkbox",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "checkpoint",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "Checkpoint",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "checkpoint",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Restore-pending/error feedback and platform accessibility"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Checkpoint",
+    "target": "omniui/baseui"
   },
   {
-    "id": "code-block",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/compose.go",
-    "symbol": "CodeBlock",
     "evidence": [
       "omniui/baseui/terminal_test.go"
     ],
+    "group": "forma",
+    "id": "code-block",
+    "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
     "remaining": [
       "Selectable text, syntax highlighting, line numbers/decorations, wrap toggle, download and custom footer/actions",
       "Complete reference font/theme states and native accessibility"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "CodeBlock",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "collapsible",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Collapsible",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "combobox",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/select.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Combobox",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "command",
     "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
+    "id": "command",
     "implementation": "omniui/baseui/command.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Command",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "confirmation",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "Confirmation",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "confirmation",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Rich decision content and platform live announcements"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Confirmation",
+    "target": "omniui/baseui"
   },
   {
-    "id": "context",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/messages.go",
-    "symbol": "Context",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "context",
+    "implementation": "omniui/baseui/messages.go",
+    "kind": "control",
     "remaining": [
       "Complete formatting/visual variants and platform accessibility"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Context",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "context-menu",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/context_menu.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "ContextMenu",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "dialog",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Dialog",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "direction",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/layout_controls.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Direction",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "drawer",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/drawer.go",
-    "symbol": "Drawer",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "drawer",
+    "implementation": "omniui/baseui/drawer.go",
+    "kind": "control",
     "remaining": [
       "Touch gestures, velocity/animation and physical-device validation"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Drawer",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "dropdown-menu",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/menu.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "DropdownMenu",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "empty",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Empty",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "field",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Field",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "ai",
     "id": "file-tree",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/file_tree.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "FileTree",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "form",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Form",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "hover-card",
     "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
+    "id": "hover-card",
     "implementation": "omniui/baseui/hover.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "HoverCard",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "inline-citation",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/messages.go",
-    "symbol": "InlineCitation",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "inline-citation",
+    "implementation": "omniui/baseui/messages.go",
+    "kind": "control",
     "remaining": [
       "Inline rich-text flow, multiple-source previews and native link semantics"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "InlineCitation",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "input",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/element.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Input",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "input-group",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "InputGroup",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "input-otp",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/otp.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "InputOTP",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "item",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/messages.go",
-    "symbol": "Item",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "item",
+    "implementation": "omniui/baseui/messages.go",
+    "kind": "control",
     "remaining": [
       "Full appearance, size, icon and media variants"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Item",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "kbd",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Kbd",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "label",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/element.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Text",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "marker",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/messages.go",
-    "symbol": "Marker",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "marker",
+    "implementation": "omniui/baseui/messages.go",
+    "kind": "control",
     "remaining": [
       "Full appearance and text-layout variants"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Marker",
+    "target": "omniui/baseui"
   },
   {
-    "id": "menubar",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/navigation.go",
-    "symbol": "Menubar",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "menubar",
+    "implementation": "omniui/baseui/navigation.go",
+    "kind": "control",
     "remaining": [
       "Pointer switching between open top-level menus, hover intent and platform menu integration"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Menubar",
+    "target": "omniui/baseui"
   },
   {
-    "id": "message",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/messages.go",
-    "symbol": "Message",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "message",
+    "implementation": "omniui/baseui/messages.go",
+    "kind": "control",
     "remaining": [
       "Full header/footer alignment variants and selectable rich content"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Message",
+    "target": "omniui/baseui"
   },
   {
-    "id": "message-scroller",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/messages.go",
-    "symbol": "MessageScroller",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "message-scroller",
+    "implementation": "omniui/baseui/messages.go",
+    "kind": "control",
     "remaining": [
       "Virtualization, prepend anchoring and inertial scrolling"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "MessageScroller",
+    "target": "omniui/baseui"
   },
   {
-    "id": "model-selector",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/prompt.go",
-    "symbol": "ModelSelector",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go",
       "omniui/baseui/model_selector_parity_test.go"
     ],
+    "group": "ai",
+    "id": "model-selector",
+    "implementation": "omniui/baseui/prompt.go",
+    "kind": "control",
     "remaining": [
       "Full model-pill icons, text hierarchy and visual-state comparison with reference",
       "Native accessibility/IME and real-window interaction validation"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "ModelSelector",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "native-select",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/select.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Select",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "navigation-menu",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/navigation.go",
-    "symbol": "NavigationMenu",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "navigation-menu",
+    "implementation": "omniui/baseui/navigation.go",
+    "kind": "control",
     "remaining": [
       "Dropdown content, overflow behavior and full navigation accessibility"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "NavigationMenu",
+    "target": "omniui/baseui"
   },
   {
-    "id": "pagination",
     "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
+    "id": "pagination",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Pagination",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "plan",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "Plan",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "plan",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Rich/custom step content and platform live announcements"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Plan",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "popover",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/overlay.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Popover",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "progress",
     "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
+    "id": "progress",
     "implementation": "omniui/baseui/element.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Progress",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "prompt-input",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/prompt.go",
-    "symbol": "PromptInput",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "prompt-input",
+    "implementation": "omniui/baseui/prompt.go",
+    "kind": "control",
     "remaining": [
       "File drag/drop, rich tools toolbar, auto-growing editor and native IME adapter"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "PromptInput",
+    "target": "omniui/baseui"
   },
   {
-    "id": "questionnaire",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "Questionnaire",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "questionnaire",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Full layouts, richer validation feedback and native accessibility"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Questionnaire",
+    "target": "omniui/baseui"
   },
   {
-    "id": "queue",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "Queue",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "queue",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Rich item content, virtualization and platform live announcements"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Queue",
+    "target": "omniui/baseui"
   },
   {
-    "id": "radio-group",
     "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
+    "id": "radio-group",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "RadioGroup",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "reasoning",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "Reasoning",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "reasoning",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Streaming Markdown, live elapsed-time display and native accessibility"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Reasoning",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "resizable",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/layout_controls.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Resizable",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "scroll-area",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/scroll.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "ScrollArea",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "select",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/select.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Select",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "separator",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/element.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Separator",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "sheet",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/layout_controls.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Sheet",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "sidebar",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/navigation.go",
-    "symbol": "Sidebar",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "sidebar",
+    "implementation": "omniui/baseui/navigation.go",
+    "kind": "control",
     "remaining": [
       "Sections, icons, resizing/collapsing, nested navigation and mobile layout"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Sidebar",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "skeleton",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/layout_controls.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Skeleton",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "slider",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/element.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Slider",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "sonner",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/toast.go",
-    "symbol": "Sonner",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "sonner",
+    "implementation": "omniui/baseui/toast.go",
+    "kind": "control",
     "remaining": [
       "Stack overflow, placement variants, animation, swipe dismissal and platform live regions"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Sonner",
+    "target": "omniui/baseui"
   },
   {
-    "id": "sources",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/messages.go",
-    "symbol": "Sources",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "sources",
+    "implementation": "omniui/baseui/messages.go",
+    "kind": "control",
     "remaining": [
       "Expanded metadata/icon variants, localized counts and native link semantics"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Sources",
+    "target": "omniui/baseui"
   },
   {
-    "id": "spinner",
     "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
+    "id": "spinner",
     "implementation": "omniui/baseui/element.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Spinner",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "stack-trace",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "StackTrace",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "stack-trace",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Selectable code, syntax highlighting and source navigation integration"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "StackTrace",
+    "target": "omniui/baseui"
   },
   {
-    "id": "subagent",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "Subagent",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "subagent",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Rich/streamed output, live duration and platform live announcements"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Subagent",
+    "target": "omniui/baseui"
   },
   {
-    "id": "suggestion",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "Suggestion",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "suggestion",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Size/icon variants and native accessibility"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Suggestion",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "switch",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/element.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Switch",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "table",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/table.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Table",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "tabs",
     "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
+    "id": "tabs",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Tabs",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "task",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "Task",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "task",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Rich/custom steps and platform live announcements"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Task",
+    "target": "omniui/baseui"
   },
   {
-    "id": "terminal",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "Terminal",
     "evidence": [
       "omniui/baseui/terminal_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "terminal",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Selectable text, incremental code highlighting and complete reference CodeBlock actions",
       "Native accessibility and full visual-state acceptance; PTY/VT terminal plugin is a separate unimplemented capability"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Terminal",
+    "target": "omniui/baseui"
   },
   {
-    "id": "test-results",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "TestResults",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "test-results",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Virtualization, source navigation and rich selectable failure output"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "TestResults",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "textarea",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/element.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Textarea",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "toast",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/toast.go",
-    "symbol": "Toast",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "toast",
+    "implementation": "omniui/baseui/toast.go",
+    "kind": "control",
     "remaining": [
       "Appearance/position variants, keyboard dismissal policy and platform announcements"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Toast",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "toggle",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/element.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Toggle",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "toggle-group",
     "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
+    "id": "toggle-group",
     "implementation": "omniui/baseui/compose.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "ToggleGroup",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "tool",
-    "group": "ai",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "Tool",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "ai",
+    "id": "tool",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Syntax highlighting, selectable input/output, rich previews and platform live announcements"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Tool",
+    "target": "omniui/baseui"
   },
   {
+    "group": "forma",
     "id": "tooltip",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
     "implementation": "omniui/baseui/hover.go",
+    "kind": "control",
+    "status": "partial",
     "symbol": "Tooltip",
-    "kind": "control"
+    "target": "omniui/baseui"
   },
   {
-    "id": "trace",
-    "group": "forma",
-    "status": "partial",
-    "target": "omniui/baseui",
-    "implementation": "omniui/baseui/workflow.go",
-    "symbol": "Trace",
     "evidence": [
       "omniui/baseui/advanced_test.go",
       "studio/internal/demos/advanced.go"
     ],
+    "group": "forma",
+    "id": "trace",
+    "implementation": "omniui/baseui/workflow.go",
+    "kind": "control",
     "remaining": [
       "Rich tree connectors, selectable content and platform accessibility"
     ],
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Trace",
+    "target": "omniui/baseui"
   },
   {
-    "id": "markdown",
-    "title": "Markdown",
-    "status": "partial",
-    "implementation": "omniui/plugins/markdown",
-    "symbol": "State.View",
     "description": "Go 原生 CommonMark/GFM：标题、行内格式、列表、引用、代码块、表格和链接。选择、图片、数学、增量解析和完整无障碍尚未完成。",
-    "reference": "backend/ui/markdown",
     "evidence": [
       "omniui/plugins/markdown/markdown_test.go",
       "omniui/baseui/rich_text_test.go"
     ],
+    "group": "advanced",
+    "id": "markdown",
+    "implementation": "omniui/plugins/markdown",
+    "kind": "control",
+    "reference": "backend/ui/markdown",
     "remaining": [
       "Text selection and plain/HTML/Markdown clipboard formats",
       "Images, math, alerts, mentions, link context menus and heading anchors",
       "Incremental parsing, streaming syntax healing and reveal animation",
       "Per-link platform accessibility, complex shaping and configurable font fallback"
     ],
-    "group": "advanced",
-    "kind": "control"
+    "status": "partial",
+    "symbol": "State.View",
+    "title": "Markdown"
   },
   {
-    "id": "richtext-editor",
-    "title": "Rich text editor",
-    "status": "partial",
-    "implementation": "omniui/baseui/rich_editor.go",
-    "symbol": "RichTextEditor",
-    "reference": "backend/ui/richtext",
     "description": "可编辑样式文档：选区格式、文字和格式共同撤销/重做，以及实时 Go 富文本预览。",
+    "evidence": [
+      "omniui/baseui/rewrite_controls_test.go",
+      "studio/internal/demos/sweep_test.go"
+    ],
+    "group": "advanced",
+    "id": "richtext-editor",
+    "implementation": "omniui/baseui/rich_editor.go",
+    "kind": "control",
+    "reference": "backend/ui/richtext",
     "remaining": [
       "Full inline WYSIWYG editing; current UI separates source text and styled preview",
       "Block schema, tables, embeds, lists, links and structured clipboard formats",
       "Incremental layout, native IME, accessibility and complex shaping"
     ],
-    "evidence": [
-      "omniui/baseui/rewrite_controls_test.go",
-      "studio/internal/demos/sweep_test.go"
-    ],
-    "group": "advanced",
-    "kind": "control"
+    "status": "partial",
+    "symbol": "RichTextEditor",
+    "title": "Rich text editor"
   },
   {
-    "id": "number-input",
-    "title": "NumberInput",
-    "status": "partial",
-    "implementation": "omniui/baseui/value_controls.go",
-    "symbol": "NumberInput",
-    "reference": "backend/ui",
     "description": "Incomplete text, valid numeric updates, bounds and step buttons/keys. Remaining: Blur normalization, locale decimal syntax and exact reference formatting",
+    "evidence": [
+      "omniui/baseui/ui_controls_test.go"
+    ],
+    "group": "advanced",
+    "id": "number-input",
+    "implementation": "omniui/baseui/value_controls.go",
     "implemented": [
       "Incomplete text, valid numeric updates, bounds and step buttons/keys"
     ],
+    "kind": "control",
+    "reference": "backend/ui",
     "remaining": [
       "Blur normalization, locale decimal syntax and exact reference formatting"
     ],
+    "status": "partial",
+    "symbol": "NumberInput",
+    "title": "NumberInput"
+  },
+  {
+    "description": "Calendar popup, selection, dismissal and time/location preservation. Remaining: Regional date formatting, locale and full native accessibility",
     "evidence": [
       "omniui/baseui/ui_controls_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
-  },
-  {
     "id": "date-input",
-    "title": "DateInput",
-    "status": "partial",
     "implementation": "omniui/baseui/value_controls.go",
-    "symbol": "DateInput",
-    "reference": "backend/ui",
-    "description": "Calendar popup, selection, dismissal and time/location preservation. Remaining: Regional date formatting, locale and full native accessibility",
     "implemented": [
       "Calendar popup, selection, dismissal and time/location preservation"
     ],
+    "kind": "control",
+    "reference": "backend/ui",
     "remaining": [
       "Regional date formatting, locale and full native accessibility"
     ],
+    "status": "partial",
+    "symbol": "DateInput",
+    "title": "DateInput"
+  },
+  {
+    "description": "Hour/minute segments, keyboard wrap, AM/PM and preserved date/location. Remaining: Localized day periods/order, digit auto-advance and fully matched segment styling",
     "evidence": [
       "omniui/baseui/ui_controls_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
-  },
-  {
     "id": "time-input",
-    "title": "TimeInput",
-    "status": "partial",
     "implementation": "omniui/baseui/value_controls.go",
-    "symbol": "TimeInput",
-    "reference": "backend/ui",
-    "description": "Hour/minute segments, keyboard wrap, AM/PM and preserved date/location. Remaining: Localized day periods/order, digit auto-advance and fully matched segment styling",
     "implemented": [
       "Hour/minute segments, keyboard wrap, AM/PM and preserved date/location"
     ],
+    "kind": "control",
+    "reference": "backend/ui",
     "remaining": [
       "Localized day periods/order, digit auto-advance and fully matched segment styling"
     ],
+    "status": "partial",
+    "symbol": "TimeInput",
+    "title": "TimeInput"
+  },
+  {
+    "description": "Search input, clear, Escape and submit with TextBuffer IME/history. Remaining: Localized strings, search options and platform search semantics",
     "evidence": [
       "omniui/baseui/ui_controls_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
-  },
-  {
     "id": "search-field",
-    "title": "SearchField",
-    "status": "partial",
     "implementation": "omniui/baseui/value_controls.go",
-    "symbol": "SearchField",
-    "reference": "backend/ui",
-    "description": "Search input, clear, Escape and submit with TextBuffer IME/history. Remaining: Localized strings, search options and platform search semantics",
     "implemented": [
       "Search input, clear, Escape and submit with TextBuffer IME/history"
     ],
+    "kind": "control",
+    "reference": "backend/ui",
     "remaining": [
       "Localized strings, search options and platform search semantics"
     ],
+    "status": "partial",
+    "symbol": "SearchField",
+    "title": "SearchField"
+  },
+  {
+    "description": "Native stars, pointer clear/toggle, keyboard range and cancellation. Remaining: Fractional/hover preview, full RTL appearance and native accessibility",
     "evidence": [
       "omniui/baseui/ui_controls_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
-  },
-  {
     "id": "rating",
-    "title": "Rating",
-    "status": "partial",
     "implementation": "omniui/baseui/choice_controls.go",
-    "symbol": "Rating",
-    "reference": "backend/ui",
-    "description": "Native stars, pointer clear/toggle, keyboard range and cancellation. Remaining: Fractional/hover preview, full RTL appearance and native accessibility",
     "implemented": [
       "Native stars, pointer clear/toggle, keyboard range and cancellation"
     ],
+    "kind": "control",
+    "reference": "backend/ui",
     "remaining": [
       "Fractional/hover preview, full RTL appearance and native accessibility"
     ],
+    "status": "partial",
+    "symbol": "Rating",
+    "title": "Rating"
+  },
+  {
+    "description": "Shared track, two focusable handles, nearest hit, steps, bounds and cancel restore. Remaining: Tick marks, full RTL geometry and native accessibility",
     "evidence": [
       "omniui/baseui/ui_controls_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
-  },
-  {
     "id": "range-slider",
-    "title": "RangeSlider",
-    "status": "partial",
     "implementation": "omniui/baseui/range_slider.go",
-    "symbol": "RangeSlider",
-    "reference": "backend/ui",
-    "description": "Shared track, two focusable handles, nearest hit, steps, bounds and cancel restore. Remaining: Tick marks, full RTL geometry and native accessibility",
     "implemented": [
       "Shared track, two focusable handles, nearest hit, steps, bounds and cancel restore"
     ],
+    "kind": "control",
+    "reference": "backend/ui",
     "remaining": [
       "Tick marks, full RTL geometry and native accessibility"
     ],
+    "status": "partial",
+    "symbol": "RangeSlider",
+    "title": "RangeSlider"
+  },
+  {
+    "description": "Add/remove tokens, comma/Enter, empty Backspace and filtered suggestions. Remaining: Popup collision/virtualization, chip wrapping, selection, rich token metadata and locale",
     "evidence": [
       "omniui/baseui/ui_controls_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
-  },
-  {
     "id": "token-field",
-    "title": "TokenField",
-    "status": "partial",
     "implementation": "omniui/baseui/choice_controls.go",
-    "symbol": "TokenField",
-    "reference": "backend/ui",
-    "description": "Add/remove tokens, comma/Enter, empty Backspace and filtered suggestions. Remaining: Popup collision/virtualization, chip wrapping, selection, rich token metadata and locale",
     "implemented": [
       "Add/remove tokens, comma/Enter, empty Backspace and filtered suggestions"
     ],
+    "kind": "control",
+    "reference": "backend/ui",
     "remaining": [
       "Popup collision/virtualization, chip wrapping, selection, rich token metadata and locale"
     ],
+    "status": "partial",
+    "symbol": "TokenField",
+    "title": "TokenField"
+  },
+  {
+    "description": "Action/toggle controls, disabled skipping and roving focus. Remaining: Automatic overflow, embedded widget groups and spacer alignment",
     "evidence": [
       "omniui/baseui/ui_controls_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
-  },
-  {
     "id": "toolbar",
-    "title": "Toolbar",
-    "status": "partial",
     "implementation": "omniui/baseui/choice_controls.go",
-    "symbol": "Toolbar",
-    "reference": "backend/ui",
-    "description": "Action/toggle controls, disabled skipping and roving focus. Remaining: Automatic overflow, embedded widget groups and spacer alignment",
     "implemented": [
       "Action/toggle controls, disabled skipping and roving focus"
     ],
+    "kind": "control",
+    "reference": "backend/ui",
     "remaining": [
       "Automatic overflow, embedded widget groups and spacer alignment"
     ],
+    "status": "partial",
+    "symbol": "Toolbar",
+    "title": "Toolbar"
+  },
+  {
+    "description": "HSV square, hue/opacity, editable RGB/RGBA hex, swatches and drag cancellation. Remaining: Color-space management, system color panel, localized labels and exact styling",
     "evidence": [
       "omniui/baseui/ui_controls_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
-  },
-  {
     "id": "color-picker",
-    "title": "ColorPicker",
-    "status": "partial",
     "implementation": "omniui/baseui/color_picker.go",
-    "symbol": "ColorPicker",
-    "reference": "backend/ui",
-    "description": "HSV square, hue/opacity, editable RGB/RGBA hex, swatches and drag cancellation. Remaining: Color-space management, system color panel, localized labels and exact styling",
     "implemented": [
       "HSV square, hue/opacity, editable RGB/RGBA hex, swatches and drag cancellation"
     ],
+    "kind": "control",
+    "reference": "backend/ui",
     "remaining": [
       "Color-space management, system color panel, localized labels and exact styling"
     ],
+    "status": "partial",
+    "symbol": "ColorPicker",
+    "title": "ColorPicker"
+  },
+  {
+    "description": "Color swatch trigger, picker popup and Escape/outside dismissal. Remaining: Platform-native panel integration and full reference styling",
     "evidence": [
       "omniui/baseui/ui_controls_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
-  },
-  {
     "id": "color-well",
-    "title": "ColorWell",
-    "status": "partial",
     "implementation": "omniui/baseui/color_picker.go",
-    "symbol": "ColorWell",
-    "reference": "backend/ui",
-    "description": "Color swatch trigger, picker popup and Escape/outside dismissal. Remaining: Platform-native panel integration and full reference styling",
     "implemented": [
       "Color swatch trigger, picker popup and Escape/outside dismissal"
     ],
+    "kind": "control",
+    "reference": "backend/ui",
     "remaining": [
       "Platform-native panel integration and full reference styling"
     ],
-    "evidence": [
-      "omniui/baseui/ui_controls_test.go"
-    ],
-    "group": "advanced",
-    "kind": "control"
+    "status": "partial",
+    "symbol": "ColorWell",
+    "title": "ColorWell"
   },
   {
-    "id": "decimal-input",
-    "title": "Decimal input",
-    "status": "partial",
-    "implementation": "omniui/baseui/decimal_input.go",
-    "symbol": "DecimalInput",
-    "reference": "backend/ui/decimal.go",
     "description": "精确十进制输入：任意大整数运算、分组校验、范围、步进、草稿与取消。",
     "evidence": [
       "omniui/baseui/missing_controls_test.go",
       "studio/internal/demos/sweep_test.go"
     ],
+    "group": "advanced",
+    "id": "decimal-input",
+    "implementation": "omniui/baseui/decimal_input.go",
+    "kind": "control",
+    "reference": "backend/ui/decimal.go",
     "remaining": [
       "Blur normalization and localized decimal separators",
       "Native accessibility spinbutton decimal metadata"
     ],
-    "group": "advanced",
-    "kind": "control"
+    "status": "partial",
+    "symbol": "DecimalInput",
+    "title": "Decimal input"
   },
   {
-    "id": "editable-text",
-    "title": "EditableText",
-    "status": "partial",
-    "implementation": "omniui/baseui/content_controls.go",
-    "symbol": "EditableText",
-    "reference": "backend/ui",
     "description": "Basename selection, Enter/Save commit, Escape/Cancel and retained focus. Remaining: Double click, delayed row rename and focus-loss commit",
+    "evidence": [
+      "omniui/baseui/ui_controls_test.go"
+    ],
+    "group": "advanced",
+    "id": "editable-text",
+    "implementation": "omniui/baseui/content_controls.go",
     "implemented": [
       "Basename selection, Enter/Save commit, Escape/Cancel and retained focus"
     ],
+    "kind": "control",
+    "reference": "backend/ui",
     "remaining": [
       "Double click, delayed row rename and focus-loss commit"
     ],
+    "status": "partial",
+    "symbol": "EditableText",
+    "title": "EditableText"
+  },
+  {
+    "description": "Query callbacks, match count, cyclic navigation, keyboard shortcuts and dismissal. Remaining: Platform-global shortcut routing, focus return and native live announcements",
     "evidence": [
       "omniui/baseui/ui_controls_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
-  },
-  {
     "id": "find-bar",
-    "title": "FindBar",
-    "status": "partial",
     "implementation": "omniui/baseui/content_controls.go",
-    "symbol": "FindBar",
-    "reference": "backend/ui",
-    "description": "Query callbacks, match count, cyclic navigation, keyboard shortcuts and dismissal. Remaining: Platform-global shortcut routing, focus return and native live announcements",
     "implemented": [
       "Query callbacks, match count, cyclic navigation, keyboard shortcuts and dismissal"
     ],
+    "kind": "control",
+    "reference": "backend/ui",
     "remaining": [
       "Platform-global shortcut routing, focus return and native live announcements"
     ],
+    "status": "partial",
+    "symbol": "FindBar",
+    "title": "FindBar"
+  },
+  {
+    "description": "Equal-width columns, gaps, incomplete rows and independent child ownership. Remaining: Explicit tracks, spanning, alignment and responsive layout",
     "evidence": [
       "omniui/baseui/ui_controls_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
-  },
-  {
     "id": "grid",
-    "title": "Grid",
-    "status": "partial",
     "implementation": "omniui/baseui/content_controls.go",
-    "symbol": "Grid",
-    "reference": "backend/ui",
-    "description": "Equal-width columns, gaps, incomplete rows and independent child ownership. Remaining: Explicit tracks, spanning, alignment and responsive layout",
     "implemented": [
       "Equal-width columns, gaps, incomplete rows and independent child ownership"
     ],
+    "kind": "control",
+    "reference": "backend/ui",
     "remaining": [
       "Explicit tracks, spanning, alignment and responsive layout"
     ],
-    "evidence": [
-      "omniui/baseui/ui_controls_test.go"
-    ],
-    "group": "advanced",
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Grid",
+    "title": "Grid"
   },
   {
-    "id": "grid-view",
-    "title": "Virtual grid",
-    "status": "partial",
-    "implementation": "omniui/baseui/virtual_view.go",
-    "symbol": "GridView",
-    "reference": "backend/ui/gridview.go",
     "description": "按视口虚拟化的固定行高网格，支持业务键、二维键盘选择和自定义 Go 子项。",
+    "evidence": [
+      "omniui/baseui/rewrite_controls_test.go",
+      "studio/internal/demos/sweep_test.go"
+    ],
+    "group": "advanced",
+    "id": "grid-view",
+    "implementation": "omniui/baseui/virtual_view.go",
+    "kind": "control",
+    "reference": "backend/ui/gridview.go",
     "remaining": [
       "Automatic width observation; host currently passes viewport Width",
       "Multi-selection, drag reorder and typeahead",
       "Stable selection index recovery after application data reorder"
     ],
+    "status": "partial",
+    "symbol": "GridView",
+    "title": "Virtual grid"
+  },
+  {
+    "description": "固定行高虚拟列表：仅构建视口与 overscan，支持百万行、键盘选择、滚动和禁用项。",
     "evidence": [
       "omniui/baseui/rewrite_controls_test.go",
       "studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
-  },
-  {
     "id": "virtual-list",
-    "title": "Virtual list",
-    "status": "partial",
     "implementation": "omniui/baseui/virtual_view.go",
-    "symbol": "VirtualList",
+    "kind": "control",
     "reference": "backend/ui/list.go",
-    "description": "固定行高虚拟列表：仅构建视口与 overscan，支持百万行、键盘选择、滚动和禁用项。",
     "remaining": [
       "Variable row height measurement and insertion anchoring",
       "Multi-selection, drag reorder, sticky section headers and typeahead",
       "Rebuild after scroll events is required; custom children retain state in application"
     ],
-    "evidence": [
-      "omniui/baseui/rewrite_controls_test.go",
-      "studio/internal/demos/sweep_test.go"
-    ],
-    "group": "advanced",
-    "kind": "control"
+    "status": "partial",
+    "symbol": "VirtualList",
+    "title": "Virtual list"
   },
   {
-    "id": "outline",
-    "title": "Outline",
-    "status": "partial",
-    "implementation": "omniui/baseui/outline.go",
-    "symbol": "TreeOutline",
-    "reference": "backend/ui/outline.go",
     "description": "通用键控树：业务键选择、展开折叠、键盘导航、typeahead 与禁用继承。",
     "evidence": [
       "omniui/baseui/missing_controls_test.go",
       "studio/internal/demos/sweep_test.go"
     ],
+    "group": "advanced",
+    "id": "outline",
+    "implementation": "omniui/baseui/outline.go",
+    "kind": "control",
+    "reference": "backend/ui/outline.go",
     "remaining": [
       "Virtualization, variable row heights and scroll anchoring",
       "Multi-selection, drag reorder and recursive Alt expansion",
       "Custom prefix/row rendering and native accessibility"
     ],
-    "group": "advanced",
-    "kind": "control"
+    "status": "partial",
+    "symbol": "TreeOutline",
+    "title": "Outline"
   },
   {
-    "id": "outline-table",
-    "title": "Outline table",
-    "status": "partial",
-    "implementation": "omniui/baseui/outline.go",
-    "symbol": "OutlineTable",
-    "reference": "backend/ui/outline.go",
     "description": "树形表格：固定表头、业务键层级选择、自定义 Go 单元格与固定/弹性列宽。",
     "evidence": [
       "omniui/baseui/missing_controls_test.go",
       "studio/internal/demos/sweep_test.go"
     ],
+    "group": "advanced",
+    "id": "outline-table",
+    "implementation": "omniui/baseui/outline.go",
+    "kind": "control",
+    "reference": "backend/ui/outline.go",
     "remaining": [
       "Virtualization, variable row heights and scroll anchoring",
       "Column sorting/resizing/reordering and cell selection",
       "Multi-selection, drag reorder and native accessibility"
     ],
-    "group": "advanced",
-    "kind": "control"
+    "status": "partial",
+    "symbol": "OutlineTable",
+    "title": "Outline table"
   },
   {
-    "id": "image",
-    "title": "Image",
-    "status": "partial",
-    "implementation": "omniui/baseui/content_controls.go",
-    "symbol": "Image",
-    "reference": "backend/ui",
     "description": "Owned bitmap snapshot, contain/cover/stretch and clipping. Remaining: SVG, animated GIF, decoding, filtering and color profiles",
-    "implemented": [
-      "Owned bitmap snapshot, contain/cover/stretch and clipping"
-    ],
-    "remaining": [
-      "SVG, animated GIF, decoding, filtering and color profiles"
-    ],
     "evidence": [
       "omniui/baseui/ui_controls_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
+    "id": "image",
+    "implementation": "omniui/baseui/content_controls.go",
+    "implemented": [
+      "Owned bitmap snapshot, contain/cover/stretch and clipping"
+    ],
+    "kind": "control",
+    "reference": "backend/ui",
+    "remaining": [
+      "SVG, animated GIF, decoding, filtering and color profiles"
+    ],
+    "status": "partial",
+    "symbol": "Image",
+    "title": "Image"
   },
   {
-    "id": "icon",
-    "title": "Lucide / SVG icons",
-    "status": "partial",
-    "implementation": "omniui/icon",
-    "symbol": "ParseSVG; lucide.Get; baseui.Icon",
-    "reference": "backend/ui/svg.go",
     "description": "Pure Go Lucide icons: 2,350 bundled SVGs including aliases, theme color, size, stroke and DPI-aware rendering.",
-    "implemented": [
-      "Pinned official Lucide static catalog and name lookup",
-      "Monochrome SVG paths/shapes with round caps/joins and configurable stroke",
-      "baseui.Icon / IconButton / Painter.Icon; bounded raster cache and owned images"
-    ],
-    "remaining": [
-      "General SVG transforms, gradients, masks, filters, CSS and text are unsupported",
-      "Native platform accessibility acceptance and full reference SVG API parity"
-    ],
     "evidence": [
       "omniui/icon/svg_test.go",
       "omniui/icon/lucide/lucide_test.go",
       "omniui/baseui/icon_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
+    "id": "icon",
+    "implementation": "omniui/icon",
+    "implemented": [
+      "Pinned official Lucide static catalog and name lookup",
+      "Monochrome SVG paths/shapes with round caps/joins and configurable stroke",
+      "baseui.Icon / IconButton / Painter.Icon; bounded raster cache and owned images"
+    ],
+    "kind": "control",
+    "reference": "backend/ui/svg.go",
+    "remaining": [
+      "General SVG transforms, gradients, masks, filters, CSS and text are unsupported",
+      "Native platform accessibility acceptance and full reference SVG API parity"
+    ],
+    "status": "partial",
+    "symbol": "ParseSVG; lucide.Get; baseui.Icon",
+    "title": "Lucide / SVG icons"
   },
   {
-    "id": "video",
-    "title": "Video",
-    "status": "partial",
-    "implementation": "omniui/baseui/video.go",
-    "symbol": "Video",
-    "reference": "backend/ui/video.go",
     "description": "真实帧播放：像素快照、GIF 合成、解码接口、暂停、seek、循环与隐藏停播，解码后像素预算 64 MiB。",
-    "remaining": [
-      "Asynchronous bounded decode-ahead streaming and frame skipping",
-      "Audio, additional codec integrations and native media accessibility",
-      "GIF disposal background color policy and full invalid-stream validation"
-    ],
     "evidence": [
       "omniui/baseui/rewrite_controls_test.go",
       "studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
+    "id": "video",
+    "implementation": "omniui/baseui/video.go",
+    "kind": "control",
+    "reference": "backend/ui/video.go",
+    "remaining": [
+      "Asynchronous bounded decode-ahead streaming and frame skipping",
+      "Audio, additional codec integrations and native media accessibility",
+      "GIF disposal background color policy and full invalid-stream validation"
+    ],
+    "status": "partial",
+    "symbol": "Video",
+    "title": "Video"
   },
   {
-    "id": "web-view",
-    "title": "WebView",
-    "status": "partial",
-    "implementation": "omniui/baseui/webview.go",
-    "symbol": "WebView",
-    "reference": "backend/ui/webview.go",
     "description": "原生视图布局/裁切/焦点与生命周期协议；Studio macOS arm64 接入真实 WKWebView，并有加载验证命令。",
+    "evidence": [
+      "omniui/baseui/rewrite_controls_test.go",
+      "studio/cmd/webviewcheck/main.go"
+    ],
+    "group": "advanced",
+    "id": "web-view",
+    "implementation": "omniui/baseui/webview.go",
+    "kind": "control",
+    "reference": "backend/ui/webview.go",
     "remaining": [
       "Windows/Linux native adapters and macOS Intel device validation",
       "Rounded/transformed clipping and full compositing with non-modal overlays",
       "Disabled pages currently hidden rather than kept visible but inert",
       "Navigation/events/script bridge as a reusable application API"
     ],
-    "evidence": [
-      "omniui/baseui/rewrite_controls_test.go",
-      "studio/cmd/webviewcheck/main.go"
-    ],
-    "group": "advanced",
-    "kind": "control"
+    "status": "partial",
+    "symbol": "WebView",
+    "title": "WebView"
   },
   {
-    "id": "code-editor",
-    "title": "Code editor",
-    "status": "partial",
-    "implementation": "omniui/baseui/code_editor.go",
-    "symbol": "CodeEditor",
-    "reference": "backend/ui/editor",
     "description": "Go 代码编辑：等宽字体、行号、语法着色、缩进、换行、选区、撤销及查找。",
+    "evidence": [
+      "omniui/baseui/rewrite_controls_test.go",
+      "studio/internal/demos/sweep_test.go"
+    ],
+    "group": "advanced",
+    "id": "code-editor",
+    "implementation": "omniui/baseui/code_editor.go",
+    "kind": "control",
+    "reference": "backend/ui/editor",
     "remaining": [
       "Incremental text storage and viewport-only shaping for large files",
       "Multiple cursors, folding, completion, diagnostics and language server integration",
       "Other language lexers, replace-all, native IME and complex shaping"
     ],
+    "status": "partial",
+    "symbol": "CodeEditor",
+    "title": "Code editor"
+  },
+  {
+    "description": "共享显式时钟的时间轴：暂停、seek、延迟、重复、交替、反向与线性/平滑补间。",
     "evidence": [
       "omniui/baseui/rewrite_controls_test.go",
       "studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
-  },
-  {
     "id": "timeline",
-    "title": "Timeline",
-    "status": "partial",
     "implementation": "omniui/baseui/timeline.go",
-    "symbol": "Timeline",
+    "kind": "control",
     "reference": "backend/ui/timeline.go",
-    "description": "共享显式时钟的时间轴：暂停、seek、延迟、重复、交替、反向与线性/平滑补间。",
     "remaining": [
       "Named placement labels and full easing/spring/keyframe API",
       "Run-token restart semantics and arrival callbacks",
       "Reduced-motion seek policy and precise next-deadline frame scheduling"
     ],
-    "evidence": [
-      "omniui/baseui/rewrite_controls_test.go",
-      "studio/internal/demos/sweep_test.go"
-    ],
-    "group": "advanced",
-    "kind": "control"
+    "status": "partial",
+    "symbol": "Timeline",
+    "title": "Timeline"
   },
   {
-    "id": "checkbox-group",
-    "title": "CheckboxGroup",
-    "status": "partial",
-    "implementation": "omniui/baseui/content_controls.go",
-    "symbol": "CheckboxGroup",
-    "reference": "backend/ui",
     "description": "Mixed aggregate, all/none and disabled item preservation. Remaining: Nested arbitrary widget discovery and native accessibility",
-    "implemented": [
-      "Mixed aggregate, all/none and disabled item preservation"
-    ],
-    "remaining": [
-      "Nested arbitrary widget discovery and native accessibility"
-    ],
     "evidence": [
       "omniui/baseui/ui_controls_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
+    "id": "checkbox-group",
+    "implementation": "omniui/baseui/content_controls.go",
+    "implemented": [
+      "Mixed aggregate, all/none and disabled item preservation"
+    ],
+    "kind": "control",
+    "reference": "backend/ui",
+    "remaining": [
+      "Nested arbitrary widget discovery and native accessibility"
+    ],
+    "status": "partial",
+    "symbol": "CheckboxGroup",
+    "title": "CheckboxGroup"
   },
   {
-    "id": "diff-view",
-    "title": "Diff viewer",
-    "status": "partial",
-    "implementation": "omniui/baseui/diff_view.go",
-    "symbol": "DiffView",
-    "reference": "backend/ui/editor/diffview.go",
     "description": "Go 原生逐行比较、统一/双栏视图、差异导航、逐块还原与撤销。",
+    "evidence": [
+      "omniui/baseui/diff_view_test.go",
+      "studio/internal/demos/sweep_test.go"
+    ],
+    "group": "advanced",
+    "id": "diff-view",
+    "implementation": "omniui/baseui/diff_view.go",
+    "kind": "control",
+    "reference": "backend/ui/editor/diffview.go",
     "remaining": [
       "Inline character highlighting, syntax highlighting and minimap",
       "Collapsible unchanged ranges, annotations, line selection and review actions",
@@ -1611,502 +1614,570 @@
       "Incremental diff and exact minimal diff for large inputs; bounded coarse fallback above one million cells",
       "Native accessibility and reference visual parity"
     ],
-    "evidence": [
-      "omniui/baseui/diff_view_test.go",
-      "studio/internal/demos/sweep_test.go"
-    ],
-    "group": "advanced",
-    "kind": "control"
+    "status": "partial",
+    "symbol": "DiffView",
+    "title": "Diff viewer"
   },
   {
-    "id": "go-to-line",
-    "title": "Go to line",
-    "status": "partial",
-    "implementation": "omniui/baseui/editor_navigation.go",
-    "symbol": "GoToLine",
-    "reference": "backend/ui/editor/parts.go",
     "description": "Go 编辑器辅助控件，支持键盘操作与边界校验。",
-    "remaining": [
-      "Editor shortcut overlay and native focus handoff",
-      "Reference styling and accessibility parity"
-    ],
     "evidence": [
       "omniui/baseui/editor_navigation_test.go",
       "studio/internal/demos/sweep_test.go"
     ],
     "group": "advanced",
-    "kind": "control"
+    "id": "go-to-line",
+    "implementation": "omniui/baseui/editor_navigation.go",
+    "kind": "control",
+    "reference": "backend/ui/editor/parts.go",
+    "remaining": [
+      "Editor shortcut overlay and native focus handoff",
+      "Reference styling and accessibility parity"
+    ],
+    "status": "partial",
+    "symbol": "GoToLine",
+    "title": "Go to line"
   },
   {
-    "id": "completion-menu",
-    "title": "Completion menu",
-    "status": "partial",
-    "implementation": "omniui/baseui/editor_navigation.go",
-    "symbol": "CompletionMenu",
-    "reference": "backend/ui/editor/parts.go",
     "description": "Go 编辑器辅助控件，支持键盘操作与边界校验。",
+    "evidence": [
+      "omniui/baseui/editor_navigation_test.go",
+      "studio/internal/demos/sweep_test.go"
+    ],
+    "group": "advanced",
+    "id": "completion-menu",
+    "implementation": "omniui/baseui/editor_navigation.go",
+    "kind": "control",
+    "reference": "backend/ui/editor/parts.go",
     "remaining": [
       "Caret-anchored overlay and automatic trigger detection",
       "Language server integration, snippets and documentation popup",
       "Reference styling and accessibility parity"
     ],
-    "evidence": [
-      "omniui/baseui/editor_navigation_test.go",
-      "studio/internal/demos/sweep_test.go"
-    ],
-    "group": "advanced",
-    "kind": "control"
+    "status": "partial",
+    "symbol": "CompletionMenu",
+    "title": "Completion menu"
   },
   {
-    "id": "plugin/automation",
+    "description": "Go 原生日期选择：日历弹层、单选/范围、键盘导航、Escape 与焦点恢复。",
+    "evidence": [
+      "omniui/baseui/date_picker_test.go"
+    ],
+    "group": "advanced",
+    "id": "date-picker",
+    "implementation": "omniui/baseui/date_picker.go",
+    "kind": "control",
+    "reference": "https://ui.shadcn.com/docs/components/date-picker",
+    "remaining": [
+      "Natural-language input, locale formats and preset shortcuts",
+      "Year/month dropdown variants and multiple calendar panels",
+      "Native accessibility and exact browser pixel parity"
+    ],
     "status": "partial",
+    "symbol": "DatePicker",
+    "title": "Date Picker"
+  },
+  {
+    "description": "Go 原生客户端表格：筛选、稳定文本排序、分页、当页全选、跨页选中及列显隐。",
+    "evidence": [
+      "omniui/baseui/data_table_test.go"
+    ],
+    "group": "advanced",
+    "id": "data-table",
+    "implementation": "omniui/baseui/data_table.go",
+    "kind": "control",
+    "reference": "https://ui.shadcn.com/docs/components/data-table",
+    "remaining": [
+      "Numeric/custom comparators, multi-column sorting and server-driven data",
+      "Resizable/reorderable columns, row actions and advanced filter UI",
+      "Client-side data limited to 10000 rows; no claim of full TanStack parity"
+    ],
+    "status": "partial",
+    "symbol": "DataTable",
+    "title": "Data Table"
+  },
+  {
+    "description": "已实现：Private Unix socket with bounded JSON-line requests；UI dispatch for snapshots, capture and input; explicit lifetime。尚缺：Window enumeration, menu/page automation, settle protocol and CLI; native platform acceptance",
+    "evidence": [
+      "omniui/plugins/automation/automation_test.go"
+    ],
+    "group": "plugins",
+    "id": "plugin/automation",
     "implementation": "omniui/plugins/automation",
-    "symbol": "Listen",
     "implemented": [
       "Private Unix socket with bounded JSON-line requests",
       "UI dispatch for snapshots, capture and input; explicit lifetime"
     ],
-    "remaining": [
-      "Window enumeration, menu/page automation, settle protocol and CLI; native platform acceptance"
-    ],
-    "evidence": [
-      "omniui/plugins/automation/automation_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/automation",
       "goFiles": 15
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：Private Unix socket with bounded JSON-line requests；UI dispatch for snapshots, capture and input; explicit lifetime。尚缺：Window enumeration, menu/page automation, settle protocol and CLI; native platform acceptance"
+    "remaining": [
+      "Window enumeration, menu/page automation, settle protocol and CLI; native platform acceptance"
+    ],
+    "status": "partial",
+    "symbol": "Listen"
   },
   {
+    "description": "已实现：Five independently drawn border animation modes；Pause, reduced motion and child input passthrough。尚缺：Reference color fields, palette controls, blur/glow and exact timing/geometry parity; visibility phase handling",
+    "evidence": [
+      "omniui/plugins/borderbeam/borderbeam_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/borderbeam",
-    "status": "partial",
     "implementation": "omniui/plugins/borderbeam",
-    "symbol": "State.Box",
     "implemented": [
       "Five independently drawn border animation modes",
       "Pause, reduced motion and child input passthrough"
     ],
-    "remaining": [
-      "Reference color fields, palette controls, blur/glow and exact timing/geometry parity; visibility phase handling"
-    ],
-    "evidence": [
-      "omniui/plugins/borderbeam/borderbeam_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/borderbeam",
       "goFiles": 9
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：Five independently drawn border animation modes；Pause, reduced motion and child input passthrough。尚缺：Reference color fields, palette controls, blur/glow and exact timing/geometry parity; visibility phase handling"
+    "remaining": [
+      "Reference color fields, palette controls, blur/glow and exact timing/geometry parity; visibility phase handling"
+    ],
+    "status": "partial",
+    "symbol": "State.Box"
   },
   {
+    "description": "已实现：Direct MIT-licensed port of Golet Chromium Go APIs and native macOS/Windows host source; provenance retained；macOS CEF Alloy/Chrome browser, tabs, navigation, offline home, app mode, themes, profile/process lifecycle and sandbox packaging；Chrome extensions, private-pipe CDP and Evaluate, assistant snapshots/actions and origin-scoped user scripts；Studio CEF launch and optional bundled runtime; macOS native E2E verified。尚缺：Windows native C++ build and device acceptance; Intel Mac device acceptance; Linux native host (also absent upstream)；Embedded CEF child view inside baseui layout; reference host is a standalone window；Distribution signing/notarization, account sync and proprietary codec/DRM guarantees are outside current coverage",
+    "evidence": [
+      "omniui/plugins/chromium/browser_e2e_test.go",
+      "omniui/plugins/chromium/assistant/browser_e2e_test.go",
+      "omniui/plugins/chromium/PORT.md"
+    ],
+    "group": "plugins",
     "id": "plugin/chromium",
-    "status": "partial",
     "implementation": "omniui/plugins/chromium",
-    "symbol": "Launch",
     "implemented": [
       "Direct MIT-licensed port of Golet Chromium Go APIs and native macOS/Windows host source; provenance retained",
       "macOS CEF Alloy/Chrome browser, tabs, navigation, offline home, app mode, themes, profile/process lifecycle and sandbox packaging",
       "Chrome extensions, private-pipe CDP and Evaluate, assistant snapshots/actions and origin-scoped user scripts",
       "Studio CEF launch and optional bundled runtime; macOS native E2E verified"
     ],
+    "kind": "plugin",
+    "reference": {
+      "directory": "/Users/bittime/dev/golet/backend/plugins/chromium",
+      "goFiles": 30
+    },
     "remaining": [
       "Windows native C++ build and device acceptance; Intel Mac device acceptance; Linux native host (also absent upstream)",
       "Embedded CEF child view inside baseui layout; reference host is a standalone window",
       "Distribution signing/notarization, account sync and proprietary codec/DRM guarantees are outside current coverage"
     ],
-    "evidence": [
-      "omniui/plugins/chromium/browser_e2e_test.go",
-      "omniui/plugins/chromium/assistant/browser_e2e_test.go",
-      "omniui/plugins/chromium/PORT.md"
-    ],
-    "reference": {
-      "directory": "/Users/bittime/dev/golet/backend/plugins/chromium",
-      "goFiles": 30
-    },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：Direct MIT-licensed port of Golet Chromium Go APIs and native macOS/Windows host source; provenance retained；macOS CEF Alloy/Chrome browser, tabs, navigation, offline home, app mode, themes, profile/process lifecycle and sandbox packaging；Chrome extensions, private-pipe CDP and Evaluate, assistant snapshots/actions and origin-scoped user scripts；Studio CEF launch and optional bundled runtime; macOS native E2E verified。尚缺：Windows native C++ build and device acceptance; Intel Mac device acceptance; Linux native host (also absent upstream)；Embedded CEF child view inside baseui layout; reference host is a standalone window；Distribution signing/notarization, account sync and proprietary codec/DRM guarantees are outside current coverage"
+    "status": "partial",
+    "symbol": "Launch"
   },
   {
+    "description": "已实现：HTTP/SSE chat with tool-call deltas and usage；Cancellation, limits and redirect protection。尚缺：Conversation orchestration, tool approval/execution, history, native panel and full adapter compatibility",
+    "evidence": [
+      "omniui/plugins/dsh-go/chat_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/dsh-go",
-    "status": "partial",
     "implementation": "omniui/plugins/dsh-go",
-    "symbol": "New",
     "implemented": [
       "HTTP/SSE chat with tool-call deltas and usage",
       "Cancellation, limits and redirect protection"
     ],
-    "remaining": [
-      "Conversation orchestration, tool approval/execution, history, native panel and full adapter compatibility"
-    ],
-    "evidence": [
-      "omniui/plugins/dsh-go/chat_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/dsh-go",
       "goFiles": 6
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：HTTP/SSE chat with tool-call deltas and usage；Cancellation, limits and redirect protection。尚缺：Conversation orchestration, tool approval/execution, history, native panel and full adapter compatibility"
+    "remaining": [
+      "Conversation orchestration, tool approval/execution, history, native panel and full adapter compatibility"
+    ],
+    "status": "partial",
+    "symbol": "New"
   },
   {
+    "description": "已实现：Streaming HTTP with cancellation, redirects, policy and body limits；Cookie header filtering and explicit client lifetime。尚缺：OmniWeb frontend streaming bridge, page lifecycle binding and browser-compatible TypeScript API",
+    "evidence": [
+      "omniui/plugins/fetch/fetch_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/fetch",
-    "status": "partial",
     "implementation": "omniui/plugins/fetch",
-    "symbol": "New",
     "implemented": [
       "Streaming HTTP with cancellation, redirects, policy and body limits",
       "Cookie header filtering and explicit client lifetime"
     ],
-    "remaining": [
-      "OmniWeb frontend streaming bridge, page lifecycle binding and browser-compatible TypeScript API"
-    ],
-    "evidence": [
-      "omniui/plugins/fetch/fetch_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/fetch",
       "goFiles": 2
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：Streaming HTTP with cancellation, redirects, policy and body limits；Cookie header filtering and explicit client lifetime。尚缺：OmniWeb frontend streaming bridge, page lifecycle binding and browser-compatible TypeScript API"
+    "remaining": [
+      "OmniWeb frontend streaming bridge, page lifecycle binding and browser-compatible TypeScript API"
+    ],
+    "status": "partial",
+    "symbol": "New"
   },
   {
+    "description": "已实现：Bounded fixed-step explicit clock, pause and interpolation；Camera coordinate transforms and integer pixel fit。尚缺：Input edge accumulation, gamepad backends and complete native game View lifecycle",
+    "evidence": [
+      "omniui/plugins/game/game_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/game",
-    "status": "partial",
     "implementation": "omniui/plugins/game",
-    "symbol": "Loop.Advance",
     "implemented": [
       "Bounded fixed-step explicit clock, pause and interpolation",
       "Camera coordinate transforms and integer pixel fit"
     ],
-    "remaining": [
-      "Input edge accumulation, gamepad backends and complete native game View lifecycle"
-    ],
-    "evidence": [
-      "omniui/plugins/game/game_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/game",
       "goFiles": 11
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：Bounded fixed-step explicit clock, pause and interpolation；Camera coordinate transforms and integer pixel fit。尚缺：Input edge accumulation, gamepad backends and complete native game View lifecycle"
+    "remaining": [
+      "Input edge accumulation, gamepad backends and complete native game View lifecycle"
+    ],
+    "status": "partial",
+    "symbol": "Loop.Advance"
   },
   {
+    "description": "已实现：CPU backdrop snapshot, premultiplied blur, edge refraction and tint；Opaque fallback and child interaction。尚缺：Pane merging, scroll-edge/masked blur, native macOS material, GPU effects and theme material slots",
+    "evidence": [
+      "omniui/plugins/glass/glass_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/glass",
-    "status": "partial",
     "implementation": "omniui/plugins/glass",
-    "symbol": "Box",
     "implemented": [
       "CPU backdrop snapshot, premultiplied blur, edge refraction and tint",
       "Opaque fallback and child interaction"
     ],
-    "remaining": [
-      "Pane merging, scroll-edge/masked blur, native macOS material, GPU effects and theme material slots"
-    ],
-    "evidence": [
-      "omniui/plugins/glass/glass_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/glass",
       "goFiles": 23
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：CPU backdrop snapshot, premultiplied blur, edge refraction and tint；Opaque fallback and child interaction。尚缺：Pane merging, scroll-edge/masked blur, native macOS material, GPU effects and theme material slots"
+    "remaining": [
+      "Pane merging, scroll-edge/masked blur, native macOS material, GPU effects and theme material slots"
+    ],
+    "status": "partial",
+    "symbol": "Box"
   },
   {
+    "description": "已实现：Seven independently drawn styles: Ring, Dots, Bars, Clock, Ripple, Orbit and Pulse；Explicit clock, pause and reduced motion; single omniui/baseui/loading package。尚缺：Remaining reference catalog styles and exact geometry, palettes and keyframe parity",
+    "evidence": [
+      "omniui/baseui/loading/indicator_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/loading",
-    "status": "partial",
     "implementation": "omniui/baseui/loading",
-    "symbol": "New",
     "implemented": [
       "Seven independently drawn styles: Ring, Dots, Bars, Clock, Ripple, Orbit and Pulse",
       "Explicit clock, pause and reduced motion; single omniui/baseui/loading package"
     ],
-    "remaining": [
-      "Remaining reference catalog styles and exact geometry, palettes and keyframe parity"
-    ],
-    "evidence": [
-      "omniui/baseui/loading/indicator_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/loading",
       "goFiles": 4
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：Seven independently drawn styles: Ring, Dots, Bars, Clock, Ripple, Orbit and Pulse；Explicit clock, pause and reduced motion; single omniui/baseui/loading package。尚缺：Remaining reference catalog styles and exact geometry, palettes and keyframe parity"
+    "remaining": [
+      "Remaining reference catalog styles and exact geometry, palettes and keyframe parity"
+    ],
+    "status": "partial",
+    "symbol": "New"
   },
   {
+    "description": "已实现：macOS Accessibility and Screen Recording checks；Explicit Screen Recording request; canceled requests do not prompt。尚缺：Accessibility prompt and guided settings panel, microphone/camera and other permissions, Windows backend; platform acceptance",
+    "evidence": [
+      "omniui/plugins/permissionflow/permission_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/permissionflow",
-    "status": "partial",
     "implementation": "omniui/plugins/permissionflow",
-    "symbol": "Check",
     "implemented": [
       "macOS Accessibility and Screen Recording checks",
       "Explicit Screen Recording request; canceled requests do not prompt"
     ],
-    "remaining": [
-      "Accessibility prompt and guided settings panel, microphone/camera and other permissions, Windows backend; platform acceptance"
-    ],
-    "evidence": [
-      "omniui/plugins/permissionflow/permission_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/permissionflow",
       "goFiles": 7
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：macOS Accessibility and Screen Recording checks；Explicit Screen Recording request; canceled requests do not prompt。尚缺：Accessibility prompt and guided settings panel, microphone/camera and other permissions, Windows backend; platform acceptance"
+    "remaining": [
+      "Accessibility prompt and guided settings panel, microphone/camera and other permissions, Windows backend; platform acceptance"
+    ],
+    "status": "partial",
+    "symbol": "Check"
   },
   {
+    "description": "已实现：Perspective CPU triangles, six frustum clipping planes and depth test；Camera validation and pixel/triangle budgets。尚缺：Indexed immutable meshes, instances/transforms, lighting, OBJ, orbit input, reusable render buffers and full reference View",
+    "evidence": [
+      "omniui/plugins/scene3d/scene_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/scene3d",
-    "status": "partial",
     "implementation": "omniui/plugins/scene3d",
-    "symbol": "Render",
     "implemented": [
       "Perspective CPU triangles, six frustum clipping planes and depth test",
       "Camera validation and pixel/triangle budgets"
     ],
-    "remaining": [
-      "Indexed immutable meshes, instances/transforms, lighting, OBJ, orbit input, reusable render buffers and full reference View"
-    ],
-    "evidence": [
-      "omniui/plugins/scene3d/scene_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/scene3d",
       "goFiles": 8
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：Perspective CPU triangles, six frustum clipping planes and depth test；Camera validation and pixel/triangle budgets。尚缺：Indexed immutable meshes, instances/transforms, lighting, OBJ, orbit input, reusable render buffers and full reference View"
+    "remaining": [
+      "Indexed immutable meshes, instances/transforms, lighting, OBJ, orbit input, reusable render buffers and full reference View"
+    ],
+    "status": "partial",
+    "symbol": "Render"
   },
   {
+    "description": "已实现：macOS system symbol rasterization with point size/weight；Owned image output, main-thread enforcement and bounded decoding。尚缺：Tint, rendering modes, symbol variants and full native UI composition; real AppKit render acceptance",
+    "evidence": [
+      "omniui/plugins/sfsymbols/symbol_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/sfsymbols",
-    "status": "partial",
     "implementation": "omniui/plugins/sfsymbols",
-    "symbol": "Render",
     "implemented": [
       "macOS system symbol rasterization with point size/weight",
       "Owned image output, main-thread enforcement and bounded decoding"
     ],
-    "remaining": [
-      "Tint, rendering modes, symbol variants and full native UI composition; real AppKit render acceptance"
-    ],
-    "evidence": [
-      "omniui/plugins/sfsymbols/symbol_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/sfsymbols",
       "goFiles": 9
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：macOS system symbol rasterization with point size/weight；Owned image output, main-thread enforcement and bounded decoding。尚缺：Tint, rendering modes, symbol variants and full native UI composition; real AppKit render acceptance"
+    "remaining": [
+      "Tint, rendering modes, symbol variants and full native UI composition; real AppKit render acceptance"
+    ],
+    "status": "partial",
+    "symbol": "Render"
   },
   {
+    "description": "已实现：Pure-Go SQLite execute/query with typed parameters and row limits；Atomic transactions, foreign keys, cancellation and explicit close。尚缺：OmniWeb frontend client/bridge, complete reference options and database resource policy; equivalent performance benchmarks",
+    "evidence": [
+      "omniui/plugins/sqlite/sqlite_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/sqlite",
-    "status": "partial",
     "implementation": "omniui/plugins/sqlite",
-    "symbol": "Open",
     "implemented": [
       "Pure-Go SQLite execute/query with typed parameters and row limits",
       "Atomic transactions, foreign keys, cancellation and explicit close"
     ],
-    "remaining": [
-      "OmniWeb frontend client/bridge, complete reference options and database resource policy; equivalent performance benchmarks"
-    ],
-    "evidence": [
-      "omniui/plugins/sqlite/sqlite_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/sqlite",
       "goFiles": 12
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：Pure-Go SQLite execute/query with typed parameters and row limits；Atomic transactions, foreign keys, cancellation and explicit close。尚缺：OmniWeb frontend client/bridge, complete reference options and database resource policy; equivalent performance benchmarks"
+    "remaining": [
+      "OmniWeb frontend client/bridge, complete reference options and database resource policy; equivalent performance benchmarks"
+    ],
+    "status": "partial",
+    "symbol": "Open"
   },
   {
+    "description": "已实现：Real macOS/Linux PTY child process, IO, resize, cancel and exit cleanup；Bounded VT screen: chunked UTF-8, cursor movement, erase, SGR 16/256/RGB colors, alternate screen and resize；Native monospace viewport with committed text and basic key input。尚缺：Wide/combining characters, full VT modes and query responses, scroll regions and reflow；Selection, search, scrollback viewport, IME preedit, mouse reports and advanced key modes；Windows ConPTY and native interactive shell acceptance",
+    "evidence": [
+      "omniui/plugins/terminal/pty_unix_test.go",
+      "omniui/plugins/terminal/screen_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/terminal",
-    "status": "partial",
     "implementation": "omniui/plugins/terminal",
-    "symbol": "Start",
     "implemented": [
       "Real macOS/Linux PTY child process, IO, resize, cancel and exit cleanup",
       "Bounded VT screen: chunked UTF-8, cursor movement, erase, SGR 16/256/RGB colors, alternate screen and resize",
       "Native monospace viewport with committed text and basic key input"
     ],
+    "kind": "plugin",
+    "reference": {
+      "directory": "/Users/bittime/dev/golet/backend/plugins/terminal",
+      "goFiles": 63
+    },
     "remaining": [
       "Wide/combining characters, full VT modes and query responses, scroll regions and reflow",
       "Selection, search, scrollback viewport, IME preedit, mouse reports and advanced key modes",
       "Windows ConPTY and native interactive shell acceptance"
     ],
-    "evidence": [
-      "omniui/plugins/terminal/pty_unix_test.go",
-      "omniui/plugins/terminal/screen_test.go"
-    ],
-    "reference": {
-      "directory": "/Users/bittime/dev/golet/backend/plugins/terminal",
-      "goFiles": 63
-    },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：Real macOS/Linux PTY child process, IO, resize, cancel and exit cleanup；Bounded VT screen: chunked UTF-8, cursor movement, erase, SGR 16/256/RGB colors, alternate screen and resize；Native monospace viewport with committed text and basic key input。尚缺：Wide/combining characters, full VT modes and query responses, scroll regions and reflow；Selection, search, scrollback viewport, IME preedit, mouse reports and advanced key modes；Windows ConPTY and native interactive shell acceptance"
+    "status": "partial",
+    "symbol": "Start"
   },
   {
+    "description": "已实现：Ed25519 manifest verification and bounded hash-checked artifact staging；Cancellation, progress and failure cleanup。尚缺：Release discovery, version policies/preferences, native update UI/localization, install/rollback/relaunch and platform packaging",
+    "evidence": [
+      "omniui/plugins/updater/download_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/updater",
-    "status": "partial",
     "implementation": "omniui/plugins/updater",
-    "symbol": "Verify",
     "implemented": [
       "Ed25519 manifest verification and bounded hash-checked artifact staging",
       "Cancellation, progress and failure cleanup"
     ],
-    "remaining": [
-      "Release discovery, version policies/preferences, native update UI/localization, install/rollback/relaunch and platform packaging"
-    ],
-    "evidence": [
-      "omniui/plugins/updater/download_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/updater",
       "goFiles": 16
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：Ed25519 manifest verification and bounded hash-checked artifact staging；Cancellation, progress and failure cleanup。尚缺：Release discovery, version policies/preferences, native update UI/localization, install/rollback/relaunch and platform packaging"
+    "remaining": [
+      "Release discovery, version policies/preferences, native update UI/localization, install/rollback/relaunch and platform packaging"
+    ],
+    "status": "partial",
+    "symbol": "Verify"
   },
   {
+    "description": "已实现：Root-contained polling snapshots with create/write/remove/rename hints；Cancellation, recursion limits, symlink isolation and close。尚缺：Native event backends, debounce, file roots, named-root quotas and OmniWeb bridge; polling can miss transient changes",
+    "evidence": [
+      "omniui/plugins/watch/watch_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/watch",
-    "status": "partial",
     "implementation": "omniui/plugins/watch",
-    "symbol": "Open",
     "implemented": [
       "Root-contained polling snapshots with create/write/remove/rename hints",
       "Cancellation, recursion limits, symlink isolation and close"
     ],
-    "remaining": [
-      "Native event backends, debounce, file roots, named-root quotas and OmniWeb bridge; polling can miss transient changes"
-    ],
-    "evidence": [
-      "omniui/plugins/watch/watch_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/watch",
       "goFiles": 2
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：Root-contained polling snapshots with create/write/remove/rename hints；Cancellation, recursion limits, symlink isolation and close。尚缺：Native event backends, debounce, file roots, named-root quotas and OmniWeb bridge; polling can miss transient changes"
+    "remaining": [
+      "Native event backends, debounce, file roots, named-root quotas and OmniWeb bridge; polling can miss transient changes"
+    ],
+    "status": "partial",
+    "symbol": "Open"
   },
   {
+    "description": "已实现：Real text/binary WebSocket IO, subprotocol/header negotiation；Message limits, streaming backpressure and lifetime cancellation。尚缺：Browser-style asynchronous ordered send queue, page lifetime/OmniWeb frontend bridge and complete bufferedAmount semantics",
+    "evidence": [
+      "omniui/plugins/websocket/websocket_test.go"
+    ],
+    "group": "plugins",
     "id": "plugin/websocket",
-    "status": "partial",
     "implementation": "omniui/plugins/websocket",
-    "symbol": "Dial",
     "implemented": [
       "Real text/binary WebSocket IO, subprotocol/header negotiation",
       "Message limits, streaming backpressure and lifetime cancellation"
     ],
-    "remaining": [
-      "Browser-style asynchronous ordered send queue, page lifetime/OmniWeb frontend bridge and complete bufferedAmount semantics"
-    ],
-    "evidence": [
-      "omniui/plugins/websocket/websocket_test.go"
-    ],
+    "kind": "plugin",
     "reference": {
       "directory": "/Users/bittime/dev/golet/backend/plugins/websocket",
       "goFiles": 4
     },
-    "group": "plugins",
-    "kind": "plugin",
-    "description": "已实现：Real text/binary WebSocket IO, subprotocol/header negotiation；Message limits, streaming backpressure and lifetime cancellation。尚缺：Browser-style asynchronous ordered send queue, page lifetime/OmniWeb frontend bridge and complete bufferedAmount semantics"
+    "remaining": [
+      "Browser-style asynchronous ordered send queue, page lifetime/OmniWeb frontend bridge and complete bufferedAmount semantics"
+    ],
+    "status": "partial",
+    "symbol": "Dial"
   },
   {
-    "id": "plugin/omnibrowser",
-    "title": "OmniBrowser",
+    "description": "纯 Go 文档引擎：HTTP/Cookie、DOM/JS、CSS 子集与中文字体回退、SVG/PNG/PDF、Go Locator、MCP 与 CDP 网络事件。完整网页渲染和 Puppeteer/Playwright locator 仍未对齐。",
     "group": "plugins",
+    "id": "plugin/omnibrowser",
+    "implementation": "omniui/plugins/omnibrowser",
     "kind": "plugin",
     "status": "partial",
-    "implementation": "omnibrowser",
     "symbol": "Page",
-    "description": "参考 Obscura 的独立纯 Go 文档引擎：HTTP、Cookie、DOM 查询、JavaScript、交互、语义 HTML 截图与 CDP 子集。完整 CSS/Web API、Puppeteer/Playwright、隐身模式和 PDF 尚未实现。"
+    "title": "OmniBrowser"
   },
   {
-    "id": "system/lifecycle",
-    "title": "Application lifecycle",
     "description": "启动、取消、依赖排序与失败回滚。",
     "group": "framework",
+    "id": "system/lifecycle",
     "kind": "feature",
-    "status": "partial"
+    "status": "partial",
+    "title": "Application lifecycle"
   },
   {
-    "id": "system/dispatch",
-    "title": "UI dispatch",
     "description": "有界主线程队列、取消与背压。",
     "group": "framework",
+    "id": "system/dispatch",
     "kind": "feature",
-    "status": "partial"
+    "status": "partial",
+    "title": "UI dispatch"
   },
   {
-    "id": "system/event",
-    "title": "Event topics",
     "description": "有界订阅、丢弃计数与资源释放。",
     "group": "framework",
+    "id": "system/event",
     "kind": "feature",
-    "status": "partial"
+    "status": "partial",
+    "title": "Event topics"
   },
   {
-    "id": "system/rpc",
-    "title": "Typed RPC",
     "description": "Go 类型绑定、输入校验、并发限制。",
     "group": "framework",
+    "id": "system/rpc",
     "kind": "feature",
-    "status": "partial"
+    "status": "partial",
+    "title": "Typed RPC"
   },
   {
-    "id": "system/omniweb",
-    "title": "OmniWeb",
     "description": "当前 Studio 的目录与原生窗口调用通过 OmniWeb 运行。",
     "group": "framework",
+    "id": "system/omniweb",
     "kind": "feature",
-    "status": "partial"
+    "status": "partial",
+    "title": "OmniWeb"
   },
   {
-    "id": "system/native",
-    "title": "Native host",
-    "description": "macOS Apple Silicon 实验窗口；系统 IME、无障碍、GPU 与其他平台尚待实现。",
+    "description": "macOS ARM64 实验窗口；Intel 已接入但待实机验收。Windows/Linux、系统 IME、无障碍与 GPU 尚待实现。",
     "group": "framework",
+    "id": "system/native",
     "kind": "feature",
-    "status": "partial"
+    "status": "partial",
+    "title": "Native host"
   },
   {
-    "id": "system/theme",
-    "title": "Theme tokens",
     "description": "Go 控件共用明暗主题；切换主题后打开对应演示。",
     "group": "framework",
+    "id": "system/theme",
     "kind": "feature",
-    "status": "partial"
+    "status": "partial",
+    "title": "Theme tokens"
   },
   {
-    "id": "system/virtual",
-    "title": "Virtual rows",
     "description": "Table 演示仅物化当前行窗口，不代表已实现完整滚动。",
     "group": "framework",
+    "id": "system/virtual",
     "kind": "feature",
-    "status": "partial"
+    "status": "partial",
+    "title": "Virtual rows"
+  },
+  {
+    "demo": "i18n",
+    "description": "Go 多语言目录、语言切换、CLDR 复数与数字格式；英语、德语、法语原生控件演示。日期/货币完整格式、生成器与控件全局翻译仍待补齐。",
+    "group": "framework",
+    "id": "i18n",
+    "implementation": "i18n",
+    "kind": "feature",
+    "status": "partial",
+    "symbol": "Catalog",
+    "title": "Languages"
+  },
+  {
+    "demo": "text-storage",
+    "description": "Go 持久化文本树：编辑、快照、撤销与恢复；展示字节、rune、UTF-16 和行坐标。完整编辑器排版与字素簇处理另行跟踪。",
+    "group": "framework",
+    "id": "text-storage",
+    "implementation": "text/rope",
+    "kind": "feature",
+    "status": "partial",
+    "symbol": "Text",
+    "title": "Text snapshots"
+  },
+  {
+    "demo": "shortcuts",
+    "description": "跨平台快捷键解析、物理修饰键匹配与 XKB/XDG 表示；聚焦按钮后按真实快捷键验证。系统级注册仍待实现。",
+    "group": "framework",
+    "id": "shortcuts",
+    "implementation": "apps/accelerator",
+    "kind": "feature",
+    "status": "partial",
+    "symbol": "Parse",
+    "title": "Keyboard shortcuts"
   }
 ]

@@ -83,7 +83,7 @@ func Command(id string, state *CommandState, items []CommandItem) *Element {
 		if item.Shortcut != "" {
 			text += "   " + item.Shortcut
 		}
-		row := Button(id+"/item/"+item.ID, text, item.Action).Disabled(item.Disabled).Variant(Ghost).Role("option")
+		row := Button(id+"/item/"+item.ID, text, item.Action).Disabled(item.Disabled).Variant(Ghost).Role("option").FontWeight(400)
 		row.selected = i == active
 		row.alignStart = true
 		row.OnKey(func(ev KeyEvent) bool {

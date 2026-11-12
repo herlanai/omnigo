@@ -1,0 +1,109 @@
+[
+  {
+    "description": "纯 Go 文档引擎：HTTP/Cookie、DOM/JS、CSS 子集与中文字体回退、SVG/PNG/PDF、Go Locator、MCP 与 CDP 网络事件。完整网页渲染和 Puppeteer/Playwright locator 仍未对齐。",
+    "group": "plugins",
+    "id": "plugin/omnibrowser",
+    "implementation": "omniui/plugins/omnibrowser",
+    "kind": "plugin",
+    "status": "partial",
+    "symbol": "Page",
+    "title": "OmniBrowser"
+  },
+  {
+    "description": "启动、取消、依赖排序与失败回滚。",
+    "group": "framework",
+    "id": "system/lifecycle",
+    "kind": "feature",
+    "status": "partial",
+    "title": "Application lifecycle"
+  },
+  {
+    "description": "有界主线程队列、取消与背压。",
+    "group": "framework",
+    "id": "system/dispatch",
+    "kind": "feature",
+    "status": "partial",
+    "title": "UI dispatch"
+  },
+  {
+    "description": "有界订阅、丢弃计数与资源释放。",
+    "group": "framework",
+    "id": "system/event",
+    "kind": "feature",
+    "status": "partial",
+    "title": "Event topics"
+  },
+  {
+    "description": "Go 类型绑定、输入校验、并发限制。",
+    "group": "framework",
+    "id": "system/rpc",
+    "kind": "feature",
+    "status": "partial",
+    "title": "Typed RPC"
+  },
+  {
+    "description": "当前 Studio 的目录与原生窗口调用通过 OmniWeb 运行。",
+    "group": "framework",
+    "id": "system/omniweb",
+    "kind": "feature",
+    "status": "partial",
+    "title": "OmniWeb"
+  },
+  {
+    "description": "macOS ARM64 实验窗口；Intel 已接入但待实机验收。Windows/Linux、系统 IME、无障碍与 GPU 尚待实现。",
+    "group": "framework",
+    "id": "system/native",
+    "kind": "feature",
+    "status": "partial",
+    "title": "Native host"
+  },
+  {
+    "description": "Go 控件共用明暗主题；切换主题后打开对应演示。",
+    "group": "framework",
+    "id": "system/theme",
+    "kind": "feature",
+    "status": "partial",
+    "title": "Theme tokens"
+  },
+  {
+    "description": "Table 演示仅物化当前行窗口，不代表已实现完整滚动。",
+    "group": "framework",
+    "id": "system/virtual",
+    "kind": "feature",
+    "status": "partial",
+    "title": "Virtual rows"
+  },
+  {
+    "demo": "i18n",
+    "description": "Go 多语言目录、语言切换、CLDR 复数与数字格式；英语、德语、法语原生控件演示。日期/货币完整格式、生成器与控件全局翻译仍待补齐。",
+    "group": "framework",
+    "id": "i18n",
+    "implementation": "i18n",
+    "kind": "feature",
+    "status": "partial",
+    "symbol": "Catalog",
+    "title": "Languages"
+  },
+  {
+    "demo": "text-storage",
+    "description": "Go 持久化文本树：编辑、快照、撤销与恢复；展示字节、rune、UTF-16 和行坐标。完整编辑器排版与字素簇处理另行跟踪。",
+    "group": "framework",
+    "id": "text-storage",
+    "implementation": "text/rope",
+    "kind": "feature",
+    "status": "partial",
+    "symbol": "Text",
+    "title": "Text snapshots"
+  },
+  {
+    "demo": "shortcuts",
+    "description": "跨平台快捷键解析、物理修饰键匹配与 XKB/XDG 表示；聚焦按钮后按真实快捷键验证。系统级注册仍待实现。",
+    "group": "framework",
+    "id": "shortcuts",
+    "implementation": "apps/accelerator",
+    "kind": "feature",
+    "status": "partial",
+    "symbol": "Parse",
+    "title": "Keyboard shortcuts"
+  }
+]

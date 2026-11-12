@@ -20,3 +20,22 @@ Copyright (c) 2026 MyGo contributors. MIT license retained at
 `omniui/plugins/chromium/LICENSE.golet` and copied into distributed bundles.
 CEF binaries retain their own LICENSE.txt and CREDITS.html; see the optional
 runtime bundle's Resources directory.
+
+## Inter 4.1
+
+The native Go controls embed Inter Regular, Medium, SemiBold, Bold, Italic and
+BoldItalic, by Rasmus Andersson and contributors, under the SIL Open Font
+License 1.1. Official static WOFF2 assets were losslessly decompressed to TTF;
+no outlines or family names were changed. Source:
+https://github.com/rsms/inter/tree/v4.1/docs/font-files
+
+The complete license is in `omniui/baseui/fonts/inter/OFL.txt` and is copied to
+packaged Studio resources as `licenses/inter-4.1-OFL.txt`.
+
+## Noto Sans SC (OmniBrowser)
+
+OmniBrowser embeds unmodified Noto Sans SC Regular and Bold OTF fonts from
+https://github.com/notofonts/noto-cjk/tree/main/Sans/SubsetOTF/SC
+under SIL Open Font License 1.1. The complete license and SHA-256 file records
+are in `omniui/plugins/omnibrowser/render/fonts/`. Studio bundles include
+`licenses/noto-sans-sc-OFL.txt`.

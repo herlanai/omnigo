@@ -12,7 +12,7 @@ import (
 	"strconv"
 	"strings"
 
-	"omnigo.dev/omnigo/omniweb/client"
+	"github.com/herlanai/omnigo/omniweb/client"
 )
 
 //go:embed all:template
@@ -35,7 +35,7 @@ func Create(destination, module, framework string) error {
 	if err != nil {
 		return err
 	}
-	if !strings.Contains(string(mod), "module omnigo.dev/omnigo\n") {
+	if !strings.Contains(string(mod), "module github.com/herlanai/omnigo\n") {
 		return errors.New("scaffold: framework is not an OmniGo checkout")
 	}
 	// Mkdir, not MkdirAll: refuse an existing destination, including an empty one.
@@ -69,5 +69,5 @@ func Create(destination, module, framework string) error {
 	if err := write("ui/src/lib/omniweb.ts", []byte(client.TypeScript)); err != nil {
 		return err
 	}
-	return write("go.mod", []byte(fmt.Sprintf("module %s\n\ngo 1.26.0\n\nrequire omnigo.dev/omnigo v0.0.0\n\nreplace omnigo.dev/omnigo => %s\n", module, strconv.Quote(filepath.ToSlash(framework)))))
+	return write("go.mod", []byte(fmt.Sprintf("module %s\n\ngo 1.26.0\n\nrequire github.com/herlanai/omnigo v0.0.0\n\nreplace github.com/herlanai/omnigo => %s\n", module, strconv.Quote(filepath.ToSlash(framework)))))
 }

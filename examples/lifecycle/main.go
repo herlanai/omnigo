@@ -1,14 +1,14 @@
-// This is a headless contract demonstration, not a desktop window.
+// This is a headless contract demonstration, not a apps window.
 package main
 
 import (
 	"context"
 	"fmt"
+	"github.com/herlanai/omnigo/runtime/lifecycle"
 	"log"
 
-	"omnigo.dev/omnigo/desktop"
-	"omnigo.dev/omnigo/omniui"
-	"omnigo.dev/omnigo/runtime/rpc"
+	"github.com/herlanai/omnigo/omniui"
+	"github.com/herlanai/omnigo/runtime/rpc"
 )
 
 type demo struct{}
@@ -46,7 +46,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	app := desktop.New(desktop.Options{Registry: &registry, Extensions: []string{"example.session"}})
+	app := lifecycle.New(lifecycle.Options{Registry: &registry, Extensions: []string{"example.session"}})
 	if err := app.Run(context.Background(), demo{}); err != nil {
 		log.Fatal(err)
 	}

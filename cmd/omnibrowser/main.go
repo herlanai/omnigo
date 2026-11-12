@@ -16,9 +16,10 @@ import (
 	"strings"
 	"time"
 
-	"omnigo.dev/omnigo/omnibrowser"
-	"omnigo.dev/omnigo/omnibrowser/cdp"
-	"omnigo.dev/omnigo/omnibrowser/render"
+	"github.com/herlanai/omnigo/omniui/plugins/omnibrowser"
+	"github.com/herlanai/omnigo/omniui/plugins/omnibrowser/cdp"
+	"github.com/herlanai/omnigo/omniui/plugins/omnibrowser/mcp"
+	"github.com/herlanai/omnigo/omniui/plugins/omnibrowser/render"
 )
 
 func main() {
@@ -29,14 +30,16 @@ func main() {
 }
 func run(args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf("usage: omnibrowser fetch [flags] URL | html [flags] FILE | scrape [flags] URL... | serve [flags]")
+		return fmt.Errorf("usage: omnibrowser fetch [flags] URL | html [flags] FILE | scrape [flags] URL... | serve [flags] | mcp [flags]")
 	}
 	flags := flag.NewFlagSet(args[0], flag.ContinueOnError)
 	concurrency := flags.Int("concurrency", 4, "parallel scrape sessions (maximum 32)")
 	eval := flags.String("eval", "", "JavaScript expression (JSON output)")
 	selector := flags.String("selector", "", "CSS selector (JSON output)")
 	dump := flags.String("dump", "text", "text, html or links")
-	shot := flags.String("screenshot", "", "write semantic preview PNG")
+	pdf := flags.String("pdf", "", "write a raster viewport PDF")
+	animationTime := flags.Duration("animation-time", 0, "CSS transform animation sample time; does not run JavaScript timers")
+	shot := flags.String("screenshot", "", "write supported CSS viewport PNG")
 	timeout := flags.Duration("timeout", 5*time.Second, "navigation/script deadline")
 	allow := flags.Bool("allow-private-network", false, "allow local HTTP servers")
 	addr := flags.String("addr", "127.0.0.1:9222", "loopback CDP address")
@@ -46,6 +49,9 @@ func run(args []string) error {
 	}
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
+	if args[0] == "mcp" {
+		return mcp.Serve(ctx, os.Stdin, os.Stdout, omnibrowser.Options{Timeout: *timeout, AllowPrivateNetwork: *allow})
+	}
 	page := omnibrowser.New(omnibrowser.Options{Timeout: *timeout, AllowPrivateNetwork: *allow})
 	defer page.Close()
 	if args[0] == "serve" {
@@ -146,8 +152,17 @@ func run(args []string) error {
 			return fmt.Errorf("unsupported dump %s", *dump)
 		}
 	}
+	if *pdf != "" {
+		data, err := render.PDF(snapshot, 794, 1123)
+		if err != nil {
+			return err
+		}
+		if err = os.WriteFile(*pdf, data, 0600); err != nil {
+			return err
+		}
+	}
 	if strings.TrimSpace(*shot) != "" {
-		img, err := render.Screenshot(snapshot, 1024, 768, false)
+		img, err := render.ScreenshotAt(snapshot, 1024, 768, false, *animationTime)
 		if err != nil {
 			return err
 		}

@@ -2,9 +2,9 @@ package demos
 
 import (
 	"fmt"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"image"
 	"image/color"
-	ui "omnigo.dev/omnigo/omniui/baseui"
 	"time"
 )
 

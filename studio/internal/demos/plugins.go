@@ -2,27 +2,31 @@ package demos
 
 import (
 	"fmt"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
+	"github.com/herlanai/omnigo/omniui/plugins/borderbeam"
+	"github.com/herlanai/omnigo/omniui/plugins/game"
+	"github.com/herlanai/omnigo/omniui/plugins/glass"
+	"github.com/herlanai/omnigo/omniui/plugins/scene3d"
+	"github.com/herlanai/omnigo/omniui/plugins/terminal"
 	"image/color"
 	"math"
-	ui "omnigo.dev/omnigo/omniui/baseui"
-	"omnigo.dev/omnigo/omniui/plugins/borderbeam"
-	"omnigo.dev/omnigo/omniui/plugins/game"
-	"omnigo.dev/omnigo/omniui/plugins/glass"
-	"omnigo.dev/omnigo/omniui/plugins/scene3d"
-	"omnigo.dev/omnigo/omniui/plugins/terminal"
 	"strings"
 	"time"
 )
 
 type pluginState struct {
-	terminal        *terminal.Screen
-	terminalCounter int
-	beam            borderbeam.State
-	preset          borderbeam.Preset
-	paused, opaque  bool
-	loop            game.Loop
-	position        float64
-	angle           float64
+	terminal                          *terminal.Screen
+	terminalCounter                   int
+	beam                              borderbeam.State
+	beamSamples                       [4]borderbeam.State
+	beamInitialized                   bool
+	beamHidden                        bool
+	beamSpeed, beamStrength, beamGlow float64
+	preset                            borderbeam.Preset
+	paused, opaque                    bool
+	loop                              game.Loop
+	position                          float64
+	angle                             float64
 }
 
 func (d *Demo) pluginContent() *ui.Element {
@@ -52,7 +56,7 @@ func (d *Demo) pluginContent() *ui.Element {
 		}})).HorizontalScroll(true).Height(280))
 
 	case "plugin/borderbeam":
-		return ui.Column("plugin", ui.Row("controls", ui.Button("preset", "Next preset", func() { s.preset = (s.preset + 1) % 5 }).Variant(ui.Outline), ui.Button("pause", "Pause / resume", func() { s.paused = !s.paused }).Variant(ui.Outline)), ui.Text("preset/name", fmt.Sprintf("Preset %d / 5", s.preset+1)), s.beam.Box("beam", borderbeam.Options{Preset: s.preset, Paused: s.paused}, ui.Text("beam/title", "Native animated border"), ui.Button("beam/action", "Try interaction", d.click).Variant(ui.Outline)))
+		return d.borderBeamContent()
 	case "plugin/glass":
 		return ui.Column("plugin", ui.Switch("opaque", "Reduce transparency", s.opaque, func(v bool) { s.opaque = v }), ui.Column("backdrop", glass.Box("glass", glass.Options{Refraction: 5, Opaque: s.opaque}, ui.Text("glass/title", "Backdrop blur and refraction"), ui.Button("glass/action", "Try interaction", d.click).Variant(ui.Outline))).Padding(24).PaintSurface(func(p *ui.Painter, r ui.Rect) {
 			for i := 0; i < 12; i++ {

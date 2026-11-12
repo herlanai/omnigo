@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "scope": "Subset of reference Window contract; all other entries remain in reference.json",
+  "implementation": ["apps/nativewindow/actions.go", "apps/nativewindow/actions_windows.go", "apps/nativewindow/actions_linux.go"],
+  "reference_methods": ["SetTitle", "SetContentBounds", "Show", "ShowInactive", "Hide", "Focus", "Minimize", "Maximize", "Restore", "SetAlwaysOnTop", "SetFullScreen", "SetOpacity", "Close"],
+  "status": "partial",
+  "behavior": ["UI dispatch and cancellation before execution", "native close veto versus unconditional programmatic close", "pending tasks rejected on explicit close", "Windows fullscreen placement/style restore", "X11 EWMH request semantics"],
+  "tests": ["apps/nativewindow/actions_test.go", "apps/nativewindow/window_test.go"],
+  "runtime_evidence": "Windows/Linux not executed on native hardware; fake-backend tests do not certify OS behavior",
+  "remaining": ["native-machine validation on amd64 and arm64", "state queries and final-state confirmation", "per-monitor DIP coordinates", "Cocoa public driver unification", "remaining Window methods in reference.json", "window manager/compositor compatibility"]
+}

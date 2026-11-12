@@ -13,7 +13,7 @@ import (
 	"github.com/yuin/goldmark/util"
 	"html"
 	"net/url"
-	ui "omnigo.dev/omnigo/omniui/baseui"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"strconv"
 	"strings"
 	"unicode"

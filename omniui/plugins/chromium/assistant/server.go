@@ -11,7 +11,7 @@ import (
 	"io/fs"
 	"net"
 	"net/http"
-	"omnigo.dev/omnigo/omniui/plugins/chromium"
+	"github.com/herlanai/omnigo/omniui/plugins/chromium"
 	"strings"
 	"sync"
 	"time"

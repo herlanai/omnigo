@@ -21,7 +21,7 @@ import (
 // infer success. The one-minute context is solely a hang guard.
 func TestBrowserE2E(t *testing.T) {
 	if os.Getenv("OMNIGO_CHROMIUM_E2E") != "1" || (runtime.GOOS != "darwin" && runtime.GOOS != "windows") {
-		t.Skip("requires an installed CEF host and macOS/Windows desktop")
+		t.Skip("requires an installed CEF host and macOS/Windows apps")
 	}
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
@@ -227,7 +227,7 @@ func TestEphemeralDemoE2E(t *testing.T) {
 
 func TestAppModeE2E(t *testing.T) {
 	if os.Getenv("OMNIGO_CHROMIUM_E2E") != "1" || (runtime.GOOS != "darwin" && runtime.GOOS != "windows") {
-		t.Skip("requires an installed CEF host and macOS/Windows desktop")
+		t.Skip("requires an installed CEF host and macOS/Windows apps")
 	}
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "<!doctype html><title>Mini app</title><h1>Application content</h1>")

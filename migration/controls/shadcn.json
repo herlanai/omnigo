@@ -1,0 +1,1210 @@
+{
+  "schema": 1,
+  "source": "https://ui.shadcn.com/docs/components",
+  "source_commit": "dd41d19e2f80ff6891951f7ced74c2c9a650b065",
+  "preset": {
+    "code": "bbVJxYW",
+    "style": "maia",
+    "font": "inter",
+    "baseColor": "neutral",
+    "theme": "neutral",
+    "chartColor": "neutral",
+    "radius": "default",
+    "menuAccent": "subtle",
+    "menuColor": "default",
+    "fontHeading": "inherit",
+    "iconLibrary": "lucide"
+  },
+  "policy": "Inventory and shared styling do not establish full behavior or pixel parity. Preserve every component and its remaining gaps.",
+  "controls": [
+    {
+      "id": "accordion",
+      "title": "Accordion",
+      "symbol": "Accordion",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/accordion",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "alert",
+      "title": "Alert",
+      "symbol": "Alert",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/alert",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "alert-dialog",
+      "title": "Alert Dialog",
+      "symbol": "AlertDialog",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/alert-dialog",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "aspect-ratio",
+      "title": "Aspect Ratio",
+      "symbol": "AspectRatio",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/aspect-ratio",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "attachment",
+      "title": "Attachment",
+      "symbol": "Attachment",
+      "implementation": "omniui/baseui/messages.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/attachment",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "avatar",
+      "title": "Avatar",
+      "symbol": "Avatar",
+      "implementation": "omniui/baseui/avatar.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/avatar",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "badge",
+      "title": "Badge",
+      "symbol": "Badge",
+      "implementation": "omniui/baseui/element.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/badge",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "breadcrumb",
+      "title": "Breadcrumb",
+      "symbol": "Breadcrumb",
+      "implementation": "omniui/baseui/navigation.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/breadcrumb",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "bubble",
+      "title": "Bubble",
+      "symbol": "Bubble",
+      "implementation": "omniui/baseui/messages.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/bubble",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "button",
+      "title": "Button",
+      "symbol": "Button",
+      "implementation": "omniui/baseui/element.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/button",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "button-group",
+      "title": "Button Group",
+      "symbol": "ButtonGroup",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/button-group",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "calendar",
+      "title": "Calendar",
+      "symbol": "Calendar",
+      "implementation": "omniui/baseui/calendar.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/calendar",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "card",
+      "title": "Card",
+      "symbol": "Card",
+      "implementation": "omniui/baseui/element.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/card",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "carousel",
+      "title": "Carousel",
+      "symbol": "Carousel",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/carousel",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "chart",
+      "title": "Chart",
+      "symbol": "Chart",
+      "implementation": "omniui/baseui/chart.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/chart",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "checkbox",
+      "title": "Checkbox",
+      "symbol": "Checkbox",
+      "implementation": "omniui/baseui/element.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/checkbox",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "code-block",
+      "title": "Code Block",
+      "symbol": "CodeBlock",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/code-block",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "collapsible",
+      "title": "Collapsible",
+      "symbol": "Collapsible",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/collapsible",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "combobox",
+      "title": "Combobox",
+      "symbol": "Combobox",
+      "implementation": "omniui/baseui/select.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/combobox",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "command",
+      "title": "Command",
+      "symbol": "Command",
+      "implementation": "omniui/baseui/command.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/command",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "context-menu",
+      "title": "Context Menu",
+      "symbol": "ContextMenu",
+      "implementation": "omniui/baseui/context_menu.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/context-menu",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "data-table",
+      "title": "Data Table",
+      "symbol": "DataTable",
+      "implementation": "omniui/baseui/data_table.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/data-table",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "date-picker",
+      "title": "Date Picker",
+      "symbol": "DatePicker",
+      "implementation": "omniui/baseui/date_picker.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/date-picker",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "dialog",
+      "title": "Dialog",
+      "symbol": "Dialog",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/dialog",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "direction",
+      "title": "Direction",
+      "symbol": "Direction",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/direction",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "drawer",
+      "title": "Drawer",
+      "symbol": "Drawer",
+      "implementation": "omniui/baseui/drawer.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/drawer",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "dropdown-menu",
+      "title": "Dropdown Menu",
+      "symbol": "DropdownMenu",
+      "implementation": "omniui/baseui/menu.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/dropdown-menu",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "empty",
+      "title": "Empty",
+      "symbol": "Empty",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/empty",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "field",
+      "title": "Field",
+      "symbol": "Field",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/field",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "hover-card",
+      "title": "Hover Card",
+      "symbol": "HoverCard",
+      "implementation": "omniui/baseui/hover.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/hover-card",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "input",
+      "title": "Input",
+      "symbol": "Input",
+      "implementation": "omniui/baseui/element.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/input",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "input-group",
+      "title": "Input Group",
+      "symbol": "InputGroup",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/input-group",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "input-otp",
+      "title": "Input OTP",
+      "symbol": "InputOTP",
+      "implementation": "omniui/baseui/otp.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/input-otp",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "item",
+      "title": "Item",
+      "symbol": "Item",
+      "implementation": "omniui/baseui/messages.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/item",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "kbd",
+      "title": "Kbd",
+      "symbol": "Kbd",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/kbd",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "label",
+      "title": "Label",
+      "symbol": "Label",
+      "implementation": "omniui/baseui/typography.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/label",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "marker",
+      "title": "Marker",
+      "symbol": "Marker",
+      "implementation": "omniui/baseui/messages.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/marker",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "menubar",
+      "title": "Menubar",
+      "symbol": "Menubar",
+      "implementation": "omniui/baseui/navigation.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/menubar",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "message",
+      "title": "Message",
+      "symbol": "Message",
+      "implementation": "omniui/baseui/messages.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/message",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "message-scroller",
+      "title": "Message Scroller",
+      "symbol": "MessageScroller",
+      "implementation": "omniui/baseui/messages.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/message-scroller",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "native-select",
+      "title": "Native Select",
+      "symbol": "Select",
+      "implementation": "omniui/baseui/select.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/native-select",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Select is a Go-drawn alternative, not an OS-native select; platform-native popup behavior is not implemented",
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "navigation-menu",
+      "title": "Navigation Menu",
+      "symbol": "NavigationMenu",
+      "implementation": "omniui/baseui/navigation.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/navigation-menu",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "pagination",
+      "title": "Pagination",
+      "symbol": "Pagination",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/pagination",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "popover",
+      "title": "Popover",
+      "symbol": "Popover",
+      "implementation": "omniui/baseui/overlay.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/popover",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "progress",
+      "title": "Progress",
+      "symbol": "Progress",
+      "implementation": "omniui/baseui/element.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/progress",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "questionnaire",
+      "title": "Questionnaire",
+      "symbol": "Questionnaire",
+      "implementation": "omniui/baseui/workflow.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/questionnaire",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "radio-group",
+      "title": "Radio Group",
+      "symbol": "RadioGroup",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/radio-group",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "resizable",
+      "title": "Resizable",
+      "symbol": "Resizable",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/resizable",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "scroll-area",
+      "title": "Scroll Area",
+      "symbol": "ScrollArea",
+      "implementation": "omniui/baseui/scroll.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/scroll-area",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "select",
+      "title": "Select",
+      "symbol": "Select",
+      "implementation": "omniui/baseui/select.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/select",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "separator",
+      "title": "Separator",
+      "symbol": "Separator",
+      "implementation": "omniui/baseui/element.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/separator",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "sheet",
+      "title": "Sheet",
+      "symbol": "Sheet",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/sheet",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "sidebar",
+      "title": "Sidebar",
+      "symbol": "Sidebar",
+      "implementation": "omniui/baseui/navigation.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/sidebar",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "skeleton",
+      "title": "Skeleton",
+      "symbol": "Skeleton",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/skeleton",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "slider",
+      "title": "Slider",
+      "symbol": "Slider",
+      "implementation": "omniui/baseui/element.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/slider",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "spinner",
+      "title": "Spinner",
+      "symbol": "Spinner",
+      "implementation": "omniui/baseui/element.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/spinner",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "switch",
+      "title": "Switch",
+      "symbol": "Switch",
+      "implementation": "omniui/baseui/element.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/switch",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "table",
+      "title": "Table",
+      "symbol": "Table",
+      "implementation": "omniui/baseui/table.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/table",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "tabs",
+      "title": "Tabs",
+      "symbol": "Tabs",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/tabs",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "textarea",
+      "title": "Textarea",
+      "symbol": "Textarea",
+      "implementation": "omniui/baseui/element.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/textarea",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "toast",
+      "title": "Toast",
+      "symbol": "Sonner",
+      "implementation": "omniui/baseui/toast.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/toast",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "toggle",
+      "title": "Toggle",
+      "symbol": "Toggle",
+      "implementation": "omniui/baseui/element.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/toggle",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "toggle-group",
+      "title": "Toggle Group",
+      "symbol": "ToggleGroup",
+      "implementation": "omniui/baseui/compose.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/toggle-group",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "tooltip",
+      "title": "Tooltip",
+      "symbol": "Tooltip",
+      "implementation": "omniui/baseui/hover.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/tooltip",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "trace",
+      "title": "Trace",
+      "symbol": "Trace",
+      "implementation": "omniui/baseui/workflow.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/trace",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    },
+    {
+      "id": "typography",
+      "title": "Typography",
+      "symbol": "Heading",
+      "implementation": "omniui/baseui/typography.go",
+      "status": "partial",
+      "reference": "https://ui.shadcn.com/docs/components/typography",
+      "style_scope": [
+        "Inter 400/500/600/700",
+        "shared Maia/Nova/Lyra tokens",
+        "light/dark palette and focus/selection rendering"
+      ],
+      "remaining": [
+        "Full per-variant reference screenshot parity",
+        "Native accessibility and platform input acceptance",
+        "Component-specific gaps remain in migration/controls/status.json and advanced.json"
+      ]
+    }
+  ]
+}

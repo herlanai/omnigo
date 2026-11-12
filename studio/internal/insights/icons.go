@@ -1,11 +1,11 @@
 package insights
 
 import (
+	"github.com/herlanai/omnigo/omniui/icon"
+	"github.com/herlanai/omnigo/omniui/icon/lucide"
 	"image/color"
 	"image/png"
 	"net/http"
-	"omnigo.dev/omnigo/omniui/icon"
-	"omnigo.dev/omnigo/omniui/icon/lucide"
 	"strconv"
 )
 

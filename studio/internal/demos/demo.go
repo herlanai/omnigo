@@ -3,13 +3,14 @@ package demos
 
 import (
 	"fmt"
-	ui "omnigo.dev/omnigo/omniui/baseui"
-	"omnigo.dev/omnigo/omniui/baseui/loading"
+	"github.com/herlanai/omnigo/i18n"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
+	"github.com/herlanai/omnigo/omniui/baseui/loading"
 	"strings"
 	"time"
 )
 
-var IDs = append(append(advancedIDs, uiControlIDs...), []string{"tooltip", "hover-card", "context-menu", "input-otp", "file-tree", "aspect-ratio", "combobox", "command", "direction", "dropdown-menu", "popover", "resizable", "scroll-area", "sheet", "skeleton", "accordion", "alert", "alert-dialog", "badge", "button", "button-group", "calendar", "card", "carousel", "checkbox", "code-block", "collapsible", "dialog", "empty", "field", "form", "native-select", "input", "input-group", "kbd", "label", "pagination", "progress", "radio-group", "select", "separator", "slider", "spinner", "switch", "table", "tabs", "textarea", "toggle", "toggle-group", "typography", "markdown", "icon", "loading", "plugin/borderbeam", "plugin/glass", "plugin/scene3d", "plugin/game", "plugin/terminal", "plugin/omnibrowser"}...)
+var IDs = append([]string{"shortcuts", "text-storage", "i18n", "date-picker", "data-table"}, append(append(advancedIDs, uiControlIDs...), []string{"tooltip", "hover-card", "context-menu", "input-otp", "file-tree", "aspect-ratio", "combobox", "command", "direction", "dropdown-menu", "popover", "resizable", "scroll-area", "sheet", "skeleton", "accordion", "alert", "alert-dialog", "badge", "button", "button-group", "calendar", "card", "carousel", "checkbox", "code-block", "collapsible", "dialog", "empty", "field", "form", "native-select", "input", "input-group", "kbd", "label", "pagination", "progress", "radio-group", "select", "separator", "slider", "spinner", "switch", "table", "tabs", "textarea", "toggle", "toggle-group", "typography", "markdown", "icon", "loading", "plugin/borderbeam", "plugin/glass", "plugin/scene3d", "plugin/game", "plugin/terminal", "plugin/omnibrowser"}...)...)
 
 func Supported(id string) bool {
 	for _, v := range IDs {
@@ -21,10 +22,22 @@ func Supported(id string) bool {
 }
 
 type Demo struct {
-	browser *browserDemo
+	shortcuts         *shortcutDemo
+	textStorage       *textStorageDemo
+	language          *i18n.Translator
+	TitleBarAvailable bool
+	TitleBarHidden    bool
+	Style             ui.VisualStyle
+	Palette           ui.AccentPalette
+	BoldMenus         bool
+	AppearanceDirty   bool
+	DatePicker        *ui.DatePickerState
+	DataTable         *ui.DataTableState
+	browser           *browserDemo
 	// RunTask executes work away from the UI and dispatches its returned callback.
 	RunTask        func(func() func())
 	NativeWeb      *ui.WebViewState
+	webDemo        *webViewDemo
 	PreviewScroll  ui.ScrollState
 	markdown       *markdownDemo
 	icons          *iconDemo
@@ -80,11 +93,34 @@ func (d *Demo) content() *ui.Element {
 		return content
 	}
 	switch d.ID {
+	case "i18n":
+		return d.languageContent()
+	case "text-storage":
+		return d.textStorageContent()
+	case "shortcuts":
+		return d.shortcutContent()
+	case "date-picker":
+		if d.DatePicker == nil {
+			d.DatePicker = ui.NewDatePickerState(ui.Date{Year: 2026, Month: time.November, Day: 12})
+		}
+		return ui.Field("demo/field", "Date", ui.DatePicker("demo/date", "Choose a date", d.DatePicker, ui.CalendarOptions{OnChange: func(v ui.Date) { d.Message = "Selected: " + v.String() }}), "Choose from the calendar.", "")
+	case "data-table":
+		if d.DataTable == nil {
+			d.DataTable = ui.NewDataTableState(4)
+		}
+		return ui.DataTable("demo/table", d.DataTable, []ui.TableColumn{{ID: "status", Title: "Status", Width: 120, Sortable: true}, {ID: "email", Title: "Email", Width: 300, Sortable: true}, {ID: "amount", Title: "Amount", Width: 120, Sortable: true}}, []ui.DataRow{
+			{Key: "a", Cells: map[string]string{"status": "Success", "email": "alex@example.com", "amount": "$120.00"}},
+			{Key: "b", Cells: map[string]string{"status": "Pending", "email": "blair@example.com", "amount": "$250.00"}},
+			{Key: "c", Cells: map[string]string{"status": "Success", "email": "casey@example.com", "amount": "$75.00"}},
+			{Key: "d", Cells: map[string]string{"status": "Processing", "email": "devon@example.com", "amount": "$400.00"}},
+			{Key: "e", Cells: map[string]string{"status": "Success", "email": "ellis@example.com", "amount": "$180.00"}},
+		})
+
 	case "web-view":
 		if d.NativeWeb == nil {
 			panic("web-view requires a native host")
 		}
-		return ui.WebView("native-web", d.NativeWeb)
+		return d.webViewContent()
 
 	case "icon":
 		return d.iconContent()
@@ -219,13 +255,29 @@ func (d *Demo) content() *ui.Element {
 	return ui.Empty("missing", "Not implemented", "This capability remains in the migration audit.")
 }
 func (d *Demo) View() *ui.Element {
+	if d.ID == "plugin/borderbeam" {
+		return ui.Column("root", ui.ScrollArea("preview/scroll", &d.PreviewScroll, d.pluginContent()).Grow(1)).Padding(28)
+	}
 	name := strings.ReplaceAll(strings.TrimPrefix(d.ID, "plugin/"), "-", " ")
 	if len(name) > 0 {
 		name = strings.ToUpper(name[:1]) + name[1:]
 	}
-	header := ui.Row("header", ui.Text("heading", "OmniUI").FontSize(26).FontWeight(600).Grow(1), ui.Badge("brand/status", "Go native").Variant(ui.Secondary))
+	header := ui.Row("header", ui.Text("heading", "OmniUI").FontSize(26).FontWeight(600).Grow(1), ui.Button("appearance/style", d.Style.String(), func() { d.Style = (d.Style + 1) % 3; d.AppearanceDirty = true }).Variant(ui.Outline).Size(ui.ControlSmall),
+		ui.Button("appearance/accent", []string{"Neutral", "Blue", "Violet"}[d.Palette], func() { d.Palette = (d.Palette + 1) % 3; d.AppearanceDirty = true }).Variant(ui.Outline).Size(ui.ControlSmall),
+		ui.Toggle("appearance/selected", "Bold selection", d.BoldMenus, func(v bool) { d.BoldMenus = v; d.AppearanceDirty = true }).Size(ui.ControlSmall))
 	playground := ui.Card("playground", ui.CardHeader("playground/header", ui.CardTitle("preview/title", name), ui.CardDescription("caption", "Interactive preview")), ui.CardContent("playground/content", d.content()))
-	return ui.Column("root", header, ui.CardDescription("intro", "Native components · appearance, states and interaction"), ui.ScrollArea("preview/scroll", &d.PreviewScroll, playground).Grow(1), ui.Text("state", d.Message).FontSize(13).Muted(true)).Padding(32).Gap(24)
+	return ui.Column("root", d.windowHeader(header), ui.CardDescription("intro", "Native components · appearance, states and interaction"), ui.ScrollArea("preview/scroll", &d.PreviewScroll, playground).Grow(1), ui.Text("state", d.Message).FontSize(13).Muted(true)).Padding(32).Gap(24)
+}
+
+func (d *Demo) windowHeader(title *ui.Element) *ui.Element {
+	if !d.TitleBarAvailable {
+		return title
+	}
+	label := "Hide titlebar"
+	if d.TitleBarHidden {
+		label = "Show titlebar"
+	}
+	return ui.Row("window/header", title.Grow(1), ui.Button("window/titlebar", label, func() { d.TitleBarHidden = !d.TitleBarHidden }).Variant(ui.Outline).Size(ui.ControlSmall)).Gap(12)
 }
 
 type rows struct{}

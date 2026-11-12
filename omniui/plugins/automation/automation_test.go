@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net"
-	"omnigo.dev/omnigo/runtime/dispatch"
+	"github.com/herlanai/omnigo/runtime/dispatch"
 	"os"
 	"path/filepath"
 	"testing"

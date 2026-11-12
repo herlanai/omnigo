@@ -1,8 +1,7 @@
 package demos
 
 import (
-	ui "omnigo.dev/omnigo/omniui/baseui"
-	"strings"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"testing"
 )
 
@@ -83,16 +82,8 @@ func TestDialogActuallyOpens(t *testing.T) {
 	}
 }
 
-func TestTerminalSampleColumns(t *testing.T) {
-	lines := strings.Split(terminalSampleOutput(), "\n")
-	statusColumn := strings.Index(lines[0], "STATUS")
-	durationColumn := strings.Index(lines[0], "DURATION")
-	for _, line := range lines[1:3] {
-		if strings.Index(line, "ok") != statusColumn {
-			t.Fatal("sample status column is not aligned")
-		}
-		if strings.Index(line, "0.") != durationColumn {
-			t.Fatal("sample duration column is not aligned")
-		}
+func TestTerminalReferenceSample(t *testing.T) {
+	if terminalSampleOutput() != "ok  example/backend\nok  example/ui" {
+		t.Fatal("terminal sample differs from reference demo")
 	}
 }

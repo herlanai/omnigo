@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/url"
-	"omnigo.dev/omnigo/omniui/plugins/chromium"
+	"github.com/herlanai/omnigo/omniui/plugins/chromium"
 	"os"
 	"path/filepath"
 	"strings"

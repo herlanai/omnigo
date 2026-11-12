@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"image/color"
 	"strings"
+
+	"github.com/herlanai/omnigo/omniui/baseui/internal/diff"
 )
 
 // DiffHunk uses zero-based, half-open line ranges. Line endings are preserved.
 type DiffHunk struct{ OldStart, OldEnd, NewStart, NewEnd int }
-type diffRow struct{ old, new int }
 
 // DiffState is UI-goroutine confined. SetText invalidates the computed diff.
 // Large comparisons use a bounded coarse replacement instead of quadratic memory.
@@ -21,20 +22,10 @@ type DiffState struct {
 	ready              bool
 	oldLines, newLines []string
 	hunks              []DiffHunk
-	rows               []diffRow
+	rows               []diff.Row
 	undo               []string
 }
 
-func diffLines(s string) []string {
-	if s == "" {
-		return nil
-	}
-	a := strings.SplitAfter(s, "\n")
-	if a[len(a)-1] == "" {
-		a = a[:len(a)-1]
-	}
-	return a
-}
 func (s *DiffState) SetText(old, next string) {
 	s.Old, s.New = old, next
 	s.undo = nil
@@ -47,75 +38,13 @@ func (s *DiffState) compute() {
 		return
 	}
 	s.oldText, s.newText, s.ready = s.Old, s.New, true
-	a, b := diffLines(s.Old), diffLines(s.New)
-	s.oldLines, s.newLines = a, b
-	s.hunks = nil
-	s.rows = nil
-	prefix := 0
-	for prefix < len(a) && prefix < len(b) && a[prefix] == b[prefix] {
-		prefix++
+	result := diff.Compare(s.Old, s.New)
+	s.oldLines, s.newLines = result.OldLines, result.NewLines
+	s.hunks = make([]DiffHunk, len(result.Hunks))
+	for i, h := range result.Hunks {
+		s.hunks[i] = DiffHunk{h.OldStart, h.OldEnd, h.NewStart, h.NewEnd}
 	}
-	ae, be := len(a), len(b)
-	for ae > prefix && be > prefix && a[ae-1] == b[be-1] {
-		ae--
-		be--
-	}
-	for i := 0; i < prefix; i++ {
-		s.rows = append(s.rows, diffRow{i, i})
-	}
-	add := func(os, oe, ns, ne int) {
-		if os == oe && ns == ne {
-			return
-		}
-		s.hunks = append(s.hunks, DiffHunk{os, oe, ns, ne})
-		for k := 0; k < max(oe-os, ne-ns); k++ {
-			r := diffRow{-1, -1}
-			if os+k < oe {
-				r.old = os + k
-			}
-			if ns+k < ne {
-				r.new = ns + k
-			}
-			s.rows = append(s.rows, r)
-		}
-	}
-	n, m := ae-prefix, be-prefix
-	if n > 0 && m > 0 && n <= 1000000/m {
-		width := m + 1
-		table := make([]uint32, (n+1)*width)
-		for i := n - 1; i >= 0; i-- {
-			for j := m - 1; j >= 0; j-- {
-				at := i*width + j
-				if a[prefix+i] == b[prefix+j] {
-					table[at] = 1 + table[at+width+1]
-				} else {
-					table[at] = max(table[at+width], table[at+1])
-				}
-			}
-		}
-		i, j, os, ns := 0, 0, prefix, prefix
-		for i < n && j < m {
-			if a[prefix+i] == b[prefix+j] {
-				add(os, prefix+i, ns, prefix+j)
-				s.rows = append(s.rows, diffRow{prefix + i, prefix + j})
-				i++
-				j++
-				os, ns = prefix+i, prefix+j
-			} else if table[(i+1)*width+j] >= table[i*width+j+1] {
-				i++
-			} else {
-				j++
-			}
-		}
-		add(os, ae, ns, be)
-	} else {
-		add(prefix, ae, prefix, be)
-	}
-	for ae < len(a) && be < len(b) {
-		s.rows = append(s.rows, diffRow{ae, be})
-		ae++
-		be++
-	}
+	s.rows = result.Rows
 	s.Current = max(0, min(s.Current, len(s.hunks)-1))
 }
 func (s *DiffState) Hunks() []DiffHunk { s.compute(); return append([]DiffHunk(nil), s.hunks...) }
@@ -153,11 +82,11 @@ func (s *DiffState) move(delta int) {
 	h := s.hunks[s.Current]
 	line := 0
 	for _, r := range s.rows {
-		if r.old == h.OldStart || r.new == h.NewStart {
+		if r.Old == h.OldStart || r.New == h.NewStart {
 			break
 		}
 		line++
-		if s.Unified && r.old >= 0 && r.new >= 0 && s.oldLines[r.old] != s.newLines[r.new] {
+		if s.Unified && r.Old >= 0 && r.New >= 0 && s.oldLines[r.Old] != s.newLines[r.New] {
 			line++
 		}
 	}
@@ -195,14 +124,14 @@ func DiffView(id string, s *DiffState, height float64, onChange func(string)) *E
 		}).Variant(Ghost).Disabled(len(s.undo) == 0))
 	// Wrap the actions so narrow native windows preserve every action.
 	toolbar.Wrap(true).Gap(6)
-	rows := append([]diffRow(nil), s.rows...)
+	rows := append([]diff.Row(nil), s.rows...)
 	a, b := s.oldLines, s.newLines
 	unified := s.Unified
 	if unified {
 		rows = nil
 		for _, r := range s.rows {
-			if r.old >= 0 && r.new >= 0 && a[r.old] != b[r.new] {
-				rows = append(rows, diffRow{r.old, -1}, diffRow{-1, r.new})
+			if r.Old >= 0 && r.New >= 0 && a[r.Old] != b[r.New] {
+				rows = append(rows, diff.Row{Old: r.Old, New: -1}, diff.Row{Old: -1, New: r.New})
 			} else {
 				rows = append(rows, r)
 			}
@@ -215,7 +144,7 @@ func DiffView(id string, s *DiffState, height float64, onChange func(string)) *E
 		for i := start; i < end; i++ {
 			row := rows[i]
 			y := r.Y + float64(i)*24
-			different := row.old < 0 || row.new < 0 || (a[row.old] != b[row.new])
+			different := row.Old < 0 || row.New < 0 || (a[row.Old] != b[row.New])
 			cell := func(x, w float64, number int, lines []string, sign string) {
 				box := Rect{X: x, Y: y, W: w, H: 24}
 				if different {
@@ -242,14 +171,14 @@ func DiffView(id string, s *DiffState, height float64, onChange func(string)) *E
 				q.StyledText(x+8, y+17, fmt.Sprintf("%s %4d  %s", sign, number+1, text), TextSpan{Monospace: true}, 12, c)
 			}
 			if unified {
-				if row.new >= 0 {
+				if row.New >= 0 {
 					sign := " "
 					if different {
 						sign = "+"
 					}
-					cell(r.X, r.W, row.new, b, sign)
+					cell(r.X, r.W, row.New, b, sign)
 				} else {
-					cell(r.X, r.W, row.old, a, "-")
+					cell(r.X, r.W, row.Old, a, "-")
 				}
 			} else {
 				w := (r.W - 12) / 2
@@ -257,8 +186,8 @@ func DiffView(id string, s *DiffState, height float64, onChange func(string)) *E
 				if different {
 					left, right = "-", "+"
 				}
-				cell(r.X, w, row.old, a, left)
-				cell(r.X+w+12, w, row.new, b, right)
+				cell(r.X, w, row.Old, a, left)
+				cell(r.X+w+12, w, row.New, b, right)
 			}
 		}
 	}).Height(max(24, float64(len(rows))*24))

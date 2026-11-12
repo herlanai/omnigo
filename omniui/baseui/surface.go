@@ -11,6 +11,7 @@ import (
 )
 
 type KeyEvent struct {
+	Ctrl, Alt, Super           bool // Physical modifiers; Command retains primary-shortcut compatibility.
 	Key                        string
 	Shift, Command, Repeat, Up bool
 	RTL                        bool
@@ -51,6 +52,8 @@ type Accessibility struct {
 type Surface struct {
 	nativeViews          map[*WebViewState]bool
 	textFaces            map[textFaceKey]font.Face
+	rasterFaces          map[textFaceKey]font.Face
+	rasterScale          float64
 	focusVisible         bool
 	hoverListener        string
 	inactive             bool
@@ -99,6 +102,9 @@ func NewSurfaceWithFont(width, height int, theme Theme, face font.Face) (*Surfac
 		if !finite(n) || n < 0 {
 			return nil, errors.New("baseui: invalid theme metrics")
 		}
+	}
+	if theme.Style > StyleLyra {
+		return nil, errors.New("baseui: invalid visual style")
 	}
 	if theme.Height == 0 || theme.FontSize == 0 {
 		return nil, errors.New("baseui: theme height and font size must be positive")
@@ -151,6 +157,7 @@ func (s *Surface) Close() error {
 		_ = face.Close()
 	}
 	s.textFaces = nil
+	s.clearRasterFaces()
 	if s.ownedFace {
 		return s.face.Close()
 	}
@@ -187,7 +194,8 @@ func (s *Surface) Mount(root *Element) error {
 		if e.otpLength > 0 {
 			for _, history := range [][]textSnapshot{e.buffer.undo, e.buffer.redo} {
 				for _, old := range history {
-					if len(old.text) > e.otpLength || digits(old.text) != old.text {
+					text := old.document.String()
+					if len(text) > e.otpLength || digits(text) != text {
 						return nil, errors.New("baseui: OTP history contains invalid content")
 					}
 				}
@@ -241,6 +249,7 @@ func (s *Surface) Mount(root *Element) error {
 			return nil, errors.New("baseui: progress must be in [0,1]")
 		}
 		out := *e
+		out.applyStyle(s.theme)
 		if e.hoverOptions != nil {
 			h := *e.hoverOptions
 			out.hoverOptions = &h

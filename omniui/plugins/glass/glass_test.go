@@ -3,7 +3,7 @@ package glass
 import (
 	"image"
 	"image/color"
-	ui "omnigo.dev/omnigo/omniui/baseui"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"testing"
 )
 

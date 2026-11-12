@@ -1,5 +1,13 @@
 # Go 控件完整重写审计
 
+## Terminal 演示对齐（2026-11-12）
+
+只读核对 `backend/examples/studio/ai_patterns.go` 与 `backend/ui/forma/{ai_trace,code_block,code_block_icons}.go`。演示改用相同的 `go test ./...` 命令、成功退出状态和两行 `ok  example/backend` / `ok  example/ui` 输出，删除原有额外四态切换栏。控件改为无外层卡片的折叠轨迹、普通状态文字、24 DIP 输出缩进、灰底轻边框输出块、12 DIP 标题与正文、19.5 DIP 行距和图形复制按钮。保留取消、禁用/只读、原字节复制、双轴滚动与跟随行为。
+
+`terminal_test.go` 新增短输出无滚动/无裁切、行距、缩进和多 DPI 回归；明暗截图位于 `build/terminal-alignment`。这仍不是逐像素相同的证明：参考 macOS 使用 CoreText 系统等宽字体，本实现使用纯 Go 的 Go Mono；复制后的定时反馈、文本选择、系统文字栅格化和完整平台交互还未对齐。未运行参考原生窗口同状态截图比较，状态保持 partial。
+
+新增 [shadcn 对齐记录](shadcn.md) 与 [66 项组件盘点](shadcn.json)：Inter 字体、Maia/Nova/Lyra 主题切换、选中状态以及 DatePicker/DataTable 的实现与剩余缺口。原有参考能力清单继续保留。
+
 ## 全目录复查（2026-11-11）
 
 本轮覆盖全部 86 个目录控件的参考入口映射、明暗离屏总览和共用交互巡检，逐项索引见 [review.json](review.json)。该索引保留既有缺口；入口映射不是逐行为等价证明，未逐项验证的能力明确保持未验收。
@@ -121,7 +129,7 @@ FileTree 仍非虚拟树；触摸长按、文件树拖放/重命名/多选、OTP
 
 ### `ui` 全目录构造入口与新增基础控件
 
-使用 `python3 scripts/audit-ui-controls.py --source /absolute/path/to/golet` 生成 `ui.json`，盘点 `backend/ui/api_gen.go` 的全部 100 个返回 Element 的构造入口及子包目录。原始完整声明/测试身份仍保存在 `reference.json`；构造入口盘点不是所有方法、渲染能力或行为的完成证据。已有入口通过显式映射复用，不重复实现别名。
+使用 `go run ./scripts/devtool audit-ui --source /absolute/path/to/golet` 生成 `ui.json`，盘点 `backend/ui/api_gen.go` 的全部 100 个返回 Element 的构造入口及子包目录。原始完整声明/测试身份仍保存在 `reference.json`；构造入口盘点不是所有方法、渲染能力或行为的完成证据。已有入口通过显式映射复用，不重复实现别名。
 
 本批在 `omniui/baseui` 补充 15 个原来缺失的控件，并在 `advanced.json` 逐项列出剩余能力与测试：数值/日期/时间、搜索、评分、范围滑块、标签输入、工具栏、颜色选择/色井、图像、网格、复选分组、就地编辑、查找栏。Studio 有独立可交互演示。
 

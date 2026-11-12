@@ -3,8 +3,9 @@ package catalog
 import (
 	_ "embed"
 	"encoding/json"
-	"omnigo.dev/omnigo/studio/internal/demos"
+	"github.com/herlanai/omnigo/studio/internal/demos"
 	"strings"
+	"sync"
 )
 
 //go:embed catalog.json
@@ -22,7 +23,7 @@ type Entry struct {
 	Demo           string  `json:"demo,omitempty"`
 }
 
-func Entries() []Entry {
+func loadEntries() []Entry {
 	var entries []Entry
 	if err := json.Unmarshal(data, &entries); err != nil {
 		panic(err)
@@ -46,6 +47,36 @@ func Entries() []Entry {
 			} else {
 				e.Description = "提供局部 Go 实现与交互演示，尚未完成全部行为对齐。"
 			}
+		}
+	}
+	return entries
+}
+
+var cachedEntries = sync.OnceValue(loadEntries)
+var demoIDs = sync.OnceValue(func() map[string]bool {
+	ids := make(map[string]bool)
+	for _, entry := range cachedEntries() {
+		if entry.Demo != "" {
+			ids[entry.Demo] = true
+		}
+	}
+	return ids
+})
+
+// HasDemo checks the immutable catalog without decoding or allocating entries.
+func HasDemo(id string) bool { return demoIDs()[id] }
+
+// Entries returns an independent snapshot of the once-decoded catalog.
+func Entries() []Entry {
+	entries := append([]Entry(nil), cachedEntries()...)
+	for i := range entries {
+		if p := entries[i].Implementation; p != nil {
+			v := *p
+			entries[i].Implementation = &v
+		}
+		if p := entries[i].Symbol; p != nil {
+			v := *p
+			entries[i].Symbol = &v
 		}
 	}
 	return entries

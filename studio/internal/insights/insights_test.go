@@ -2,10 +2,8 @@ package insights
 
 import (
 	"image/png"
-	"math"
 	"net/http/httptest"
 	"testing"
-	"time"
 )
 
 func TestIconPreview(t *testing.T) {
@@ -37,47 +35,5 @@ func TestIconPreview(t *testing.T) {
 		if w.Code < 400 {
 			t.Fatal(q)
 		}
-	}
-}
-func TestCPUDelta(t *testing.T) {
-	a := raw{cpuSeconds: 10, ticks: [4]uint32{10, 10, 60, 20}, processOK: true, systemOK: true}
-	b := raw{cpuSeconds: 13, ticks: [4]uint32{20, 30, 110, 40}, processOK: true, systemOK: true}
-	p, s := cpuDelta(a, b, 2, true)
-	if p == nil || s == nil || *p != 150 || *s != 50 {
-		t.Fatal(p, s)
-	}
-	p, s = cpuDelta(a, b, 2, false)
-	if p != nil || s != nil {
-		t.Fatal("first sample must be unavailable")
-	}
-	p, s = cpuDelta(a, raw{}, 2, true)
-	if p != nil || s != nil {
-		t.Fatal("failure must not become zero")
-	}
-	a.ticks = [4]uint32{math.MaxUint32 - 1, 0, 0, 0}
-	b.ticks = [4]uint32{2, 0, 4, 0}
-	_, s = cpuDelta(a, b, 2, true)
-	if s == nil || *s != 50 {
-		t.Fatal("tick rollover", s)
-	}
-}
-
-type fakeSource struct{}
-
-func (fakeSource) Read() raw { return raw{} }
-func (fakeSource) Close()    {}
-func TestBoundedHistory(t *testing.T) {
-	m := &Monitor{source: fakeSource{}}
-	start := time.Unix(1000, 0)
-	for i := 0; i < 130; i++ {
-		m.take(start.Add(time.Duration(i) * 2 * time.Second))
-	}
-	snapshot := m.Snapshot()
-	if len(snapshot.Samples) != 120 || snapshot.Samples[0].At != start.Add(20*time.Second).UnixMilli() {
-		t.Fatal("history not bounded")
-	}
-	snapshot.Samples[0].Heap = 0
-	if m.Snapshot().Samples[0].Heap == 0 {
-		t.Fatal("snapshot aliases history")
 	}
 }

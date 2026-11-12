@@ -2,7 +2,7 @@ package catalog
 
 import (
 	"encoding/json"
-	"omnigo.dev/omnigo/studio/internal/demos"
+	"github.com/herlanai/omnigo/studio/internal/demos"
 	"os"
 	"testing"
 )

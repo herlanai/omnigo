@@ -130,3 +130,71 @@ func TestRenderScaledIntoOwnershipAndValidation(t *testing.T) {
 		}
 	}
 }
+
+func TestRasterInteriorSpansAtFractionalBounds(t *testing.T) {
+	for _, scale := range []float64{.75, 1, 1.25, 2, 3} {
+		for _, radius := range []float64{0, 1, 8, 40, 100} {
+			for _, width := range []float64{0, .25, 1, 12, 100} {
+				a, b := image.NewRGBA(image.Rect(0, 0, 180, 150)), image.NewRGBA(image.Rect(0, 0, 180, 150))
+				p := Painter{image: a, clip: Rect{2.3, 1.75, 135.25, 130.5}, scale: scale}
+				q := p
+				q.image = b
+				r := Rect{4.25, 5.75, 130.5, 120.25}
+				c := color.NRGBA{27, 49, 73, 255}
+				if width == 0 {
+					p.Fill(r, c, radius)
+					q.referenceRasterShade(r, func(x, y float64) float64 { return referenceRoundedDistance(r, radius, x, y) }, func(float64, float64) color.NRGBA { return c })
+				} else {
+					p.Stroke(r, c, radius, width)
+					inner := r.inset(width)
+					q.referenceRasterShade(r, func(x, y float64) float64 {
+						d := referenceRoundedDistance(r, radius, x, y)
+						if inner.W == 0 || inner.H == 0 {
+							return d
+						}
+						return max(d, -referenceRoundedDistance(inner, max(0, radius-width), x, y))
+					}, func(float64, float64) color.NRGBA { return c })
+				}
+				if !bytes.Equal(a.Pix, b.Pix) {
+					t.Fatalf("span changed pixels: scale=%g radius=%g width=%g", scale, radius, width)
+				}
+			}
+		}
+	}
+}
+func TestBackingScaleFontCacheLifetime(t *testing.T) {
+	s, err := NewSurface(240, 120, NewTheme(false))
+	if err != nil {
+		t.Fatal(err)
+	}
+	mount(t, s, Column("root", Heading("heading", "Heading", 3), Text("body", "Body")))
+	first, err := s.RenderScaled(2, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	face := s.rasterFaces[textFaceKey{size: s.theme.FontSize}]
+	if face == nil {
+		t.Fatal("font not cached")
+	}
+	second, err := s.RenderScaled(2, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if s.rasterFaces[textFaceKey{size: s.theme.FontSize}] != face || !bytes.Equal(first.Pix, second.Pix) {
+		t.Fatal("steady frame recreated font or changed pixels")
+	}
+	for _, scale := range []float64{1.25, 3, 2, 1.5} {
+		if _, err = s.RenderScaled(scale, nil); err != nil {
+			t.Fatal(err)
+		}
+		if len(s.rasterFaces) != 2 || s.rasterScale != scale {
+			t.Fatal("stale scales accumulated")
+		}
+	}
+	if err = s.Close(); err != nil {
+		t.Fatal(err)
+	}
+	if len(s.rasterFaces) != 0 {
+		t.Fatal("backing fonts retained on close")
+	}
+}

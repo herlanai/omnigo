@@ -1,4 +1,4 @@
-module omnigo.dev/omnigo
+module github.com/herlanai/omnigo
 
 go 1.26.0
 
