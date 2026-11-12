@@ -7,6 +7,8 @@ export async function licenses(destination){
   const files=await readdir(directory,{withFileTypes:true});
   for(const file of files)if(file.isFile()&&/^(licen[sc]e|copying|notice|ofl)(\.|$|-)/i.test(file.name))await cp(path.join(directory,file.name),path.join(destination,`${label.replaceAll('/','_')}-${file.name}`));
  }
+ await copyLicenses('omniui/plugins/chromium','golet-chromium-port');
+ await copyLicenses('omniui/icon/lucide','lucide-static-1.71.0');
  const modules=execFileSync('go',['list','-m','-f','{{.Path}}|{{.Dir}}','all'],{encoding:'utf8'}).trim().split('\n').slice(1);
  for(const line of modules){const [name,directory]=line.split('|');if(directory){await copyLicenses(directory,name);if(name==='golang.org/x/image')await copyLicenses(path.join(directory,'font/gofont'),'go-fonts')}}
  const goRoot=execFileSync('go',['env','GOROOT'],{encoding:'utf8'}).trim();await copyLicenses(goRoot,'go');

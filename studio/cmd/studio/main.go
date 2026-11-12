@@ -16,7 +16,9 @@ import (
 	"omnigo.dev/omnigo/omniweb"
 	"omnigo.dev/omnigo/runtime/rpc"
 	"omnigo.dev/omnigo/studio"
+	"omnigo.dev/omnigo/studio/internal/browser"
 	"omnigo.dev/omnigo/studio/internal/catalog"
+	"omnigo.dev/omnigo/studio/internal/insights"
 	"omnigo.dev/omnigo/studio/internal/native"
 )
 
@@ -40,6 +42,8 @@ func run() error {
 	address := listener.Addr().String()
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer cancel()
+	browsers := browser.New(ctx)
+	defer browsers.Close()
 	router := rpc.New(32, 64<<10)
 	type empty struct{}
 	type overview struct {
@@ -52,6 +56,16 @@ func run() error {
 	}); err != nil {
 		return err
 	}
+	monitor := insights.NewMonitor()
+	monitorDone := make(chan struct{})
+	go func() { defer close(monitorDone); monitor.Run(ctx) }()
+	defer func() { cancel(); <-monitorDone }()
+	if err := rpc.Bind(router, "studio.performance", "", func(context.Context, empty) (insights.Snapshot, error) { return monitor.Snapshot(), nil }); err != nil {
+		return err
+	}
+	if err := rpc.Bind(router, "studio.icons", "", func(context.Context, empty) (insights.Icons, error) { return insights.IconCatalog(), nil }); err != nil {
+		return err
+	}
 	origins := []string{"http://" + address}
 	bridge, err := omniweb.NewHTTP(router, omniweb.HTTPOptions{Host: address, Origins: origins})
 	if err != nil {
@@ -59,6 +73,7 @@ func run() error {
 	}
 	mux := http.NewServeMux()
 	mux.Handle(omniweb.Prefix, bridge)
+	mux.Handle("/studio/icon.png", insights.IconHandler())
 	fsys := studio.Assets()
 	if *assets != "" {
 		fsys = os.DirFS(*assets)
@@ -92,6 +107,12 @@ func run() error {
 			}
 			if !native.Available {
 				return reply{Message: "Studio 客户端目前仅支持 macOS Apple Silicon。"}, nil
+			}
+			if r.ID == "plugin/chromium" {
+				if err := browsers.Open(ctx, r.Dark); err != nil {
+					return reply{Message: err.Error()}, nil
+				}
+				return reply{Opened: true, Message: "已打开 Omni Browser：CEF 原生浏览器，支持标签页、地址栏和导航。"}, nil
 			}
 			call, cancel := context.WithTimeout(ctx, 5*time.Second)
 			defer cancel()

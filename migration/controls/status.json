@@ -10,9 +10,17 @@
     },
     {
       "id": "ai-message",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "AIMessage",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Streaming Markdown, fenced-code highlighting and selectable rich text",
+        "Clipboard completion/error feedback and native accessibility"
+      ]
     },
     {
       "id": "alert",
@@ -28,21 +36,35 @@
     },
     {
       "id": "aspect-ratio",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "AspectRatio"
     },
     {
       "id": "attachment",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Attachment",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "File drop/upload integration, progress fraction and richer previews"
+      ]
     },
     {
       "id": "avatar",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/avatar.go",
+      "symbol": "Avatar",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "High-quality image resampling, image loading/error lifecycle and size variants"
+      ]
     },
     {
       "id": "badge",
@@ -52,15 +74,29 @@
     },
     {
       "id": "breadcrumb",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/navigation.go",
+      "symbol": "Breadcrumb",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Overflow collapse, complete current-page platform accessibility"
+      ]
     },
     {
       "id": "bubble",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Bubble",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Full visual variants and selectable rich text"
+      ]
     },
     {
       "id": "button",
@@ -94,21 +130,49 @@
     },
     {
       "id": "chain-of-thought",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "ChainOfThought",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Rich step content, aggregate status indicator and platform live announcements"
+      ]
     },
     {
       "id": "chart",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/chart.go",
+      "symbol": "Chart",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go",
+        "omniui/baseui/chart_parity_test.go",
+        "omniui/baseui/chart_geometry.go",
+        "omniui/baseui/chart_paint.go",
+        "omniui/baseui/chart_compose_test.go",
+        "omniui/baseui/chart_compose.go"
+      ],
+      "remaining": [
+        "Remaining ui/chart scale, normalized geometry, stack, time-axis and downsample APIs; arbitrary composable accessible marks",
+        "Native screen-reader announcements and per-mark accessibility; real-window/DPI visual comparison",
+        "Equivalent-load reference benchmarks; broader font and visual-token alignment"
+      ]
     },
     {
       "id": "chat",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Chat",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Virtualized message history, prepend anchoring and rich response composition"
+      ]
     },
     {
       "id": "checkbox",
@@ -118,15 +182,29 @@
     },
     {
       "id": "checkpoint",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Checkpoint",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Restore-pending/error feedback and platform accessibility"
+      ]
     },
     {
       "id": "code-block",
       "status": "partial",
       "implementation": "omniui/baseui/compose.go",
-      "symbol": "CodeBlock"
+      "symbol": "CodeBlock",
+      "evidence": [
+        "omniui/baseui/terminal_test.go"
+      ],
+      "remaining": [
+        "Selectable text, syntax highlighting, line numbers/decorations, wrap toggle, download and custom footer/actions",
+        "Complete reference font/theme states and native accessibility"
+      ]
     },
     {
       "id": "collapsible",
@@ -136,33 +214,47 @@
     },
     {
       "id": "combobox",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/select.go",
+      "symbol": "Combobox"
     },
     {
       "id": "command",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/command.go",
+      "symbol": "Command"
     },
     {
       "id": "confirmation",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Confirmation",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Rich decision content and platform live announcements"
+      ]
     },
     {
       "id": "context",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Context",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Complete formatting/visual variants and platform accessibility"
+      ]
     },
     {
       "id": "context-menu",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/context_menu.go",
+      "symbol": "ContextMenu"
     },
     {
       "id": "dialog",
@@ -172,21 +264,28 @@
     },
     {
       "id": "direction",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "Direction"
     },
     {
       "id": "drawer",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/drawer.go",
+      "symbol": "Drawer",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Touch gestures, velocity/animation and physical-device validation"
+      ]
     },
     {
       "id": "dropdown-menu",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/menu.go",
+      "symbol": "DropdownMenu"
     },
     {
       "id": "empty",
@@ -202,9 +301,9 @@
     },
     {
       "id": "file-tree",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/file_tree.go",
+      "symbol": "FileTree"
     },
     {
       "id": "form",
@@ -214,15 +313,22 @@
     },
     {
       "id": "hover-card",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/hover.go",
+      "symbol": "HoverCard"
     },
     {
       "id": "inline-citation",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "InlineCitation",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Inline rich-text flow, multiple-source previews and native link semantics"
+      ]
     },
     {
       "id": "input",
@@ -238,15 +344,22 @@
     },
     {
       "id": "input-otp",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/otp.go",
+      "symbol": "InputOTP"
     },
     {
       "id": "item",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Item",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Full appearance, size, icon and media variants"
+      ]
     },
     {
       "id": "kbd",
@@ -262,45 +375,89 @@
     },
     {
       "id": "marker",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Marker",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Full appearance and text-layout variants"
+      ]
     },
     {
       "id": "menubar",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/navigation.go",
+      "symbol": "Menubar",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Pointer switching between open top-level menus, hover intent and platform menu integration"
+      ]
     },
     {
       "id": "message",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Message",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Full header/footer alignment variants and selectable rich content"
+      ]
     },
     {
       "id": "message-scroller",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "MessageScroller",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Virtualization, prepend anchoring and inertial scrolling"
+      ]
     },
     {
       "id": "model-selector",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/prompt.go",
+      "symbol": "ModelSelector",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go",
+        "omniui/baseui/model_selector_parity_test.go"
+      ],
+      "remaining": [
+        "Full model-pill icons, text hierarchy and visual-state comparison with reference",
+        "Native accessibility/IME and real-window interaction validation"
+      ]
     },
     {
       "id": "native-select",
       "status": "partial",
-      "implementation": "omniui/baseui/compose.go",
+      "implementation": "omniui/baseui/select.go",
       "symbol": "Select"
     },
     {
       "id": "navigation-menu",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/navigation.go",
+      "symbol": "NavigationMenu",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Dropdown content, overflow behavior and full navigation accessibility"
+      ]
     },
     {
       "id": "pagination",
@@ -310,15 +467,22 @@
     },
     {
       "id": "plan",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Plan",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Rich/custom step content and platform live announcements"
+      ]
     },
     {
       "id": "popover",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/overlay.go",
+      "symbol": "Popover"
     },
     {
       "id": "progress",
@@ -328,21 +492,42 @@
     },
     {
       "id": "prompt-input",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/prompt.go",
+      "symbol": "PromptInput",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "File drag/drop, rich tools toolbar, auto-growing editor and native IME adapter"
+      ]
     },
     {
       "id": "questionnaire",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Questionnaire",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Full layouts, richer validation feedback and native accessibility"
+      ]
     },
     {
       "id": "queue",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Queue",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Rich item content, virtualization and platform live announcements"
+      ]
     },
     {
       "id": "radio-group",
@@ -352,26 +537,33 @@
     },
     {
       "id": "reasoning",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Reasoning",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Streaming Markdown, live elapsed-time display and native accessibility"
+      ]
     },
     {
       "id": "resizable",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "Resizable"
     },
     {
       "id": "scroll-area",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/scroll.go",
+      "symbol": "ScrollArea"
     },
     {
       "id": "select",
       "status": "partial",
-      "implementation": "omniui/baseui/compose.go",
+      "implementation": "omniui/baseui/select.go",
       "symbol": "Select"
     },
     {
@@ -382,21 +574,28 @@
     },
     {
       "id": "sheet",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "Sheet"
     },
     {
       "id": "sidebar",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/navigation.go",
+      "symbol": "Sidebar",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Sections, icons, resizing/collapsing, nested navigation and mobile layout"
+      ]
     },
     {
       "id": "skeleton",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "Skeleton"
     },
     {
       "id": "slider",
@@ -406,15 +605,29 @@
     },
     {
       "id": "sonner",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/toast.go",
+      "symbol": "Sonner",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Stack overflow, placement variants, animation, swipe dismissal and platform live regions"
+      ]
     },
     {
       "id": "sources",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Sources",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Expanded metadata/icon variants, localized counts and native link semantics"
+      ]
     },
     {
       "id": "spinner",
@@ -424,21 +637,42 @@
     },
     {
       "id": "stack-trace",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "StackTrace",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Selectable code, syntax highlighting and source navigation integration"
+      ]
     },
     {
       "id": "subagent",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Subagent",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Rich/streamed output, live duration and platform live announcements"
+      ]
     },
     {
       "id": "suggestion",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Suggestion",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Size/icon variants and native accessibility"
+      ]
     },
     {
       "id": "switch",
@@ -460,21 +694,43 @@
     },
     {
       "id": "task",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Task",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Rich/custom steps and platform live announcements"
+      ]
     },
     {
       "id": "terminal",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Terminal",
+      "evidence": [
+        "omniui/baseui/terminal_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Selectable text, incremental code highlighting and complete reference CodeBlock actions",
+        "Native accessibility and full visual-state acceptance; PTY/VT terminal plugin is a separate unimplemented capability"
+      ]
     },
     {
       "id": "test-results",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "TestResults",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Virtualization, source navigation and rich selectable failure output"
+      ]
     },
     {
       "id": "textarea",
@@ -484,9 +740,16 @@
     },
     {
       "id": "toast",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/toast.go",
+      "symbol": "Toast",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Appearance/position variants, keyboard dismissal policy and platform announcements"
+      ]
     },
     {
       "id": "toggle",
@@ -502,21 +765,35 @@
     },
     {
       "id": "tool",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Tool",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Syntax highlighting, selectable input/output, rich previews and platform live announcements"
+      ]
     },
     {
       "id": "tooltip",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/hover.go",
+      "symbol": "Tooltip"
     },
     {
       "id": "trace",
-      "status": "pending",
-      "implementation": null,
-      "symbol": null
+      "status": "partial",
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Trace",
+      "evidence": [
+        "omniui/baseui/advanced_test.go",
+        "studio/internal/demos/advanced.go"
+      ],
+      "remaining": [
+        "Rich tree connectors, selectable content and platform accessibility"
+      ]
     }
   ]
 }

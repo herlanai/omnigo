@@ -121,3 +121,41 @@ func TestTableOnlyMaterializesVisibleRows(t *testing.T) {
 		t.Fatal(start, end, offset)
 	}
 }
+
+func TestSelectionGroupsHaveOneTabStop(t *testing.T) {
+	for _, radio := range []bool{false, true} {
+		s := surface(t)
+		value := "b"
+		view := func() *Element {
+			options := []Option{{ID: "a", Label: "A"}, {ID: "b", Label: "B", Disabled: true}, {ID: "c", Label: "C"}}
+			build := Tabs
+			if radio {
+				build = RadioGroup
+			}
+			return Column("root", Button("before", "Before", nil), build("group", "Choices", value, options, func(v string) { value = v }), Button("after", "After", nil))
+		}
+		mount(t, s, view())
+		s.Focus("before")
+		s.Key(KeyEvent{Key: "Tab"})
+		if s.Focused() != "group/a" {
+			t.Fatal("disabled selection must fall back to available member", s.Focused())
+		}
+		s.Key(KeyEvent{Key: "Right"})
+		mount(t, s, view())
+		if value != "c" || s.Focused() != "group/c" {
+			t.Fatal("arrow navigation failed", value, s.Focused())
+		}
+		s.Key(KeyEvent{Key: "Tab"})
+		if s.Focused() != "after" {
+			t.Fatal("Tab remained inside group", s.Focused())
+		}
+		s.Key(KeyEvent{Key: "Tab", Shift: true})
+		if s.Focused() != "group/c" {
+			t.Fatal("reverse Tab lost selected member", s.Focused())
+		}
+		s.Key(KeyEvent{Key: "Tab", Shift: true})
+		if s.Focused() != "before" {
+			t.Fatal("reverse Tab remained inside group", s.Focused())
+		}
+	}
+}

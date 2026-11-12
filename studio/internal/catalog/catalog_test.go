@@ -15,7 +15,7 @@ func TestCatalogTracksEveryReferenceEntryAndPlugin(t *testing.T) {
 			t.Fatalf("duplicate %s", e.ID)
 		}
 		seen[e.ID] = e
-		if e.Demo != "" && !demos.Supported(e.Demo) {
+		if e.Demo != "" && e.Demo != "plugin/chromium" && e.Demo != "web-view" && !demos.Supported(e.Demo) {
 			t.Fatalf("invalid demo %s", e.ID)
 		}
 	}
@@ -60,5 +60,36 @@ func read(t *testing.T, path string, v any) {
 	}
 	if err := json.Unmarshal(b, v); err != nil {
 		t.Fatal(err)
+	}
+}
+
+func TestPluginsNeverBorrowSameNamedControlDemo(t *testing.T) {
+	for _, e := range Entries() {
+		if e.Kind == "plugin" && e.ID != "plugin/loading" && e.Demo != "" && e.Demo != e.ID {
+			t.Errorf("unimplemented plugin %s borrows %s", e.ID, e.Demo)
+		}
+		if e.ID == "terminal" && e.Demo != "terminal" {
+			t.Fatal("missing Forma Terminal demo")
+		}
+	}
+}
+
+func TestAdvancedControlsRetainTheirOwnAudit(t *testing.T) {
+	var audit struct {
+		Controls []Entry `json:"controls"`
+	}
+	read(t, "../../../migration/controls/advanced.json", &audit)
+	entries := map[string]Entry{}
+	for _, entry := range Entries() {
+		entries[entry.ID] = entry
+	}
+	for _, control := range audit.Controls {
+		entry, ok := entries[control.ID]
+		if !ok || entry.Status != control.Status {
+			t.Errorf("missing or stale advanced control %s", control.ID)
+		}
+		if control.Status == "pending" && entry.Demo != "" {
+			t.Errorf("pending control borrows a demo: %s", control.ID)
+		}
 	}
 }

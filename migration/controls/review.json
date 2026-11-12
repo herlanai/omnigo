@@ -1,0 +1,1652 @@
+{
+  "schema": 1,
+  "date": "2026-11-11",
+  "scope": "All 86 catalog controls: entrypoint mapping, shared deterministic integration sweep and light/dark overview. Not exhaustive reference behavior, pixel parity or native-window acceptance.",
+  "sharedGaps": [
+    "Font weights, type scale, control size variants and complete visual states",
+    "Native IME, platform accessibility and desktop drivers",
+    "Per-capability reference tests, RTL, high contrast and equivalent performance evidence"
+  ],
+  "controls": [
+    {
+      "id": "accordion",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Accordion",
+          "file": "backend/ui/forma/navigation.go",
+          "signature": "func Accordion(c *ui.Context, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Accordion",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/accordion-light.png",
+      "darkSnapshot": "build/baseui-review/accordion-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "ai-message",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:AIMessage",
+          "file": "backend/ui/forma/ai_message.go",
+          "signature": "func AIMessage(c *ui.Context, role MessageRole, text string, options ...AIMessageOptions) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "AIMessage",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/ai-message-light.png",
+      "darkSnapshot": "build/baseui-review/ai-message-dark.png",
+      "remaining": [
+        "Streaming Markdown, fenced-code highlighting and selectable rich text",
+        "Clipboard completion/error feedback and native accessibility"
+      ]
+    },
+    {
+      "id": "alert",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Alert",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func Alert(c *ui.Context, title, description string, destructive ...bool) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Alert",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/alert-light.png",
+      "darkSnapshot": "build/baseui-review/alert-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "alert-dialog",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:AlertDialog",
+          "file": "backend/ui/forma/overlays.go",
+          "signature": "func AlertDialog(c *ui.Context, open *bool, title, description string, confirm func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "AlertDialog",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/alert-dialog-light.png",
+      "darkSnapshot": "build/baseui-review/alert-dialog-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "aspect-ratio",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:AspectRatio",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func AspectRatio(c *ui.Context, ratio float32) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "AspectRatio",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/aspect-ratio-light.png",
+      "darkSnapshot": "build/baseui-review/aspect-ratio-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "attachment",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Attachment",
+          "file": "backend/ui/forma/messages.go",
+          "signature": "func Attachment(c *ui.Context, name, description, state string, action func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Attachment",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/attachment-light.png",
+      "darkSnapshot": "build/baseui-review/attachment-dark.png",
+      "remaining": [
+        "File drop/upload integration, progress fraction and richer previews"
+      ]
+    },
+    {
+      "id": "avatar",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Avatar",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func Avatar(c *ui.Context, name string, bitmap *ui.Bitmap) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/avatar.go",
+      "symbol": "Avatar",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/avatar-light.png",
+      "darkSnapshot": "build/baseui-review/avatar-dark.png",
+      "remaining": [
+        "High-quality image resampling, image loading/error lifecycle and size variants"
+      ]
+    },
+    {
+      "id": "badge",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Badge",
+          "file": "backend/ui/forma/theme.go",
+          "signature": "func Badge(c *ui.Context, label string, variant ...Variant) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Badge",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/badge-light.png",
+      "darkSnapshot": "build/baseui-review/badge-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "breadcrumb",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Breadcrumb",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func Breadcrumb(c *ui.Context, items []string, selected *int) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/navigation.go",
+      "symbol": "Breadcrumb",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/breadcrumb-light.png",
+      "darkSnapshot": "build/baseui-review/breadcrumb-dark.png",
+      "remaining": [
+        "Overflow collapse, complete current-page platform accessibility"
+      ]
+    },
+    {
+      "id": "bubble",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Bubble",
+          "file": "backend/ui/forma/messages.go",
+          "signature": "func Bubble(c *ui.Context, text string, variant Variant) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Bubble",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/bubble-light.png",
+      "darkSnapshot": "build/baseui-review/bubble-dark.png",
+      "remaining": [
+        "Full visual variants and selectable rich text"
+      ]
+    },
+    {
+      "id": "button",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Button",
+          "file": "backend/ui/forma/theme.go",
+          "signature": "func Button(c *ui.Context, label string, options ...ButtonOptions) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Button",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/button-light.png",
+      "darkSnapshot": "build/baseui-review/button-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "button-group",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:ButtonGroup",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func ButtonGroup(c *ui.Context, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "ButtonGroup",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/button-group-light.png",
+      "darkSnapshot": "build/baseui-review/button-group-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "calendar",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Calendar",
+          "file": "backend/ui/forma/calendar.go",
+          "signature": "func Calendar(c *ui.Context, date *time.Time, options ...CalendarOptions) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/calendar.go",
+      "symbol": "Calendar",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/calendar-light.png",
+      "darkSnapshot": "build/baseui-review/calendar-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "card",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Card",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func Card(c *ui.Context) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Card",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/card-light.png",
+      "darkSnapshot": "build/baseui-review/card-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "carousel",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Carousel",
+          "file": "backend/ui/forma/data.go",
+          "signature": "func Carousel(c *ui.Context, index *int, count int, slide func(int)) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Carousel",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/carousel-light.png",
+      "darkSnapshot": "build/baseui-review/carousel-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "chain-of-thought",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:ChainOfThought",
+          "file": "backend/ui/forma/ai_trace.go",
+          "signature": "func ChainOfThought(c *ui.Context, title string, open *bool, steps []AIStep) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "ChainOfThought",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/chain-of-thought-light.png",
+      "darkSnapshot": "build/baseui-review/chain-of-thought-dark.png",
+      "remaining": [
+        "Rich step content, aggregate status indicator and platform live announcements"
+      ]
+    },
+    {
+      "id": "chart",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Chart",
+          "file": "backend/ui/forma/chart.go",
+          "signature": "func Chart(c *ui.Context, state *ChartState, o ChartOptions) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/chart.go",
+      "symbol": "Chart",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/chart-light.png",
+      "darkSnapshot": "build/baseui-review/chart-dark.png",
+      "remaining": [
+        "Remaining ui/chart scale, normalized geometry, stack, time-axis and downsample APIs; arbitrary composable accessible marks",
+        "Native screen-reader announcements and per-mark accessibility; real-window/DPI visual comparison",
+        "Equivalent-load reference benchmarks; broader font and visual-token alignment"
+      ]
+    },
+    {
+      "id": "chat",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Chat",
+          "file": "backend/ui/forma/ai_navigation.go",
+          "signature": "func Chat(c *ui.Context, state *ui.ScrollState, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Chat",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/chat-light.png",
+      "darkSnapshot": "build/baseui-review/chat-dark.png",
+      "remaining": [
+        "Virtualized message history, prepend anchoring and rich response composition"
+      ]
+    },
+    {
+      "id": "checkbox",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Checkbox",
+          "file": "backend/ui/forma/inputs.go",
+          "signature": "func Checkbox(c *ui.Context, on *bool, label string) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Checkbox",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/checkbox-light.png",
+      "darkSnapshot": "build/baseui-review/checkbox-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "checkpoint",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Checkpoint",
+          "file": "backend/ui/forma/ai_navigation.go",
+          "signature": "func Checkpoint(c *ui.Context, label string, onRestore func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Checkpoint",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/checkpoint-light.png",
+      "darkSnapshot": "build/baseui-review/checkpoint-dark.png",
+      "remaining": [
+        "Restore-pending/error feedback and platform accessibility"
+      ]
+    },
+    {
+      "id": "code-block",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:CodeBlock",
+          "file": "backend/ui/forma/code_block.go",
+          "signature": "func CodeBlock(c *ui.Context, title, code string, options ...CodeBlockOptions) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "CodeBlock",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/code-block-light.png",
+      "darkSnapshot": "build/baseui-review/code-block-dark.png",
+      "remaining": [
+        "Selectable text, syntax highlighting, line numbers/decorations, wrap toggle, download and custom footer/actions",
+        "Complete reference font/theme states and native accessibility"
+      ]
+    },
+    {
+      "id": "collapsible",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Collapsible",
+          "file": "backend/ui/forma/navigation.go",
+          "signature": "func Collapsible(c *ui.Context, title string, open *bool, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Collapsible",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/collapsible-light.png",
+      "darkSnapshot": "build/baseui-review/collapsible-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "combobox",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Combobox",
+          "file": "backend/ui/forma/navigation.go",
+          "signature": "func Combobox(c *ui.Context, value *string, options []string) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/select.go",
+      "symbol": "Combobox",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/combobox-light.png",
+      "darkSnapshot": "build/baseui-review/combobox-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "command",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Command",
+          "file": "backend/ui/forma/navigation.go",
+          "signature": "func Command(c *ui.Context, query *string, items []CommandItem) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/command.go",
+      "symbol": "Command",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/command-light.png",
+      "darkSnapshot": "build/baseui-review/command-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "confirmation",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Confirmation",
+          "file": "backend/ui/forma/ai_navigation.go",
+          "signature": "func Confirmation(c *ui.Context, title, details string, state *ConfirmationState, onDecision func(bool)) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Confirmation",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/confirmation-light.png",
+      "darkSnapshot": "build/baseui-review/confirmation-dark.png",
+      "remaining": [
+        "Rich decision content and platform live announcements"
+      ]
+    },
+    {
+      "id": "context",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:AIContext",
+          "file": "backend/ui/forma/ai_navigation.go",
+          "signature": "func AIContext(c *ui.Context, usage ContextUsage) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Context",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/context-light.png",
+      "darkSnapshot": "build/baseui-review/context-dark.png",
+      "remaining": [
+        "Complete formatting/visual variants and platform accessibility"
+      ]
+    },
+    {
+      "id": "context-menu",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:ContextMenu",
+          "file": "backend/ui/forma/overlays.go",
+          "signature": "func ContextMenu(c *ui.Context, anchor ui.Element, items []MenuItem) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/context_menu.go",
+      "symbol": "ContextMenu",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/context-menu-light.png",
+      "darkSnapshot": "build/baseui-review/context-menu-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "dialog",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Dialog",
+          "file": "backend/ui/forma/overlays.go",
+          "signature": "func Dialog(c *ui.Context, open *bool, title string, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Dialog",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/dialog-light.png",
+      "darkSnapshot": "build/baseui-review/dialog-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "direction",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Direction",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func Direction(c *ui.Context, d ui.Direction, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "Direction",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/direction-light.png",
+      "darkSnapshot": "build/baseui-review/direction-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "drawer",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Drawer",
+          "file": "backend/ui/forma/overlays.go",
+          "signature": "func Drawer(c *ui.Context, open *bool, title string, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/drawer.go",
+      "symbol": "Drawer",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/drawer-light.png",
+      "darkSnapshot": "build/baseui-review/drawer-dark.png",
+      "remaining": [
+        "Touch gestures, velocity/animation and physical-device validation"
+      ]
+    },
+    {
+      "id": "dropdown-menu",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:DropdownMenu",
+          "file": "backend/ui/forma/overlays.go",
+          "signature": "func DropdownMenu(c *ui.Context, label string, items []MenuItem) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/menu.go",
+      "symbol": "DropdownMenu",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/dropdown-menu-light.png",
+      "darkSnapshot": "build/baseui-review/dropdown-menu-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "empty",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Empty",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func Empty(c *ui.Context, title, description string, actions func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Empty",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/empty-light.png",
+      "darkSnapshot": "build/baseui-review/empty-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "field",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Field",
+          "file": "backend/ui/forma/inputs.go",
+          "signature": "func Field(c *ui.Context, label string, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Field",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/field-light.png",
+      "darkSnapshot": "build/baseui-review/field-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "file-tree",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:FileTree",
+          "file": "backend/ui/forma/ai_navigation.go",
+          "signature": "func FileTree(c *ui.Context, state *FileTreeState, nodes []FileNode, onOpen func(FileNode)) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/file_tree.go",
+      "symbol": "FileTree",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/file-tree-light.png",
+      "darkSnapshot": "build/baseui-review/file-tree-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "form",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Form",
+          "file": "backend/ui/forma/inputs.go",
+          "signature": "func Form(c *ui.Context, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Form",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/form-light.png",
+      "darkSnapshot": "build/baseui-review/form-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "hover-card",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:HoverCard",
+          "file": "backend/ui/forma/overlays.go",
+          "signature": "func HoverCard(c *ui.Context, anchor ui.Element, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/hover.go",
+      "symbol": "HoverCard",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/hover-card-light.png",
+      "darkSnapshot": "build/baseui-review/hover-card-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "inline-citation",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:InlineCitation",
+          "file": "backend/ui/forma/ai_navigation.go",
+          "signature": "func InlineCitation(c *ui.Context, label string, source Source, onOpen func(Source)) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "InlineCitation",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/inline-citation-light.png",
+      "darkSnapshot": "build/baseui-review/inline-citation-dark.png",
+      "remaining": [
+        "Inline rich-text flow, multiple-source previews and native link semantics"
+      ]
+    },
+    {
+      "id": "input",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Input",
+          "file": "backend/ui/forma/inputs.go",
+          "signature": "func Input(c *ui.Context, value *string, options ...InputOptions) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Input",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/input-light.png",
+      "darkSnapshot": "build/baseui-review/input-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "input-group",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:InputGroup",
+          "file": "backend/ui/forma/inputs.go",
+          "signature": "func InputGroup(c *ui.Context, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "InputGroup",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/input-group-light.png",
+      "darkSnapshot": "build/baseui-review/input-group-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "input-otp",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:InputOTP",
+          "file": "backend/ui/forma/inputs.go",
+          "signature": "func InputOTP(c *ui.Context, value *string, length int) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/otp.go",
+      "symbol": "InputOTP",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/input-otp-light.png",
+      "darkSnapshot": "build/baseui-review/input-otp-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "item",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Item",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func Item(c *ui.Context, title, description string, actions func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Item",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/item-light.png",
+      "darkSnapshot": "build/baseui-review/item-dark.png",
+      "remaining": [
+        "Full appearance, size, icon and media variants"
+      ]
+    },
+    {
+      "id": "kbd",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Kbd",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func Kbd(c *ui.Context, text string) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Kbd",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/kbd-light.png",
+      "darkSnapshot": "build/baseui-review/kbd-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "label",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Label",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func Label(c *ui.Context, text string) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Text",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/label-light.png",
+      "darkSnapshot": "build/baseui-review/label-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "marker",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Marker",
+          "file": "backend/ui/forma/messages.go",
+          "signature": "func Marker(c *ui.Context, text string) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Marker",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/marker-light.png",
+      "darkSnapshot": "build/baseui-review/marker-dark.png",
+      "remaining": [
+        "Full appearance and text-layout variants"
+      ]
+    },
+    {
+      "id": "menubar",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Menubar",
+          "file": "backend/ui/forma/navigation.go",
+          "signature": "func Menubar(c *ui.Context, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/navigation.go",
+      "symbol": "Menubar",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/menubar-light.png",
+      "darkSnapshot": "build/baseui-review/menubar-dark.png",
+      "remaining": [
+        "Pointer switching between open top-level menus, hover intent and platform menu integration"
+      ]
+    },
+    {
+      "id": "message",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Message",
+          "file": "backend/ui/forma/messages.go",
+          "signature": "func Message(c *ui.Context, author string, end bool, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Message",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/message-light.png",
+      "darkSnapshot": "build/baseui-review/message-dark.png",
+      "remaining": [
+        "Full header/footer alignment variants and selectable rich content"
+      ]
+    },
+    {
+      "id": "message-scroller",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:MessageScroller",
+          "file": "backend/ui/forma/messages.go",
+          "signature": "func MessageScroller(c *ui.Context, state *ui.ScrollState, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "MessageScroller",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/message-scroller-light.png",
+      "darkSnapshot": "build/baseui-review/message-scroller-dark.png",
+      "remaining": [
+        "Virtualization, prepend anchoring and inertial scrolling"
+      ]
+    },
+    {
+      "id": "model-selector",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:ModelSelector",
+          "file": "backend/ui/forma/model_selector.go",
+          "signature": "func ModelSelector(c *ui.Context, model, effort *string, models []ModelOption, options ...ModelSelectorOptions) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/prompt.go",
+      "symbol": "ModelSelector",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/model-selector-light.png",
+      "darkSnapshot": "build/baseui-review/model-selector-dark.png",
+      "remaining": [
+        "Full model-pill icons, text hierarchy and visual-state comparison with reference",
+        "Native accessibility/IME and real-window interaction validation"
+      ]
+    },
+    {
+      "id": "native-select",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:NativeSelect",
+          "file": "backend/ui/forma/navigation.go",
+          "signature": "func NativeSelect(c *ui.Context, value *string, options []string) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/select.go",
+      "symbol": "Select",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/native-select-light.png",
+      "darkSnapshot": "build/baseui-review/native-select-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "navigation-menu",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:NavigationMenu",
+          "file": "backend/ui/forma/navigation.go",
+          "signature": "func NavigationMenu(c *ui.Context, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/navigation.go",
+      "symbol": "NavigationMenu",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/navigation-menu-light.png",
+      "darkSnapshot": "build/baseui-review/navigation-menu-dark.png",
+      "remaining": [
+        "Dropdown content, overflow behavior and full navigation accessibility"
+      ]
+    },
+    {
+      "id": "pagination",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Pagination",
+          "file": "backend/ui/forma/navigation.go",
+          "signature": "func Pagination(c *ui.Context, page *int, total int) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Pagination",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/pagination-light.png",
+      "darkSnapshot": "build/baseui-review/pagination-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "plan",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Plan",
+          "file": "backend/ui/forma/ai_trace.go",
+          "signature": "func Plan(c *ui.Context, title, description string, open *bool, steps []AIStep) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Plan",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/plan-light.png",
+      "darkSnapshot": "build/baseui-review/plan-dark.png",
+      "remaining": [
+        "Rich/custom step content and platform live announcements"
+      ]
+    },
+    {
+      "id": "popover",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Popover",
+          "file": "backend/ui/forma/overlays.go",
+          "signature": "func Popover(c *ui.Context, anchor ui.Element, open *bool, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/overlay.go",
+      "symbol": "Popover",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/popover-light.png",
+      "darkSnapshot": "build/baseui-review/popover-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "progress",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Progress",
+          "file": "backend/ui/forma/inputs.go",
+          "signature": "func Progress(c *ui.Context, value float64) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Progress",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/progress-light.png",
+      "darkSnapshot": "build/baseui-review/progress-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "prompt-input",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:PromptInput",
+          "file": "backend/ui/forma/prompt_input.go",
+          "signature": "func PromptInput(c *ui.Context, s *PromptInputState, options ...PromptInputOptions) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/prompt.go",
+      "symbol": "PromptInput",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/prompt-input-light.png",
+      "darkSnapshot": "build/baseui-review/prompt-input-dark.png",
+      "remaining": [
+        "File drag/drop, rich tools toolbar, auto-growing editor and native IME adapter"
+      ]
+    },
+    {
+      "id": "questionnaire",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Questionnaire",
+          "file": "backend/ui/forma/messages.go",
+          "signature": "func Questionnaire(c *ui.Context, index *int, questions []Question, onComplete func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Questionnaire",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/questionnaire-light.png",
+      "darkSnapshot": "build/baseui-review/questionnaire-dark.png",
+      "remaining": [
+        "Full layouts, richer validation feedback and native accessibility"
+      ]
+    },
+    {
+      "id": "queue",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Queue",
+          "file": "backend/ui/forma/ai_trace.go",
+          "signature": "func Queue(c *ui.Context, state *QueueState, items []AIStep) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Queue",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/queue-light.png",
+      "darkSnapshot": "build/baseui-review/queue-dark.png",
+      "remaining": [
+        "Rich item content, virtualization and platform live announcements"
+      ]
+    },
+    {
+      "id": "radio-group",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:RadioGroup",
+          "file": "backend/ui/forma/inputs.go",
+          "signature": "func RadioGroup(c *ui.Context, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "RadioGroup",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/radio-group-light.png",
+      "darkSnapshot": "build/baseui-review/radio-group-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "reasoning",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Reasoning",
+          "file": "backend/ui/forma/ai_trace.go",
+          "signature": "func Reasoning(c *ui.Context, text string, running bool, duration time.Duration, open *bool) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Reasoning",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/reasoning-light.png",
+      "darkSnapshot": "build/baseui-review/reasoning-dark.png",
+      "remaining": [
+        "Streaming Markdown, live elapsed-time display and native accessibility"
+      ]
+    },
+    {
+      "id": "resizable",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Resizable",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func Resizable(c *ui.Context, size *float32, first, second func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "Resizable",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/resizable-light.png",
+      "darkSnapshot": "build/baseui-review/resizable-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "scroll-area",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:ScrollArea",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func ScrollArea(c *ui.Context) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/scroll.go",
+      "symbol": "ScrollArea",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/scroll-area-light.png",
+      "darkSnapshot": "build/baseui-review/scroll-area-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "select",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Select",
+          "file": "backend/ui/forma/navigation.go",
+          "signature": "func Select(c *ui.Context, value *string, options []string) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/select.go",
+      "symbol": "Select",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/select-light.png",
+      "darkSnapshot": "build/baseui-review/select-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "separator",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Separator",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func Separator(c *ui.Context, vertical ...bool) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Separator",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/separator-light.png",
+      "darkSnapshot": "build/baseui-review/separator-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "sheet",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Sheet",
+          "file": "backend/ui/forma/overlays.go",
+          "signature": "func Sheet(c *ui.Context, open *bool, side Side, title string, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "Sheet",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/sheet-light.png",
+      "darkSnapshot": "build/baseui-review/sheet-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "sidebar",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Sidebar",
+          "file": "backend/ui/forma/navigation.go",
+          "signature": "func Sidebar(c *ui.Context, selected *string, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/navigation.go",
+      "symbol": "Sidebar",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/sidebar-light.png",
+      "darkSnapshot": "build/baseui-review/sidebar-dark.png",
+      "remaining": [
+        "Sections, icons, resizing/collapsing, nested navigation and mobile layout"
+      ]
+    },
+    {
+      "id": "skeleton",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Skeleton",
+          "file": "backend/ui/forma/data.go",
+          "signature": "func Skeleton(c *ui.Context) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "Skeleton",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/skeleton-light.png",
+      "darkSnapshot": "build/baseui-review/skeleton-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "slider",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Slider",
+          "file": "backend/ui/forma/inputs.go",
+          "signature": "func Slider(c *ui.Context, value *float64, lo, hi float64) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Slider",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/slider-light.png",
+      "darkSnapshot": "build/baseui-review/slider-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "sonner",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Sonner",
+          "file": "backend/ui/forma/data.go",
+          "signature": "func Sonner(c *ui.Context)"
+        }
+      ],
+      "implementation": "omniui/baseui/toast.go",
+      "symbol": "Sonner",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/sonner-light.png",
+      "darkSnapshot": "build/baseui-review/sonner-dark.png",
+      "remaining": [
+        "Stack overflow, placement variants, animation, swipe dismissal and platform live regions"
+      ]
+    },
+    {
+      "id": "sources",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Sources",
+          "file": "backend/ui/forma/ai_navigation.go",
+          "signature": "func Sources(c *ui.Context, sources []Source, open *bool, onOpen func(Source)) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/messages.go",
+      "symbol": "Sources",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/sources-light.png",
+      "darkSnapshot": "build/baseui-review/sources-dark.png",
+      "remaining": [
+        "Expanded metadata/icon variants, localized counts and native link semantics"
+      ]
+    },
+    {
+      "id": "spinner",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Spinner",
+          "file": "backend/ui/forma/layout.go",
+          "signature": "func Spinner(c *ui.Context) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Spinner",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/spinner-light.png",
+      "darkSnapshot": "build/baseui-review/spinner-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "stack-trace",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:StackTrace",
+          "file": "backend/ui/forma/ai_trace.go",
+          "signature": "func StackTrace(c *ui.Context, message string, frames []StackFrame, open *bool, onOpen func(StackFrame)) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "StackTrace",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/stack-trace-light.png",
+      "darkSnapshot": "build/baseui-review/stack-trace-dark.png",
+      "remaining": [
+        "Selectable code, syntax highlighting and source navigation integration"
+      ]
+    },
+    {
+      "id": "subagent",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Subagent",
+          "file": "backend/ui/forma/ai_trace.go",
+          "signature": "func Subagent(c *ui.Context, run SubagentRun, open *bool) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Subagent",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/subagent-light.png",
+      "darkSnapshot": "build/baseui-review/subagent-dark.png",
+      "remaining": [
+        "Rich/streamed output, live duration and platform live announcements"
+      ]
+    },
+    {
+      "id": "suggestion",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Suggestion",
+          "file": "backend/ui/forma/ai_navigation.go",
+          "signature": "func Suggestion(c *ui.Context, prompt string, onSelect func(string)) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Suggestion",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/suggestion-light.png",
+      "darkSnapshot": "build/baseui-review/suggestion-dark.png",
+      "remaining": [
+        "Size/icon variants and native accessibility"
+      ]
+    },
+    {
+      "id": "switch",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Switch",
+          "file": "backend/ui/forma/inputs.go",
+          "signature": "func Switch(c *ui.Context, on *bool) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Switch",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/switch-light.png",
+      "darkSnapshot": "build/baseui-review/switch-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "table",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Table",
+          "file": "backend/ui/forma/data.go",
+          "signature": "func Table(c *ui.Context, state *ui.ListState, columns []ui.TableColumn, count int, cell func(int, int)) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/table.go",
+      "symbol": "Table",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/table-light.png",
+      "darkSnapshot": "build/baseui-review/table-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "tabs",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Tabs",
+          "file": "backend/ui/forma/navigation.go",
+          "signature": "func Tabs(c *ui.Context, selected *int, labels ...string) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Tabs",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/tabs-light.png",
+      "darkSnapshot": "build/baseui-review/tabs-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "task",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Task",
+          "file": "backend/ui/forma/ai_trace.go",
+          "signature": "func Task(c *ui.Context, title string, open *bool, steps []AIStep) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Task",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/task-light.png",
+      "darkSnapshot": "build/baseui-review/task-dark.png",
+      "remaining": [
+        "Rich/custom steps and platform live announcements"
+      ]
+    },
+    {
+      "id": "terminal",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Terminal",
+          "file": "backend/ui/forma/ai_trace.go",
+          "signature": "func Terminal(c *ui.Context, output TerminalOutput, open *bool) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Terminal",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/terminal-light.png",
+      "darkSnapshot": "build/baseui-review/terminal-dark.png",
+      "remaining": [
+        "Selectable text, incremental code highlighting and complete reference CodeBlock actions",
+        "Native accessibility and full visual-state acceptance; PTY/VT terminal plugin is a separate unimplemented capability"
+      ]
+    },
+    {
+      "id": "test-results",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:TestResults",
+          "file": "backend/ui/forma/ai_trace.go",
+          "signature": "func TestResults(c *ui.Context, s *TestResultsState, suites []AITestSuite) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "TestResults",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/test-results-light.png",
+      "darkSnapshot": "build/baseui-review/test-results-dark.png",
+      "remaining": [
+        "Virtualization, source navigation and rich selectable failure output"
+      ]
+    },
+    {
+      "id": "textarea",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Textarea",
+          "file": "backend/ui/forma/inputs.go",
+          "signature": "func Textarea(c *ui.Context, value *string, options ...InputOptions) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Textarea",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/textarea-light.png",
+      "darkSnapshot": "build/baseui-review/textarea-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "toast",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Toast",
+          "file": "backend/ui/forma/data.go",
+          "signature": "func Toast(c *ui.Context, t ui.Toast) string"
+        }
+      ],
+      "implementation": "omniui/baseui/toast.go",
+      "symbol": "Toast",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/toast-light.png",
+      "darkSnapshot": "build/baseui-review/toast-dark.png",
+      "remaining": [
+        "Appearance/position variants, keyboard dismissal policy and platform announcements"
+      ]
+    },
+    {
+      "id": "toggle",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Toggle",
+          "file": "backend/ui/forma/inputs.go",
+          "signature": "func Toggle(c *ui.Context, on *bool, label string) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Toggle",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/toggle-light.png",
+      "darkSnapshot": "build/baseui-review/toggle-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "toggle-group",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:ToggleGroup",
+          "file": "backend/ui/forma/inputs.go",
+          "signature": "func ToggleGroup(c *ui.Context, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "ToggleGroup",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/toggle-group-light.png",
+      "darkSnapshot": "build/baseui-review/toggle-group-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "tool",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Tool",
+          "file": "backend/ui/forma/ai_trace.go",
+          "signature": "func Tool(c *ui.Context, run ToolRun, open *bool) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Tool",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/tool-light.png",
+      "darkSnapshot": "build/baseui-review/tool-dark.png",
+      "remaining": [
+        "Syntax highlighting, selectable input/output, rich previews and platform live announcements"
+      ]
+    },
+    {
+      "id": "tooltip",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Tooltip",
+          "file": "backend/ui/forma/overlays.go",
+          "signature": "func Tooltip(c *ui.Context, anchor ui.Element, text string) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/hover.go",
+      "symbol": "Tooltip",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/tooltip-light.png",
+      "darkSnapshot": "build/baseui-review/tooltip-dark.png",
+      "remaining": [
+        "Complete reference behavior and visual-state mapping remains unverified; see shared gaps in README.md"
+      ]
+    },
+    {
+      "id": "trace",
+      "status": "partial",
+      "referenceEntrypoints": [
+        {
+          "id": "backend/ui/forma:Trace",
+          "file": "backend/ui/forma/messages.go",
+          "signature": "func Trace(c *ui.Context, title string, open *bool, build func()) ui.Element"
+        }
+      ],
+      "implementation": "omniui/baseui/workflow.go",
+      "symbol": "Trace",
+      "sharedInteractionSweep": "studio/internal/demos/sweep_test.go",
+      "lightSnapshot": "build/baseui-review/trace-light.png",
+      "darkSnapshot": "build/baseui-review/trace-dark.png",
+      "remaining": [
+        "Rich tree connectors, selectable content and platform accessibility"
+      ]
+    }
+  ]
+}

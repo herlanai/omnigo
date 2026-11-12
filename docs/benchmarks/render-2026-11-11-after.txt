@@ -1,0 +1,26 @@
+goos: darwin
+goarch: arm64
+pkg: omnigo.dev/omnigo/omniui/baseui
+cpu: Apple M2 Max
+BenchmarkControlsRender1x-12         	     184	   6591633 ns/op	 1242047 B/op	     125 allocs/op
+BenchmarkControlsRender1x-12         	     189	   6358552 ns/op	 1242016 B/op	     125 allocs/op
+BenchmarkControlsRender1x-12         	     188	   6343906 ns/op	 1242016 B/op	     125 allocs/op
+BenchmarkControlsRender1x-12         	     189	   6331343 ns/op	 1242015 B/op	     125 allocs/op
+BenchmarkControlsRender1x-12         	     188	   6363083 ns/op	 1242015 B/op	     125 allocs/op
+BenchmarkControlsRender2x-12         	      49	  24315390 ns/op	 4950219 B/op	     155 allocs/op
+BenchmarkControlsRender2x-12         	      48	  24422147 ns/op	 4950214 B/op	     155 allocs/op
+BenchmarkControlsRender2x-12         	      49	  24396596 ns/op	 4950214 B/op	     155 allocs/op
+BenchmarkControlsRender2x-12         	      50	  24329785 ns/op	 4950216 B/op	     155 allocs/op
+BenchmarkControlsRender2x-12         	      48	  24468191 ns/op	 4950215 B/op	     155 allocs/op
+BenchmarkControlsRenderReuse2x-12    	      48	  24333393 ns/op	   34948 B/op	     153 allocs/op
+BenchmarkControlsRenderReuse2x-12    	      49	  24285899 ns/op	   34948 B/op	     153 allocs/op
+BenchmarkControlsRenderReuse2x-12    	      49	  24207057 ns/op	   34948 B/op	     153 allocs/op
+BenchmarkControlsRenderReuse2x-12    	      48	  24304934 ns/op	   34948 B/op	     153 allocs/op
+BenchmarkControlsRenderReuse2x-12    	      49	  24355492 ns/op	   34948 B/op	     153 allocs/op
+BenchmarkMount100Controls-12         	   19184	     62603 ns/op	   81946 B/op	     312 allocs/op
+BenchmarkMount100Controls-12         	   19101	     62907 ns/op	   81946 B/op	     312 allocs/op
+BenchmarkMount100Controls-12         	   19272	     62372 ns/op	   81946 B/op	     312 allocs/op
+BenchmarkMount100Controls-12         	   19150	     62655 ns/op	   81946 B/op	     312 allocs/op
+BenchmarkMount100Controls-12         	   19250	     62671 ns/op	   81946 B/op	     312 allocs/op
+PASS
+ok  	omnigo.dev/omnigo/omniui/baseui	27.574s

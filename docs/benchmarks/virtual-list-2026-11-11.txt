@@ -1,0 +1,12 @@
+goos: darwin
+goarch: arm64
+pkg: omnigo.dev/omnigo/omniui/baseui
+cpu: Apple M2 Max
+BenchmarkVirtualListMount/1000-12         	   16221	     70631 ns/op	   72843 B/op	     300 allocs/op
+BenchmarkVirtualListMount/1000-12         	   16880	     70852 ns/op	   72844 B/op	     300 allocs/op
+BenchmarkVirtualListMount/1000-12         	   17008	     70766 ns/op	   72843 B/op	     300 allocs/op
+BenchmarkVirtualListMount/1000000-12      	   16837	     71057 ns/op	   72843 B/op	     300 allocs/op
+BenchmarkVirtualListMount/1000000-12      	   15661	     71201 ns/op	   72844 B/op	     300 allocs/op
+BenchmarkVirtualListMount/1000000-12      	   16905	     70871 ns/op	   72843 B/op	     300 allocs/op
+PASS
+ok  	omnigo.dev/omnigo/omniui/baseui	11.876s

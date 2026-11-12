@@ -16,3 +16,9 @@ func Assets() fs.FS {
 	}
 	return assets
 }
+
+//go:embed assets/app-icon.png
+var appIcon []byte
+
+// ApplicationIcon returns owned PNG bytes for explicit native Dock registration.
+func ApplicationIcon() []byte { return append([]byte(nil), appIcon...) }

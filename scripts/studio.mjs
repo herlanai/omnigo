@@ -30,12 +30,20 @@ async function compile(dest){await mkdir(path.dirname(dest),{recursive:true});aw
 async function build(){
  await prepare();await run(pnpm,['--filter','@omnigo/studio-ui','build']);
  await rm('studio/web/assets',{recursive:true,force:true});await cp('studio/ui/dist/client','studio/web',{recursive:true});
+ await run('go',['run','./studio/cmd/appicon','-out',path.join(output,'AppIcon.icns'),'-preview','studio/assets/app-icon.png'],{env:{...process.env,CGO_ENABLED:'0'}});
  await rm(bundle,{recursive:true,force:true});await compile(binary);
  await mkdir(path.join(contents,'Resources'),{recursive:true});
  await licenses(path.join(contents,'Resources/licenses'));
+ if(mac)await cp(path.join(output,'AppIcon.icns'),path.join(contents,'Resources/AppIcon.icns'));
+ const cefRuntime=path.join(root,'build/chromium-runtime/Omni Browser.app');
+ if(mac){try{await access(cefRuntime);await cp(cefRuntime,path.join(contents,'Resources/chromium/Omni Browser.app'),{recursive:true,verbatimSymlinks:true})}catch(error){if(error.code!=='ENOENT')throw error;console.log('CEF runtime not installed; run pnpm setup:chromium to include the browser.')}}
  await cp('studio/README.md',path.join(contents,'Resources/README.md'));
  await cp('studio/THIRD_PARTY_NOTICES.md',path.join(contents,'Resources/THIRD_PARTY_NOTICES.md'));
- if(mac)await writeFile(path.join(contents,'Info.plist'),`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>CFBundleExecutable</key><string>omnigo-studio</string><key>CFBundleIdentifier</key><string>dev.omnigo.studio</string><key>CFBundleName</key><string>Omni Studio</string><key>CFBundleDisplayName</key><string>Omni Studio</string><key>CFBundleVersion</key><string>1</string><key>CFBundleShortVersionString</key><string>0.1.0</string><key>CFBundlePackageType</key><string>APPL</string><key>NSHighResolutionCapable</key><true/></dict></plist>`);
+ if(mac)await writeFile(path.join(contents,'Info.plist'),`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>CFBundleExecutable</key><string>omnigo-studio</string><key>CFBundleIdentifier</key><string>dev.omnigo.studio</string><key>CFBundleName</key><string>Omni Studio</string><key>CFBundleDisplayName</key><string>Omni Studio</string><key>CFBundleVersion</key><string>2</string><key>CFBundleShortVersionString</key><string>0.1.0</string><key>CFBundleIconFile</key><string>AppIcon.icns</string><key>CFBundlePackageType</key><string>APPL</string><key>NSHighResolutionCapable</key><true/></dict></plist>`);
+ if(mac){
+  await run('codesign',['--force','--sign','-',bundle]);
+  await run('/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister',['-f',bundle]);
+ }
  console.log(`\nStudio built: ${bundle}\nRun with pnpm start. Native controls currently require macOS arm64.`);
 }
 try{

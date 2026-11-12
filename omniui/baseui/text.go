@@ -51,12 +51,13 @@ func (b *TextBuffer) restore(s textSnapshot) {
 		b.OnChange(b.text)
 	}
 }
-func (b *TextBuffer) Replace(text string) {
+func (b *TextBuffer) Replace(text string) { b.replace(text, b.Limit) }
+func (b *TextBuffer) replace(text string, limit int) {
 	r := []rune(b.text)
 	start, end := min(b.anchor, b.caret), max(b.anchor, b.caret)
 	insert := []rune(strings.ToValidUTF8(text, "�"))
-	if b.Limit > 0 {
-		insert = insert[:min(len(insert), max(0, b.Limit-(len(r)-(end-start))))]
+	if limit > 0 {
+		insert = insert[:min(len(insert), max(0, limit-(len(r)-(end-start))))]
 	}
 	next := string(r[:start]) + string(insert) + string(r[end:])
 	if next == b.text {

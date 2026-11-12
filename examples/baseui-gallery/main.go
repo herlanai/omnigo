@@ -1,5 +1,5 @@
 // The gallery is rendered entirely in Go. It writes offscreen PNGs; no browser
-// or native window is required. Native platform host integration is still pending.
+// or native window is required. Studio also has an experimental macOS host.
 package main
 
 import (
@@ -52,13 +52,14 @@ func view() *baseui.Element {
 	data := baseui.Column("data",
 		baseui.Card("table-card", baseui.Text("table/title", "03 / DATA & FEEDBACK"), baseui.Table("table", &baseui.TableState{Limit: 4}, []baseui.TableColumn{{ID: "name", Title: "Capability", Width: 150}, {ID: "runtime", Title: "Runtime", Width: 100}}, records{}, nil), baseui.Progress("progress", "Migration progress example", .42), baseui.Text("progress/label", "42% — illustrative progress value")),
 		baseui.CodeBlock("code", "app.go", "baseui.Button(\n  \"save\", \"Save\",\n  func() { save() },\n)", code, 8, nil),
-		baseui.Alert("notice", "Native foundation", "Layout, input and drawing in Go.\nPlatform windows are still pending."),
+		baseui.Alert("notice", "Native foundation", "Layout, input and drawing in Go.\nmacOS host: experimental."),
 	).Width(300).Gap(16)
 	return baseui.Column("root", baseui.Row("header", baseui.Text("brand", "OMNIGO  /  OMNIUI  /  BASEUI").Grow(1), baseui.Badge("header/badge", "PURE GO").Variant(baseui.Secondary)), baseui.Text("subtitle", "Unified controls • Go behavior • Shared theme • CPU rendering"), baseui.Separator("rule"), baseui.Row("columns", forms, navigation, data).Gap(20)).Padding(24).Gap(16)
 }
 
 func main() {
 	out := flag.String("out", "build/baseui-gallery", "PNG output directory")
+	scale := flag.Float64("scale", 1, "physical pixels per logical pixel")
 	flag.Parse()
 	if err := os.MkdirAll(*out, 0755); err != nil {
 		panic(err)
@@ -73,7 +74,7 @@ func main() {
 		}
 		s.Focus("name")
 		s.Advance(250 * time.Millisecond)
-		img, err := s.Render()
+		img, err := s.RenderScaled(*scale, nil)
 		if err != nil {
 			panic(err)
 		}

@@ -3,8 +3,18 @@ const read = async p => JSON.parse(await readFile(new URL('../'+p,import.meta.ur
 const reference = await read('migration/controls/reference.json');
 const status = await read('migration/controls/status.json');
 const baseline = await read('migration/reference.json');
+const plugins = await read('omniui/plugins/status.json');
+const advanced = await read('migration/controls/advanced.json');
 const entries = reference.catalog.map(c=>({...c,...status.controls.find(s=>s.id===c.id),kind:'control'}));
-for(const id of baseline.plugins) entries.push({id:`plugin/${id}`,group:'plugins',kind:'plugin',status:id==='loading'?'partial':'pending',implementation:id==='loading'?'omniui/baseui/loading/indicator.go':null,symbol:id==='loading'?'New':null});
+for (const entry of advanced.controls) entries.push({...entry,group:'advanced',kind:'control'});
+for(const id of baseline.plugins) {
+ const plugin = plugins.plugins.find(p=>p.id===id);
+ if (!plugin) throw new Error(`Missing plugin audit: ${id}`);
+ entries.push({...plugin,id:`plugin/${id}`,group:'plugins',kind:'plugin',description:`已实现：${plugin.implemented.join('；')}。尚缺：${plugin.remaining.join('；')}`});
+}
+
+entries.push({id:'plugin/omnibrowser',title:'OmniBrowser',group:'plugins',kind:'plugin',status:'partial',implementation:'omnibrowser',symbol:'Page',description:'参考 Obscura 的独立纯 Go 文档引擎：HTTP、Cookie、DOM 查询、JavaScript、交互、语义 HTML 截图与 CDP 子集。完整 CSS/Web API、Puppeteer/Playwright、隐身模式和 PDF 尚未实现。'});
+
 for(const [id,title,description] of [
  ['lifecycle','Application lifecycle','启动、取消、依赖排序与失败回滚。'],
  ['dispatch','UI dispatch','有界主线程队列、取消与背压。'],

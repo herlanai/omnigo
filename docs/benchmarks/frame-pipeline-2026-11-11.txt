@@ -1,0 +1,16 @@
+goos: darwin
+goarch: arm64
+pkg: omnigo.dev/omnigo/studio/internal/native
+cpu: Apple M2 Max
+BenchmarkFramePipeline/fresh-12         	      31	  37018293 ns/op	 5828390 B/op	      68 allocs/op
+BenchmarkFramePipeline/fresh-12         	      31	  37004371 ns/op	 5828370 B/op	      68 allocs/op
+BenchmarkFramePipeline/fresh-12         	      32	  36885159 ns/op	 5828370 B/op	      68 allocs/op
+BenchmarkFramePipeline/fresh-12         	      32	  37106960 ns/op	 5828381 B/op	      68 allocs/op
+BenchmarkFramePipeline/fresh-12         	      32	  37204978 ns/op	 5828373 B/op	      68 allocs/op
+BenchmarkFramePipeline/reuse-12         	      32	  36956592 ns/op	   20012 B/op	      35 allocs/op
+BenchmarkFramePipeline/reuse-12         	      32	  37140439 ns/op	   20012 B/op	      35 allocs/op
+BenchmarkFramePipeline/reuse-12         	      32	  37114979 ns/op	   20012 B/op	      35 allocs/op
+BenchmarkFramePipeline/reuse-12         	      31	  37031082 ns/op	   20012 B/op	      35 allocs/op
+BenchmarkFramePipeline/reuse-12         	      32	  37128510 ns/op	   20013 B/op	      35 allocs/op
+PASS
+ok  	omnigo.dev/omnigo/studio/internal/native	13.738s

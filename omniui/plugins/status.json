@@ -1,0 +1,336 @@
+{
+  "schema": 1,
+  "policy": "Partial means listed sub-capabilities only, never full plugin parity. Native availability is separate from compilation.",
+  "plugins": [
+    {
+      "id": "automation",
+      "status": "partial",
+      "implementation": "omniui/plugins/automation",
+      "symbol": "Listen",
+      "implemented": [
+        "Private Unix socket with bounded JSON-line requests",
+        "UI dispatch for snapshots, capture and input; explicit lifetime"
+      ],
+      "remaining": [
+        "Window enumeration, menu/page automation, settle protocol and CLI; native platform acceptance"
+      ],
+      "evidence": [
+        "omniui/plugins/automation/automation_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/automation",
+        "goFiles": 15
+      }
+    },
+    {
+      "id": "borderbeam",
+      "status": "partial",
+      "implementation": "omniui/plugins/borderbeam",
+      "symbol": "State.Box",
+      "implemented": [
+        "Five independently drawn border animation modes",
+        "Pause, reduced motion and child input passthrough"
+      ],
+      "remaining": [
+        "Reference color fields, palette controls, blur/glow and exact timing/geometry parity; visibility phase handling"
+      ],
+      "evidence": [
+        "omniui/plugins/borderbeam/borderbeam_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/borderbeam",
+        "goFiles": 9
+      }
+    },
+    {
+      "id": "chromium",
+      "status": "partial",
+      "implementation": "omniui/plugins/chromium",
+      "symbol": "Launch",
+      "implemented": [
+        "Direct MIT-licensed port of Golet Chromium Go APIs and native macOS/Windows host source; provenance retained",
+        "macOS CEF Alloy/Chrome browser, tabs, navigation, offline home, app mode, themes, profile/process lifecycle and sandbox packaging",
+        "Chrome extensions, private-pipe CDP and Evaluate, assistant snapshots/actions and origin-scoped user scripts",
+        "Studio CEF launch and optional bundled runtime; macOS native E2E verified"
+      ],
+      "remaining": [
+        "Windows native C++ build and device acceptance; Intel Mac device acceptance; Linux native host (also absent upstream)",
+        "Embedded CEF child view inside baseui layout; reference host is a standalone window",
+        "Distribution signing/notarization, account sync and proprietary codec/DRM guarantees are outside current coverage"
+      ],
+      "evidence": [
+        "omniui/plugins/chromium/browser_e2e_test.go",
+        "omniui/plugins/chromium/assistant/browser_e2e_test.go",
+        "omniui/plugins/chromium/PORT.md"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/chromium",
+        "goFiles": 30
+      }
+    },
+    {
+      "id": "dsh-go",
+      "status": "partial",
+      "implementation": "omniui/plugins/dsh-go",
+      "symbol": "New",
+      "implemented": [
+        "HTTP/SSE chat with tool-call deltas and usage",
+        "Cancellation, limits and redirect protection"
+      ],
+      "remaining": [
+        "Conversation orchestration, tool approval/execution, history, native panel and full adapter compatibility"
+      ],
+      "evidence": [
+        "omniui/plugins/dsh-go/chat_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/dsh-go",
+        "goFiles": 6
+      }
+    },
+    {
+      "id": "fetch",
+      "status": "partial",
+      "implementation": "omniui/plugins/fetch",
+      "symbol": "New",
+      "implemented": [
+        "Streaming HTTP with cancellation, redirects, policy and body limits",
+        "Cookie header filtering and explicit client lifetime"
+      ],
+      "remaining": [
+        "OmniWeb frontend streaming bridge, page lifecycle binding and browser-compatible TypeScript API"
+      ],
+      "evidence": [
+        "omniui/plugins/fetch/fetch_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/fetch",
+        "goFiles": 2
+      }
+    },
+    {
+      "id": "game",
+      "status": "partial",
+      "implementation": "omniui/plugins/game",
+      "symbol": "Loop.Advance",
+      "implemented": [
+        "Bounded fixed-step explicit clock, pause and interpolation",
+        "Camera coordinate transforms and integer pixel fit"
+      ],
+      "remaining": [
+        "Input edge accumulation, gamepad backends and complete native game View lifecycle"
+      ],
+      "evidence": [
+        "omniui/plugins/game/game_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/game",
+        "goFiles": 11
+      }
+    },
+    {
+      "id": "glass",
+      "status": "partial",
+      "implementation": "omniui/plugins/glass",
+      "symbol": "Box",
+      "implemented": [
+        "CPU backdrop snapshot, premultiplied blur, edge refraction and tint",
+        "Opaque fallback and child interaction"
+      ],
+      "remaining": [
+        "Pane merging, scroll-edge/masked blur, native macOS material, GPU effects and theme material slots"
+      ],
+      "evidence": [
+        "omniui/plugins/glass/glass_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/glass",
+        "goFiles": 23
+      }
+    },
+    {
+      "id": "loading",
+      "status": "partial",
+      "implementation": "omniui/baseui/loading",
+      "symbol": "New",
+      "implemented": [
+        "Seven independently drawn styles: Ring, Dots, Bars, Clock, Ripple, Orbit and Pulse",
+        "Explicit clock, pause and reduced motion; single omniui/baseui/loading package"
+      ],
+      "remaining": [
+        "Remaining reference catalog styles and exact geometry, palettes and keyframe parity"
+      ],
+      "evidence": [
+        "omniui/baseui/loading/indicator_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/loading",
+        "goFiles": 4
+      }
+    },
+    {
+      "id": "permissionflow",
+      "status": "partial",
+      "implementation": "omniui/plugins/permissionflow",
+      "symbol": "Check",
+      "implemented": [
+        "macOS Accessibility and Screen Recording checks",
+        "Explicit Screen Recording request; canceled requests do not prompt"
+      ],
+      "remaining": [
+        "Accessibility prompt and guided settings panel, microphone/camera and other permissions, Windows backend; platform acceptance"
+      ],
+      "evidence": [
+        "omniui/plugins/permissionflow/permission_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/permissionflow",
+        "goFiles": 7
+      }
+    },
+    {
+      "id": "scene3d",
+      "status": "partial",
+      "implementation": "omniui/plugins/scene3d",
+      "symbol": "Render",
+      "implemented": [
+        "Perspective CPU triangles, six frustum clipping planes and depth test",
+        "Camera validation and pixel/triangle budgets"
+      ],
+      "remaining": [
+        "Indexed immutable meshes, instances/transforms, lighting, OBJ, orbit input, reusable render buffers and full reference View"
+      ],
+      "evidence": [
+        "omniui/plugins/scene3d/scene_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/scene3d",
+        "goFiles": 8
+      }
+    },
+    {
+      "id": "sfsymbols",
+      "status": "partial",
+      "implementation": "omniui/plugins/sfsymbols",
+      "symbol": "Render",
+      "implemented": [
+        "macOS system symbol rasterization with point size/weight",
+        "Owned image output, main-thread enforcement and bounded decoding"
+      ],
+      "remaining": [
+        "Tint, rendering modes, symbol variants and full native UI composition; real AppKit render acceptance"
+      ],
+      "evidence": [
+        "omniui/plugins/sfsymbols/symbol_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/sfsymbols",
+        "goFiles": 9
+      }
+    },
+    {
+      "id": "sqlite",
+      "status": "partial",
+      "implementation": "omniui/plugins/sqlite",
+      "symbol": "Open",
+      "implemented": [
+        "Pure-Go SQLite execute/query with typed parameters and row limits",
+        "Atomic transactions, foreign keys, cancellation and explicit close"
+      ],
+      "remaining": [
+        "OmniWeb frontend client/bridge, complete reference options and database resource policy; equivalent performance benchmarks"
+      ],
+      "evidence": [
+        "omniui/plugins/sqlite/sqlite_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/sqlite",
+        "goFiles": 12
+      }
+    },
+    {
+      "id": "terminal",
+      "status": "partial",
+      "implementation": "omniui/plugins/terminal",
+      "symbol": "Start",
+      "implemented": [
+        "Real macOS/Linux PTY child process, IO, resize, cancel and exit cleanup",
+        "Bounded VT screen: chunked UTF-8, cursor movement, erase, SGR 16/256/RGB colors, alternate screen and resize",
+        "Native monospace viewport with committed text and basic key input"
+      ],
+      "remaining": [
+        "Wide/combining characters, full VT modes and query responses, scroll regions and reflow",
+        "Selection, search, scrollback viewport, IME preedit, mouse reports and advanced key modes",
+        "Windows ConPTY and native interactive shell acceptance"
+      ],
+      "evidence": [
+        "omniui/plugins/terminal/pty_unix_test.go",
+        "omniui/plugins/terminal/screen_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/terminal",
+        "goFiles": 63
+      }
+    },
+    {
+      "id": "updater",
+      "status": "partial",
+      "implementation": "omniui/plugins/updater",
+      "symbol": "Verify",
+      "implemented": [
+        "Ed25519 manifest verification and bounded hash-checked artifact staging",
+        "Cancellation, progress and failure cleanup"
+      ],
+      "remaining": [
+        "Release discovery, version policies/preferences, native update UI/localization, install/rollback/relaunch and platform packaging"
+      ],
+      "evidence": [
+        "omniui/plugins/updater/download_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/updater",
+        "goFiles": 16
+      }
+    },
+    {
+      "id": "watch",
+      "status": "partial",
+      "implementation": "omniui/plugins/watch",
+      "symbol": "Open",
+      "implemented": [
+        "Root-contained polling snapshots with create/write/remove/rename hints",
+        "Cancellation, recursion limits, symlink isolation and close"
+      ],
+      "remaining": [
+        "Native event backends, debounce, file roots, named-root quotas and OmniWeb bridge; polling can miss transient changes"
+      ],
+      "evidence": [
+        "omniui/plugins/watch/watch_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/watch",
+        "goFiles": 2
+      }
+    },
+    {
+      "id": "websocket",
+      "status": "partial",
+      "implementation": "omniui/plugins/websocket",
+      "symbol": "Dial",
+      "implemented": [
+        "Real text/binary WebSocket IO, subprotocol/header negotiation",
+        "Message limits, streaming backpressure and lifetime cancellation"
+      ],
+      "remaining": [
+        "Browser-style asynchronous ordered send queue, page lifetime/OmniWeb frontend bridge and complete bufferedAmount semantics"
+      ],
+      "evidence": [
+        "omniui/plugins/websocket/websocket_test.go"
+      ],
+      "reference": {
+        "directory": "/Users/bittime/dev/golet/backend/plugins/websocket",
+        "goFiles": 4
+      }
+    }
+  ]
+}

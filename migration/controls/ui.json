@@ -1,0 +1,914 @@
+{
+  "schema": 1,
+  "policy": "Complete constructor inventory is separate from parity. Existing implementations are reused, never counted complete by name. Subpackage capabilities remain in reference.json and advanced.json.",
+  "constructors": [
+    {
+      "name": "Accordion",
+      "signature": "func Accordion(c *Context, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Accordion",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "AccordionItem",
+      "signature": "func AccordionItem(c *Context, title string, open *bool, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Accordion",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Autocomplete",
+      "signature": "func Autocomplete(c *Context, value *string, suggestions []string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/select.go",
+      "symbol": "Combobox",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Avatar",
+      "signature": "func Avatar(c *Context, name string, image *Bitmap) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/avatar.go",
+      "symbol": "Avatar",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "BackButton",
+      "signature": "func BackButton(c *Context, r *Router) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Button",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Badge",
+      "signature": "func Badge(c *Context, text string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Badge",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Box",
+      "signature": "func Box(c *Context) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Column",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Breadcrumbs",
+      "signature": "func Breadcrumbs(c *Context, items []string, chosen *int) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/navigation.go",
+      "symbol": "Breadcrumb",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Button",
+      "signature": "func Button(c *Context, label string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Button",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "ButtonBase",
+      "signature": "func ButtonBase(c *Context) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Button",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Calendar",
+      "signature": "func Calendar(c *Context, date *time.Time) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/calendar.go",
+      "symbol": "Calendar",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Checkbox",
+      "signature": "func Checkbox(c *Context, checked *bool, label string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Checkbox",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "CheckboxBase",
+      "signature": "func CheckboxBase(c *Context, checked *bool) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Checkbox",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "CheckboxGroup",
+      "signature": "func CheckboxGroup(c *Context, label string, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/content_controls.go",
+      "symbol": "CheckboxGroup",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "CheckboxState",
+      "signature": "func CheckboxState(c *Context, state *CheckState, label string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "MixedCheckbox",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "CheckboxStateBase",
+      "signature": "func CheckboxStateBase(c *Context, state *CheckState) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "MixedCheckbox",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Collapsible",
+      "signature": "func Collapsible(c *Context, label string, open *bool, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Collapsible",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "ColorPicker",
+      "signature": "func ColorPicker(c *Context, color *Color) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/color_picker.go",
+      "symbol": "ColorPicker",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "ColorWell",
+      "signature": "func ColorWell(c *Context, color *Color) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/color_picker.go",
+      "symbol": "ColorWell",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Column",
+      "signature": "func Column(c *Context) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Column",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Combobox",
+      "signature": "func Combobox(c *Context, selected *string, options []string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/select.go",
+      "symbol": "Combobox",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "DateInput",
+      "signature": "func DateInput(c *Context, date *time.Time) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/value_controls.go",
+      "symbol": "DateInput",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "DecimalInput",
+      "signature": "func DecimalInput(c *Context, value *string, lo string, hi string, step string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/decimal_input.go",
+      "symbol": "DecimalInput",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "DialogBase",
+      "signature": "func DialogBase(c *Context, open *bool, fn func(backdrop Element, panel Element)) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Dialog",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Divider",
+      "signature": "func Divider(c *Context) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Separator",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "EditableText",
+      "signature": "func EditableText(c *Context, value *string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/content_controls.go",
+      "symbol": "EditableText",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Field",
+      "signature": "func Field(c *Context, label string, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Field",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Fieldset",
+      "signature": "func Fieldset(c *Context, legend string, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Field",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "FindBar",
+      "signature": "func FindBar(c *Context, open *bool, query *string, matches int, current *int) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/content_controls.go",
+      "symbol": "FindBar",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Form",
+      "signature": "func Form(c *Context, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Form",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "ForwardButton",
+      "signature": "func ForwardButton(c *Context, r *Router) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Button",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Grid",
+      "signature": "func Grid(c *Context) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/content_controls.go",
+      "symbol": "Grid",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "GridView",
+      "signature": "func GridView(c *Context, s *GridState, n int, minWidth float32, height float32, item func(i int)) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/virtual_view.go",
+      "symbol": "GridView",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Icon",
+      "signature": "func Icon(c *Context, s *SVG) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/icon.go",
+      "symbol": "Icon",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Image",
+      "signature": "func Image(c *Context, src ImageSource) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/content_controls.go",
+      "symbol": "Image",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Link",
+      "signature": "func Link(c *Context, label string, url string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Button",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "MenuButton",
+      "signature": "func MenuButton(c *Context, label string, build func(m *Menu)) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/menu.go",
+      "symbol": "DropdownMenu",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Meter",
+      "signature": "func Meter(c *Context, value float64, lo float64, hi float64, levels *MeterLevels) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Meter",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Modal",
+      "signature": "func Modal(c *Context, open *bool, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Dialog",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "NumberInput",
+      "signature": "func NumberInput(c *Context, value *float64, lo float64, hi float64, step float64) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/value_controls.go",
+      "symbol": "NumberInput",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Outline",
+      "signature": "func Outline[K comparable](c *Context, s *OutlineState[K], roots []K, children func(arg0 K) []K, row func(item K)) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/outline.go",
+      "symbol": "TreeOutline",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "OutlineTable",
+      "signature": "func OutlineTable[K comparable](c *Context, s *OutlineState[K], columns []TableColumn, roots []K, children func(arg0 K) []K, cell func(item K, col int)) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/outline.go",
+      "symbol": "OutlineTable",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Popover",
+      "signature": "func Popover(c *Context, anchor Element, open *bool, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/overlay.go",
+      "symbol": "Popover",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "PopoverBase",
+      "signature": "func PopoverBase(c *Context, anchor Element, open *bool, fn func(panel Element)) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/overlay.go",
+      "symbol": "Popover",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "PopoverMenuButton",
+      "signature": "func PopoverMenuButton(c *Context, label string, build func(m *Menu), options ...PopoverMenuButtonOptions) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/menu.go",
+      "symbol": "DropdownMenu",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "PrimaryButton",
+      "signature": "func PrimaryButton(c *Context, label string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Button",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Progress",
+      "signature": "func Progress(c *Context, value float64) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Progress",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Radio",
+      "signature": "func Radio[T comparable](c *Context, selected *T, value T, label string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Radio",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "RadioBase",
+      "signature": "func RadioBase[T comparable](c *Context, selected *T, value T) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Radio",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "RadioGroup",
+      "signature": "func RadioGroup(c *Context, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "RadioGroup",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "RangeSlider",
+      "signature": "func RangeSlider(c *Context, low *float64, high *float64, lo float64, hi float64, step float64) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/range_slider.go",
+      "symbol": "RangeSlider",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Rating",
+      "signature": "func Rating(c *Context, value *int, max int) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/choice_controls.go",
+      "symbol": "Rating",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "RichText",
+      "signature": "func RichText(c *Context, spans ...Span) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/rich_text.go",
+      "symbol": "RichText",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Row",
+      "signature": "func Row(c *Context) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Row",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Scroll",
+      "signature": "func Scroll(c *Context) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/scroll.go",
+      "symbol": "ScrollArea",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "ScrollBoth",
+      "signature": "func ScrollBoth(c *Context) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/scroll.go",
+      "symbol": "ScrollArea",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "ScrollHorizontal",
+      "signature": "func ScrollHorizontal(c *Context) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/scroll.go",
+      "symbol": "ScrollArea",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "SearchField",
+      "signature": "func SearchField(c *Context, query *string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/value_controls.go",
+      "symbol": "SearchField",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Segmented",
+      "signature": "func Segmented(c *Context, selected *int, labels ...string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Tabs",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Select",
+      "signature": "func Select(c *Context, selected *string, options []string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/select.go",
+      "symbol": "Select",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Sidebar",
+      "signature": "func Sidebar(c *Context, selected *string, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/navigation.go",
+      "symbol": "Sidebar",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "SidebarItem",
+      "signature": "func SidebarItem(c *Context, id string, icon *SVG, label string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/navigation.go",
+      "symbol": "Sidebar",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "SidebarSection",
+      "signature": "func SidebarSection(c *Context, title string, open *bool, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/navigation.go",
+      "symbol": "Sidebar",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Slider",
+      "signature": "func Slider(c *Context, value *float64, lo float64, hi float64) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Slider",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "SliderBase",
+      "signature": "func SliderBase(c *Context, value *float64, lo float64, hi float64) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Slider",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Spacer",
+      "signature": "func Spacer(c *Context) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Column",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Spinner",
+      "signature": "func Spinner(c *Context) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Spinner",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Split",
+      "signature": "func Split(c *Context, size *float32, first func(), second func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "Resizable",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "SplitPercent",
+      "signature": "func SplitPercent(c *Context, p *float32, first func(), second func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "Resizable",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "SplitVertical",
+      "signature": "func SplitVertical(c *Context, size *float32, first func(), second func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "Resizable",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "SplitVerticalPercent",
+      "signature": "func SplitVerticalPercent(c *Context, p *float32, first func(), second func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/layout_controls.go",
+      "symbol": "Resizable",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "StepSlider",
+      "signature": "func StepSlider(c *Context, value *float64, lo float64, hi float64, step float64) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Slider",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Stepper",
+      "signature": "func Stepper(c *Context, value *float64, lo float64, hi float64, step float64) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Stepper",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Switch",
+      "signature": "func Switch(c *Context, on *bool) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Switch",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "SwitchBase",
+      "signature": "func SwitchBase(c *Context, on *bool) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Switch",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Table",
+      "signature": "func Table(c *Context, s *ListState, columns []TableColumn, n int, cell func(row int, col int)) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/table.go",
+      "symbol": "Table",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Tabs",
+      "signature": "func Tabs(c *Context, selected *int, labels ...string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "Tabs",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Text",
+      "signature": "func Text(c *Context, s string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Text",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "TextArea",
+      "signature": "func TextArea(c *Context, value *string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Textarea",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "TextAreaBase",
+      "signature": "func TextAreaBase(c *Context, value *string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Textarea",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "TextAreaBuffer",
+      "signature": "func TextAreaBuffer(c *Context, value *TextBuffer) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Textarea",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "TextAreaBufferBase",
+      "signature": "func TextAreaBufferBase(c *Context, value *TextBuffer) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Textarea",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "TextInput",
+      "signature": "func TextInput(c *Context, value *string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Input",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "TextInputBase",
+      "signature": "func TextInputBase(c *Context, value *string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Input",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "TextInputBuffer",
+      "signature": "func TextInputBuffer(c *Context, value *TextBuffer) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Input",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "TextInputBufferBase",
+      "signature": "func TextInputBufferBase(c *Context, value *TextBuffer) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Input",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Textf",
+      "signature": "func Textf(c *Context, format string, args ...any) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Text",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Themed",
+      "signature": "func Themed(c *Context, t *Theme) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "NewTheme",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "TimeInput",
+      "signature": "func TimeInput(c *Context, tm *time.Time) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/value_controls.go",
+      "symbol": "TimeInput",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "ToastViewportBase",
+      "signature": "func ToastViewportBase(c *Context, fn func(viewport Element, toasts []Toast)) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/toast.go",
+      "symbol": "Sonner",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Toggle",
+      "signature": "func Toggle(c *Context, on *bool, label string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Toggle",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "ToggleBase",
+      "signature": "func ToggleBase(c *Context, on *bool) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/element.go",
+      "symbol": "Toggle",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "ToggleGroup",
+      "signature": "func ToggleGroup(c *Context, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/compose.go",
+      "symbol": "ToggleGroup",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "TokenField",
+      "signature": "func TokenField(c *Context, tokens *[]string, suggestions []string) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/choice_controls.go",
+      "symbol": "TokenField",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Toolbar",
+      "signature": "func Toolbar(c *Context, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/choice_controls.go",
+      "symbol": "Toolbar",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "TooltipBase",
+      "signature": "func TooltipBase(c *Context, anchor Element, fn func(tip Element)) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/hover.go",
+      "symbol": "Tooltip",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Tree",
+      "signature": "func Tree(c *Context, fn func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/file_tree.go",
+      "symbol": "FileTree",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "TreeItem",
+      "signature": "func TreeItem(c *Context, label string, open *bool, children func()) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/file_tree.go",
+      "symbol": "FileTree",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "Video",
+      "signature": "func Video(c *Context, p *VideoPlayer) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/video.go",
+      "symbol": "Video",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    },
+    {
+      "name": "WebView",
+      "signature": "func WebView(c *Context, v NativeWebView) Element",
+      "reference": "backend/ui/api_gen.go",
+      "implementation": "omniui/baseui/webview.go",
+      "symbol": "WebView",
+      "status": "partial",
+      "evidence": "Name/adapter mapping only; consult individual capability audit and tests."
+    }
+  ],
+  "subpackages": [
+    "backend/ui/chart",
+    "backend/ui/editor",
+    "backend/ui/forma",
+    "backend/ui/markdown",
+    "backend/ui/richtext",
+    "backend/ui/shader"
+  ]
+}

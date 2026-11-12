@@ -15,7 +15,9 @@
     "start": "node scripts/studio.mjs start",
     "package": "node scripts/studio.mjs package",
     "studio:catalog": "node scripts/studio-catalog.mjs",
-    "check:studio": "go test ./studio/... && pnpm --filter @omnigo/studio-ui typecheck"
+    "check:studio": "go test ./studio/... && pnpm --filter @omnigo/studio-ui typecheck",
+    "setup:chromium": "node scripts/chromium.mjs",
+    "dev:browser": "go run ./examples/chromium"
   },
   "packageManager": "pnpm@10.33.0"
 }

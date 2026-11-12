@@ -2,6 +2,7 @@ package demos
 
 import (
 	ui "omnigo.dev/omnigo/omniui/baseui"
+	"strings"
 	"testing"
 )
 
@@ -79,5 +80,19 @@ func TestDialogActuallyOpens(t *testing.T) {
 	}
 	if _, ok := s.Bounds("modal/name"); !ok {
 		t.Fatal("dialog body absent")
+	}
+}
+
+func TestTerminalSampleColumns(t *testing.T) {
+	lines := strings.Split(terminalSampleOutput(), "\n")
+	statusColumn := strings.Index(lines[0], "STATUS")
+	durationColumn := strings.Index(lines[0], "DURATION")
+	for _, line := range lines[1:3] {
+		if strings.Index(line, "ok") != statusColumn {
+			t.Fatal("sample status column is not aligned")
+		}
+		if strings.Index(line, "0.") != durationColumn {
+			t.Fatal("sample duration column is not aligned")
+		}
 	}
 }

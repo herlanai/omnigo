@@ -31,3 +31,42 @@ go test -run '^$' -bench . -benchmem -count 5 ./omniui ./runtime/event
 | 兼容性 | 各 OS/架构、DPI、IME、无障碍、GPU/软件路径与安装升级实测 |
 
 当前测试使用确定性同步验证依赖失败、清理、异常、背压、取消和更新协议，另有 RPC 与树差分的模糊测试。它们是建立质量门槛的起点，不是整套桌面框架稳定性的证明。
+
+## 2026-11-11：CPU 光栅化与原生窗口帧缓冲
+
+环境：Apple M2 Max、darwin/arm64、Go 1.26.0，`CGO_ENABLED=0`，非 race 构建，每组 5 个样本，下表为中位数。基准只与本仓库优化前实现比较，不是与 golet 的对照。
+
+CPU profile 在固定控件负载下显示 `Painter.rasterShade` 累计占采样的 91.19%。本次将循环边界和纵向剪裁计算移出像素内循环，避免为完全不可见像素计算颜色，给完全不透明像素直接赋值，并在圆角之外使用轴向距离代替 hypot。抗锯齿、半透明混色和分数剪裁规则保持一致。
+
+负载：640×480 DIP，8 行，每行 Label / Button / Badge，外层 Card。布局在计时之前完成，只测绘制；原有 RenderScaled 仍返回独立快照。
+
+| 测量 | 优化前 | 优化后 | 说明 |
+| --- | ---: | ---: | --- |
+| 1× 渲染 | 10.735 ms | 6.359 ms | 耗时降低约 40.8% |
+| 2× 渲染 | 42.106 ms | 24.397 ms | 耗时降低约 42.1% |
+| 2× 每帧分配，独立快照 | 4,950,218 B | 4,950,215 B | 保留快照所有权，分配基本不变 |
+| 2× 每帧分配，调用方复用帧 | 4,950,218 B | 34,948 B | 新 RenderScaledInto 路径，降低约 99.3% |
+| Mount 100 个文本控件 | 63.247 µs / 81,946 B | 62.655 µs / 81,946 B | 未优化此路径，不将微小波动视为提升 |
+
+Studio 原生窗口使用共享的单个 RGBA 帧、PNG 输出 buffer 和 PNG encoder buffer；多个窗口不会各自保留一套 Go scratch buffer。DPI/尺寸变化时替换帧，最后一个演示窗口关闭时释放全部 scratch 引用。NSData 同步复制编码数据后才允许复用，不改变 Render/RenderScaled 的独立图像所有权。
+
+另一个渲染加 PNG 编码负载（640×480 DIP、2×、Card / Heading / Button）在同一优化后绘制实现上比较临时分配与复用：每帧分配中位数 **5,828,373 B → 20,012 B**，分配次数 **68 → 35**；耗时 **37.018 ms → 37.115 ms**，没有可证明的编码性能提升。这个比较隔离了 buffer 复用的影响，不是完整优化前后的帧管线耗时对比。
+
+复用会保留一帧和编码工作区以减少分配与 GC 压力，**每帧分配降低不等于进程 RSS 同比例降低**。本批没有测量 AppKit 上传/显示、应用启动、空闲 CPU、长期 RSS 或端到端输入延迟，仍需原生设备场景验证。绘制按需运行策略不变。
+
+验证：确定性随机几何逐像素对照旧光栅器，覆盖 1/1.25/2/3×、透明度、圆角边框和分数剪裁；验证帧重用清屏、快照独立、无效目标拒绝与关闭释放；按钮、卡片、输入框、树形表格的 8 张 2× 明暗 PNG 与优化前字节一致。
+
+复现与原始记录：
+
+```sh
+CGO_ENABLED=0 go test ./omniui/baseui -run '^$' -bench 'BenchmarkControlsRender|BenchmarkMount100Controls' -benchmem -count 5
+CGO_ENABLED=0 go test ./studio/internal/native -run '^$' -bench BenchmarkFramePipeline -benchmem -count 5
+```
+
+- [优化前](benchmarks/render-2026-11-11-before.txt)
+- [优化后及复用路径](benchmarks/render-2026-11-11-after.txt)
+- [原生帧 PNG 管线](benchmarks/frame-pipeline-2026-11-11.txt)
+
+## 虚拟列表新增实现的规模检查
+
+`BenchmarkVirtualListMount` 包含 VirtualList 构建与 Surface.Mount，640×480 Surface、240 DIP 视口、48 DIP 行高、overscan=2，每个可见项包含选择按钮与文本。同一机器 Go 1.26.0 / Apple M2 Max / darwin arm64、CGO_ENABLED=0，3 次采样中位数：1,000 项 **70.766 µs / 72,843 B / 300 allocs**；1,000,000 项 **71.057 µs / 72,843 B / 300 allocs**。这说明该固定视口没有随总行数构建全部元素；不代表真实数据获取、可变行高或像素绘制性能。原始输出见 [虚拟列表记录](benchmarks/virtual-list-2026-11-11.txt)。

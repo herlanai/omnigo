@@ -24,22 +24,22 @@ func validateOptions(options []Option) {
 
 func Field(id, label string, control *Element, description, errorText string) *Element {
 	control.Label(label).Description(description).Invalid(errorText != "")
-	children := []*Element{Text(id+"/label", label), control}
+	children := []*Element{Label(id+"/label", label), control}
 	if description != "" {
-		children = append(children, Text(id+"/description", description))
+		children = append(children, Text(id+"/description", description).Role("note"))
 	}
 	if errorText != "" {
 		errorLabel := Text(id+"/error", errorText)
 		errorLabel.role = "alert"
 		children = append(children, errorLabel)
 	}
-	e := Column(id, children...)
+	e := Column(id, children...).Gap(8)
 	e.role = "group"
 	e.label = label
 	return e
 }
 func Form(id string, children ...*Element) *Element {
-	e := Column(id, children...)
+	e := Column(id, children...).Gap(24)
 	e.role = "form"
 	return e
 }
@@ -54,11 +54,26 @@ func InputGroup(id string, prefix, input, suffix *Element) *Element {
 	if prefix != nil {
 		children = append(children, prefix)
 	}
-	children = append(children, input.Grow(1))
+	if input == nil {
+		panic("baseui: nil grouped input")
+	}
+	clone := *input
+	clone.grow = 1
+	clone.groupedInput = true
+	if clone.kind == InputKind && clone.height == 0 {
+		clone.height = 34
+	}
+	children = append(children, &clone)
 	if suffix != nil {
 		children = append(children, suffix)
 	}
-	return Row(id, children...).Gap(4)
+	e := Row(id, children...).Gap(6).Role("group")
+	e.inputGroup = true
+	e.centerItems = true
+	e.paddingX = 12
+	e.minHeight = 36
+	e.invalid = clone.invalid
+	return e
 }
 
 func nextOption(options []Option, current int, delta int) int {
@@ -87,9 +102,19 @@ func selectionRow(id, label, value string, options []Option, change func(string)
 			child = Button(id+"/"+o.ID, o.Label, activate).Variant(Ghost)
 			child.selected = o.ID == value
 			child.role = "tab"
+			child.Height(30).FontSize(14).FontWeight(500).CornerRadius(12)
+			child.controlPadding = 8
 		}
+		child.focusGroup = id
 		child.Disabled(o.Disabled).OnKey(func(ev KeyEvent) bool {
 			index := -1
+			if ev.RTL {
+				if ev.Key == "Right" {
+					ev.Key = "Left"
+				} else if ev.Key == "Left" {
+					ev.Key = "Right"
+				}
+			}
 			switch ev.Key {
 			case "Left", "Up":
 				index = nextOption(options, i, -1)
@@ -119,6 +144,8 @@ func selectionRow(id, label, value string, options []Option, change func(string)
 	e.role = "tablist"
 	if radio {
 		e.role = "radiogroup"
+	} else {
+		e.Padding(3).Gap(4)
 	}
 	return e
 }
@@ -152,7 +179,9 @@ func Collapsible(id, title string, open bool, change func(bool), children ...*El
 			change(!open)
 		}
 	}).Variant(Ghost)
-	trigger.selected = open
+	trigger.alignStart = true
+	trigger.expanded = open
+	trigger.controls = id + "/content"
 	trigger.description = "expands " + id + "/content"
 	body := Column(id+"/content", children...).Padding(8).Hidden(!open)
 	return Column(id, trigger, body).Gap(4)
@@ -185,31 +214,39 @@ func Accordion(id string, items []AccordionItem, open map[string]bool, multiple 
 }
 
 func Dialog(id, title string, open bool, close func(), children ...*Element) *Element {
-	header := Row(id+"/header", Text(id+"/title", title).Grow(1), Button(id+"/close", "Close", close).Variant(Ghost))
-	e := Card(id, append([]*Element{header}, children...)...).Width(440).Hidden(!open)
+	header := Row(id+"/header", Heading(id+"/title", title, 3).Grow(1), Button(id+"/close", "Close", close).Variant(Ghost))
+	e := Card(id, append([]*Element{header}, children...)...).Padding(24).Gap(16).Width(440).Hidden(!open)
 	e.kind = ModalKind
 	e.role = "dialog"
 	e.label = title
 	e.activate = close
+	e.dismissOutside = true
 	return e
 }
 func AlertDialog(id, title, message string, open bool, cancel, confirm func()) *Element {
 	e := Dialog(id, title, open, cancel, Text(id+"/message", message), Row(id+"/actions", Button(id+"/cancel", "Cancel", cancel).Variant(Outline), Button(id+"/confirm", "Confirm", confirm)))
 	e.role = "alertdialog"
+	e.dismissOutside = false
+	e.autoFocus = id + "/cancel"
 	return e
 }
-func Alert(id, title, message string) *Element {
-	e := Card(id, Text(id+"/title", title), Text(id+"/message", message))
+func Alert(id, title, message string, destructive ...bool) *Element {
+	heading, body := Label(id+"/title", title), paragraph(id+"/message", message).FontSize(14)
+	if len(destructive) > 0 && destructive[0] {
+		heading.Role("alert")
+		body.Role("alert")
+	}
+	e := Card(id, heading, body).Padding(16).Gap(4)
 	e.role = "alert"
 	e.label = title
 	return e
 }
 func Empty(id, title, description string, actions ...*Element) *Element {
-	children := []*Element{Text(id+"/title", title), Text(id+"/description", description)}
+	children := []*Element{Heading(id+"/title", title, 3), Text(id+"/description", description).Role("note").Wrap(true)}
 	children = append(children, actions...)
 	return Card(id, children...)
 }
-func Kbd(id, text string) *Element { return Badge(id, text).Variant(Secondary) }
+func Kbd(id, text string) *Element { return Badge(id, text).Variant(Secondary).CornerRadius(5) }
 
 func Pagination(id string, page, count int, change func(int)) *Element {
 	if count < 1 || page < 1 || page > count {
@@ -250,43 +287,12 @@ func Stepper(id, label string, value, min, max, step float64, change func(float6
 	return Field(id, label, Row(id+"/control", Button(id+"/decrease", "-", update(value-step)).Disabled(value <= min).Variant(Outline), Text(id+"/value", strconv.FormatFloat(value, 'f', -1, 64)).Grow(1), Button(id+"/increase", "+", update(value+step)).Disabled(value >= max).Variant(Outline)), "", "")
 }
 
-// SelectState uses Go data only. This initial selection presentation expands
-// inline; anchored popup placement and native platform menu integration are pending.
-type SelectState struct {
-	Value string
-	Open  bool
-}
-
-func Select(id, label string, state *SelectState, options []Option) *Element {
-	if state == nil {
-		panic("baseui: nil selection state")
-	}
-	validateOptions(options)
-	shown := "Select..."
-	for _, o := range options {
-		if o.ID == state.Value {
-			shown = o.Label
-		}
-	}
-	trigger := Button(id+"/trigger", shown, func() { state.Open = !state.Open }).Label(label + ": " + shown).Variant(Outline)
-	trigger.role = "combobox"
-	trigger.selected = state.Open
-	children := []*Element{trigger}
-	if state.Open {
-		for _, o := range options {
-			o := o
-			b := Button(id+"/option/"+o.ID, o.Label, func() { state.Value = o.ID; state.Open = false }).Variant(Ghost).Disabled(o.Disabled)
-			b.role = "option"
-			b.selected = o.ID == state.Value
-			children = append(children, b)
-		}
-	}
-	return Column(id, children...).Gap(2)
-}
-
 // CodeBlock preserves source bytes, blank lines and tabs in CopyText. Syntax
-// shaping, selection, scrolling and incremental highlighting are not yet provided.
-type CodeBlockState struct{ Expanded bool }
+// shaping, selection and incremental highlighting are not yet provided.
+type CodeBlockState struct {
+	Expanded bool
+	Scroll   ScrollState
+}
 
 func CodeBlock(id, title, source string, state *CodeBlockState, maxLines int, copyText func(string)) *Element {
 	if state == nil {
@@ -297,9 +303,9 @@ func CodeBlock(id, title, source string, state *CodeBlockState, maxLines int, co
 	if maxLines > 0 && !state.Expanded && len(lines) > maxLines {
 		shown = strings.Join(lines[:maxLines], "\n") + "\n..."
 	}
-	controls := []*Element{Text(id+"/title", title).Grow(1)}
+	controls := []*Element{Text(id+"/title", title).FontSize(13).FontWeight(600).Grow(1)}
 	if copyText != nil {
-		controls = append(controls, Button(id+"/copy", "Copy", func() { copyText(source) }).Variant(Ghost))
+		controls = append(controls, Button(id+"/copy", "Copy", func() { copyText(source) }).Variant(Ghost).Size(ControlXS))
 	}
 	if maxLines > 0 && len(lines) > maxLines {
 		label := "Expand"
@@ -308,7 +314,9 @@ func CodeBlock(id, title, source string, state *CodeBlockState, maxLines int, co
 		}
 		controls = append(controls, Button(id+"/expand", label, func() { state.Expanded = !state.Expanded }).Variant(Ghost))
 	}
-	return Card(id, Row(id+"/header", controls...), Text(id+"/source", shown))
+	body := codeText(id+"/source", shown, false)
+	viewport := ScrollArea(id+"/viewport", &state.Scroll, body).HorizontalScroll(true).Height(min(320, body.height+10))
+	return Card(id, Row(id+"/header", controls...), viewport)
 }
 
 type CarouselState struct{ Index int }
@@ -331,3 +339,22 @@ func Meter(id, label string, value, min, max float64) *Element {
 	e.role = "meter"
 	return e
 }
+
+func inputTextInset(e *Element) float64 {
+	if e.codeRows != nil {
+		return 52
+	}
+	if e.groupedInput {
+		return 0
+	}
+	return 12
+}
+
+// Card sections share the reference's 24 DIP outer inset and explicit hierarchy.
+func CardHeader(id string, children ...*Element) *Element { return Column(id, children...).Gap(8) }
+func CardTitle(id, title string) *Element                 { return Text(id, title).FontSize(16).FontWeight(500) }
+func CardDescription(id, text string) *Element {
+	return Text(id, text).FontSize(14).Muted(true).Wrap(true)
+}
+func CardContent(id string, children ...*Element) *Element { return Column(id, children...).Gap(16) }
+func CardFooter(id string, children ...*Element) *Element  { return Row(id, children...).Gap(8) }

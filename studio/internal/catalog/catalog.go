@@ -32,8 +32,12 @@ func Entries() []Entry {
 		if e.Title == "" {
 			e.Title = strings.ReplaceAll(strings.TrimPrefix(e.ID, "plugin/"), "-", " ")
 		}
-		id := strings.TrimPrefix(e.ID, "plugin/")
-		if demos.Supported(id) {
+		id := e.ID
+		// Plugin demos must be explicitly mapped: equal names are not equal capabilities.
+		if e.Kind == "plugin" && e.ID == "plugin/loading" {
+			id = "loading"
+		}
+		if demos.Supported(id) || id == "plugin/chromium" || id == "web-view" {
 			e.Demo = id
 		}
 		if e.Description == "" {

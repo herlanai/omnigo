@@ -6,6 +6,7 @@ import (
 	"image/color"
 	"image/draw"
 	"math"
+	"strconv"
 	"strings"
 	"time"
 
@@ -14,89 +15,229 @@ import (
 )
 
 // Painter is a clipped CPU drawing context, also usable by Go-only extensions.
-// Coordinates are logical pixels at scale 1. There is no GPU/platform adapter yet.
+// Coordinates are logical pixels; RenderScaled maps them to physical pixels.
 type Painter struct {
 	image *image.RGBA
 	clip  Rect
 	face  font.Face
 	now   time.Duration
 	theme Theme
+	scale float64
 }
 
 func (p *Painter) Now() time.Duration { return p.now }
 func (p *Painter) Theme() Theme       { return p.theme }
-func (p *Painter) Fill(r Rect, c color.NRGBA, radius float64) {
-	if !finite(r.X) || !finite(r.Y) || !finite(r.W) || !finite(r.H) || !finite(radius) || r.W <= 0 || r.H <= 0 {
+
+// raster evaluates coverage once per pixel, so translucent strokes do not
+// darken at overlapping samples. Geometry and clipping remain in DIP.
+func (p *Painter) raster(r Rect, c color.NRGBA, distance func(float64, float64) float64) {
+	if c.A == 0 {
 		return
 	}
-	radius = max(0, min(radius, min(r.W, r.H)/2))
-	area := intersect(r, p.clip)
-	for y := max(0, int(math.Floor(area.Y))); y < min(p.image.Bounds().Dy(), int(math.Ceil(area.Y+area.H))); y++ {
-		for x := max(0, int(math.Floor(area.X))); x < min(p.image.Bounds().Dx(), int(math.Ceil(area.X+area.W))); x++ {
-			px, py := float64(x)+.5, float64(y)+.5
-			if !p.clip.Contains(px, py) {
+	p.rasterShade(r, distance, func(float64, float64) color.NRGBA { return c })
+}
+func (p *Painter) rasterShade(r Rect, distance func(float64, float64) float64, shade func(float64, float64) color.NRGBA) {
+	if !finite(r.X) || !finite(r.Y) || !finite(r.W) || !finite(r.H) || r.W <= 0 || r.H <= 0 {
+		return
+	}
+	scale := p.scale
+	if scale == 0 {
+		scale = 1
+	}
+	area := intersect(r.inset(-1/scale), p.clip)
+	xmin, xmax := max(0, int(math.Floor(area.X*scale))), min(p.image.Bounds().Dx(), int(math.Ceil((area.X+area.W)*scale)))
+	ymin, ymax := max(0, int(math.Floor(area.Y*scale))), min(p.image.Bounds().Dy(), int(math.Ceil((area.Y+area.H)*scale)))
+	clipLeft, clipRight := p.clip.X*scale, (p.clip.X+p.clip.W)*scale
+	clipTop, clipBottom := p.clip.Y*scale, (p.clip.Y+p.clip.H)*scale
+	for y := ymin; y < ymax; y++ {
+		cy := max(0, min(float64(y+1), clipBottom)-max(float64(y), clipTop))
+		for x := xmin; x < xmax; x++ {
+			px, py := (float64(x)+.5)/scale, (float64(y)+.5)/scale
+			// Fractional clip coverage prevents painting beyond an ancestor's edge.
+			cx := max(0, min(float64(x+1), clipRight)-max(float64(x), clipLeft))
+			coverage := max(0, min(1, .5-distance(px, py)*scale))
+			if coverage == 0 || cx == 0 || cy == 0 {
 				continue
 			}
-			coverage := 1.
-			if radius > 0 {
-				cx := max(r.X+radius, min(r.X+r.W-radius, px))
-				cy := max(r.Y+radius, min(r.Y+r.H-radius, py))
-				coverage = max(0, min(1, radius+.5-math.Hypot(px-cx, py-cy)))
-			}
-			alpha := float64(c.A) / 255 * coverage
+			c := shade(px, py)
+			alpha := float64(c.A) / 255 * coverage * cx * cy
 			if alpha == 0 {
 				continue
 			}
 			at := p.image.PixOffset(x, y)
-			for i, v := range []uint8{c.R, c.G, c.B} {
+			if alpha == 1 {
+				p.image.Pix[at], p.image.Pix[at+1], p.image.Pix[at+2], p.image.Pix[at+3] = c.R, c.G, c.B, 255
+				continue
+			}
+			for i, v := range [3]uint8{c.R, c.G, c.B} {
 				p.image.Pix[at+i] = uint8(math.Round(float64(v)*alpha + float64(p.image.Pix[at+i])*(1-alpha)))
 			}
-			p.image.Pix[at+3] = 255
+			p.image.Pix[at+3] = uint8(math.Round(255*alpha + float64(p.image.Pix[at+3])*(1-alpha)))
 		}
 	}
+}
+func roundedDistance(r Rect, radius, x, y float64) float64 {
+	radius = max(0, min(radius, min(r.W, r.H)/2))
+	dx := math.Abs(x-r.X-r.W/2) - r.W/2 + radius
+	dy := math.Abs(y-r.Y-r.H/2) - r.H/2 + radius
+	// Away from a corner the distance is axis-aligned: no square root needed.
+	if dx <= 0 || dy <= 0 {
+		return max(dx, dy) - radius
+	}
+	return math.Hypot(dx, dy) - radius
+}
+func (p *Painter) Fill(r Rect, c color.NRGBA, radius float64) {
+	if !finite(radius) {
+		return
+	}
+	p.raster(r, c, func(x, y float64) float64 { return roundedDistance(r, radius, x, y) })
+}
+
+// Stroke draws a rounded border inside r without filling its interior.
+func (p *Painter) Stroke(r Rect, c color.NRGBA, radius, width float64) {
+	if !finite(radius) || !finite(width) || width <= 0 {
+		return
+	}
+	inner := r.inset(width)
+	p.raster(r, c, func(x, y float64) float64 {
+		outer := roundedDistance(r, radius, x, y)
+		if inner.W == 0 || inner.H == 0 {
+			return outer
+		}
+		return max(outer, -roundedDistance(inner, max(0, radius-width), x, y))
+	})
 }
 func (p *Painter) Line(x1, y1, x2, y2, width float64, c color.NRGBA) {
 	if !finite(x1) || !finite(y1) || !finite(x2) || !finite(y2) || !finite(width) || width <= 0 {
 		return
 	}
-	distance := math.Hypot(x2-x1, y2-y1)
-	if !finite(distance) {
+	dx, dy := x2-x1, y2-y1
+	length := math.Hypot(dx, dy)
+	if !finite(length) {
 		return
 	}
-	// Bound raster work even for an extension passing extremely distant points.
-	steps := max(1, int(math.Ceil(min(distance*2, 65536))))
-	for i := 0; i <= steps; i++ {
-		t := float64(i) / float64(steps)
-		p.Fill(Rect{x1 + (x2-x1)*t - width/2, y1 + (y2-y1)*t - width/2, width, width}, c, width/2)
-	}
+	r := Rect{min(x1, x2) - width/2, min(y1, y2) - width/2, math.Abs(dx) + width, math.Abs(dy) + width}
+	p.raster(r, c, func(x, y float64) float64 {
+		along := 0.
+		if length > 0 {
+			along = max(0, min(length, (x-x1)*(dx/length)+(y-y1)*(dy/length)))
+		}
+		if length == 0 {
+			return math.Hypot(x-x1, y-y1) - width/2
+		}
+		return math.Hypot(x-x1-along*dx/length, y-y1-along*dy/length) - width/2
+	})
 }
 func (p *Painter) Text(x, y float64, text string, c color.NRGBA) {
-	clip := image.Rect(int(math.Ceil(p.clip.X)), int(math.Ceil(p.clip.Y)), int(math.Floor(p.clip.X+p.clip.W)), int(math.Floor(p.clip.Y+p.clip.H))).Intersect(p.image.Bounds())
+	scale := p.scale
+	if scale == 0 {
+		scale = 1
+	}
+	clip := image.Rect(int(math.Ceil(p.clip.X*scale)), int(math.Ceil(p.clip.Y*scale)), int(math.Floor((p.clip.X+p.clip.W)*scale)), int(math.Floor((p.clip.Y+p.clip.H)*scale))).Intersect(p.image.Bounds())
 	if clip.Empty() {
 		return
 	}
-	d := font.Drawer{Dst: p.image.SubImage(clip).(*image.RGBA), Src: image.NewUniform(c), Face: p.face, Dot: fixed.P(int(math.Round(x)), int(math.Round(y)))}
+	d := font.Drawer{Dst: p.image.SubImage(clip).(*image.RGBA), Src: image.NewUniform(c), Face: p.face, Dot: fixed.Point26_6{X: fixed.Int26_6(math.Round(x * scale * 64)), Y: fixed.Int26_6(math.Round(y * scale * 64))}}
 	d.DrawString(text)
 }
 
 func blend(a, b color.NRGBA, t float64) color.NRGBA {
-	return color.NRGBA{uint8(float64(a.R)*(1-t) + float64(b.R)*t), uint8(float64(a.G)*(1-t) + float64(b.G)*t), uint8(float64(a.B)*(1-t) + float64(b.B)*t), 255}
+	return color.NRGBA{uint8(float64(a.R)*(1-t) + float64(b.R)*t), uint8(float64(a.G)*(1-t) + float64(b.G)*t), uint8(float64(a.B)*(1-t) + float64(b.B)*t), uint8(float64(a.A)*(1-t) + float64(b.A)*t)}
 }
 
 // Render returns a newly owned image. Call only when content/input/animation
 // changes; stable surfaces do not schedule timers or render themselves.
-func (s *Surface) Render() (*image.RGBA, error) {
+func (s *Surface) Render() (*image.RGBA, error) { return s.RenderScaled(1, nil) }
+
+// RenderScaled rasterizes in physical pixels without changing layout, hit
+// testing or accessibility bounds. suppliedFace, if provided, must be sized at
+// theme.FontSize*scale and remains caller-owned. Custom-font surfaces require
+// this face for scales other than 1; the default font is scaled automatically.
+func (s *Surface) RenderScaled(scale float64, suppliedFace font.Face) (*image.RGBA, error) {
+	return s.renderScaled(scale, suppliedFace, nil)
+}
+
+// RenderScaledInto redraws into a caller-owned, tightly packed RGBA frame with
+// origin (0,0) and dimensions ceil(surface size * scale). It does not retain dst.
+// Call on the UI goroutine, after previous consumers finish reading the frame.
+// On a painting error dst may be partially drawn. Render/RenderScaled continue
+// to return independently owned images for consumers that need snapshots.
+func (s *Surface) RenderScaledInto(dst *image.RGBA, scale float64, suppliedFace font.Face) error {
+	if dst == nil {
+		return errors.New("baseui: nil render target")
+	}
+	_, err := s.renderScaled(scale, suppliedFace, dst)
+	return err
+}
+
+func (s *Surface) renderScaled(scale float64, suppliedFace font.Face, img *image.RGBA) (*image.RGBA, error) {
 	if s.closed {
 		return nil, errors.New("baseui: closed surface")
 	}
-	img := image.NewRGBA(image.Rect(0, 0, s.width, s.height))
+	if !finite(scale) || scale <= 0 || scale > 8 {
+		return nil, errors.New("baseui: invalid render scale")
+	}
+	w, h := math.Ceil(float64(s.width)*scale), math.Ceil(float64(s.height)*scale)
+	if w > 16384 || h > 16384 || w*h > 64_000_000 {
+		return nil, errors.New("baseui: scaled surface exceeds pixel budget")
+	}
+	if img != nil && (img.Rect != image.Rect(0, 0, int(w), int(h)) || img.Stride != int(w)*4 || len(img.Pix) < int(w)*int(h)*4) {
+		return nil, errors.New("baseui: render target dimensions or storage mismatch")
+	}
+	face := suppliedFace
+	if face == nil {
+		face = s.face
+		if scale != 1 {
+			if !s.ownedFace {
+				return nil, errors.New("baseui: scaled rendering requires a scaled custom font face")
+			}
+			face = richFace(0, s.theme.FontSize*scale)
+			defer face.Close()
+		}
+	}
+	if img == nil {
+		img = image.NewRGBA(image.Rect(0, 0, int(w), int(h)))
+	}
 	draw.Draw(img, img.Bounds(), image.NewUniform(s.theme.Background), image.Point{}, draw.Src)
+	styledFaces := map[textFaceKey]font.Face{}
+	defer func() {
+		for _, f := range styledFaces {
+			_ = f.Close()
+		}
+	}()
 	for _, entry := range s.entries {
-		if entry.element.kind == ModalKind {
-			p := Painter{img, Rect{W: float64(s.width), H: float64(s.height)}, s.face, s.now, s.theme}
+		if entry.element.kind == ModalKind && !entry.element.passive {
+			p := Painter{img, Rect{W: float64(s.width), H: float64(s.height)}, face, s.now, s.theme, scale}
 			p.Fill(p.clip, color.NRGBA{0, 0, 0, 100}, 0)
 		}
-		p := Painter{img, entry.clip, s.face, s.now, s.theme}
+		entryFace := face
+		if s.ownedFace && (entry.element.fontSize != 0 || entry.element.fontWeight >= 600 || entry.element.role == "note" || entry.element.monospace) {
+			size := entry.element.fontSize
+			if size == 0 {
+				size = s.theme.FontSize
+				if entry.element.kind == TextKind && entry.element.role == "note" {
+					size = max(6, size-1)
+				}
+			}
+			key := textFaceKey{size, entry.element.fontWeight >= 600, entry.element.monospace}
+			if scale == 1 {
+				entryFace = s.elementFace(entry.element)
+			} else {
+				entryFace = styledFaces[key]
+				if entryFace == nil {
+					style := 0
+					if key.bold {
+						style = 1
+					}
+					if key.mono {
+						style += 4
+					}
+					entryFace = richFace(style, size*scale)
+					styledFaces[key] = entryFace
+				}
+			}
+		}
+		p := Painter{img, entry.clip, entryFace, s.now, s.theme, scale}
 		if err := guarded(func() { s.drawElement(&p, entry) }); err != nil {
 			return nil, err
 		}
@@ -106,23 +247,125 @@ func (s *Surface) Render() (*image.RGBA, error) {
 
 func (s *Surface) drawElement(p *Painter, item entry) {
 	e, r, t := item.element, item.bounds, s.theme
+	s = s.textSurface(e)
+	if e.otpLength > 0 {
+		s.drawOTP(p, item)
+		return
+	}
 	fg, bg, border := t.Text, t.Surface, t.Border
-	if item.disabled {
-		fg = blend(fg, t.Background, .55)
+	if e.mutedText {
+		fg = t.MutedText
+	}
+	for ancestor := e.id; ancestor != ""; {
+		a := s.entries[s.index[ancestor]]
+		if a.element.hoverOptions != nil && a.element.hoverOptions.tooltip {
+			fg, bg, border = t.Background, t.Text, t.Text
+			break
+		}
+		ancestor = a.parent
+	}
+	if item.disabled && e.kind != ButtonKind && e.kind != BadgeKind {
+		fg = blend(fg, t.Background, .5)
+	}
+	if e.kind == InputKind || e.kind == TextareaKind || e.inputGroup {
+		bg = t.Border
+		bg.A = 77
+	}
+	if !item.disabled && (e.kind == InputKind || e.kind == TextareaKind || e.inputGroup) {
+		if s.hover == e.id {
+			border = blend(t.Border, t.Text, .2)
+		}
+		if s.focus == e.id || e.inputGroup && s.within(s.focus, e.id) {
+			border = t.Focus
+		}
 	}
 	if e.invalid {
 		border = t.Danger
 	}
-	frame := func(fill color.NRGBA) { p.Fill(r, border, t.Radius); p.Fill(r.inset(1), fill, max(0, t.Radius-1)) }
+	radius := t.Radius
+	if e.kind == ButtonKind || e.kind == BadgeKind || e.kind == InputKind || e.inputGroup {
+		radius = t.Radius * 2
+	}
+	if e.kind == TextareaKind {
+		radius = t.Radius * .75
+	}
+	if e.alignStart {
+		radius = t.Radius * .75
+	}
+	if e.sheet {
+		radius = 0
+	}
+	if e.radius != nil {
+		radius = *e.radius
+	}
+	focusRect, focusRadius := r, radius
+	frame := func(fill color.NRGBA) { p.Fill(r, fill, radius); p.Stroke(r, border, radius, 1) }
 	label := func(text string, x float64) {
 		p.Text(x, r.Y+(r.H-float64(s.face.Metrics().Height.Ceil()))/2+float64(s.face.Metrics().Ascent.Ceil()), text, fg)
 	}
 	switch e.kind {
-	case CardKind, ModalKind:
-		frame(bg)
+	case RowKind:
+		if e.role == "tablist" {
+			p.Fill(r, t.Muted, t.Radius)
+		}
+		if e.role == "row" && e.selected {
+			p.Fill(r, t.Selection, 4)
+		}
+		if e.role == "row" && e.variant == Secondary && !e.selected {
+			p.Fill(r, blend(t.Surface, t.Muted, .35), 4)
+		}
+		if e.inputGroup {
+			frame(bg)
+		}
+	case CardKind, ModalKind, PopupKind:
+		if e.kind == ModalKind || e.kind == PopupKind {
+			q := *p
+			q.clip = item.paintClip
+			q.Shadow(r, radius, 8, 8, color.NRGBA{0, 0, 0, 46})
+		}
+		if e.variant == Secondary {
+			bg = t.Muted
+		}
+		if e.flat {
+			p.Fill(r, bg, radius)
+		} else {
+			frame(bg)
+		}
+	case ScrollKind:
+		for _, horizontal := range []bool{false, true} {
+			if horizontal && !e.horizontal {
+				continue
+			}
+			track, thumb := s.scrollbar(item, horizontal)
+			if thumb.W == 0 || thumb.H == 0 {
+				continue
+			}
+			p.Fill(track, t.Muted, 3)
+			c := t.MutedText
+			if item.disabled {
+				c = blend(c, t.Background, .5)
+			}
+			p.Fill(thumb, c, 3)
+		}
 	case TextKind:
-		for i, line := range strings.Split(e.text, "\n") {
-			p.Text(r.X, r.Y+float64(s.face.Metrics().Ascent.Ceil())+float64(i)*s.lineHeight(), line, fg)
+		if e.role == "alert" {
+			fg = t.Danger
+		}
+		if e.role == "note" {
+			fg = t.MutedText
+		}
+		lines := s.textLines(e, max(0, r.W-e.textIndent))
+		top := r.Y
+		if e.height > 0 {
+			top += max(0, (r.H-s.lineHeight()*float64(len(lines)))/2)
+			// Fixed-height text uses symmetric leading, matching button labels.
+			top += (s.lineHeight() - float64(s.face.Metrics().Height.Ceil())) / 2
+		}
+		for i, line := range lines {
+			if !e.wrap {
+				line = fitLabel(line, max(0, r.W-e.textIndent), s.textWidth)
+			}
+			p.Text(r.X+e.textIndent, top+float64(s.face.Metrics().Ascent.Ceil())+float64(i)*s.lineHeight(), line, fg)
 		}
 	case SeparatorKind:
 		p.Fill(r, t.Border, 0)
@@ -132,77 +375,223 @@ func (s *Surface) drawElement(p *Painter, item entry) {
 			bg = t.Accent
 			fg = t.AccentText
 			border = bg
+		case Outline:
+			bg = t.Border
+			bg.A = 77
 		case Secondary:
 			bg = t.Muted
 			border = bg
+		case Link:
+			bg = color.NRGBA{}
+			border = bg
+			fg = t.Accent
 		case Ghost:
-			bg = t.Background
+			bg = color.NRGBA{}
 			border = bg
 		case Destructive:
 			bg = t.Danger
-			fg = color.NRGBA{255, 255, 255, 255}
-			border = bg
+			bg.A = 26
+			if t.Background.R < 128 {
+				bg.A = 51
+			}
+			fg = t.Danger
+			border = color.NRGBA{}
 		}
 		if e.selected {
 			bg = t.Selection
 			fg = t.Text
 			border = t.Accent
 		}
-		if s.hover == e.id && !item.disabled {
-			bg = blend(bg, fg, .08)
+		if e.selected && strings.HasPrefix(e.role, "menuitem") {
+			bg = t.Hover
+			fg = t.Text
+			border = color.NRGBA{}
 		}
-		if s.pressed == e.id && !item.disabled {
+		if e.role == "tab" {
+			border = color.NRGBA{}
+			fg = t.MutedText
+			if e.selected {
+				bg = t.Surface
+				fg = t.Text
+			}
+		}
+		if s.hover == e.id && !item.disabled && e.variant != Link {
+			switch e.variant {
+			case Primary:
+				bg = t.Accent
+				bg.A = 204
+			case Outline:
+				bg = t.Border
+				bg.A = 128
+			case Secondary:
+				bg = blend(t.Muted, t.Text, .05)
+			case Ghost:
+				bg = t.Hover
+			case Destructive:
+				bg = t.Danger
+				bg.A = 51
+				if t.Background.R < 128 {
+					bg.A = 77
+				}
+			}
+		}
+
+		if s.pressed == e.id && !item.disabled && e.variant != Link {
 			bg = blend(bg, fg, .16)
 		}
+		if e.inlineLink {
+			fg = t.MutedText
+			if s.hover == e.id {
+				fg = t.Text
+			}
+		}
 		if item.disabled {
-			bg = blend(bg, t.Background, .55)
-			fg = blend(fg, t.Background, .4)
-			border = blend(border, t.Background, .55)
+			bg.A = uint8(float64(bg.A) * .5)
+			fg.A = uint8(float64(fg.A) * .5)
+			border.A = uint8(float64(border.A) * .5)
+		}
+
+		if e.invalid {
+			border = t.Danger
 		}
 		frame(bg)
-		label(e.text, r.X+max(2, (r.W-s.textWidth(e.text))/2))
+		x := r.X + max(2, (r.W-s.textWidth(e.text))/2)
+		if e.inlineLink {
+			x = r.X
+		}
+		if e.alignStart {
+			x = r.X + 12 + e.textIndent
+			if item.rtl {
+				x = r.X + r.W - 12 - e.textIndent - s.textWidth(e.text)
+			}
+		}
+		if e.role == "menuitemcheckbox" && e.checked {
+			cx, cy := r.X+16, r.Y+r.H/2
+			if item.rtl {
+				cx = r.X + r.W - 16
+			}
+			p.Line(cx-4, cy, cx-1, cy+3, 1.5, fg)
+			p.Line(cx-1, cy+3, cx+5, cy-4, 1.5, fg)
+		}
+		if e.branch {
+			cx := r.X + 12 + e.textIndent - 10
+			if item.rtl {
+				cx = r.X + r.W - 12 - e.textIndent + 10
+			}
+			paintChevron(p, cx, r.Y+r.H/2, e.expanded, item.rtl, fg)
+		}
+		if e.submenu {
+			cx := r.X + r.W - 12
+			if item.rtl {
+				cx = r.X + 12
+			}
+			paintChevron(p, cx, r.Y+r.H/2, false, item.rtl, fg)
+		}
+		if e.detail != "" {
+			p.Text(x, r.Y+18, fitLabel(e.text, max(0, r.X+r.W-x-12), s.textWidth), fg)
+			detailColor := t.MutedText
+			if item.disabled {
+				detailColor = blend(detailColor, t.Background, .4)
+			}
+			p.Text(x, r.Y+39, fitLabel(e.detail, max(0, r.X+r.W-x-12), s.textWidth), detailColor)
+		} else {
+			if e.role == "combobox" {
+				text := fitLabel(e.text, max(0, r.W-44), s.textWidth)
+				x = r.X + 12
+				if item.rtl {
+					x = r.X + r.W - 12 - s.textWidth(text)
+				}
+				label(text, x)
+				cx := r.X + r.W - 14
+				if item.rtl {
+					cx = r.X + 14
+				}
+				paintChevron(p, cx, r.Y+r.H/2, true, false, fg)
+			} else {
+				if e.inlineLink {
+					label(fitLabel(e.text, r.W, s.textWidth), x)
+				} else {
+					label(e.text, x)
+				}
+			}
+		}
 	case CheckboxKind, RadioKind, SwitchKind:
-		box := Rect{r.X, r.Y + (r.H-18)/2, 18, 18}
-		radius := 4.
+		box := Rect{r.X, r.Y + (r.H-16)/2, 16, 16}
+		corner := t.Radius * 3 / 8
+		fill, mark := t.Background, t.AccentText
 		if e.kind == RadioKind {
-			radius = 9
+			corner = 8
 		}
 		if e.kind == SwitchKind {
-			box.W = 36
-			radius = 9
+			box = Rect{r.X, r.Y + (r.H-18.4)/2, 32, 18.4}
+			corner = 9.2
+			fill = t.Border
 		}
-		fill := bg
 		if e.checked || e.mixed {
-			fill = t.Accent
+			if e.kind != RadioKind {
+				fill = t.Accent
+				border = t.Accent
+			}
+		}
+		if e.invalid {
+			border = t.Danger
 		}
 		if item.disabled {
-			fill = blend(fill, t.Background, .55)
+			fill = blend(fill, t.Background, .5)
+			border = blend(border, t.Background, .5)
+			mark = blend(mark, t.Background, .5)
 		}
-		p.Fill(box, border, radius)
-		p.Fill(box.inset(1), fill, max(0, radius-1))
+		p.Fill(box, fill, corner)
+		if e.kind != SwitchKind || e.invalid {
+			p.Stroke(box, border, corner, 1)
+		}
 		switch e.kind {
 		case SwitchKind:
-			x := box.X + 3
+			x := box.X + 1.2
 			if e.checked {
-				x += 18
+				x += 13.6
 			}
-			p.Fill(Rect{x, box.Y + 3, 12, 12}, t.AccentText, 6)
+			thumb := t.Text
+			if e.checked {
+				thumb = t.AccentText
+			} else if t.Background.R > 127 {
+				thumb = t.Background
+			}
+			if item.disabled {
+				thumb = blend(thumb, t.Background, .5)
+			}
+			p.Fill(Rect{x, box.Y + 1.2, 16, 16}, thumb, 8)
 		case RadioKind:
 			if e.checked {
-				p.Fill(box.inset(5), t.AccentText, 4)
+				dot := t.Accent
+				if item.disabled {
+					dot = blend(dot, t.Background, .5)
+				}
+				p.Fill(box.inset(4), dot, 4)
 			}
 		default:
 			if e.mixed {
-				p.Line(box.X+4, box.Y+9, box.X+14, box.Y+9, 2, t.AccentText)
+				p.Line(box.X+4, box.Y+8, box.X+12, box.Y+8, 1.5, mark)
 			} else if e.checked {
-				p.Line(box.X+4, box.Y+9, box.X+8, box.Y+13, 2, t.AccentText)
-				p.Line(box.X+8, box.Y+13, box.X+14, box.Y+5, 2, t.AccentText)
+				p.Line(box.X+3, box.Y+8, box.X+6.5, box.Y+11, 1.5, mark)
+				p.Line(box.X+6.5, box.Y+11, box.X+12.5, box.Y+5, 1.5, mark)
 			}
 		}
-		label(e.text, box.X+box.W+10)
+		focusRect, focusRadius = box, corner
+		label(e.text, box.X+box.W+8)
 	case InputKind, TextareaKind:
-		frame(bg)
-		p.clip = intersect(p.clip, r.inset(8))
+		if item.disabled {
+			bg.A /= 2
+			border.A /= 2
+		}
+		if !e.groupedInput {
+			frame(bg)
+		}
+		inputClip := r.inset(8)
+		if e.groupedInput {
+			inputClip = Rect{r.X, r.Y + 4, r.W, max(0, r.H-8)}
+		}
+		p.clip = intersect(p.clip, inputClip)
 		b := e.buffer
 		lines := strings.Split(b.text, "\n")
 		anchor, caret := b.Selection()
@@ -212,10 +601,18 @@ func (s *Surface) drawElement(p *Painter, item entry) {
 		if e.kind == InputKind {
 			top = r.Y + (r.H-lineHeight)/2
 		}
-		x := r.X + 10
+		inset := inputTextInset(e)
+		x := r.X + inset
+		if b.text == "" && b.composition == "" && e.placeholder != "" {
+			hint := t.MutedText
+			if item.disabled {
+				hint = blend(hint, t.Background, .5)
+			}
+			p.Text(x, top+float64(s.face.Metrics().Ascent.Ceil()), e.placeholder, hint)
+		}
 		scroll := 0.
 		if e.kind == InputKind {
-			scroll = max(0, s.textWidth(string([]rune(b.text)[:caret]))-(r.W-24))
+			scroll = max(0, s.textWidth(string([]rune(b.text)[:caret]))-(r.W-2*inset))
 		}
 		for row, line := range lines {
 			runes := []rune(line)
@@ -226,7 +623,20 @@ func (s *Surface) drawElement(p *Painter, item entry) {
 				p.Fill(Rect{left, top + float64(row)*lineHeight, right - left, lineHeight}, t.Selection, 0)
 			}
 			baseline := top + float64(row)*lineHeight + float64(s.face.Metrics().Ascent.Ceil())
-			p.Text(x-scroll, baseline, line, fg)
+			if e.codeRows != nil && row < len(e.codeRows) {
+				p.Text(r.X+8-scroll, baseline, strconv.Itoa(row+1), t.MutedText)
+				tx := x - scroll
+				for _, run := range e.codeRows[row] {
+					color := fg
+					if run.style > 0 {
+						color = t.Chart[(run.style-1)%len(t.Chart)]
+					}
+					p.Text(tx, baseline, run.text, color)
+					tx += s.textWidth(run.text)
+				}
+			} else {
+				p.Text(x-scroll, baseline, line, fg)
+			}
 			if s.focus == e.id && caret >= offset && caret <= offset+len(runes) {
 				cx := x - scroll + s.textWidth(string(runes[:caret-offset]))
 				p.Fill(Rect{cx, top + float64(row)*lineHeight, 1, lineHeight}, t.Focus, 0)
@@ -238,15 +648,22 @@ func (s *Surface) drawElement(p *Painter, item entry) {
 			offset += len(runes) + 1
 		}
 	case SliderKind:
-		track := Rect{r.X + 10, r.Y + r.H/2 - 2, max(0, r.W-20), 4}
-		p.Fill(track, t.Muted, 2)
+		track := Rect{r.X + 10, r.Y + r.H/2 - 6, max(0, r.W-20), 12}
+		p.Fill(track, t.Muted, 6)
 		fraction := 0.
 		if e.max > e.min {
 			fraction = (e.value - e.min) / (e.max - e.min)
 		}
 		fraction = max(0, min(1, fraction))
-		p.Fill(Rect{track.X, track.Y, track.W * fraction, 4}, t.Accent, 2)
-		p.Fill(Rect{track.X + track.W*fraction - 7, r.Y + r.H/2 - 7, 14, 14}, t.Accent, 7)
+		accent := t.Accent
+		if item.disabled {
+			accent = blend(accent, t.Background, .5)
+		}
+		p.Fill(Rect{track.X, track.Y, track.W * fraction, 12}, accent, 6)
+		thumb := Rect{track.X + track.W*fraction - 8, r.Y + r.H/2 - 8, 16, 16}
+		p.Fill(thumb, t.Surface, 8)
+		p.Stroke(thumb, accent, 8, 1)
+		focusRect, focusRadius = thumb, 8
 	case ProgressKind:
 		p.Fill(r, t.Muted, r.H/2)
 		p.Fill(Rect{r.X, r.Y, r.W * e.value, r.H}, t.Accent, r.H/2)
@@ -262,19 +679,69 @@ func (s *Surface) drawElement(p *Painter, item entry) {
 			p.Fill(Rect{r.X + r.W/2 + math.Cos(a)*radius - 2, r.Y + r.H/2 + math.Sin(a)*radius - 2, 4, 4}, c, 2)
 		}
 	case CustomKind:
+		if e.split != nil {
+			p.Fill(r, t.Muted, 0)
+			if e.vertical {
+				p.Fill(Rect{r.X + r.W/2 - 12, r.Y + 2, 24, 4}, t.MutedText, 2)
+			} else {
+				p.Fill(Rect{r.X + 2, r.Y + r.H/2 - 12, 4, 24}, t.MutedText, 2)
+			}
+		}
 		if e.paint != nil {
 			e.paint(p, r)
 		}
 	}
-	if s.focus == e.id && !item.disabled {
-		p.clip = item.clip
+	if e.iconSource != nil {
+		box := r
+		if e.kind == ButtonKind {
+			size := min(e.iconOptions.Size, r.W, r.H)
+			box = Rect{r.X + (r.W-size)/2, r.Y + (r.H-size)/2, size, size}
+		}
+		c := fg
+		if e.iconOptions.Color.A != 0 {
+			c = e.iconOptions.Color
+			if item.disabled {
+				c = blend(c, t.Background, .5)
+			}
+		}
+		stroke := e.iconOptions.StrokeWidth
+		if e.iconOptions.AbsoluteStrokeWidth && stroke > 0 {
+			_, h := e.iconSource.Size()
+			stroke = stroke * h / max(1, box.H)
+		}
+		if err := p.Icon(e.iconSource, box, c, stroke); err != nil {
+			panic(err)
+		}
+	}
+	if e.kind != CustomKind && e.paint != nil {
+		e.paint(p, r)
+	}
+	if s.focusVisible && (s.focus == e.id && !e.groupedInput || e.inputGroup && s.within(s.focus, e.id)) && !item.disabled {
+		p.clip = item.paintClip
 		focus := t.Focus
 		if e.invalid {
 			focus = t.Danger
 		}
-		p.Line(r.X+2, r.Y+2, r.X+r.W-2, r.Y+2, 2, focus)
-		p.Line(r.X+2, r.Y+r.H-2, r.X+r.W-2, r.Y+r.H-2, 2, focus)
-		p.Line(r.X+2, r.Y+2, r.X+2, r.Y+r.H-2, 2, focus)
-		p.Line(r.X+r.W-2, r.Y+2, r.X+r.W-2, r.Y+r.H-2, 2, focus)
+		// Keyboard focus sits outside the silhouette, clipped by the parent viewport.
+		ring := focus
+		ring.A = 128
+		outer := Rect{focusRect.X - 3, focusRect.Y - 3, focusRect.W + 6, focusRect.H + 6}
+		p.Stroke(outer, ring, focusRadius+3, 3)
+		p.Stroke(focusRect, focus, focusRadius, 1)
 	}
+}
+
+// Small control marks are geometry, independent of font glyph coverage.
+func paintChevron(p *Painter, x, y float64, down, rtl bool, c color.NRGBA) {
+	if down {
+		p.Line(x-3, y-1.5, x, y+1.5, 1.5, c)
+		p.Line(x, y+1.5, x+3, y-1.5, 1.5, c)
+		return
+	}
+	sign := 1.
+	if rtl {
+		sign = -1
+	}
+	p.Line(x-sign*1.5, y-3, x+sign*1.5, y, 1.5, c)
+	p.Line(x+sign*1.5, y, x-sign*1.5, y+3, 1.5, c)
 }

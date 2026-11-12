@@ -61,6 +61,13 @@ func Table(id string, state *TableState, columns []TableColumn, data TableData, 
 			cell = Text(id+"/head/"+column.ID, title).Width(column.Width).Height(36)
 		}
 		cell.role = "columnheader"
+		cell.fontSize = 13
+		cell.fontWeight = 600
+		cell.alignStart = true
+		cell.mutedText = true
+		if cell.kind == TextKind {
+			cell.textIndent = 12
+		}
 		header = append(header, cell)
 	}
 	rows := []*Element{Row(id+"/header", header...).Gap(0), Separator(id + "/rule")}
@@ -74,17 +81,22 @@ func Table(id string, state *TableState, columns []TableColumn, data TableData, 
 		keys[key] = true
 		cells := []*Element{}
 		for _, column := range columns {
-			cells = append(cells, Text(id+"/row/"+key+"/"+column.ID, data.Cell(row, column.ID)).Width(column.Width).Height(28))
+			cell := Text(id+"/row/"+key+"/"+column.ID, data.Cell(row, column.ID)).Width(column.Width).Height(36).FontSize(13)
+			cell.textIndent = 12
+			cells = append(cells, cell)
 		}
 		line := Row(id+"/row/"+key, cells...).Gap(0)
 		line.role = "row"
+		if row%2 == 1 {
+			line.variant = Secondary
+		}
 		line.selected = state.Selected[key]
 		rows = append(rows, line)
 	}
 	if data.Len() == 0 {
 		rows = append(rows, Text(id+"/empty", "No data"))
 	}
-	e := Column(id, rows...).Gap(4)
+	e := Column(id, rows...).Gap(0)
 	e.role = "table"
 	e.label = fmt.Sprintf("Table, %d rows", data.Len())
 	return e

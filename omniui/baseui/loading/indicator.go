@@ -1,5 +1,5 @@
 // Package loading implements optional Go-rendered indicators on baseui.Painter.
-// These are independent designs. Ring, Dots and Bars do not cover the reference
+// These are independent designs. The available styles do not cover the reference
 // plugin's entire 29-indicator catalog.
 package loading
 
@@ -17,6 +17,10 @@ const (
 	Ring Style = iota
 	Dots
 	Bars
+	Clock
+	Ripple
+	Orbit
+	Pulse
 )
 
 type Options struct {
@@ -32,7 +36,7 @@ type Indicator struct {
 }
 
 func New(style Style) *Indicator {
-	if style > Bars {
+	if style > Pulse {
 		panic("loading: invalid style")
 	}
 	return &Indicator{style: style}
@@ -60,7 +64,7 @@ func (i *Indicator) View(id, label string, o Options) *baseui.Element {
 		panic("loading: invalid size")
 	}
 	width := o.Size
-	if i.style != Ring {
+	if i.style == Dots || i.style == Bars {
 		width = o.Size * 2
 	}
 	return baseui.Canvas(id, label, func(p *baseui.Painter, r baseui.Rect) {
@@ -80,6 +84,33 @@ func (i *Indicator) View(id, label string, o Options) *baseui.Element {
 				b := a + math.Pi/16
 				p.Line(r.X+r.W/2+math.Cos(a)*radius, r.Y+r.H/2+math.Sin(a)*radius, r.X+r.W/2+math.Cos(b)*radius, r.Y+r.H/2+math.Sin(b)*radius, 2, c)
 			}
+		case Clock:
+			cx, cy, radius := r.X+r.W/2, r.Y+r.H/2, math.Min(r.W, r.H)/2-2
+			p.Stroke(baseui.Rect{X: cx - radius, Y: cy - radius, W: radius * 2, H: radius * 2}, c, radius, 1)
+			for _, hand := range []struct{ angle, length float64 }{{phase*2*math.Pi - math.Pi/2, .8}, {phase*math.Pi/6 - math.Pi/2, .5}} {
+				p.Line(cx, cy, cx+math.Cos(hand.angle)*radius*hand.length, cy+math.Sin(hand.angle)*radius*hand.length, 2, c)
+			}
+		case Ripple:
+			for n := 0; n < 2; n++ {
+				f := math.Mod(phase+float64(n)/2, 1)
+				d := math.Max(2, math.Min(r.W, r.H)*f)
+				cc := c
+				cc.A = uint8(float64(c.A) * (1 - f))
+				p.Stroke(baseui.Rect{X: r.X + (r.W-d)/2, Y: r.Y + (r.H-d)/2, W: d, H: d}, cc, d/2, 2)
+			}
+		case Orbit:
+			d := math.Min(r.W, r.H) / 5
+			p.Fill(baseui.Rect{X: r.X + (r.W-d)/2, Y: r.Y + (r.H-d)/2, W: d, H: d}, c, d/2)
+			for n := 0; n < 3; n++ {
+				a := phase*2*math.Pi + float64(n)*2*math.Pi/3
+				p.Fill(baseui.Rect{X: r.X + (r.W-d)/2 + math.Cos(a)*(r.W-d)/2, Y: r.Y + (r.H-d)/2 + math.Sin(a)*(r.H-d)/2, W: d, H: d}, c, d/2)
+			}
+		case Pulse:
+			f := (1 - math.Cos(phase*2*math.Pi)) / 2
+			d := math.Min(r.W, r.H) * (.35 + .65*f)
+			c.A = uint8(float64(c.A) * (.4 + .6*(1-f)))
+			p.Fill(baseui.Rect{X: r.X + (r.W-d)/2, Y: r.Y + (r.H-d)/2, W: d, H: d}, c, d/2)
+
 		case Dots:
 			for n := 0; n < 3; n++ {
 				lift := (math.Sin(phase*2*math.Pi-float64(n)*.8) + 1) / 2
