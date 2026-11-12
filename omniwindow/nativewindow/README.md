@@ -1,12 +1,12 @@
 # 可选原生软件窗口
 
-`apps/nativewindow` 是 Go 实现的实验性 Win32 / Xlib 适配器，可传给 `lifecycle.Manager.Run`。不导入此包的应用不会加载 X11；Windows 使用系统 DLL，Linux 运行时动态加载 `libX11.so.6`，均支持 `CGO_ENABLED=0`。没有复制 golet 实现，没有引入 SDL、GTK、React 或 WebView。
+`omniwindow/nativewindow` 是 Go 实现的实验性 Win32 / Xlib 适配器，可传给 `lifecycle.Manager.Run`。不导入此包的应用不会加载 X11；Windows 使用系统 DLL，Linux 运行时动态加载 `libX11.so.6`，均支持 `CGO_ENABLED=0`。没有复制 golet 实现，没有引入 SDL、GTK、React 或 WebView。
 
 ```sh
 # 在 Windows / Linux 本机运行；Linux 需 DISPLAY 和 libX11.so.6。
 CGO_ENABLED=0 go run ./examples/native-window
 # 本机原生生命周期探针（创建、提交一帧、取消、销毁）
-OMNIGO_NATIVE_TEST=1 CGO_ENABLED=0 go test ./apps/nativewindow -run TestNativeWindowLifecycle -v
+OMNIGO_NATIVE_TEST=1 CGO_ENABLED=0 go test ./omniwindow/nativewindow -run TestNativeWindowLifecycle -v
 ```
 
 PowerShell 请用 `$env:CGO_ENABLED="0"` / `$env:OMNIGO_NATIVE_TEST="1"` 设置变量。交叉构建用 `GOOS=windows|linux GOARCH=amd64|arm64`；不能在 macOS 执行这些二进制。macOS 继续使用 Studio 的 Cocoa 宿主，这个包不会替换它。

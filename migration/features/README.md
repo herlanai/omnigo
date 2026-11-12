@@ -6,8 +6,8 @@
 
 | 领域 | OmniGo 当前实现 | 仍需重写/接入 | 状态 |
 | --- | --- | --- | --- |
-| childwindow | `apps/nativewindow/children.go` 共享循环、Win32 owner HWND、X11 transient-for/事件路由、隐藏联动、子树关闭 | Cocoa 公共驱动、目标系统实机验收、全套层叠/全屏/跨屏/模态行为 | partial |
-| clipboard | `apps/clipboard` 数据快照/延迟求值/释放，Mac 多项与 Win 单项多格式系统适配；Studio 已接公共模块 | 原生文件/DIB/TIFF、Windows 实机、X11/Wayland、原生延迟渲染与外部所有权通知 | partial |
+| childwindow | `omniwindow/nativewindow/children.go` 共享循环、Win32 owner HWND、X11 transient-for/事件路由、隐藏联动、子树关闭 | Cocoa 公共驱动、目标系统实机验收、全套层叠/全屏/跨屏/模态行为 | partial |
+| clipboard | `omniwindow/clipboard` 数据快照/延迟求值/释放，Mac 多项与 Win 单项多格式系统适配；Studio 已接公共模块 | 原生文件/DIB/TIFF、Windows 实机、X11/Wayland、原生延迟渲染与外部所有权通知 | partial |
 | diff | 独立行级 LCS + 有工作量预算的 Myers，大文本稀疏修改保留独立 hunk；DiffView 还原/撤销 | Histogram、词/行内差异、紧凑化、预算外高质量算法与性能比较 | partial |
 | e2e | 原有探针外新增 Mac 私有剪贴板往返、Metal 像素比对和可选 Win/Linux 父子窗生命周期探针 | 六平台实机执行、原生输入/IME/无障碍/拖放与完整画面比对 | partial |
 | GPU | `omniui/baseui/gpu` 真实 Metal 设备/compute pipeline、矩形批处理/alpha 合成/裁剪/读回 | D3D/OpenGL、文本/路径/抗锯齿、纹理/效果/损伤、直呈与设备失败恢复、完整 baseui 接入 | partial |
@@ -19,15 +19,15 @@
 
 现有实现继续使用以下路径，避免为了目录看起来完整而创建空壳：
 
-- `apps`：公共生命周期/窗口契约；`apps/nativewindow`：可选 Win32/X11 驱动；Cocoa 已归入公共 `apps/host`，Studio 通过根包应用 API 调用。Cocoa 与 Win32/X11 的完整窗口管理契约仍未全部统一。
+- `omniwindow`：公共生命周期/窗口契约；`omniwindow/nativewindow`：可选 Win32/X11 驱动；Cocoa 已归入公共 `omniwindow/host`，Studio 通过根包应用 API 调用。Cocoa 与 Win32/X11 的完整窗口管理契约仍未全部统一。
 - `omniui/baseui`：控件、主题、绘制与交互状态；`omniui/baseui/internal/diff`：不依赖 Surface/平台的纯比较算法。`diff_view.go` 保留 UI 状态和绘制，公开 `DiffState`/`DiffHunk` 不变。
 - `runtime/dispatch`：跨 goroutine 的 UI 派发；原生资源所有权留在所属驱动线程。
 - `tools/featureaudit`：只读专项扫描；`migration/features`：参考索引与实现差距；原有 `migration/reference.json`、`controls`、`platform` 清单保留。
 
 新增模块已经落地，按以下边界继续扩展：
 
-- 父子窗口管理归入 `apps` 与各原生驱动，共享同一 UI 事件循环；不能在当前 X11 单循环旁开启互不关联的新循环冒充父子窗。
-- 剪贴板数据契约与系统适配归入 `apps/clipboard`，控件编辑操作继续留在 baseui；不要再往 Studio 演示宿主堆业务实现。
+- 父子窗口管理归入 `omniwindow` 与各原生驱动，共享同一 UI 事件循环；不能在当前 X11 单循环旁开启互不关联的新循环冒充父子窗。
+- 剪贴板数据契约与系统适配归入 `omniwindow/clipboard`，控件编辑操作继续留在 baseui；不要再往 Studio 演示宿主堆业务实现。
 - 国际化纯逻辑归入独立 `i18n` 包；baseui 控件与原生菜单显式消费语言上下文，后台加载通过 dispatch 更新 UI。
 - GPU 的 Go 渲染实现归入 baseui 下的可选子包；设备/原生 surface 接口由驱动提供，未导入 GPU 的应用不链接其运行依赖。
 - 原生 e2e 建立独立测试入口和平台前置条件；默认跳过必须显式报告，不能计入通过的原生用例。

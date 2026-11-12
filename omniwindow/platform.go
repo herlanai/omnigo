@@ -1,4 +1,4 @@
-package apps
+package omniwindow
 
 import "runtime"
 
@@ -32,7 +32,7 @@ func Platform(goos, goarch string) PlatformSupport {
 		if goos == "linux" {
 			p.NativeWindow = "experimental-x11-software"
 		}
-		p.Evidence = "Optional apps/nativewindow driver; cross-build only, no native runtime verification. Studio WebView host unavailable"
+		p.Evidence = "Optional omniwindow/nativewindow driver; cross-build only, no native runtime verification. Studio WebView host unavailable"
 	}
 	return p
 }

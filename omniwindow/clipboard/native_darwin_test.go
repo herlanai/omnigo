@@ -12,7 +12,7 @@ import (
 
 func TestPrivatePasteboardRoundTrip(t *testing.T) {
 	if os.Getenv("OMNIGO_NATIVE_TEST") != "1" {
-		t.Skip("explicit native apps test")
+		t.Skip("explicit native clipboard test")
 	}
 	runtime.LockOSThread()
 	defer runtime.UnlockOSThread()

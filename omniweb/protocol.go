@@ -1,4 +1,4 @@
-// Package omniweb defines the versioned Web UI protocol shared by apps hosts
+// Package omniweb defines the versioned Web UI protocol shared by application hosts
 // and browser transports. It reuses the same service router as native OmniUI.
 package omniweb
 

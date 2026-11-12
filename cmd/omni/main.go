@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/herlanai/omnigo/apps"
+	"github.com/herlanai/omnigo/omniwindow"
 	"os"
 
 	"github.com/herlanai/omnigo/internal/scaffold"
@@ -43,9 +43,9 @@ func doctor(args []string) error {
 	if flags.NArg() != 0 {
 		return fmt.Errorf("doctor takes no positional arguments")
 	}
-	platforms := []apps.PlatformSupport{apps.CurrentPlatform()}
+	platforms := []omniwindow.PlatformSupport{omniwindow.CurrentPlatform()}
 	if *all {
-		platforms = apps.Platforms()
+		platforms = omniwindow.Platforms()
 	}
 	if *jsonOutput {
 		encoder := json.NewEncoder(os.Stdout)

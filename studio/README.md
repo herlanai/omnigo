@@ -4,7 +4,7 @@ OmniGo 的开发实验室。真正的 macOS 客户端：AppKit 主窗口内嵌 W
 
 ## 运行与打包
 
-Studio 是 OmniGo API 的演示应用。入口 `studio/cmd/studio/main.go` 使用 `omnigo.New`、`omnigo.Bind`、`app.ConfigureMainWindow`、`app.Run`；不再自行创建监听器、HTTP 服务、AppKit 窗口或原生绘制循环。`studio/internal/demos/window.go` 只提供演示窗口工厂与应用状态。Cocoa/WebKit 实现在公共 `apps/host`，系统指标采样在 `apps/metrics`；框架没有对 Studio 的反向依赖。
+Studio 是 OmniGo API 的演示应用。入口 `studio/cmd/studio/main.go` 使用 `omnigo.New`、`omnigo.Bind`、`app.ConfigureMainWindow`、`app.Run`；不再自行创建监听器、HTTP 服务、AppKit 窗口或原生绘制循环。`studio/internal/demos/window.go` 只提供演示窗口工厂与应用状态。Cocoa/WebKit 实现在公共 `omniwindow/host`，系统指标采样在 `omniwindow/metrics`；框架没有对 Studio 的反向依赖。
 
 框架 API 的独立示例：`go run ./examples/desktop-counter`。`go run ./examples/desktop-smoke` 使用相同公开 API 验证原生创建、Go 绘制与关闭清理，不依赖 Studio 资源或内部包。
 
@@ -37,7 +37,7 @@ macOS 输出 `build/studio/Omni Studio.app`，归档 `build/studio/omnigo-studio
 
 **原生演示支持 macOS Apple Silicon，并已接入 Intel 构建（尚未实机验证）。** 宿主通过 purego 调用 AppKit，Go CPU Surface 渲染结果用 NSImageView 显示，鼠标与键盘事件交给 Go 控件。内嵌目录页只做能力浏览与启动操作。其他平台的 Studio 客户端适配仍未完成。
 
-公开 `apps/host` 宿主目前仍有这些限制：Go 内容窗口固定尺寸、无完整系统 IME/屏幕阅读器、无复杂文字整形，内容绘制使用 CPU。已按窗口 backingScaleFactor 生成物理像素图像，并保持 NSImage 的逻辑尺寸，切换屏幕后重新绘制；真实多屏 Retina 效果仍需实机验收。默认字体不覆盖完整中文字符。帧提交直接复制预乘 RGBA 到 AppKit 位图，避免逐帧 PNG 编解码；动画只在可见且需要唤醒时请求。端到端帧率和 RSS 改善仍需同场景实测。迁入框架不等于这些能力已经补齐。
+公开 `omniwindow/host` 宿主目前仍有这些限制：Go 内容窗口固定尺寸、无完整系统 IME/屏幕阅读器、无复杂文字整形，内容绘制使用 CPU。已按窗口 backingScaleFactor 生成物理像素图像，并保持 NSImage 的逻辑尺寸，切换屏幕后重新绘制；真实多屏 Retina 效果仍需实机验收。默认字体不覆盖完整中文字符。帧提交直接复制预乘 RGBA 到 AppKit 位图，避免逐帧 PNG 编解码；动画只在可见且需要唤醒时请求。端到端帧率和 RSS 改善仍需同场景实测。迁入框架不等于这些能力已经补齐。
 
 `native-select` 当前展示 Select 的 Go 锚定弹层实现，并非系统原生菜单；已支持列表滚动、键盘和选中项滚入，平台无障碍等仍在原审计的未完成范围。CodeBlock 的复制动作仅演示 Go 回调，不写系统剪贴板。各控件的完整限制见 `omniui/baseui/README.md`。
 
@@ -90,9 +90,9 @@ macOS 原生控件演示顶部提供 `Hide titlebar` / `Show titlebar`，Border 
 
 ## Studio 首页 Hidden Inset 演示
 
-首页“窗口标题栏”区域可直接切换当前 Studio 主窗口的“默认标题栏”和“Hidden Inset”。后者保留系统红绿灯，使用 `TrafficLightPosition: &apps.Point{X: 12, Y: 11}`；隐藏标题文字和背景，内容延伸到窗口顶部。首页根据宿主返回的安全区预留空间，刷新时读取实际窗口状态。此行为与演示窗口原先隐藏全部按钮的开关分开。
+首页“窗口标题栏”区域可直接切换当前 Studio 主窗口的“默认标题栏”和“Hidden Inset”。后者保留系统红绿灯，使用 `TrafficLightPosition: &omniwindow.Point{X: 12, Y: 11}`；隐藏标题文字和背景，内容延伸到窗口顶部。首页根据宿主返回的安全区预留空间，刷新时读取实际窗口状态。此行为与演示窗口原先隐藏全部按钮的开关分开。
 
-配置类型位于 `apps/window.go`，支持 `TitleBarDefault`、`TitleBarHidden`、`TitleBarHiddenInset` 和 `TrafficLightPosition`。Studio macOS 主窗口宿主实际消费这些配置；当前仓库尚未提供通用的 `apps.NewWindow` 驱动，不应把配置类型理解为已经完成所有平台的窗口 API。
+配置类型位于 `omniwindow/window.go`，支持 `TitleBarDefault`、`TitleBarHidden`、`TitleBarHiddenInset` 和 `TrafficLightPosition`。Studio macOS 主窗口宿主实际消费这些配置；当前仓库尚未提供通用的 `omniwindow.NewWindow` 驱动，不应把配置类型理解为已经完成所有平台的窗口 API。
 
 `CGO_ENABLED=0 go run ./studio/cmd/titlebarcheck` 已增加真实 AppKit 验证：HiddenInset 保留红绿灯、12/11 与 18/19 两组坐标、调整窗口尺寸后的定位、顶部安全区和默认样式恢复。已通过 Studio 首页按钮实际切换验证；全屏时切换会明确报错，退出全屏后可重试。OmniBrowser 未参与此变更。
 

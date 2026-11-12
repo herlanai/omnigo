@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/herlanai/omnigo/apps"
+	"github.com/herlanai/omnigo/omniwindow"
 	"github.com/herlanai/omnigo/runtime/dispatch"
 )
 
@@ -19,7 +19,7 @@ type childFake struct {
 	isChild bool
 }
 
-func (b *childFake) child(apps.WindowOptions) (backend, error) {
+func (b *childFake) child(omniwindow.WindowOptions) (backend, error) {
 	c := &childFake{name: b.name + "/child", order: b.order, isChild: true}
 	b.created = append(b.created, c)
 	return c, nil
@@ -40,7 +40,7 @@ func TestOwnedChildLifetimeAndDispatch(t *testing.T) {
 		child, err = parent.NewChild(Options{Paint: func(w, h int) (*image.RGBA, error) { return image.NewRGBA(image.Rect(0, 0, w, h)), nil }, Ready: func(c *Window) error { _, err := c.NewChild(Options{}); return err }})
 		return err
 	}})
-	if err := w.run(context.Background(), func(apps.WindowOptions) (backend, error) { return b, nil }); err != nil {
+	if err := w.run(context.Background(), func(omniwindow.WindowOptions) (backend, error) { return b, nil }); err != nil {
 		t.Fatal(err)
 	}
 	if len(order) != 3 || order[0] != "root/child/child" || order[1] != "root/child" || order[2] != "root" {
@@ -72,7 +72,7 @@ func TestFailedChildReadyReleasesDescendants(t *testing.T) {
 		}
 		return nil
 	}})
-	if err := w.run(context.Background(), func(apps.WindowOptions) (backend, error) { return b, nil }); err != nil {
+	if err := w.run(context.Background(), func(omniwindow.WindowOptions) (backend, error) { return b, nil }); err != nil {
 		t.Fatal(err)
 	}
 	if len(order) != 3 {
@@ -130,7 +130,7 @@ func TestChildDeadlinesDoNotAdvanceParentAnimation(t *testing.T) {
 		},
 	})
 	w.now = func() time.Time { return now }
-	if err := w.run(context.Background(), func(apps.WindowOptions) (backend, error) { return b, nil }); err != nil {
+	if err := w.run(context.Background(), func(omniwindow.WindowOptions) (backend, error) { return b, nil }); err != nil {
 		t.Fatal(err)
 	}
 	if parentTicks != 1 || childTicks != 3 {
@@ -157,7 +157,7 @@ func TestRootAndChildRejectInvalidFramesAndReleaseResources(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			if err = w.run(t.Context(), func(apps.WindowOptions) (backend, error) { return b, nil }); err == nil {
+			if err = w.run(t.Context(), func(omniwindow.WindowOptions) (backend, error) { return b, nil }); err == nil {
 				t.Fatal("invalid framebuffer accepted")
 			}
 			if b.closed != 1 || b.frames != 0 {

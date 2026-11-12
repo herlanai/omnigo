@@ -10,7 +10,7 @@ import (
 	"testing/fstest"
 	"time"
 
-	"github.com/herlanai/omnigo/apps/host"
+	"github.com/herlanai/omnigo/omniwindow/host"
 	"github.com/herlanai/omnigo/omniweb"
 	"github.com/herlanai/omnigo/runtime/lifecycle"
 )

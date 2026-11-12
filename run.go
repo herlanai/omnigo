@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/herlanai/omnigo/apps/host"
+	"github.com/herlanai/omnigo/omniwindow/host"
 )
 
 type driverFunc func(context.Context) error

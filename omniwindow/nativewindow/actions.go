@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// Bounds uses client-area pixels in apps coordinates. Per-monitor DIP
+// Bounds uses client-area pixels in desktop coordinates. Per-monitor DIP
 // conversion is not yet part of the software driver.
 type Bounds struct{ X, Y, Width, Height int }
 type action struct {

@@ -10,12 +10,12 @@ import (
 
 	"github.com/ebitengine/purego"
 	"github.com/ebitengine/purego/objc"
-	"github.com/herlanai/omnigo/apps"
+	"github.com/herlanai/omnigo/omniwindow"
 )
 
 // openShell embeds the bundled TanStack application in WKWebView. The loopback
 // transport lives in this same process; no browser or frontend server is launched.
-func openShell(app objc.ID, options apps.WindowOptions, quit func(), host *Controller) (func(), error) {
+func openShell(app objc.ID, options omniwindow.WindowOptions, quit func(), host *Controller) (func(), error) {
 	var chrome *windowChrome
 	address, _ := url.Parse(options.URL)
 	origin := address.Scheme + "://" + address.Host

@@ -3,11 +3,11 @@
   "features": [
     {
       "evidence": [
-        "apps/accelerator/accelerator_test.go",
+        "omniwindow/accelerator/accelerator_test.go",
         "studio/internal/demos/shortcuts_test.go"
       ],
       "existing": [
-        "apps/accelerator",
+        "omniwindow/accelerator",
         "studio/internal/demos/shortcuts.go"
       ],
       "id": "accelerator",
@@ -50,8 +50,8 @@
     },
     {
       "existing": [
-        "apps/host",
-        "apps/clipboard/adapter_darwin.go"
+        "omniwindow/host",
+        "omniwindow/clipboard/adapter_darwin.go"
       ],
       "id": "darwin",
       "reference_files": 57,
@@ -96,8 +96,8 @@
     },
     {
       "existing": [
-        "apps/nativewindow/native_test.go",
-        "apps/clipboard/native_darwin_test.go",
+        "omniwindow/nativewindow/native_test.go",
+        "omniwindow/clipboard/native_darwin_test.go",
         "omniui/baseui/gpu/native_darwin_test.go"
       ],
       "id": "e2e",
@@ -188,7 +188,7 @@
     },
     {
       "existing": [
-        "apps/nativewindow/x11_linux.go"
+        "omniwindow/nativewindow/x11_linux.go"
       ],
       "id": "linux",
       "reference_files": 60,
@@ -459,8 +459,8 @@
     },
     {
       "existing": [
-        "apps/nativewindow/win_windows.go",
-        "apps/clipboard/adapter_windows.go"
+        "omniwindow/nativewindow/win_windows.go",
+        "omniwindow/clipboard/adapter_windows.go"
       ],
       "id": "windows",
       "reference_files": 91,

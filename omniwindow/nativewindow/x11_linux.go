@@ -11,7 +11,7 @@ import (
 	"unsafe"
 
 	"github.com/ebitengine/purego"
-	"github.com/herlanai/omnigo/apps"
+	"github.com/herlanai/omnigo/omniwindow"
 	"golang.org/x/sys/unix"
 )
 
@@ -91,7 +91,7 @@ type xhost struct {
 
 var xActive atomic.Bool
 
-func openBackend(o apps.WindowOptions) (result backend, err error) {
+func openBackend(o omniwindow.WindowOptions) (result backend, err error) {
 	if !xActive.CompareAndSwap(false, true) {
 		return nil, fmt.Errorf("nativewindow: X11 currently supports one event loop per process")
 	}
@@ -159,7 +159,7 @@ func openBackend(o apps.WindowOptions) (result backend, err error) {
 	}
 	return w.setup(o)
 }
-func (w *xhost) setup(o apps.WindowOptions) (backend, error) {
+func (w *xhost) setup(o omniwindow.WindowOptions) (backend, error) {
 	a := &w.api
 	var err error
 	screen := a.screen(w.display)
@@ -418,7 +418,7 @@ func (w *xhost) present(frame *image.RGBA) error {
 	return nil
 }
 
-func (w *xhost) child(o apps.WindowOptions) (result backend, err error) {
+func (w *xhost) child(o omniwindow.WindowOptions) (result backend, err error) {
 	child := &xhost{api: w.api, lib: w.lib, display: w.display, pipe: w.pipe, parent: w, family: w.family}
 	defer func() {
 		if err != nil {

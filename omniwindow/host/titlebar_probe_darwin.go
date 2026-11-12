@@ -8,7 +8,7 @@ import (
 
 	"github.com/ebitengine/purego"
 	"github.com/ebitengine/purego/objc"
-	"github.com/herlanai/omnigo/apps"
+	"github.com/herlanai/omnigo/omniwindow"
 )
 
 // CheckTitlebar validates actual AppKit state without sleeps or synthetic timing.
@@ -58,8 +58,8 @@ func CheckTitlebar() error {
 		}
 	}
 	chrome := newWindowChrome(w.native)
-	for _, position := range []apps.Point{{X: 12, Y: 11}, {X: 18, Y: 19}} {
-		state, err := chrome.apply(TitleBarRequest{Style: apps.TitleBarHiddenInset, TrafficLightPosition: &position})
+	for _, position := range []omniwindow.Point{{X: 12, Y: 11}, {X: 18, Y: 19}} {
+		state, err := chrome.apply(TitleBarRequest{Style: omniwindow.TitleBarHiddenInset, TrafficLightPosition: &position})
 		if err != nil {
 			return err
 		}
@@ -80,7 +80,7 @@ func CheckTitlebar() error {
 				return fmt.Errorf("incorrect traffic light safe area")
 			}
 		}
-		if _, err := chrome.apply(TitleBarRequest{Style: apps.TitleBarDefault}); err != nil {
+		if _, err := chrome.apply(TitleBarRequest{Style: omniwindow.TitleBarDefault}); err != nil {
 			return err
 		}
 		if w.native.Send(sel("toolbar")) != 0 || w.native.Send(sel("titleVisibility")) != 0 {

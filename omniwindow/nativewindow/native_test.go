@@ -13,7 +13,7 @@ import (
 // does not certify IME, pixel correctness, DPI or compositor interoperability.
 func TestNativeWindowLifecycle(t *testing.T) {
 	if os.Getenv("OMNIGO_NATIVE_TEST") != "1" {
-		t.Skip("set OMNIGO_NATIVE_TEST=1 on Windows or an X11 apps")
+		t.Skip("set OMNIGO_NATIVE_TEST=1 on Windows or an X11 desktop")
 	}
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()

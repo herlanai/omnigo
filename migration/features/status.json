@@ -2,9 +2,9 @@
   "features": [
     {
       "existing": [
-        "apps/nativewindow/children.go",
-        "apps/nativewindow/win_windows.go",
-        "apps/nativewindow/x11_linux.go"
+        "omniwindow/nativewindow/children.go",
+        "omniwindow/nativewindow/win_windows.go",
+        "omniwindow/nativewindow/x11_linux.go"
       ],
       "id": "childwindow",
       "remaining": [
@@ -16,15 +16,15 @@
       ],
       "status": "partial",
       "tests": [
-        "apps/nativewindow/children_test.go",
-        "apps/nativewindow/native_test.go"
+        "omniwindow/nativewindow/children_test.go",
+        "omniwindow/nativewindow/native_test.go"
       ]
     },
     {
       "existing": [
-        "apps/clipboard",
+        "omniwindow/clipboard",
         "omniui/baseui/clipboard.go",
-        "apps/host/cocoa_darwin.go"
+        "omniwindow/host/cocoa_darwin.go"
       ],
       "id": "clipboard",
       "remaining": [
@@ -35,8 +35,8 @@
       ],
       "status": "partial",
       "tests": [
-        "apps/clipboard/data_test.go",
-        "apps/clipboard/native_darwin_test.go"
+        "omniwindow/clipboard/data_test.go",
+        "omniwindow/clipboard/native_darwin_test.go"
       ]
     },
     {
@@ -61,8 +61,8 @@
       "existing": [
         "studio/cmd/titlebarcheck",
         "studio/cmd/webviewcheck",
-        "apps/nativewindow/native_test.go",
-        "apps/clipboard/native_darwin_test.go",
+        "omniwindow/nativewindow/native_test.go",
+        "omniwindow/clipboard/native_darwin_test.go",
         "omniui/baseui/gpu/native_darwin_test.go"
       ],
       "id": "e2e",

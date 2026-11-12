@@ -1,6 +1,6 @@
 # Public UI application host
 
-`apps/host` owns Cocoa application/windows, input forwarding, frame submission, same-origin WebKit shells, embedded WebViews, titlebar changes, dispatch and teardown. It does not import Studio, know demo IDs, contain demo HTML, or supply application icons. Applications provide `Options`, a `WindowFactory` and `Content` callbacks.
+`omniwindow/host` owns Cocoa application/windows, input forwarding, frame submission, same-origin WebKit shells, embedded WebViews, titlebar changes, dispatch and teardown. It does not import Studio, know demo IDs, contain demo HTML, or supply application icons. Applications provide `Options`, a `WindowFactory` and `Content` callbacks.
 
 Most applications use root `omnigo.New`, `omnigo.Bind`, `app.ConfigureMainWindow` and `app.Run`. That entry point also composes the existing desktop extension lifecycle, OmniWeb assets/RPC and loopback resource server. `host.Run` is available for hosts that already own their resource server or need a native-only application.
 
@@ -10,7 +10,7 @@ Most applications use root `omnigo.New`, `omnigo.Bind`, `app.ConfigureMainWindow
 - Each content window owns a Surface and application callbacks; the framework owns native handles, timers and a shared reusable RGBA framebuffer. Application Close runs before Surface teardown.
 - Content windows currently have fixed canvas dimensions. The shell supports initial/minimum size and titlebar options. This is not the full nativewindow API or complete golet parity.
 - HTML fixtures and WebView state consumers are supplied by the application. Embedded positioning uses the actual parent view height.
-- macOS amd64/arm64 is implemented; only ARM64 native evidence is available. Windows/Linux return ErrUnsupported here; their separate software driver remains in apps/nativewindow.
+- macOS amd64/arm64 is implemented; only ARM64 native evidence is available. Windows/Linux return ErrUnsupported here; their separate software driver remains in omniwindow/nativewindow.
 
 Public-API examples: `go run ./examples/desktop-counter`; `go run ./examples/desktop-smoke` briefly opens a window and verifies rendering/closure without sleeps. Titlebar and WebView probes remain available through the public package and Studio diagnostic commands. Unit tests guard the absence of framework-to-Studio dependencies.
 

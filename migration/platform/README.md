@@ -13,16 +13,16 @@
 | Linux / AMD64 | 支持 | 实验性 X11 软件窗口；Studio/WebKitGTK/原生 Wayland 未实现 | 构建证据，非原生运行证据 |
 | Linux / ARM64 | 支持 | 实验性 X11 软件窗口；Studio/WebKitGTK/原生 Wayland 未实现 | 构建证据，非原生运行证据 |
 
-`apps.Platforms()` 和 `go run ./cmd/omni doctor --all --json` 给出可机读的实现状态。实现状态不会因为运行了交叉编译而自动升级。
+`omniwindow.Platforms()` 和 `go run ./cmd/omni doctor --all --json` 给出可机读的实现状态。实现状态不会因为运行了交叉编译而自动升级。
 
 ## 本轮改动
 
 - 窗口管理继续对齐：新增 13 个实际 Win32/X11 操作（标题、客户区几何、显示/隐藏、聚焦、最小化/最大化/恢复、置顶、全屏、透明度、关闭），通过 UI 派发执行并返回错误。系统关闭可被 `ShouldClose` 拦截；显式关闭拒绝后续排队任务。方法映射、测试和未完成能力保存在 [window-actions.json](window-actions.json)。示例增加相应操作按钮；没有把 EWMH 请求成功写成最终状态确认。
 
-- 新增 [apps/nativewindow](../../apps/nativewindow/README.md)：直接调用 Win32 / Xlib 的可选软件窗口驱动，包含事件循环、派发唤醒、像素提交、键鼠和焦点、缩放/最小尺寸、Windows IMM32 组合消息、Linux XIM UTF-8 提交。`examples/native-window` 将真实 Go 输入框和按钮接入驱动；`Surface.Resize` 保留控件状态。窗口可以直接传给 `lifecycle.Manager.Run`。这不包含 Studio WebView、每屏 DPI 或完整 IME 验收。
+- 新增 [omniwindow/nativewindow](../../omniwindow/nativewindow/README.md)：直接调用 Win32 / Xlib 的可选软件窗口驱动，包含事件循环、派发唤醒、像素提交、键鼠和焦点、缩放/最小尺寸、Windows IMM32 组合消息、Linux XIM UTF-8 提交。`examples/native-window` 将真实 Go 输入框和按钮接入驱动；`Surface.Resize` 保留控件状态。窗口可以直接传给 `lifecycle.Manager.Run`。这不包含 Studio WebView、每屏 DPI 或完整 IME 验收。
 
 - macOS 原生宿主文件由 `_darwin_arm64.go` 改为 `_darwin.go`，显式限制 amd64/arm64；Intel 构建不再落入 unsupported 分支。现有 purego 版本包含 amd64 `objc_msgSend_stret` 支持，窗口坐标结构保留 `structs.HostLayout`。
-- 新增 `apps/system.OpenURL(ctx, url)` 和 `OpenPath(ctx, path)`：Windows 使用原生 ShellExecuteW（固定线程上初始化/平衡 COM）；macOS 使用系统 open；Linux 使用 xdg-open，缺失时尝试 gio。均不使用 shell 拼接执行，不支持的 scheme 和无可用系统处理程序明确报错。这只是 Shell 类别的一部分，不是原生窗口后端。
+- 新增 `omniwindow/system.OpenURL(ctx, url)` 和 `OpenPath(ctx, path)`：Windows 使用原生 ShellExecuteW（固定线程上初始化/平衡 COM）；macOS 使用系统 open；Linux 使用 xdg-open，缺失时尝试 gio。均不使用 shell 拼接执行，不支持的 scheme 和无可用系统处理程序明确报错。这只是 Shell 类别的一部分，不是原生窗口后端。
 - 新增只读 `tools/platformaudit`：从 golet `backend/internal/platform/platform.go` 提取接口签名和原行号，未复制任何实现体。当前保留 26 个接口、297 条记录；[reference.json](reference.json) 是完整契约快照，[status.json](status.json) 列出实际映射与剩余能力。盘点不覆盖 golet 所有顶层模块/插件，不能当成整个框架覆盖率。
 
 ```sh

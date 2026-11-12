@@ -6,7 +6,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/herlanai/omnigo/apps"
+	"github.com/herlanai/omnigo/omniwindow"
 	"github.com/herlanai/omnigo/runtime/dispatch"
 )
 
@@ -28,7 +28,7 @@ func TestActionsRunOnlyDuringUIDrain(t *testing.T) {
 	if len(b.applied) != 0 {
 		t.Fatal("native action ran outside UI loop")
 	}
-	if err = w.run(ctx, func(apps.WindowOptions) (backend, error) { return b, nil }); err != nil {
+	if err = w.run(ctx, func(omniwindow.WindowOptions) (backend, error) { return b, nil }); err != nil {
 		t.Fatal(err)
 	}
 	if err = <-done; err != nil || len(b.applied) != 1 || b.applied[0].text != "新的标题" {
@@ -58,7 +58,7 @@ func TestActionsRejectInvalidAndCancelledRequests(t *testing.T) {
 	}
 	cancel()
 	b := &actionFake{}
-	if err = w.run(context.Background(), func(apps.WindowOptions) (backend, error) { return b, nil }); err != nil {
+	if err = w.run(context.Background(), func(omniwindow.WindowOptions) (backend, error) { return b, nil }); err != nil {
 		t.Fatal(err)
 	}
 	if err = <-done; !errors.Is(err, context.Canceled) || len(b.applied) != 0 {
@@ -70,7 +70,7 @@ func TestActionErrorsPropagateWithoutClosingWindow(t *testing.T) {
 	b := &actionFake{failure: want}
 	w, _ := New(Options{})
 	done, _ := w.Focus(context.Background())
-	if err := w.run(context.Background(), func(apps.WindowOptions) (backend, error) { return b, nil }); err != nil {
+	if err := w.run(context.Background(), func(omniwindow.WindowOptions) (backend, error) { return b, nil }); err != nil {
 		t.Fatal(err)
 	}
 	if !errors.Is(<-done, want) {
@@ -81,7 +81,7 @@ func TestNativeCloseCanBeVetoed(t *testing.T) {
 	attempts := 0
 	b := &actionFake{fakeBackend: fakeBackend{events: [][]Event{{{Kind: "close"}}, {{Kind: "close"}}}}}
 	w, _ := New(Options{ShouldClose: func() bool { attempts++; return attempts > 1 }})
-	if err := w.run(context.Background(), func(apps.WindowOptions) (backend, error) { return b, nil }); err != nil {
+	if err := w.run(context.Background(), func(omniwindow.WindowOptions) (backend, error) { return b, nil }); err != nil {
 		t.Fatal(err)
 	}
 	if attempts != 2 || b.closed != 1 {
@@ -93,7 +93,7 @@ func TestProgrammaticCloseBypassesVetoAndRejectsPending(t *testing.T) {
 	done, _ := w.Close(context.Background())
 	pending, _ := w.Hide(context.Background())
 	b := &actionFake{}
-	if err := w.run(context.Background(), func(apps.WindowOptions) (backend, error) { return b, nil }); err != nil {
+	if err := w.run(context.Background(), func(omniwindow.WindowOptions) (backend, error) { return b, nil }); err != nil {
 		t.Fatal(err)
 	}
 	if <-done != nil || !errors.Is(<-pending, dispatch.ErrClosed) || len(b.applied) != 0 || b.closed != 1 {

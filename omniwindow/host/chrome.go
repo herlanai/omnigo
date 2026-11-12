@@ -4,15 +4,15 @@ import (
 	"context"
 	"errors"
 
-	"github.com/herlanai/omnigo/apps"
+	"github.com/herlanai/omnigo/omniwindow"
 )
 
 type TitleBarRequest struct {
-	Style                apps.TitleBarStyle `json:"style"`
-	TrafficLightPosition *apps.Point        `json:"trafficLightPosition,omitempty"`
+	Style                omniwindow.TitleBarStyle `json:"style"`
+	TrafficLightPosition *omniwindow.Point        `json:"trafficLightPosition,omitempty"`
 }
 type TitleBarState struct {
-	Style    apps.TitleBarStyle `json:"style"`
+	Style    omniwindow.TitleBarStyle `json:"style"`
 	TopInset float64            `json:"topInset"`
 }
 
@@ -29,7 +29,7 @@ func (h *Controller) titleBar(ctx context.Context, request TitleBarRequest) (Tit
 	if ctx == nil {
 		return TitleBarState{}, errors.New("host: nil context")
 	}
-	options := apps.WindowOptions{TitleBarStyle: request.Style, TrafficLightPosition: request.TrafficLightPosition}
+	options := omniwindow.WindowOptions{TitleBarStyle: request.Style, TrafficLightPosition: request.TrafficLightPosition}
 	if err := options.Validate(); err != nil {
 		return TitleBarState{}, err
 	}

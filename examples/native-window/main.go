@@ -4,8 +4,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/herlanai/omnigo/apps"
-	"github.com/herlanai/omnigo/apps/nativewindow"
+	"github.com/herlanai/omnigo/omniwindow"
+	"github.com/herlanai/omnigo/omniwindow/nativewindow"
 	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"github.com/herlanai/omnigo/runtime/lifecycle"
 	"image"
@@ -56,7 +56,7 @@ func main() {
 				ui.Button("restore", "Restore", func() { fullscreen = false; request(window.Restore(ctx)) })).Gap(8),
 			ui.Button("child", "Open owned child window", func() {
 				_, err := window.NewChild(nativewindow.Options{
-					Window: apps.WindowOptions{Title: "Owned child", Width: 480, Height: 240, MinWidth: 240, MinHeight: 160},
+					Window: omniwindow.WindowOptions{Title: "Owned child", Width: 480, Height: 240, MinWidth: 240, MinHeight: 160},
 					Paint: func(width, height int) (*image.RGBA, error) {
 						surface, err := ui.NewSurface(width, height, ui.NewTheme(false))
 						if err != nil {
@@ -86,7 +86,7 @@ func main() {
 	start := time.Now()
 	advance := func() error { return s.Advance(time.Since(start)) }
 	w, err := nativewindow.New(nativewindow.Options{
-		Window: apps.WindowOptions{Title: "OmniGo — native controls", Width: 960, Height: 640, MinWidth: 480, MinHeight: 320},
+		Window: omniwindow.WindowOptions{Title: "OmniGo — native controls", Width: 960, Height: 640, MinWidth: 480, MinHeight: 320},
 		Ready:  func(w *nativewindow.Window) error { window = w; return nil },
 		ShouldClose: func() bool {
 			if protectClose {

@@ -13,8 +13,8 @@ import (
 
 // Driver.Run owns the platform event loop and must return on cancellation.
 // A native driver must be called on the OS main thread; the application does not
-// move it to a background goroutine. apps/nativewindow provides an optional
-// experimental Win32/X11 software driver; apps/host provides the Cocoa host.
+// move it to a background goroutine. omniwindow/nativewindow provides an optional
+// experimental Win32/X11 software driver; omniwindow/host provides the Cocoa host.
 type Driver interface{ Run(context.Context) error }
 
 type Options struct {
@@ -54,10 +54,10 @@ func guarded(fn func(context.Context) error, ctx context.Context) (err error) {
 // an independent bounded context, so cancellation cannot skip cleanup.
 func (a *Manager) Run(ctx context.Context, driver Driver) (err error) {
 	if ctx == nil || driver == nil {
-		return errors.New("apps: context and driver are required")
+		return errors.New("lifecycle: context and driver are required")
 	}
 	if !a.running.CompareAndSwap(false, true) {
-		return errors.New("apps: application already used")
+		return errors.New("lifecycle: application already used")
 	}
 	if err := ctx.Err(); err != nil {
 		return err

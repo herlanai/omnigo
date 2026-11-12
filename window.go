@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/herlanai/omnigo/apps/host"
+	"github.com/herlanai/omnigo/omniwindow/host"
 )
 
 // ConfigureMainWindow configures the primary Web UI window. URL is an application-relative

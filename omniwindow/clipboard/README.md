@@ -22,5 +22,5 @@ Studio macOS 的复制/剪切/粘贴与控件复制按钮已使用这个公共�
 验证：数据所有权/race/错误/取消/预算/CF_HTML/PNG 测试；macOS ARM64 私有命名粘贴板的 Unicode/HTML 多项往返与释放已实机通过。测试不访问用户 general pasteboard。Windows 仅有编译/vet 证据。
 
 ```sh
-OMNIGO_NATIVE_TEST=1 CGO_ENABLED=0 go test ./apps/clipboard -run TestPrivatePasteboardRoundTrip -v
+OMNIGO_NATIVE_TEST=1 CGO_ENABLED=0 go test ./omniwindow/clipboard -run TestPrivatePasteboardRoundTrip -v
 ```

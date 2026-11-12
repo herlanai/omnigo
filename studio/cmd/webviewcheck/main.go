@@ -4,7 +4,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/herlanai/omnigo/apps/host"
+	"github.com/herlanai/omnigo/omniwindow/host"
 	"os"
 )
 

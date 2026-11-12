@@ -1,4 +1,4 @@
-// apps-smoke verifies native startup, Go rendering and teardown using only
+// desktop-smoke verifies native startup, Go rendering and teardown using only
 // public framework APIs. It briefly opens a real window and uses no sleeps.
 package main
 
@@ -8,7 +8,7 @@ import (
 	"os"
 
 	"github.com/herlanai/omnigo"
-	"github.com/herlanai/omnigo/apps/host"
+	"github.com/herlanai/omnigo/omniwindow/host"
 	ui "github.com/herlanai/omnigo/omniui/baseui"
 )
 

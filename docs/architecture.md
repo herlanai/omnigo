@@ -7,11 +7,11 @@
 | 模块 | 负责 | 不负责 |
 | --- | --- | --- |
 | 根包 `omnigo` | 公开应用入口、类型化服务绑定、窗口配置；组合现有生命周期与资源托管 | 演示数据、Studio 专属业务 |
-| `apps` | 窗口与平台契约 | 控件布局和绘制 |
-| `apps/host` | 可选 Cocoa/WebKit 宿主、Go 内容窗口、输入、绘制提交、标题栏、资源清理 | Studio 的演示 ID、图标和 HTML 示例 |
-| `apps/metrics` | Go runtime 与原生进程/系统指标采样 | 性能面板展示 |
-| `apps/nativewindow` | Win32/X11 窗口、事件路由、父子关系、帧提交 | WebView、控件树、业务状态 |
-| `apps/clipboard`、`apps/system`、`apps/accelerator` | 各自独立的系统数据/服务契约与适配 | Studio 的展示和业务逻辑 |
+| `omniwindow` | 窗口与平台契约 | 控件布局和绘制 |
+| `omniwindow/host` | 可选 Cocoa/WebKit 宿主、Go 内容窗口、输入、绘制提交、标题栏、资源清理 | Studio 的演示 ID、图标和 HTML 示例 |
+| `omniwindow/metrics` | Go runtime 与原生进程/系统指标采样 | 性能面板展示 |
+| `omniwindow/nativewindow` | Win32/X11 窗口、事件路由、父子关系、帧提交 | WebView、控件树、业务状态 |
+| `omniwindow/clipboard`、`omniwindow/system`、`omniwindow/accelerator` | 各自独立的系统数据/服务契约与适配 | Studio 的展示和业务逻辑 |
 | `runtime/dispatch`、`event`、`rpc` | UI 派发、事件和调用基础设施 | 具体控件或平台初始化 |
 | `runtime/download` | 下载元数据校验、重试、哈希、暂存、缓存锁与发布 | 更新签名、版本选择、安装和重启 |
 | `text/rope` | 不可变文本版本、坐标和编辑算法 | 选择区、IME、控件、排版 |
@@ -28,13 +28,13 @@ flowchart TD
     Studio --> Apps[application platform services]
     Studio --> Plugins[optional plugins]
     BaseUI --> Rope[text/rope]
-    Native[apps/nativewindow] --> Contract[apps contracts]
+    Native[omniwindow/nativewindow] --> Contract[omniwindow contracts]
     Native --> Dispatch[runtime/dispatch]
     Plugins --> Download[runtime/download]
     Web[omniweb] --> RPC[runtime/rpc]
 ```
 
-Cocoa 宿主已迁入公开的 `apps/host`，不再反向依赖 Studio。Studio 通过根包 `omnigo.New`、`omnigo.Bind`、`app.ConfigureMainWindow` 和 `app.Run` 启动；资源服务器复用 OmniWeb，扩展生命周期复用 `lifecycle.Manager`。窗口工厂只提供 Go 控件内容与应用回调。Windows/Linux 的软件驱动仍在 `apps/nativewindow`，当前 `host` 的 WebKit 宿主不支持这两个平台；跨编译不代表实机验收。
+Cocoa 宿主已迁入公开的 `omniwindow/host`，不再反向依赖 Studio。Studio 通过根包 `omnigo.New`、`omnigo.Bind`、`app.ConfigureMainWindow` 和 `app.Run` 启动；资源服务器复用 OmniWeb，扩展生命周期复用 `lifecycle.Manager`。窗口工厂只提供 Go 控件内容与应用回调。Windows/Linux 的软件驱动仍在 `omniwindow/nativewindow`，当前 `host` 的 WebKit 宿主不支持这两个平台；跨编译不代表实机验收。
 
 ## 已合并的实现
 
@@ -75,8 +75,8 @@ Surface、控件状态、原生窗口与 GPU 设备由所属 UI goroutine 使用
 
 ## 应用命名与包迁移（2026-11-12）
 
-公共应用入口仍是根包 `omnigo`。平台能力统一位于 `apps`；原 `desktop/uiapp`
-迁为 `apps/host`，控制对象为 `host.Controller`。扩展生命周期独立为
+公共应用入口仍是根包 `omnigo`。平台能力统一位于 `omniwindow`；原 `desktop/uiapp`
+迁为 `omniwindow/host`，控制对象为 `host.Controller`。扩展生命周期独立为
 `runtime/lifecycle.Manager`，不承担窗口配置和原生事件处理。
 
 根包按职责拆分：application.go（构造）、run.go（运行）、window.go（窗口）、
@@ -87,7 +87,8 @@ http.go（资源与路由）。平台实现使用 `_darwin.go` 等系统后缀�
 
 | 旧 API | 新 API |
 | --- | --- |
-| desktop / desktop/uiapp | apps / apps/host |
+| desktop / apps | omniwindow |
+| desktop/uiapp / apps/host | omniwindow/host |
 | desktop.Application、desktop.Options、desktop.New | lifecycle.Manager、lifecycle.Options、lifecycle.New |
 | uiapp.Host、uiapp.Services | host.Controller、host.WindowServices |
 | Module、Modules、Compose | Registration、Registrations、Group |

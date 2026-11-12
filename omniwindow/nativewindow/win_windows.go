@@ -10,7 +10,7 @@ import (
 	"unicode/utf16"
 	"unsafe"
 
-	"github.com/herlanai/omnigo/apps"
+	"github.com/herlanai/omnigo/omniwindow"
 	"golang.org/x/sys/windows"
 )
 
@@ -65,7 +65,7 @@ type winHost struct {
 	hwnd                                      uintptr
 	events                                    []Event
 	input                                     utf16Input
-	options                                   apps.WindowOptions
+	options                                   omniwindow.WindowOptions
 }
 
 var winRegistry sync.Map
@@ -233,11 +233,11 @@ func winKey(v uint32) string {
 	}
 	return map[uint32]string{8: "Backspace", 9: "Tab", 13: "Enter", 27: "Escape", 32: "Space", 33: "PageUp", 34: "PageDown", 35: "End", 36: "Home", 37: "Left", 38: "Up", 39: "Right", 40: "Down", 46: "Delete", 121: "F10"}[v]
 }
-func openBackend(o apps.WindowOptions) (backend, error) {
+func openBackend(o omniwindow.WindowOptions) (backend, error) {
 	return openOwnedWindow(o, 0)
 }
-func (w *winHost) child(o apps.WindowOptions) (backend, error) { return openOwnedWindow(o, w.hwnd) }
-func openOwnedWindow(o apps.WindowOptions, owner uintptr) (backend, error) {
+func (w *winHost) child(o omniwindow.WindowOptions) (backend, error) { return openOwnedWindow(o, w.hwnd) }
+func openOwnedWindow(o omniwindow.WindowOptions, owner uintptr) (backend, error) {
 	classOnce.Do(func() {
 		if err := windows.GetModuleHandleEx(2, nil, &module); err != nil {
 			classError = err

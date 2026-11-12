@@ -5,8 +5,8 @@
       "implementation": [
         "runtime/lifecycle/manager.go",
         "runtime/dispatch",
-        "apps/host",
-        "apps/nativewindow"
+        "omniwindow/host",
+        "omniwindow/nativewindow"
       ],
       "interfaces": [
         "Backend",
@@ -23,10 +23,10 @@
     {
       "id": "window",
       "implementation": [
-        "apps/window.go",
-        "apps/host/cocoa_darwin.go",
-        "apps/host/chrome_darwin.go",
-        "apps/nativewindow",
+        "omniwindow/window.go",
+        "omniwindow/host/cocoa_darwin.go",
+        "omniwindow/host/chrome_darwin.go",
+        "omniwindow/nativewindow",
         "examples/native-window"
       ],
       "interfaces": [
@@ -51,7 +51,7 @@
     {
       "id": "webview",
       "implementation": [
-        "apps/host/webview_darwin.go"
+        "omniwindow/host/webview_darwin.go"
       ],
       "interfaces": [
         "Page",
@@ -71,8 +71,8 @@
     {
       "id": "clipboard",
       "implementation": [
-        "apps/clipboard",
-        "apps/host/cocoa_darwin.go"
+        "omniwindow/clipboard",
+        "omniwindow/host/cocoa_darwin.go"
       ],
       "interfaces": [
         "Clipboard",
@@ -89,7 +89,7 @@
     {
       "id": "shell",
       "implementation": [
-        "apps/system"
+        "omniwindow/system"
       ],
       "interfaces": [
         "Shell"

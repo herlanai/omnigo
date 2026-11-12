@@ -3,11 +3,11 @@ package nativewindow
 import (
 	"errors"
 
-	"github.com/herlanai/omnigo/apps"
+	"github.com/herlanai/omnigo/omniwindow"
 )
 
 type childBackend interface {
-	child(apps.WindowOptions) (backend, error)
+	child(omniwindow.WindowOptions) (backend, error)
 }
 type pendingBackend interface{ pending() bool }
 

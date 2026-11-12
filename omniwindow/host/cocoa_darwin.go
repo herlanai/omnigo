@@ -13,7 +13,7 @@ import (
 
 	"github.com/ebitengine/purego"
 	"github.com/ebitengine/purego/objc"
-	"github.com/herlanai/omnigo/apps/clipboard"
+	"github.com/herlanai/omnigo/omniwindow/clipboard"
 	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"github.com/herlanai/omnigo/runtime/dispatch"
 )

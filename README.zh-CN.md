@@ -109,7 +109,7 @@ CEF 宿主构建需要 CMake 和原生 C++ 工具链。普通 Go 目标支持 `C
 | --- | --- | --- |
 | **Go 原生内容** | `Options.GoWindow` + `baseui` | 在 Go 中编写控件、布局与交互。 |
 | **Web 主窗口** | `Options.Assets` + `Options.Window` | 托管前端资源，通过 OmniWeb 调用 Go。 |
-| **内嵌 WebView** | `apps/host.WebViewOptions` | 在 Go 布局中展示真实 WKWebView。 |
+| **内嵌 WebView** | `omniwindow/host.WebViewOptions` | 在 Go 布局中展示真实 WKWebView。 |
 | **独立 Web 应用** | OmniWeb 项目模板 | TanStack Start、React、TypeScript 与 Go 服务组合。 |
 
 Web 模板当前生成浏览器应用。原生窗口能力与 Web 协议分别演进，详见 [OmniWeb 指南](docs/omniweb.md)。
@@ -129,7 +129,7 @@ Web 模板当前生成浏览器应用。原生窗口能力与 Web 协议分别�
 
 ```text
 omnigo/                 应用入口、窗口配置、服务与注册
-├── apps/               平台能力：宿主、窗口、剪贴板、指标
+├── omniwindow/         平台能力：宿主、窗口、剪贴板、指标
 ├── omniui/baseui/      Go 控件、布局、主题、输入与绘制
 ├── omniui/plugins/     可选功能插件
 ├── omniweb/            Web 协议、资源托管与 TypeScript 客户端

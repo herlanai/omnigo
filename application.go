@@ -9,20 +9,20 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/herlanai/omnigo/apps"
-	"github.com/herlanai/omnigo/apps/host"
+	"github.com/herlanai/omnigo/omniwindow"
+	"github.com/herlanai/omnigo/omniwindow/host"
 	"github.com/herlanai/omnigo/omniui"
 	"github.com/herlanai/omnigo/runtime/lifecycle"
 	"github.com/herlanai/omnigo/runtime/rpc"
 )
 
-type WindowOptions = apps.WindowOptions
-type Point = apps.Point
+type WindowOptions = omniwindow.WindowOptions
+type Point = omniwindow.Point
 
 const (
-	TitleBarDefault     = apps.TitleBarDefault
-	TitleBarHidden      = apps.TitleBarHidden
-	TitleBarHiddenInset = apps.TitleBarHiddenInset
+	TitleBarDefault     = omniwindow.TitleBarDefault
+	TitleBarHidden      = omniwindow.TitleBarHidden
+	TitleBarHiddenInset = omniwindow.TitleBarHiddenInset
 )
 
 var ErrNotReady = errors.New("omnigo: native host is not ready")

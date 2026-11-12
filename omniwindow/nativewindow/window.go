@@ -13,7 +13,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/herlanai/omnigo/apps"
+	"github.com/herlanai/omnigo/omniwindow"
 	"github.com/herlanai/omnigo/runtime/dispatch"
 )
 
@@ -31,7 +31,7 @@ type Event struct {
 // Paint must return an opaque RGBA framebuffer matching the client size in pixels.
 // Tick is called only when NextFrame requests a timer, never by a polling loop.
 type Options struct {
-	Window      apps.WindowOptions
+	Window      omniwindow.WindowOptions
 	Event       func(Event) error
 	Paint       func(width, height int) (*image.RGBA, error)
 	NextFrame   func() (time.Duration, bool)
@@ -66,7 +66,7 @@ func New(o Options) (*Window, error) {
 	if o.Window.URL != "" {
 		return nil, errors.New("nativewindow: URL requires a WebView driver")
 	}
-	if o.Window.TitleBarStyle != "" && o.Window.TitleBarStyle != apps.TitleBarDefault {
+	if o.Window.TitleBarStyle != "" && o.Window.TitleBarStyle != omniwindow.TitleBarDefault {
 		return nil, errors.New("nativewindow: custom titlebar styles are not implemented by this driver")
 	}
 	if o.Window.TrafficLightPosition != nil {
@@ -108,7 +108,7 @@ func (w *Window) Run(ctx context.Context) error {
 	return w.run(ctx, openBackend)
 }
 
-func (w *Window) run(ctx context.Context, open func(apps.WindowOptions) (backend, error)) error {
+func (w *Window) run(ctx context.Context, open func(omniwindow.WindowOptions) (backend, error)) error {
 	if ctx == nil {
 		return errors.New("nativewindow: nil context")
 	}

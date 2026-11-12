@@ -8,7 +8,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/herlanai/omnigo/apps"
+	"github.com/herlanai/omnigo/omniwindow"
 	ui "github.com/herlanai/omnigo/omniui/baseui"
 )
 
@@ -61,7 +61,7 @@ func (c ContentWindowOptions) normalized() (ContentWindowOptions, error) {
 	if c.Height == 0 {
 		c.Height = 840
 	}
-	if err := (apps.WindowOptions{Title: c.Title, Width: c.Width, Height: c.Height}).Validate(); err != nil {
+	if err := (omniwindow.WindowOptions{Title: c.Title, Width: c.Width, Height: c.Height}).Validate(); err != nil {
 		return c, err
 	}
 	if c.Width > 16384 || c.Height > 16384 || int64(c.Width)*int64(c.Height) > 16_000_000 {
@@ -72,7 +72,7 @@ func (c ContentWindowOptions) normalized() (ContentWindowOptions, error) {
 
 type WindowFactory func(key string, dark bool, services WindowServices) (ContentWindowOptions, error)
 type Options struct {
-	Window        apps.WindowOptions
+	Window        omniwindow.WindowOptions
 	Icon          []byte
 	CreateWindow  WindowFactory
 	InitialWindow string            // Required without a Web UI shell URL.

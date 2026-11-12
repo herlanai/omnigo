@@ -1,4 +1,4 @@
-// This is a headless contract demonstration, not a apps window.
+// This is a headless contract demonstration, not a desktop window.
 package main
 
 import (

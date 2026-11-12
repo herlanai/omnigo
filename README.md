@@ -109,7 +109,7 @@ Building the CEF host requires CMake and a native C++ toolchain. Ordinary Go tar
 | --- | --- | --- |
 | **Native Go content** | `Options.GoWindow` + `baseui` | Write controls, layout, and interactions in Go. |
 | **Web main window** | `Options.Assets` + `Options.Window` | Host frontend assets and call Go through OmniWeb. |
-| **Embedded WebView** | `apps/host.WebViewOptions` | Place a real WKWebView inside a Go layout. |
+| **Embedded WebView** | `omniwindow/host.WebViewOptions` | Place a real WKWebView inside a Go layout. |
 | **Standalone Web app** | OmniWeb project template | Combine TanStack Start, React, and TypeScript with Go services. |
 
 The Web template currently generates a browser application. Native window support and the Web protocol evolve independently. See the [OmniWeb guide](docs/omniweb.md).
@@ -129,7 +129,7 @@ Cross-compilation does not establish native compatibility. Full IME support, sys
 
 ```text
 omnigo/                 Application entry points, windows, services, registrations
-├── apps/               Platform hosts, windows, clipboard, and metrics
+├── omniwindow/         Platform hosts, windows, clipboard, and metrics
 ├── omniui/baseui/      Go controls, layout, themes, input, and rendering
 ├── omniui/plugins/     Optional feature plugins
 ├── omniweb/            Web protocol, asset hosting, and TypeScript client

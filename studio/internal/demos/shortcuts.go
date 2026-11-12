@@ -2,7 +2,7 @@ package demos
 
 import (
 	"fmt"
-	"github.com/herlanai/omnigo/apps/accelerator"
+	"github.com/herlanai/omnigo/omniwindow/accelerator"
 	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"runtime"
 )
@@ -49,5 +49,5 @@ func (d *Demo) shortcutContent() *ui.Element {
 		}
 		return false
 	})
-	return ui.Column("demo/shortcuts", ui.Input("demo/chord", "Shortcut", state.input), ui.Row("demo/platforms", ui.Button("demo/mac", "macOS", choose("darwin")), ui.Button("demo/win", "Windows", choose("windows")), ui.Button("demo/linux", "Linux", choose("linux"))).Gap(8), ui.Text("demo/target", "Parse for: "+state.goos), ui.Text("demo/parsed", result), probe, ui.Text("demo/matches", fmt.Sprintf("Matched %d times", state.activations)), ui.Text("demo/scope", "Focus is required; shortcuts do not run in other apps.").Muted(true)).Gap(16)
+	return ui.Column("demo/shortcuts", ui.Input("demo/chord", "Shortcut", state.input), ui.Row("demo/platforms", ui.Button("demo/mac", "macOS", choose("darwin")), ui.Button("demo/win", "Windows", choose("windows")), ui.Button("demo/linux", "Linux", choose("linux"))).Gap(8), ui.Text("demo/target", "Parse for: "+state.goos), ui.Text("demo/parsed", result), probe, ui.Text("demo/matches", fmt.Sprintf("Matched %d times", state.activations)), ui.Text("demo/scope", "Focus is required; shortcuts do not run in other omniwindow.").Muted(true)).Gap(16)
 }

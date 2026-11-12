@@ -6,18 +6,18 @@ import (
 	"fmt"
 
 	"github.com/ebitengine/purego/objc"
-	"github.com/herlanai/omnigo/apps"
+	"github.com/herlanai/omnigo/omniwindow"
 )
 
 type windowChrome struct {
 	window          objc.ID
-	style           apps.TitleBarStyle
-	position        *apps.Point
+	style           omniwindow.TitleBarStyle
+	position        *omniwindow.Point
 	originalButtons [3]rect
 }
 
 func newWindowChrome(window objc.ID) *windowChrome {
-	c := &windowChrome{window: window, style: apps.TitleBarDefault}
+	c := &windowChrome{window: window, style: omniwindow.TitleBarDefault}
 	for i := range c.originalButtons {
 		c.originalButtons[i] = objc.Send[rect](window.Send(sel("standardWindowButton:"), uint64(i)), sel("frame"))
 	}
@@ -27,7 +27,7 @@ func (c *windowChrome) apply(request TitleBarRequest) (TitleBarState, error) {
 	if request.Style == "" {
 		return c.layout(), nil
 	}
-	if err := (apps.WindowOptions{TitleBarStyle: request.Style, TrafficLightPosition: request.TrafficLightPosition}).Validate(); err != nil {
+	if err := (omniwindow.WindowOptions{TitleBarStyle: request.Style, TrafficLightPosition: request.TrafficLightPosition}).Validate(); err != nil {
 		return TitleBarState{}, err
 	}
 	if c.window.Send(sel("styleMask"))&(1<<14) != 0 {
@@ -38,11 +38,11 @@ func (c *windowChrome) apply(request TitleBarRequest) (TitleBarState, error) {
 	if request.TrafficLightPosition != nil {
 		p := *request.TrafficLightPosition
 		c.position = &p
-	} else if c.style == apps.TitleBarHiddenInset {
-		c.position = &apps.Point{X: 12, Y: 11}
+	} else if c.style == omniwindow.TitleBarHiddenInset {
+		c.position = &omniwindow.Point{X: 12, Y: 11}
 	}
 	old := objc.Send[rect](c.window, sel("frame"))
-	hidden := c.style != apps.TitleBarDefault
+	hidden := c.style != omniwindow.TitleBarDefault
 	mask := uint64(c.window.Send(sel("styleMask")))
 	if hidden {
 		mask |= 1 << 15
@@ -56,7 +56,7 @@ func (c *windowChrome) apply(request TitleBarRequest) (TitleBarState, error) {
 	}
 	c.window.Send(sel("setTitleVisibility:"), visibility)
 	c.window.Send(sel("setTitlebarAppearsTransparent:"), hidden)
-	if c.style == apps.TitleBarHiddenInset {
+	if c.style == omniwindow.TitleBarHiddenInset {
 		toolbar := objc.ID(objc.GetClass("NSToolbar")).Send(sel("alloc")).Send(sel("initWithIdentifier:"), stringID("omnigo.hidden-inset"))
 		toolbar.Send(sel("setShowsBaselineSeparator:"), false)
 		c.window.Send(sel("setToolbar:"), toolbar)
@@ -76,7 +76,7 @@ func (c *windowChrome) apply(request TitleBarRequest) (TitleBarState, error) {
 }
 func (c *windowChrome) layout() TitleBarState {
 	result := TitleBarState{Style: c.style}
-	if c.style == apps.TitleBarDefault || c.window.Send(sel("styleMask"))&(1<<14) != 0 {
+	if c.style == omniwindow.TitleBarDefault || c.window.Send(sel("styleMask"))&(1<<14) != 0 {
 		return result
 	}
 	button := c.window.Send(sel("standardWindowButton:"), uint64(0))

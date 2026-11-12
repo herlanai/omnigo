@@ -7,8 +7,8 @@ import (
 	"os"
 
 	"github.com/herlanai/omnigo"
-	"github.com/herlanai/omnigo/apps/host"
-	"github.com/herlanai/omnigo/apps/metrics"
+	"github.com/herlanai/omnigo/omniwindow/host"
+	"github.com/herlanai/omnigo/omniwindow/metrics"
 	"github.com/herlanai/omnigo/studio"
 	"github.com/herlanai/omnigo/studio/internal/browser"
 	"github.com/herlanai/omnigo/studio/internal/demos"

@@ -60,7 +60,7 @@ Studio 原生窗口使用共享的单个 RGBA 帧、PNG 输出 buffer 和 PNG en
 
 ```sh
 CGO_ENABLED=0 go test ./omniui/baseui -run '^$' -bench 'BenchmarkControlsRender|BenchmarkMount100Controls' -benchmem -count 5
-CGO_ENABLED=0 go test ./apps/host -run '^$' -bench BenchmarkFramePipeline -benchmem -count 5
+CGO_ENABLED=0 go test ./omniwindow/host -run '^$' -bench BenchmarkFramePipeline -benchmem -count 5
 ```
 
 - [优化前](benchmarks/render-2026-11-11-before.txt)

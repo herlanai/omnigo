@@ -2174,7 +2174,7 @@
     "description": "跨平台快捷键解析、物理修饰键匹配与 XKB/XDG 表示；聚焦按钮后按真实快捷键验证。系统级注册仍待实现。",
     "group": "framework",
     "id": "shortcuts",
-    "implementation": "apps/accelerator",
+    "implementation": "omniwindow/accelerator",
     "kind": "feature",
     "status": "partial",
     "symbol": "Parse",

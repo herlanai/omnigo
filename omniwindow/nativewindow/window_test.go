@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/herlanai/omnigo/apps"
+	"github.com/herlanai/omnigo/omniwindow"
 	"github.com/herlanai/omnigo/runtime/dispatch"
 )
 
@@ -39,7 +39,7 @@ func TestLoopResizeDispatchAndResourceLifetime(t *testing.T) {
 	changes := 0
 	var done <-chan error
 	var sizes []image.Point
-	w, _ := New(Options{Window: apps.WindowOptions{Width: 200, Height: 100}, Ready: func(w *Window) error {
+	w, _ := New(Options{Window: omniwindow.WindowOptions{Width: 200, Height: 100}, Ready: func(w *Window) error {
 		var err error
 		done, err = w.Post(context.Background(), func() error { changes++; return nil })
 		return err
@@ -47,7 +47,7 @@ func TestLoopResizeDispatchAndResourceLifetime(t *testing.T) {
 		sizes = append(sizes, image.Pt(w, h))
 		return image.NewRGBA(image.Rect(0, 0, w, h)), nil
 	}})
-	err := w.run(context.Background(), func(apps.WindowOptions) (backend, error) { return b, nil })
+	err := w.run(context.Background(), func(omniwindow.WindowOptions) (backend, error) { return b, nil })
 	if err != nil || changes != 1 || <-done != nil || b.closed != 1 || b.frames != 2 || sizes[1] != image.Pt(400, 200) {
 		t.Fatalf("err=%v changes=%d backend=%+v sizes=%v", err, changes, b, sizes)
 	}
@@ -69,7 +69,7 @@ func TestCancellationAndFailedPaintReleaseBackend(t *testing.T) {
 			}
 			return nil
 		}, Paint: func(int, int) (*image.RGBA, error) { return nil, want }})
-		err := w.run(ctx, func(apps.WindowOptions) (backend, error) { return b, nil })
+		err := w.run(ctx, func(omniwindow.WindowOptions) (backend, error) { return b, nil })
 		cancel()
 		if cancelNow {
 			want = context.Canceled
@@ -90,7 +90,7 @@ func TestTimerAndIdleWait(t *testing.T) {
 	ticks := 0
 	w, _ := New(Options{NextFrame: func() (time.Duration, bool) { return 7 * time.Millisecond, ticks == 0 }, Tick: func() error { ticks++; return nil }})
 	w.now = func() time.Time { return now }
-	if err := w.run(context.Background(), func(apps.WindowOptions) (backend, error) { return b, nil }); err != nil {
+	if err := w.run(context.Background(), func(omniwindow.WindowOptions) (backend, error) { return b, nil }); err != nil {
 		t.Fatal(err)
 	}
 	if ticks != 1 || b.timeouts[0] != 7 || b.timeouts[1] != -1 {
@@ -98,7 +98,7 @@ func TestTimerAndIdleWait(t *testing.T) {
 	}
 }
 func TestNativeOptionsAndPixelBounds(t *testing.T) {
-	for _, o := range []apps.WindowOptions{{URL: "/"}, {TitleBarStyle: apps.TitleBarHiddenInset}, {Width: 20000}, {TrafficLightPosition: &apps.Point{X: 12, Y: 11}}} {
+	for _, o := range []omniwindow.WindowOptions{{URL: "/"}, {TitleBarStyle: omniwindow.TitleBarHiddenInset}, {Width: 20000}, {TrafficLightPosition: &omniwindow.Point{X: 12, Y: 11}}} {
 		if _, err := New(Options{Window: o}); err == nil {
 			t.Fatal("unsupported options silently accepted", o)
 		}

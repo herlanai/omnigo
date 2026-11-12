@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/herlanai/omnigo/apps/host"
+	"github.com/herlanai/omnigo/omniwindow/host"
 )
 
 func TestServicesCancelJoinAndReverseCleanup(t *testing.T) {
