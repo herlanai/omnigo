@@ -1,5 +1,5 @@
-// Package dshgo provides a streaming, tool-call-aware model client. It never
-// executes tools. Callbacks run on the calling goroutine, not the UI goroutine.
+// The legacy raw-stream client is independent of the omnix-backed harness.
+// Its callbacks run on the calling goroutine, not the UI goroutine.
 package dshgo
 
 import (
@@ -29,24 +29,31 @@ type ToolCall struct {
 type Message struct {
 	Role       string     `json:"role"`
 	Content    string     `json:"content,omitempty"`
+	Reasoning  string     `json:"reasoning_content,omitempty"`
 	ToolCalls  []ToolCall `json:"tool_calls,omitempty"`
 	ToolCallID string     `json:"tool_call_id,omitempty"`
 }
 type Request struct {
-	Model    string            `json:"model"`
-	Messages []Message         `json:"messages"`
-	Tools    []json.RawMessage `json:"tools,omitempty"`
+	MaxTokens       int               `json:"max_tokens,omitempty"`
+	Temperature     float64           `json:"temperature,omitempty"`
+	ReasoningEffort string            `json:"reasoning_effort,omitempty"`
+	Model           string            `json:"model"`
+	Messages        []Message         `json:"messages"`
+	Tools           []json.RawMessage `json:"tools,omitempty"`
 }
 type Delta struct {
+	Reasoning string     `json:"reasoning_content"`
 	Content   string     `json:"content"`
 	ToolCalls []ToolCall `json:"tool_calls"`
 }
 type Usage struct {
-	PromptTokens     int `json:"prompt_tokens"`
-	CompletionTokens int `json:"completion_tokens"`
-	TotalTokens      int `json:"total_tokens"`
+	PromptCacheHitTokens  int `json:"prompt_cache_hit_tokens"`
+	PromptCacheMissTokens int `json:"prompt_cache_miss_tokens"`
+	PromptTokens          int `json:"prompt_tokens"`
+	CompletionTokens      int `json:"completion_tokens"`
+	TotalTokens           int `json:"total_tokens"`
 }
-type Options struct {
+type ClientOptions struct {
 	BaseURL, APIKey string
 	Client          *http.Client
 	MaxStreamBytes  int64
@@ -57,7 +64,7 @@ type Client struct {
 	limit         int64
 }
 
-func New(o Options) (*Client, error) {
+func NewClient(o ClientOptions) (*Client, error) {
 	if o.BaseURL == "" {
 		o.BaseURL = "https://api.deepseek.com"
 	}

@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-var IDs = append([]string{"shortcuts", "text-storage", "i18n", "date-picker", "data-table"}, append(append(advancedIDs, uiControlIDs...), []string{"tooltip", "hover-card", "context-menu", "input-otp", "file-tree", "aspect-ratio", "combobox", "command", "direction", "dropdown-menu", "popover", "resizable", "scroll-area", "sheet", "skeleton", "accordion", "alert", "alert-dialog", "badge", "button", "button-group", "calendar", "card", "carousel", "checkbox", "code-block", "collapsible", "dialog", "empty", "field", "form", "native-select", "input", "input-group", "kbd", "label", "pagination", "progress", "radio-group", "select", "separator", "slider", "spinner", "switch", "table", "tabs", "textarea", "toggle", "toggle-group", "typography", "markdown", "icon", "loading", "plugin/borderbeam", "plugin/glass", "plugin/scene3d", "plugin/game", "plugin/terminal", "plugin/omnibrowser"}...)...)
+var IDs = append([]string{"shortcuts", "text-storage", "i18n", "date-picker", "data-table"}, append(append(advancedIDs, uiControlIDs...), []string{"tooltip", "hover-card", "context-menu", "input-otp", "file-tree", "aspect-ratio", "combobox", "command", "direction", "dropdown-menu", "popover", "resizable", "scroll-area", "sheet", "skeleton", "accordion", "alert", "alert-dialog", "badge", "button", "button-group", "calendar", "card", "carousel", "checkbox", "code-block", "collapsible", "dialog", "empty", "field", "form", "native-select", "input", "input-group", "kbd", "label", "pagination", "progress", "radio-group", "select", "separator", "slider", "spinner", "switch", "table", "tabs", "textarea", "toggle", "toggle-group", "typography", "markdown", "icon", "loading", "plugin/borderbeam", "plugin/glass", "plugin/scene3d", "plugin/game", "plugin/terminal", "plugin/omnibrowser", "plugin/dsh-go"}...)...)
 
 func Supported(id string) bool {
 	for _, v := range IDs {
@@ -255,6 +255,9 @@ func (d *Demo) content() *ui.Element {
 	return ui.Empty("missing", "Not implemented", "This capability remains in the migration audit.")
 }
 func (d *Demo) View() *ui.Element {
+	if d.ID == "plugin/dsh-go" {
+		return d.panelContent()
+	}
 	if d.ID == "plugin/borderbeam" {
 		return ui.Column("root", ui.ScrollArea("preview/scroll", &d.PreviewScroll, d.pluginContent()).Grow(1)).Padding(28)
 	}

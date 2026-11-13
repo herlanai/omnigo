@@ -9,7 +9,7 @@
 | automation | 私有 socket、UI 调度、控件快照/输入/截图 | 多窗口、菜单/页面、settle、CLI |
 | borderbeam | 五种色场/辉光模式、配色、暂停/隐藏、强度/周期/范围、Studio 同结构演示 | 参考色场精确系数、完整色相参数及逐像素/实机对比；见 [对齐记录](../../migration/controls/borderbeam.md) |
 | chromium | CEF 原生浏览器、标签页、导航、主题、Chrome 扩展、CDP、助手、打包与 Studio 启动 | Windows/Intel 原生验收、Linux 宿主、布局内嵌视图 |
-| dsh-go | 流式模型客户端、工具调用增量、usage | 对话编排、工具审批/执行、原生面板 |
+| dsh-go | Go Panel、omnix Agent、工具审批、会话历史、取消与预算 | 虚拟列表、原生设备验收、持久化恢复、完整 skills/subagent/plan 能力 |
 | fetch | 有界流式 HTTP、重定向策略、取消 | OmniWeb 客户端和页面生命周期 |
 | game | 固定步长、暂停、相机和整数缩放 | 输入累积、手柄、完整 View |
 | glass | 真实 CPU 背景采样、模糊/折射、透明度回退 | 融合面板、GPU、原生材质、滚动边缘 |

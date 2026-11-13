@@ -4,6 +4,7 @@ import (
 	"fmt"
 	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"github.com/herlanai/omnigo/omniui/plugins/borderbeam"
+	dshgo "github.com/herlanai/omnigo/omniui/plugins/dsh-go"
 	"github.com/herlanai/omnigo/omniui/plugins/game"
 	"github.com/herlanai/omnigo/omniui/plugins/glass"
 	"github.com/herlanai/omnigo/omniui/plugins/scene3d"
@@ -15,6 +16,7 @@ import (
 )
 
 type pluginState struct {
+	panel                             *dshgo.Panel
 	terminal                          *terminal.Screen
 	terminalCounter                   int
 	beam                              borderbeam.State

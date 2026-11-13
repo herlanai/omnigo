@@ -16,7 +16,7 @@ func TestStreamToolFragmentsAndUsage(t *testing.T) {
 		fmt.Fprint(w, "data: {\"choices\":[{\"delta\":{\"content\":\"hello\"}}]}\n\ndata: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,\"id\":\"c1\",\"function\":{\"name\":\"search\",\"arguments\":\"{}\"}}]}}]}\n\ndata: {\"usage\":{\"total_tokens\":12}}\n\ndata: [DONE]\n\n")
 	}))
 	defer srv.Close()
-	c, e := New(Options{BaseURL: srv.URL, APIKey: "test-key"})
+	c, e := NewClient(ClientOptions{BaseURL: srv.URL, APIKey: "test-key"})
 	if e != nil {
 		t.Fatal(e)
 	}

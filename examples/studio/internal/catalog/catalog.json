@@ -1771,16 +1771,21 @@
     "symbol": "Launch"
   },
   {
-    "description": "已实现：HTTP/SSE chat with tool-call deltas and usage；Cancellation, limits and redirect protection。尚缺：Conversation orchestration, tool approval/execution, history, native panel and full adapter compatibility",
+    "description": "已实现：omnix agent.Agent model/tool execution with tools.Pipeline, schema validation and approval；SessionLog-backed successful history, cancellation, usage and bounded turns；Default omnix DeepSeek provider and explicit custom adapters；Reusable native Go Panel with prompt, streaming messages, approval, feedback/edit/copy, cancellation, configure/reset and window lifetime integration。尚缺：Reference virtual-list performance and native device acceptance; persistent session resume, history compaction and full omnix skills/subagent/plan surface",
     "evidence": [
-      "omniui/plugins/dsh-go/chat_test.go"
+      "omniui/plugins/dsh-go/conversation_test.go",
+      "omniui/plugins/dsh-go/adapter_test.go",
+      "omniui/plugins/dsh-go/client_test.go",
+      "omniui/plugins/dsh-go/panel_test.go"
     ],
     "group": "plugins",
     "id": "plugin/dsh-go",
     "implementation": "omniui/plugins/dsh-go",
     "implemented": [
-      "HTTP/SSE chat with tool-call deltas and usage",
-      "Cancellation, limits and redirect protection"
+      "omnix agent.Agent model/tool execution with tools.Pipeline, schema validation and approval",
+      "SessionLog-backed successful history, cancellation, usage and bounded turns",
+      "Default omnix DeepSeek provider and explicit custom adapters",
+      "Reusable native Go Panel with prompt, streaming messages, approval, feedback/edit/copy, cancellation, configure/reset and window lifetime integration"
     ],
     "kind": "plugin",
     "reference": {
@@ -1788,10 +1793,10 @@
       "goFiles": 6
     },
     "remaining": [
-      "Conversation orchestration, tool approval/execution, history, native panel and full adapter compatibility"
+      "Reference virtual-list performance and native device acceptance; persistent session resume, history compaction and full omnix skills/subagent/plan surface"
     ],
     "status": "partial",
-    "symbol": "New"
+    "symbol": "NewPanel"
   },
   {
     "description": "已实现：Streaming HTTP with cancellation, redirects, policy and body limits；Cookie header filtering and explicit client lifetime。尚缺：OmniWeb frontend streaming bridge, page lifecycle binding and browser-compatible TypeScript API",

@@ -2,8 +2,8 @@ package demos
 
 import (
 	"fmt"
-	"github.com/herlanai/omnigo/omniwindow/host"
 	ui "github.com/herlanai/omnigo/omniui/baseui"
+	"github.com/herlanai/omnigo/omniwindow/host"
 )
 
 // Window configures demonstration content; native resources belong to OmniGo.
@@ -16,6 +16,9 @@ func Window(key string, dark bool, services host.WindowServices) (host.ContentWi
 	d.RunTask = services.RunTask
 	d.WriteClipboard = services.WriteClipboard
 	content := host.ContentWindowOptions{Title: "Omni Studio — " + key, Width: 1040, Height: 840, View: d.View, Close: d.Close, DragRegion: "heading", TitleBarHidden: func() bool { return d.TitleBarHidden }}
+	if key == "plugin/dsh-go" {
+		content.DragRegion = "assistant/title"
+	}
 	if key == "plugin/borderbeam" {
 		content.Width, content.Height = 960, 820
 	}
