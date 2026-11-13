@@ -29,8 +29,8 @@ undo the native change.
 Appearance overrides belong only to `NSApplication`; `AppearanceSystem` removes
 the override. The effective dark/light state and desktop reduce-motion,
 reduce-transparency and high-contrast preferences are read from AppKit. This
-does not rewrite Go surface themes or arbitrary frontend CSS. There is no
-change subscription yet.
+does not rewrite Go surface themes or arbitrary frontend CSS. Change subscriptions are available through `WatchSystemEvents`; see the
+follow-up below.
 
 ## Reference contract mapping
 
@@ -42,7 +42,7 @@ change subscription yet.
 | `Theme.SetSource(source)` | `Application.SetAppearance(ctx, source)` | system/light/dark; rejects invalid sources |
 | `Theme.Preferences()` | accessibility fields in `AppearanceState` | partial; accent and input/font preferences remain |
 | `Theme.UIFont()` / `FontRendering()` | none | pending |
-| Display / appearance change notifications | none | pending |
+| Display / appearance change notifications | `WatchSystemEvents` | macOS native notifications/KVO; hardware-change acceptance pending |
 
 ## Native acceptance, 2026-11-13
 
@@ -86,3 +86,56 @@ not imply that the WebView document has finished loading.
   concurrent shutdown. No sleeps or timing guesses are used.
 
 These checks do not establish complete non-control parity or performance gains.
+
+
+## Dialogs, tray and system subscription follow-up
+
+Public usage and API limits are documented in `omniwindow/DESKTOP.md`.
+
+| Reference capability | New public entry point | Accepted scope |
+| --- | --- | --- |
+| Dialog open/save/message | `OpenDialog`, `SaveDialog`, `MessageDialog` | macOS owned native sheets; copied options, filters, cancellation, parent/shutdown cleanup |
+| Tray create/set/destroy and menu events | `NewTray`, `Tray.Update`, `State`, `PopUpMenu`, `Close` | macOS status item, PNG/template icon, nested menu snapshots, callbacks and lifetime |
+| Screen/Theme change notifications | `WatchSystemEvents` | native display notifications, effective-appearance KVO, accessibility display preferences |
+| Power/session notifications | `WatchSystemEvents` | workspace sleep/wake, display sleep/wake, session active/inactive; no inhibition |
+
+Native acceptance on macOS arm64, `CGO_ENABLED=0`:
+
+```sh
+go run ./examples/studio/cmd/desktopcheck
+```
+
+The probe successfully verified:
+
+- Open and save panels with extension/MIME filters, native cancellation and
+  no selected paths on cancel. Context cancellation dismisses an active sheet.
+- Native message response, destructive-button configuration and checked
+  suppression checkbox result.
+- Closing an owned parent cancels its sheet, removes the native ownership
+  registration and leaves the main probe window alive.
+- Status item creation, positive bounds, native checkbox/disabled menu state,
+  menu action dispatch, full update, explicit removal and rejected state access
+  after closure. Disabled actions are rejected even through synthetic invocation.
+- Real effective-appearance KVO from application dark/system changes, plus
+  **synthetic** display and workspace wake notifications and detached snapshots.
+  Closing the subscription removes its native observers.
+- Application exit removes the remaining native resources.
+
+An independent Go module also ran only public root APIs: pre-readiness errors,
+pre-canceled open/save/message operations, tray create/state/update/close,
+event subscription and real application appearance notification, then clean
+shutdown and post-stop errors.
+
+Unit/race tests cover cancellation before dispatch and during resource creation,
+full ordinary-queue cancellation, duplicate callbacks, failed creation, duplicate
+tray IDs, nested snapshots, observer sharing, late-resource rollback, channel
+closure and bounded overflow. Full `scripts/check.sh` passed, including six
+CGO-disabled build targets; those builds do not establish native support there.
+
+Interactive file selection/save confirmation and overwrite prompts remain
+unverified. An attempted save-confirmation probe found that this macOS system
+panel throws for direct `ok:` invocation despite its SDK declaration. That
+unsupported automation was removed; confirmation is not claimed as verified.
+Physical menu clicks/keyboard tracking, actual hotplug, sleep/wake and system
+preference changes were not exercised. Windows/Linux, full menu parity,
+application-modal dialogs and sandbox bookmark handling remain in `status.json`.

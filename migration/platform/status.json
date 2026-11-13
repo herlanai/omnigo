@@ -28,12 +28,16 @@
         "Application.Activate: queued macOS unhide/front-window restoration/foreground request; safe enqueue from OnLaunch",
         "Single-instance private directories: Unix owner/mode/symlink checks; Windows protected inheritable owner/SYSTEM/admin DACL and existing-owner/ACL validation (compiled, native acceptance pending)",
         "OnReady callback and cancelable WhenReady with startup-failure/shutdown release",
-        "Native OnReady follows successful initial-window creation; unused browser HTTP preconnections close before graceful shutdown"
+        "Native OnReady follows successful initial-window creation; unused browser HTTP preconnections close before graceful shutdown",
+        "Native shutdown and cancellation use a separate cleanup lane even when the ordinary dispatch queue is full; tray and subscription late creations roll back"
       ],
       "evidence": [
         "readiness_test.go",
         "http_connections_test.go",
-        "migration/noncontrols/desktop-services.md"
+        "migration/noncontrols/desktop-services.md",
+        "omniwindow/host/dialog_test.go",
+        "omniwindow/host/tray_test.go",
+        "omniwindow/host/system_events_test.go"
       ]
     },
     {
@@ -134,12 +138,23 @@
         "Dialogs"
       ],
       "remaining": [
-        "native open/save/message dialogs",
-        "filters",
-        "cancellation",
-        "parent window ownership"
+        "Windows/Linux implementation; application-modal and concurrent-parent presentation",
+        "Interactive file confirmation/overwrite/keyboard/accessibility and sandbox bookmark acceptance; named filter selection"
       ],
-      "status": "pending"
+      "status": "partial",
+      "implementation": [
+        "dialog.go",
+        "omniwindow/host/dialog_darwin.go"
+      ],
+      "implemented": [
+        "macOS owned open/save sheets with extension/MIME filters and native alert buttons/suppression checkbox",
+        "Context/parent/shutdown cancellation, snapshot validation, single-dialog admission and native resource release"
+      ],
+      "evidence": [
+        "omniwindow/dialog_test.go",
+        "omniwindow/host/dialog_test.go",
+        "omniwindow/host/desktop_probe_darwin.go"
+      ]
     },
     {
       "id": "tray",
@@ -148,12 +163,23 @@
         "TrayHandler"
       ],
       "remaining": [
-        "native tray lifecycle",
-        "context menus",
-        "icons",
-        "callbacks"
+        "Windows/Linux implementation; menu roles/accelerators/radio groups/item icons/RTL and activatable policy",
+        "Physical click/double-click/right-click, popup and keyboard acceptance; tray-only lifecycle"
       ],
-      "status": "pending"
+      "status": "partial",
+      "implementation": [
+        "tray.go",
+        "omniwindow/host/tray_darwin.go"
+      ],
+      "implemented": [
+        "macOS status item ID/title/PNG/template/tooltip, nested menu snapshots and actions, state/bounds, update and teardown",
+        "Canceled late creation rollback, duplicate ID rejection and application-owned cleanup"
+      ],
+      "evidence": [
+        "omniwindow/tray_test.go",
+        "omniwindow/host/tray_test.go",
+        "omniwindow/host/desktop_probe_darwin.go"
+      ]
     },
     {
       "id": "display-theme",
@@ -163,7 +189,7 @@
         "StyleBackend"
       ],
       "remaining": [
-        "Hotplug and appearance/preference notifications; remaining font/accent/input preference fields; Go and Web theme synchronization",
+        "Actual hotplug/system-preference device acceptance; remaining font/accent/input preference fields; Go and Web theme synchronization",
         "Windows/Linux implementations and native acceptance; rotated/above/left display native validation"
       ],
       "status": "partial",
@@ -171,16 +197,21 @@
         "screen.go",
         "appearance.go",
         "omniwindow/host/screen_darwin.go",
-        "omniwindow/host/appearance_darwin.go"
+        "omniwindow/host/appearance_darwin.go",
+        "system_events.go",
+        "omniwindow/host/system_events_darwin.go"
       ],
       "implemented": [
         "macOS display and cursor snapshots in logical top-left desktop coordinates, primary/internal flags, work area, scale and rotation",
-        "macOS effective application appearance and system/light/dark override; reduce-motion/transparency and high-contrast snapshots"
+        "macOS effective application appearance and system/light/dark override; reduce-motion/transparency and high-contrast snapshots",
+        "Reference-counted display notifications, effective-appearance KVO and accessibility notification subscription; bounded/coalesced queues and explicit overflow counts"
       ],
       "evidence": [
         "omniwindow/host/screen_test.go",
         "omniwindow/host/appearance_test.go",
-        "migration/noncontrols/desktop-services.md"
+        "migration/noncontrols/desktop-services.md",
+        "omniwindow/host/system_events_test.go",
+        "omniwindow/host/desktop_probe_darwin.go"
       ]
     },
     {
@@ -192,11 +223,20 @@
         "Secrets"
       ],
       "remaining": [
-        "power/network callbacks",
-        "media integration",
-        "Keychain/Credential Manager/Secret Service"
+        "Real sleep/wake/session device acceptance; battery/idle/inhibition; network status/subscriptions; NowPlaying; credential vaults; Windows/Linux implementations"
       ],
-      "status": "pending"
+      "status": "partial",
+      "implementation": [
+        "system_events.go",
+        "omniwindow/host/system_events_darwin.go"
+      ],
+      "implemented": [
+        "macOS workspace sleep/wake/screens-sleep/screens-wake/session notifications with context-owned subscription lifetime"
+      ],
+      "evidence": [
+        "omniwindow/host/system_events_test.go",
+        "omniwindow/host/desktop_probe_darwin.go"
+      ]
     },
     {
       "id": "backend-services",

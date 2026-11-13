@@ -54,23 +54,40 @@
     {
       "id": "dialogs",
       "group": "desktop",
-      "status": "pending",
-      "implementation": [],
-      "evidence": [],
+      "status": "partial",
+      "implementation": [
+        "dialog.go",
+        "omniwindow/dialog.go",
+        "omniwindow/host/dialog_darwin.go"
+      ],
+      "evidence": [
+        "omniwindow/dialog_test.go",
+        "omniwindow/host/dialog_test.go",
+        "omniwindow/host/desktop_probe_darwin.go",
+        "desktop_services_test.go"
+      ],
       "remaining": [
-        "Native open/save/message dialogs, filters, cancellation and window ownership",
-        "Per-method behavior mapping required; source files remain in reference inventory"
+        "Windows/Linux native implementation; application-modal presentation without a parent; concurrent dialogs on separate parents",
+        "Interactive file selection/save confirmation, overwrite prompts, keyboard/accessibility acceptance and sandbox bookmark lifetime; macOS filter names are not a dropdown"
       ]
     },
     {
       "id": "tray-menus",
       "group": "desktop",
-      "status": "pending",
-      "implementation": [],
-      "evidence": [],
+      "status": "partial",
+      "implementation": [
+        "tray.go",
+        "omniwindow/tray.go",
+        "omniwindow/host/tray_darwin.go"
+      ],
+      "evidence": [
+        "omniwindow/tray_test.go",
+        "omniwindow/host/tray_test.go",
+        "omniwindow/host/desktop_probe_darwin.go"
+      ],
       "remaining": [
-        "Native tray lifetime, menu updates, icons and callbacks",
-        "Per-method behavior mapping required; source files remain in reference inventory"
+        "Windows/Linux implementations; menu roles/accelerators/radio groups/per-item icons/RTL; reference activatable policy",
+        "Physical click/double-click/right-click, popup tracking and keyboard interaction acceptance; tray-only last-window lifecycle policy"
       ]
     },
     {
@@ -81,28 +98,38 @@
         "screen.go",
         "appearance.go",
         "omniwindow/host/screen_darwin.go",
-        "omniwindow/host/appearance_darwin.go"
+        "omniwindow/host/appearance_darwin.go",
+        "system_events.go",
+        "omniwindow/host/system_events_darwin.go"
       ],
       "evidence": [
         "screen_test.go",
         "omniwindow/host/screen_test.go",
         "omniwindow/host/appearance_test.go",
-        "migration/noncontrols/desktop-services.md"
+        "migration/noncontrols/desktop-services.md",
+        "omniwindow/host/system_events_test.go",
+        "omniwindow/host/desktop_probe_darwin.go"
       ],
       "remaining": [
-        "Display hotplug and appearance/accessibility change subscriptions; accent/font/input preferences; Go theme and Web bridge integration",
+        "Actual display hotplug/system appearance/accessibility setting changes on device; accent/font/input preferences; Go theme and Web bridge integration",
         "Windows/Linux implementation and native acceptance; rotated/above/left display native acceptance (coordinate unit tests only)"
       ]
     },
     {
       "id": "power-network-media-secrets",
       "group": "desktop",
-      "status": "pending",
-      "implementation": [],
-      "evidence": [],
+      "status": "partial",
+      "implementation": [
+        "system_events.go",
+        "omniwindow/host/system_events_darwin.go"
+      ],
+      "evidence": [
+        "omniwindow/host/system_events_test.go",
+        "omniwindow/host/desktop_probe_darwin.go"
+      ],
       "remaining": [
-        "Power/network subscriptions, NowPlaying and credential vaults",
-        "Per-method behavior mapping required; source files remain in reference inventory"
+        "macOS sleep/wake/display-sleep/session notifications implemented; real sleep/wake/session device acceptance remains (synthetic wake tested)",
+        "Battery/idle/power inhibition, network status/subscriptions, NowPlaying and credential vaults; Windows/Linux implementations"
       ]
     },
     {
@@ -147,13 +174,17 @@
         "run.go",
         "readiness.go",
         "internal/runtime/lifecycle",
-        "http_connections.go"
+        "http_connections.go",
+        "omniwindow/host/control.go"
       ],
       "evidence": [
         "readiness_test.go",
         "internal/runtime/lifecycle/manager_test.go",
         "http_connections_test.go",
-        "migration/noncontrols/desktop-services.md"
+        "migration/noncontrols/desktop-services.md",
+        "omniwindow/host/dialog_test.go",
+        "omniwindow/host/tray_test.go",
+        "omniwindow/host/system_events_test.go"
       ],
       "remaining": [
         "Cancelable before/will-quit, activation/reopen/open-file/open-URL event surface, relaunch and native acceptance"

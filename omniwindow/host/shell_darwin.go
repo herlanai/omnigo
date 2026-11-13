@@ -23,7 +23,12 @@ func openShell(app objc.ID, options omniwindow.WindowOptions, quit func(), host 
 		return nil, err
 	}
 	cls, err := objc.RegisterClass("OmniGoUIAppShellDelegate", objc.GetClass("NSObject"), nil, nil, []objc.MethodDef{
-		{Cmd: sel("windowWillClose:"), Fn: func(objc.ID, objc.SEL, objc.ID) { quit() }},
+		{Cmd: sel("windowWillClose:"), Fn: func(_ objc.ID, _ objc.SEL, note objc.ID) {
+			if cancel := nativeDialogOwners[note.Send(sel("object"))]; cancel != nil {
+				cancel()
+			}
+			quit()
+		}},
 		{Cmd: sel("windowDidResize:"), Fn: func(objc.ID, objc.SEL, objc.ID) {
 			if chrome != nil {
 				chrome.layout()

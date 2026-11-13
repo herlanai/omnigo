@@ -61,8 +61,10 @@ appearance, including three desktop accessibility preferences. Readiness follows
 successful initial-window creation. Unused WebView HTTP preconnections are closed
 on shutdown without exhausting the graceful-shutdown budget.
 
-See [method mapping and native evidence](desktop-services.md). Notifications,
-remaining preference fields and other platform implementations remain pending.
+See [method mapping and native evidence](desktop-services.md). The follow-up adds owned native dialogs, tray/menu snapshots and bounded
+system-event subscriptions. Remaining preference fields, advanced menus,
+interactive/device acceptance and other platform implementations remain pending.
+See `omniwindow/DESKTOP.md` for public usage.
 
 ## Refresh and validate
 

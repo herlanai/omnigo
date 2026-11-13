@@ -41,3 +41,9 @@ omnigo.Query("app.version", func() string { return "1.0" }),
 For Go content, use GoWindow instead of Window. Method/Query registration stays
 statically typed and shares Bind's permissions, strict JSON validation and limits.
 New/Run(ctx) remain available when explicit construction or cancellation is needed.
+
+Native dialogs (`OpenDialog`, `SaveDialog`, `MessageDialog`), application-owned
+tray items (`NewTray`) and bounded system subscriptions (`WatchSystemEvents`)
+are exposed through root `omnigo.Application`. See
+[desktop service usage and limits](../DESKTOP.md). Run the opt-in native probe
+with `CGO_ENABLED=0 go run ./examples/studio/cmd/desktopcheck`.

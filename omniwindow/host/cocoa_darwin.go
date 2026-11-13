@@ -98,6 +98,9 @@ func runNative(ctx context.Context, options Options) error {
 	}
 	h := &Controller{queue: dispatch.New(128), ctx: ctx}
 	h.screen = nativeScreen
+	h.newTray = newNativeTray
+	h.watchSystem = func(notify func(omniwindow.SystemEventKind)) (func(), error) { return watchNativeSystem(app, notify) }
+	h.startDialog = func(r dialogRequest, done func(dialogResult)) (func(), error) { return nativeDialog(app, r, done) }
 	h.appearance = func(source omniwindow.AppearanceSource) (omniwindow.AppearanceState, error) {
 		return nativeAppearance(app, source)
 	}
@@ -128,7 +131,7 @@ func runNative(ctx context.Context, options Options) error {
 		return nil
 	}
 
-	controllerClass, err := objc.RegisterClass("OmniGoUIAppDispatcher", objc.GetClass("NSObject"), nil, nil, []objc.MethodDef{{Cmd: sel("drain:"), Fn: func(_ objc.ID, _ objc.SEL, _ objc.ID) { guard(func() { h.queue.Drain(64) }) }}})
+	controllerClass, err := objc.RegisterClass("OmniGoUIAppDispatcher", objc.GetClass("NSObject"), nil, nil, []objc.MethodDef{{Cmd: sel("drain:"), Fn: func(_ objc.ID, _ objc.SEL, _ objc.ID) { guard(func() { h.drain() }) }}})
 	if err != nil {
 		return err
 	}
@@ -260,6 +263,9 @@ func runNative(ctx context.Context, options Options) error {
 		{Cmd: sel("windowWillClose:"), Fn: func(_ objc.ID, _ objc.SEL, n objc.ID) {
 			guard(func() {
 				native := n.Send(sel("object"))
+				if cancel := nativeDialogOwners[native]; cancel != nil {
+					cancel()
+				}
 				for id, w := range windows {
 					if w.native == native {
 						if w.timer != nil {
@@ -435,6 +441,7 @@ func runNative(ctx context.Context, options Options) error {
 			return err
 		}
 		defer closeShell()
+		defer h.closeDialog()
 	} else if err := h.open(options.InitialWindow, false); err != nil {
 		return err
 	}
@@ -445,17 +452,18 @@ func runNative(ctx context.Context, options Options) error {
 	}
 	go func() {
 		<-ctx.Done()
-		done, err := h.post(context.Background(), func() error {
+		h.control(func() {
+			h.closeDialog()
+			for tray := range h.trays {
+				tray.driver.dismiss()
+			}
 			app.Send(sel("stop:"), objc.ID(0))
 			event := objc.ID(objc.GetClass("NSEvent")).Send(sel("otherEventWithType:location:modifierFlags:timestamp:windowNumber:context:subtype:data1:data2:"), uint64(15), point{}, uint64(0), float64(0), int64(0), objc.ID(0), int16(0), int64(0), int64(0))
 			app.Send(sel("postEvent:atStart:"), event, true)
-			return nil
 		})
-		if err == nil {
-			<-done
-		}
 	}()
 	app.Send(sel("run"))
+	h.closeDialog()
 	for _, w := range windows {
 		w.native.Send(sel("close"))
 	}
