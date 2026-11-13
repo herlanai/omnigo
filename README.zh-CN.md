@@ -134,9 +134,12 @@ omnigo/                 应用入口、窗口配置、服务与注册
 ├── omniui/plugins/     可选功能插件
 ├── omniweb/            Web 协议、资源托管与 TypeScript 客户端
 ├── internal/           框架内部实现
+│   ├── apphost/        应用 HTTP 生命周期与单实例交接
+│   ├── codegen/        类型契约文件生成与发布
 │   ├── runtime/        生命周期、调度、事件、RPC 与下载
 │   ├── text/rope/      不可变文本存储
 │   └── scaffold/       项目模板
+├── tests/architecture/ 仓库依赖边界检查
 ├── i18n/               语言目录与消息格式
 └── examples/           可运行的使用示例
     └── studio/         开发演示应用

@@ -1,4 +1,4 @@
-package omnigo
+package apphost
 
 import (
 	"net"

@@ -262,6 +262,7 @@ Inspect package contents and architecture, then launch the `.app` after copying 
 ## 9. Framework Engineering Rules
 
 - Public application entry points belong to the root package; platform/window capabilities to `omniwindow`; Go controls to `omniui/baseui`; the Web protocol to `omniweb`; Studio to `examples/studio`.
+- Keep root Go files focused on the public `omnigo` API and `Application` composition. Application HTTP hosting and single-instance handoff belong to `internal/apphost`; generated-file publication to `internal/codegen`; cooperative background work to `internal/runtime/lifecycle`. Keep implementation tests with their packages and repository dependency checks in `tests/architecture`. Do not move public types or methods merely to reduce root file count.
 - `internal/runtime` and `internal/text` are implementation details. External applications must use public entry points such as `omnigo.LifecycleOptions`, `omniweb.NewRouter`, and `baseui.TextSnapshot`. Framework code may use `internal/runtime/dispatch` for cross-goroutine work.
 - Implement control behavior, layout, themes, painting, compositions, and control plugins in Go. Do not replace Go controls with React/TSX or WebViews. Application Web frontends may use React/TypeScript as required.
 - Before control work, read `omniui/baseui/README.md` and `migration/controls/README.md`. Preserve capability audits. API names, static screenshots, aliases, and successful builds do not establish complete behavioral coverage.

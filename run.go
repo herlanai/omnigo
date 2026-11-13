@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/herlanai/omnigo/internal/apphost"
 	"github.com/herlanai/omnigo/omniwindow/host"
 )
 
@@ -47,13 +48,13 @@ func (a *Application) run(ctx context.Context, native func(context.Context, host
 	}
 	runCtx, cancel := context.WithCancel(ctx)
 	defer cancel()
-	ready := make(chan launchDispatcher, 1)
+	ready := make(chan apphost.LaunchDispatcher, 1)
 	var delivered chan error
 	if lease != nil {
 		defer lease.Close()
 		delivered = make(chan error, 1)
 		go func() {
-			err := deliverLaunches(runCtx, lease, ready, a.options.SingleInstance.OnLaunch)
+			err := apphost.DeliverLaunches(runCtx, lease, ready, a.options.SingleInstance.OnLaunch)
 			delivered <- err
 			if err != nil {
 				cancel()

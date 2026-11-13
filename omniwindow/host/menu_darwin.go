@@ -5,7 +5,6 @@ package host
 import (
 	"fmt"
 	"github.com/ebitengine/purego/objc"
-	"github.com/herlanai/omnigo/omniwindow"
 	"github.com/herlanai/omnigo/omniwindow/accelerator"
 	"strconv"
 	"strings"

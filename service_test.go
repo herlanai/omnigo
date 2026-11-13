@@ -76,21 +76,6 @@ func TestBackgroundFailureReported(t *testing.T) {
 	}
 }
 
-func TestBackgroundPanicAndReuse(t *testing.T) {
-	service := Background("test.panic", func(context.Context) error { panic("boom") })
-	ctx, cancel := context.WithCancel(t.Context())
-	if err := service.Start(ctx); err != nil {
-		t.Fatal(err)
-	}
-	cancel()
-	if err := service.Stop(t.Context()); err == nil {
-		t.Fatal("panic was lost")
-	}
-	if err := service.Start(t.Context()); err == nil {
-		t.Fatal("reused service")
-	}
-}
-
 func TestConfigurationConflictsAndModuleFailure(t *testing.T) {
 	create := func(WindowEnvironment) (ContentWindowOptions, error) { return ContentWindowOptions{}, nil }
 	if _, err := New(Options{GoWindow: create, InitialWindow: "other"}); err == nil {

@@ -1,17 +1,17 @@
-package omnigo
+package architecture_test
 
 import (
-"go/parser"
-"go/token"
-"io/fs"
-"path/filepath"
-"strconv"
-"strings"
-"testing"
+	"go/parser"
+	"go/token"
+	"io/fs"
+	"path/filepath"
+	"strconv"
+	"strings"
+	"testing"
 )
 
 func TestStudioUsesFrameworkInsteadOfNativeBindings(t *testing.T) {
-	err := filepath.WalkDir("examples/studio", func(path string, d fs.DirEntry, err error) error {
+	err := filepath.WalkDir(filepath.Join("..", "..", "examples", "studio"), func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}

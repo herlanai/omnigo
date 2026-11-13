@@ -134,9 +134,12 @@ omnigo/                 Application entry points, windows, services, registratio
 ├── omniui/plugins/     Optional feature plugins
 ├── omniweb/            Web protocol, asset hosting, and TypeScript client
 ├── internal/           Framework implementation details
+│   ├── apphost/        Application HTTP lifetime and instance handoff
+│   ├── codegen/        Generated contract file publication
 │   ├── runtime/        Lifecycle, dispatch, events, RPC, and downloads
 │   ├── text/rope/      Immutable text storage
 │   └── scaffold/       Project templates
+├── tests/architecture/ Repository dependency checks
 ├── i18n/               Language catalogs and message formatting
 └── examples/           Runnable examples
     └── studio/         Developer showcase application

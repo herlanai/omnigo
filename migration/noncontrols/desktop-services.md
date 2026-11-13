@@ -82,7 +82,7 @@ not imply that the WebView document has finished loading.
 - `omniwindow/host/appearance_test.go`: invalid source rejection, canceled
   mutation, UI dispatch, read/override/reset and shutdown.
 - `screen_test.go`: public pre-readiness errors.
-- `http_connections_test.go`: unused/active/idle/hijacked connections and
+- `internal/apphost/http_connections_test.go`: unused/active/idle/hijacked connections and
   concurrent shutdown. No sleeps or timing guesses are used.
 
 These checks do not establish complete non-control parity or performance gains.

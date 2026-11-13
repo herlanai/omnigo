@@ -174,17 +174,20 @@
         "run.go",
         "readiness.go",
         "internal/runtime/lifecycle",
-        "http_connections.go",
-        "omniwindow/host/control.go"
+        "internal/apphost/http_connections.go",
+        "omniwindow/host/control.go",
+        "internal/apphost/http.go",
+        "internal/runtime/lifecycle/background.go"
       ],
       "evidence": [
         "readiness_test.go",
         "internal/runtime/lifecycle/manager_test.go",
-        "http_connections_test.go",
+        "internal/apphost/http_connections_test.go",
         "migration/noncontrols/desktop-services.md",
         "omniwindow/host/dialog_test.go",
         "omniwindow/host/tray_test.go",
-        "omniwindow/host/system_events_test.go"
+        "omniwindow/host/system_events_test.go",
+        "internal/runtime/lifecycle/background_test.go"
       ],
       "remaining": [
         "Cancelable before/will-quit, activation/reopen/open-file/open-URL event surface, relaunch and native acceptance"
@@ -196,10 +199,12 @@
       "status": "partial",
       "implementation": [
         "single_instance.go",
-        "omniwindow/instance"
+        "omniwindow/instance",
+        "internal/apphost/instance.go"
       ],
       "evidence": [
-        "omniwindow/instance/instance_test.go"
+        "omniwindow/instance/instance_test.go",
+        "internal/apphost/instance_test.go"
       ],
       "remaining": [
         "Windows foreground transfer, Wayland activation and all remaining platform audit cases"
@@ -226,7 +231,8 @@
       "implementation": [
         "omniweb/typescript.go",
         "typescript.go",
-        "cmd/omni/generate.go"
+        "cmd/omni/generate.go",
+        "internal/codegen/typescript.go"
       ],
       "evidence": [
         "omniweb/typescript_test.go",

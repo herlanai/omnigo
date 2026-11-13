@@ -7,6 +7,10 @@
 | 模块 | 负责 | 不负责 |
 | --- | --- | --- |
 | 根包 `omnigo` | 公开应用入口、类型化服务绑定、窗口配置；组合现有生命周期与资源托管 | 演示数据、Studio 专属业务 |
+| `internal/apphost` | 应用 HTTP 服务生命周期、单实例启动转发与 UI 就绪交接 | 公开入口类型、业务注册、平台驱动 |
+| `internal/codegen` | 类型契约生成后的文件发布，保持旧文件及未变化内容 | RPC 协议或 CLI 参数解析 |
+| `internal/runtime/lifecycle` | 服务生命周期及后台任务启动、取消和等待 | 应用窗口配置 |
+| `tests/architecture` | 仓库源码依赖边界检查 | 应用运行时代码 |
 | `omniwindow` | 窗口与平台契约 | 控件布局和绘制 |
 | `omniwindow/host` | 可选 Cocoa/WebKit 宿主、Go 内容窗口、输入、绘制提交、标题栏、资源清理 | Studio 的演示 ID、图标和 HTML 示例 |
 | `omniwindow/metrics` | Go runtime 与原生进程/系统指标采样 | 性能面板展示 |
@@ -113,3 +117,20 @@ Studio 保持现有 RPC 路径兼容，在服务适配层将空标题栏请求�
 `baseui.TextSnapshot` / `TextSummary`；自动化自建队列使用
 `automation.NewDispatchQueue`。这些入口复用内部实现。生成的项目只导入公开包，
 并通过独立 module 的编译与调用测试验证 Go 的 internal 边界。
+
+
+## 根目录 Go 文件的保留原则
+
+根目录是 `github.com/herlanai/omnigo` 包。`Application`、`Options`、`Run`、
+泛型 `Bind`/`Method`/`Query` 和应用方法继续放在这里，保持现有导入路径、
+类型身份和方法集合。Go 不允许在另一个包中为这些类型定义方法，因此
+`dialog.go`、`tray.go`、`window.go` 等公开入口文件应保留为薄封装。
+
+实现按所有权下沉：HTTP 监听与退出、单实例交接在 `internal/apphost`；
+后台任务在已有 `internal/runtime/lifecycle`；生成文件写入在
+`internal/codegen`。单实例底层锁和平台服务仍留在原有 `omniwindow` 子包。
+这些内部包不反向导入根包，也不承担 Studio 业务。
+
+实现级测试随实现放置；需要访问 `Application` 私有状态和替换原生驱动的
+根包集成测试保留。源码依赖检查移至 `tests/architecture`。新文件归属以职责
+为依据，不再向根包添加独立的内部实现，也不建立通用 `utils` 包。

@@ -7,7 +7,10 @@
         "internal/runtime/dispatch",
         "omniwindow/host",
         "omniwindow/nativewindow",
-        "omniwindow/instance"
+        "omniwindow/instance",
+        "internal/apphost/instance.go",
+        "internal/apphost/http.go",
+        "internal/runtime/lifecycle/background.go"
       ],
       "interfaces": [
         "Backend",
@@ -33,11 +36,13 @@
       ],
       "evidence": [
         "readiness_test.go",
-        "http_connections_test.go",
+        "internal/apphost/http_connections_test.go",
         "migration/noncontrols/desktop-services.md",
         "omniwindow/host/dialog_test.go",
         "omniwindow/host/tray_test.go",
-        "omniwindow/host/system_events_test.go"
+        "omniwindow/host/system_events_test.go",
+        "internal/apphost/instance_test.go",
+        "internal/runtime/lifecycle/background_test.go"
       ]
     },
     {
