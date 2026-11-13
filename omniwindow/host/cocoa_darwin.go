@@ -13,9 +13,9 @@ import (
 
 	"github.com/ebitengine/purego"
 	"github.com/ebitengine/purego/objc"
-	"github.com/herlanai/omnigo/omniwindow/clipboard"
-	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"github.com/herlanai/omnigo/internal/runtime/dispatch"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
+	"github.com/herlanai/omnigo/omniwindow/clipboard"
 )
 
 const Available = true
@@ -96,6 +96,33 @@ func runNative(ctx context.Context, options Options) error {
 		appIcon.Send(sel("release"))
 	}
 	h := &Controller{queue: dispatch.New(128), ctx: ctx}
+	h.activate = func() error {
+		app.Send(sel("unhide:"), objc.ID(0))
+		window := app.Send(sel("keyWindow"))
+		if window == 0 {
+			window = app.Send(sel("mainWindow"))
+		}
+		if window == 0 {
+			ordered := app.Send(sel("orderedWindows"))
+			count := ordered.Send(sel("count"))
+			for i := uintptr(0); i < uintptr(count); i++ {
+				candidate := ordered.Send(sel("objectAtIndex:"), i)
+				if candidate.Send(sel("canBecomeKeyWindow")) != 0 {
+					window = candidate
+					break
+				}
+			}
+		}
+		if window != 0 {
+			if window.Send(sel("isMiniaturized")) != 0 {
+				window.Send(sel("deminiaturize:"), objc.ID(0))
+			}
+			window.Send(sel("makeKeyAndOrderFront:"), objc.ID(0))
+		}
+		app.Send(sel("activateIgnoringOtherApps:"), true)
+		return nil
+	}
+
 	controllerClass, err := objc.RegisterClass("OmniGoUIAppDispatcher", objc.GetClass("NSObject"), nil, nil, []objc.MethodDef{{Cmd: sel("drain:"), Fn: func(_ objc.ID, _ objc.SEL, _ objc.ID) { guard(func() { h.queue.Drain(64) }) }}})
 	if err != nil {
 		return err

@@ -6,7 +6,8 @@
         "internal/runtime/lifecycle/manager.go",
         "internal/runtime/dispatch",
         "omniwindow/host",
-        "omniwindow/nativewindow"
+        "omniwindow/nativewindow",
+        "omniwindow/instance"
       ],
       "interfaces": [
         "Backend",
@@ -16,9 +17,17 @@
       "remaining": [
         "Windows/Linux native runtime validation",
         "multi-window application management",
-        "activation/reopen/single-instance integration"
+        "activation/reopen/single-instance integration",
+        "Single-instance Windows foreground permission transfer, Wayland activation-token consumption and native focus acceptance; Windows private-directory ACL native tests"
       ],
-      "status": "partial"
+      "status": "partial",
+      "implemented": [
+        "Cross-process OS lock and authenticated bounded launch forwarding; macOS process-exit recovery tests",
+        "Options.SingleInstance: ownership before services, secondary argument forwarding without startup, UI-dispatched callbacks, release after service/native shutdown",
+        "Bounded single-instance startup handoff retry before payload send; reacquires ownership after owner exit; never retries ambiguous acknowledgements",
+        "Application.Activate: queued macOS unhide/front-window restoration/foreground request; safe enqueue from OnLaunch",
+        "Single-instance private directories: Unix owner/mode/symlink checks; Windows protected inheritable owner/SYSTEM/admin DACL and existing-owner/ACL validation (compiled, native acceptance pending)"
+      ]
     },
     {
       "id": "window",
@@ -95,12 +104,22 @@
         "Shell"
       ],
       "remaining": [
-        "Reveal/select file",
-        "trash",
         "default application queries",
-        "platform runtime tests for Windows/Linux"
+        "platform runtime tests for Windows/Linux",
+        "Reveal native selection acceptance on macOS/Windows/Linux; Linux requires FileManager1 and gdbus",
+        "System beep",
+        "File and extension icons",
+        "Installed application enumeration and activation",
+        "Trash Windows/Linux and Intel Mac native acceptance, unsupported/cross-volume behavior, OS Put Back UI and in-flight cancellation"
       ],
-      "status": "partial"
+      "status": "partial",
+      "implemented": [
+        "system.Reveal: Finder selection, Windows shell PIDL selection, Linux FileManager1 ShowItems; cancellation and argument validation",
+        "system.Trash: NSFileManager, Windows IFileOperation recycling/undo, Linux GIO; existing-item and root validation, cancellation before submission"
+      ],
+      "evidence": [
+        "omniwindow/system/trash_native_darwin_test.go: macOS ARM64 test-owned file/directory/symlink/dangling-symlink recycle and path restoration passed"
+      ]
     },
     {
       "id": "dialogs",

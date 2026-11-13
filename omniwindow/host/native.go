@@ -19,6 +19,7 @@ type Controller struct {
 	ctx      context.Context
 	wake     func()
 	open     func(string, bool) error
+	activate func() error
 	titlebar func(TitleBarRequest) (TitleBarState, error)
 }
 
@@ -58,3 +59,21 @@ func (h *Controller) post(ctx context.Context, fn func() error) (<-chan error, e
 	return done, err
 }
 func (h *Controller) close() { h.mu.Lock(); defer h.mu.Unlock(); h.closed = true; h.queue.Close() }
+
+// Post schedules work on the UI goroutine. Do not wait for its result from a UI
+// callback. Cancellation and shutdown use the same queue as window operations.
+func (h *Controller) Post(ctx context.Context, fn func() error) (<-chan error, error) {
+	return h.post(ctx, fn)
+}
+
+// Activate requests foreground activation and restoration of the front window.
+// It is safe to enqueue from UI callbacks, but never wait on the result there.
+// OS focus policies can deny activation even after accepting the request.
+func (h *Controller) Activate(ctx context.Context) (<-chan error, error) {
+	return h.post(ctx, func() error {
+		if h.activate == nil {
+			return ErrUnsupported
+		}
+		return h.activate()
+	})
+}

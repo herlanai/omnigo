@@ -111,3 +111,84 @@ func TestPublicTypes(t *testing.T) {
 		t.Fatalf("external project failed: %v\n%s", err, output)
 	}
 }
+
+func TestCreateAcceptsEmptyAndNestedDestinations(t *testing.T) {
+	framework, err := filepath.Abs("../..")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, existing := range []bool{false, true} {
+		destination := filepath.Join(t.TempDir(), "nested", "app")
+		if existing {
+			if err := os.MkdirAll(destination, 0755); err != nil {
+				t.Fatal(err)
+			}
+		}
+		if err := Create(destination, "example.com/app", framework); err != nil {
+			t.Fatal(existing, err)
+		}
+		for _, name := range []string{"go.mod", "app/main.go", "ui/src/lib/omniweb.ts"} {
+			if _, err := os.Stat(filepath.Join(destination, name)); err != nil {
+				t.Fatal(err)
+			}
+		}
+		if _, err := os.Stat(filepath.Join(destination, ".omnigo-init.lock")); !os.IsNotExist(err) {
+			t.Fatal("initialization lock retained", err)
+		}
+	}
+}
+
+func TestCreatePreservesNonemptyDestinationIncludingHiddenFiles(t *testing.T) {
+	framework, err := filepath.Abs("../..")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, name := range []string{"owned.txt", ".gitkeep", ".omnigo-init.lock"} {
+		dir := t.TempDir()
+		if err := os.WriteFile(filepath.Join(dir, name), []byte("owned"), 0600); err != nil {
+			t.Fatal(err)
+		}
+		if err := Create(dir, "example.com/app", framework); err == nil {
+			t.Fatal("nonempty directory accepted")
+		}
+		entries, err := os.ReadDir(dir)
+		if err != nil || len(entries) != 1 {
+			t.Fatal(entries, err)
+		}
+		data, err := os.ReadFile(filepath.Join(dir, name))
+		if err != nil || string(data) != "owned" {
+			t.Fatal("existing content changed", err)
+		}
+	}
+}
+
+func TestConcurrentInitializersProduceOneCompleteProject(t *testing.T) {
+	framework, err := filepath.Abs("../..")
+	if err != nil {
+		t.Fatal(err)
+	}
+	destination := filepath.Join(t.TempDir(), "app")
+	start := make(chan struct{})
+	results := make(chan error, 2)
+	for range 2 {
+		go func() { <-start; results <- Create(destination, "example.com/app", framework) }()
+	}
+	close(start)
+	successes := 0
+	for range 2 {
+		if err := <-results; err == nil {
+			successes++
+		}
+	}
+	if successes != 1 {
+		t.Fatal("expected one successful initializer", successes)
+	}
+	sdk, err := os.ReadFile(filepath.Join(destination, "ui/src/lib/omniweb.ts"))
+	if err != nil || string(sdk) != client.TypeScript {
+		t.Fatal("incomplete SDK", err)
+	}
+	mod, err := os.ReadFile(filepath.Join(destination, "go.mod"))
+	if err != nil || !strings.HasPrefix(string(mod), "module example.com/app\n") {
+		t.Fatal("incomplete module", err)
+	}
+}

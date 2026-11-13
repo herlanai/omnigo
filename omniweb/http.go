@@ -1,6 +1,7 @@
 package omniweb
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"io"
@@ -15,6 +16,8 @@ import (
 // Host is the exact backend authority, including port. Origins are exact browser
 // origins; no wildcards, credentials, paths or opaque/null origins are accepted.
 type HTTPOptions struct {
+	Streams          *Streams
+	Events           *Events
 	Host             string
 	Origins          []string
 	Grants           []string
@@ -24,6 +27,7 @@ type HTTPOptions struct {
 }
 
 type HTTP struct {
+	source  *RequestSource
 	router  *rpc.Router
 	options HTTPOptions
 	origins map[string]bool
@@ -48,7 +52,7 @@ func NewHTTP(router *Router, o HTTPOptions) (*HTTP, error) {
 	}
 	o.Grants = append([]string(nil), o.Grants...)
 	o.Origins = append([]string(nil), o.Origins...)
-	h := &HTTP{router: router, options: o, origins: make(map[string]bool)}
+	h := &HTTP{source: &RequestSource{}, router: router, options: o, origins: make(map[string]bool)}
 	for _, origin := range o.Origins {
 		u, err := url.Parse(origin)
 		if err != nil || (u.Scheme != "http" && u.Scheme != "https") || u.Host == "" || u.User != nil || u.Path != "" || u.RawQuery != "" || u.Fragment != "" || u.String() != origin {
@@ -71,7 +75,7 @@ func (h *HTTP) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		fail(http.StatusForbidden, "host")
 		return
 	}
-	if r.URL.Path != Prefix+"call" && r.URL.Path != Prefix+"batch" {
+	if r.URL.Path != Prefix+"call" && r.URL.Path != Prefix+"batch" && r.URL.Path != Prefix+"events" && r.URL.Path != Prefix+"stream" && r.URL.Path != Prefix+"stream/ack" {
 		fail(http.StatusNotFound, "path")
 		return
 	}
@@ -103,6 +107,19 @@ func (h *HTTP) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		} else {
 			fail(http.StatusBadRequest, "body")
 		}
+		return
+	}
+	r = r.WithContext(context.WithValue(r.Context(), sourceKey{}, h.source))
+	if r.URL.Path == Prefix+"stream/ack" {
+		h.streamAck(w, r, raw)
+		return
+	}
+	if r.URL.Path == Prefix+"stream" {
+		h.stream(w, r, raw)
+		return
+	}
+	if r.URL.Path == Prefix+"events" {
+		h.events(w, r, raw)
 		return
 	}
 	var requests []Request

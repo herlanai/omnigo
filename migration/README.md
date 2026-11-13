@@ -20,7 +20,7 @@
 | 图表、代码/富文本/Markdown 编辑器 | omniui/baseui / 可选插件 | 部分实现，DiffView 与独立行级 diff 已有；不代表高级编辑或完整算法覆盖 |
 | Forma 与 AI 组件、加载与特效组件 | omniui/baseui | 多项局部实现，逐项差距见 controls；未宣称完整对齐 |
 | 音频、视频、拖放、剪贴板、文档、国际化 | omniui / desktop | 剪贴板仅编辑操作与 Studio Mac 文本通路；完整数据传输和多语言仍缺 |
-| TS 生成、CLI、热重载、项目模板、打包、更新 | cmd / tooling | 待实现 |
+| TS 生成、CLI、热重载、项目模板、打包、更新 | cmd / tooling | init、平台查询 doctor、更新 keygen 已有；Studio 专用开发/打包脚本已有局部实现，通用生成、开发与发布流程未齐，见下方工具链复核 |
 | 原有示例、文档、浏览器与桌面演示 | examples / studio | 已有离屏画廊、Studio 与 native-window 示例；非全部参考示例覆盖 |
 | 全部 16 个插件及前端客户端 | 控件插件归属 omniui/baseui；服务插件使用统一注册协议 | loading 已有 3 种新 Go 绘制，原 29 种及其他插件待完整重写 |
 
@@ -48,3 +48,110 @@ go run ./tools/parity -source /absolute/path/to/golet -out /tmp/omnigo-reference
 先审查与 `reference.json` 的差异，再替换快照；不要把重新生成的 pending 状态当作迁移进度更新。参考文件扫描排除隐藏目录、node_modules、dist、build、vendor 和符号链接。
 
 全新实现采用 OmniGo/OmniUI 命名。若未来决定复用第三方代码、字体、图标或素材，仍须保留相应许可证与来源；改品牌不能代替来源管理。
+
+## 工具链复核与更新密钥生成（2026-11-13）
+
+对照只读 `golet/backend/cmd/golet/main.go` 的命令表及更新密钥命令接口，当前命令覆盖如下。Studio 专用 devtool 不作为任意应用项目 CLI 已对齐的证据。
+
+| 参考能力 | 当前实现与缺口 |
+| --- | --- |
+| init | `omni init` 生成 OmniWeb 浏览器宿主模板；原生桌面及完整模板选项仍缺 |
+| doctor | 已加入基础开发工具检查及平台诊断，保留平台 JSON 接口；原生运行时和签名身份检查未齐 |
+| keygen | 本轮新增 Ed25519 密钥对生成、输出目录与显式覆盖，见下文 |
+| generate / gen | 类型化 TS 客户端及消息目录访问器生成未实现 |
+| dev | Studio 有专用脚本；任意应用的统一启动、监听、热重载未实现 |
+| build | Studio 有专用打包；通用项目配置、各平台安装包、签名与发布未齐 |
+| i18n check | 已有配置/显式目录入口和语法、消息键、参数名/类型诊断；复数类别与框架覆盖检查仍缺 |
+| install-skills | 应用开发配套技能安装命令未实现 |
+| version / 全局 help | 已有版本别名、全局/子命令帮助、构建版本与 revision 信息；帮助只列已实现命令 |
+| vet / migrate-ui | 原生控件生命周期检查和 UI API 迁移命令仍缺，按当前用户要求暂缓控件工作 |
+
+使用 `go run ./cmd/omni keygen -o /path/to/update-keys`，或安装后的 `omni keygen`。默认目录为 `os.UserConfigDir()/omnigo/update-keys`。生成 `omnigo-update.key`（64 字节 Ed25519 私钥的标准 Base64）和 `omnigo-update.pub`（32 字节公钥的标准 Base64），每个文件末尾有换行。Unix 新私钥文件权限 0600，公钥 0644（受 umask 限制）。输出不包含私钥内容。公钥解码后可直接交给现有 updater.Verify。
+
+已有任一目标文件时默认拒绝；`-force` 显式轮换密钥对，拒绝符号链接、目录等非普通文件目标。`.omni-keygen.lock` 目录串行化同目录的 keygen 命令，旧文件在替换完成前保存在该私有目录；普通写入失败恢复旧文件。若其他写入者占用了恢复目标，不覆盖该文件，保留备份并报告恢复位置。进程崩溃或断电可能留下锁、备份及不完整的新密钥对；这是可恢复的两文件操作，不是断电原子事务。遇到遗留目录需核对并恢复原密钥后再移除锁，不自动删除可能唯一存活的私钥。Windows 的 Unix mode 不证明 owner-only ACL，此项与 Windows 实机权限验收仍需补齐。
+
+验证：`cmd/omni/keygen_test.go` 覆盖生成密钥匹配、现有 updater 验签及篡改拒绝、无覆盖/显式轮换、Unix 私钥权限、写入失败回滚、并发互斥、恢复冲突保留备份、链接与非普通目标拒绝。真实 CLI 临时目录运行通过，随后删除本次探针密钥。`sh scripts/check.sh` 完整通过：Go tests/vet/race、37 SDK 用例、六桌面目标 CGO_ENABLED=0 构建及生命周期示例。
+
+更新链仍未完整：当前 updater 签名对象为清单字节，参考的归档摘要签名、构建配置、发布清单生成、托管平台上传、安装替换与重启流程尚未全部对齐。本轮密钥命令不作为这些能力已完成的证据，控件未修改。
+
+## doctor 开发环境检查（2026-11-13）
+
+`omni doctor` 默认执行本机开发环境检查：Go >=1.26、Node >=24、npm 可执行且报告有效版本。版本要求来自当前 go.mod 与默认 OmniWeb 模板，ready 表示该模板的基础工具检查通过，不表示任意原生应用或完整发布链已可用。Go 查询设置 GOTOOLCHAIN=local，避免诊断触发工具链下载；每个工具运行上限 5 秒、输出上限 16 KiB，命令超时/失败或版本不满足会记录 fail 并让命令非零退出。不会安装软件。
+
+接口兼容：`omni doctor --json`（及 `--all --json`）仍仅返回原平台能力数组，不运行环境工具；`--all` 单独使用也保留平台查询。`--check --json` 返回 `{ready, checks, platforms}`，失败时仍完整输出 JSON 再以非零状态退出；与 `--all` 组合仅扩展平台矩阵，环境检查始终针对当前机器，不能据此证明其他目标运行成功。
+
+可选项包括 bun、pnpm、makensis、gh 及平台签名工具。PATH 中找到可执行文件不代表安装包、签名或上传已经验证，报告中明确保留这个区别。macOS 读取系统版本并查询 codesign 路径，不枚举/验证签名身份；Linux 检查 DISPLAY 是否设置及 loader cache 是否列出 libX11.so.6，匹配当前可选 X11 驱动，不把尚未实现的 WebKitGTK 后端算作可用。Windows 检查 npm.cmd（固定 cmd.exe 参数启动）及可选 signtool；WebView2 宿主与运行时检测仍缺失。平台实验性与未验证状态始终列为提醒。可选依赖缺失不把基础工具结果改成失败。
+
+验证：environment_test.go 覆盖最低版本、缺失工具、无效/预发布版本、不支持的架构、Linux 依赖提示、取消与输出上限、默认人类可读报告、失败仍输出结构化 JSON，以及旧六平台 JSON 查询完全不执行工具。实际运行 `go run ./cmd/omni doctor --check --json` 通过，报告本机 Go 1.26.0、Node 24.18.0、npm 11.16.0。此项未在 Linux/Windows 原生执行，尚不覆盖开发证书、原生系统库加载/显示连接、项目配置诊断以及完整参考 doctor 的 WebView 运行时检测。控件未修改。
+
+本轮 `sh scripts/check.sh` 完整通过：Go tests/vet/race、37 SDK 测试、六桌面目标 CGO_ENABLED=0 构建及生命周期示例。交叉构建不等于 Windows 命令启动和 Linux loader cache 在原生环境已验收。
+
+## i18n check 入口与目录诊断（2026-11-13）
+
+新增 `omni i18n check [project-dir]`，读取 `omnigo.json` 的 `i18n.dir/source`（默认 locales/en），支持 `--dir` / `--source` 覆盖与 `--json` 报告。项目目录通过 os.Root 约束，拒绝目录遍历与指向项目外的目录链接；配置大小上限 1 MiB，语言文件逐个限读 8 MiB。JSON 配置的其他顶层字段暂不解析，不等于通用应用构建配置已实现。
+
+新 `i18n.Check` 与运行时共用消息解析器，收集多文件语法错误、重复键和归一化语言重复、源目录缺失、未知翻译键及嵌套参数名差异；未知参数为错误，未使用源参数与缺失翻译为警告，符合参考的失败/警告区分。无错误不改变运行时源语言回退策略。报告输出顺序稳定，JSON 显式声明 coverage；目前类型兼容、ARB 参数类型元数据、语言复数类别、库/框架命名空间覆盖、完整行号与强类型访问器生成仍未完成，不能将新入口视作 i18n 全面对齐。
+
+证据：i18n/check_test.go 验证多项诊断、嵌套参数、确定排序、警告与回退、重复/错误文件及限读；cmd/omni/i18n_test.go 验证配置、显式参数、JSON 失败报告、警告不失败与项目目录隔离。真实 CLI 探针通过：英文源加德文缺失一项，仅输出 warning 并正常退出；探针文件随后清理。控件未修改。
+
+本轮完整 `sh scripts/check.sh` 已通过：Go tests/vet/race、37 SDK 用例、六桌面目标 CGO_ENABLED=0 构建及生命周期示例。没有以命令入口、绿色检查或构建结果替代上述未完成的 i18n 行为。
+
+## i18n 参数类型契约检查（2026-11-13）
+
+本轮补齐上一节保留的源语言 ARB placeholder 类型元数据与跨语言类型兼容检查。支持 String、int、double、num、DateTime 和 Object；未声明的数值/复数/序数参数推断为 int，其他参数推断为 String。普通插值接受任意合法声明类型，select 要求 String 或 Object，number/plural/selectordinal 要求数值类型或 Object。递归检查所有嵌套分支中的用法，同名参数的不同用法都要满足契约。
+
+源语言声明是翻译的类型依据，翻译元数据不能扩大它。未在源消息中使用的已声明 placeholder 仍属于契约并产生警告，翻译可以使用该参数；源元数据描述不存在的消息时警告。未知类型、重复 placeholder、非对象声明、非法 type/description 字段以及不兼容用法汇总为错误。JSON coverage 新增 argument-types，CLI 摘要同步更新。运行时的 Catalog、Format 和消息回退行为未修改；DateTime 普通插值可校验，不代表日期/时间 skeleton 已实现。
+
+证据：check_types_test.go 覆盖隐式类型、显式 double/Object/DateTime、数值与 select 不兼容、嵌套分支、翻译不能覆写类型、未使用声明、重复/非法元数据及孤立元数据；CLI 测试检查 JSON 与退出状态。真实 CLI 探针以源 String / 翻译 number 验证结构化错误及非零退出，临时项目随后删除。完整复数类别、库命名空间、错误行号和访问器生成仍未完成，控件未修改。
+
+本轮最终 `sh scripts/check.sh` 完整通过：Go tests/vet/race、37 SDK 测试、六桌面目标 CGO_ENABLED=0 构建及生命周期示例。类型检查通过不代表前述日期格式、复数类别和生成链路已经实现。
+
+## i18n 诊断行号（2026-11-13）
+
+本轮为 Diagnostic 增加可选的一基 `line`，CLI 文本输出 `locales/de.json:3`。消息语法、参数名和类型兼容问题指向消息键所在行；ARB 元数据结构、类型声明和未使用声明问题指向 `@message` 所在行；重复键指向重复出现的位置，JSON 语法错误指向原始文档的错误位置。没有源行的缺失翻译、缺失文件或读取失败不填写 line，不人为指向文件开头。
+
+行索引按原始字节构建，再查找对应行，处理 Unicode、CRLF 和转义键名；不对每个消息反复扫描整个文件前缀。encoding/json 混用 Token 与 Decode 的错误偏移经测试不能直接当作原始文件偏移，语法错误时使用原始 JSON 校验定位。运行时 Load 的错误文本和 Unwrap 保留原错误，不改变消息编译或回退语义。
+
+证据：locations_test.go 覆盖重复键、非字符串值、非法 JSON、意外 EOF、消息错误、元数据、尾随 JSON、Unicode/CRLF/转义键及缺失翻译不伪造行号；CLI 测试检查文本 `file:line` 与 JSON line。复数类别、库/框架消息覆盖、日期格式和访问器生成仍未完成，控件未修改。
+
+本轮最终 `sh scripts/check.sh` 完整通过：Go tests/vet/race、37 SDK 测试、六桌面目标 CGO_ENABLED=0 构建与生命周期示例。行号定位的完成不改变上述其他非控件缺口的未完成状态。
+
+## i18n 文件内多错误汇总（2026-11-13）
+
+对照参考目录加载器确认：可读取 JSON 对象中的语义错误会逐项报告，不能只报第一个错误；同时参考的字符串解码也接受 null 并产生空消息，不能借对齐任务悄悄改成拒绝 null。本轮为目录检查接入可继续读取的诊断回调，汇总同一文件内的非字符串值、重复键与 ARB locale 声明错误，保留各项实际行号。结构性 JSON 错误仍结束该文件读取，随后可检查其他文件。运行时 Load 继续使用遇错即停止路径。
+
+重复消息和元数据字段均保留首次声明；后续重复值仍报错，但不能覆盖首次消息位置或把 String 改成 Object 来改变后续类型诊断。元数据索引与消息解码遵循同一规则。
+
+证据：check_recovery_test.go 在同一文件中验证五项错误同时出现、运行时拒绝首个错误、重复元数据不改变原契约、非法 locale 不遮蔽后续错误，以及 null/空字符串的检查与运行时一致性。真实 CLI 探针输出两项非字符串错误、正确行号和非零退出，临时项目已清理。复数类别、日期格式、库命名空间和访问器生成仍未完成，控件未修改。
+
+最终 `sh scripts/check.sh` 完整通过：Go tests/vet/race、37 SDK 测试、六桌面目标 CGO_ENABLED=0 构建及生命周期示例。本轮仅补齐文件内错误汇总，不宣称国际化或整体非控件能力已经全面对齐。
+
+## CLI 帮助、版本与退出状态（2026-11-13）
+
+新增 `omni help` / `-h` / `--help`、`omni help <command>` 与 `omni version` / `-v` / `--version`。帮助只列当前可执行的 init、doctor、keygen、i18n check 和查询命令，明确通用 dev/build、客户端生成、发布尚未实现。`omni help i18n check` 及 `omni i18n --help` 均可查询目录检查用法。
+
+版本优先使用构建时 `-ldflags '-X main.version=vX.Y.Z'` 的发布标识，否则读取 Go module 构建版本；源码构建无发布版本时显示 devel，并在存在时附带 vcs.revision 和 modified。不会借用 golet 的版本号或凭空声明发布版本。
+
+帮助写 stdout，返回 0；缺少/未知命令及版本参数误用返回 2，其他运行/解析错误返回 1 并写 stderr。FlagSet 的输出先缓冲，避免重复打印解析错误或把失败诊断混入 stdout 的机器报告。帮助和版本输出流写入失败会返回失败状态。
+
+验证：usage_test.go 覆盖全局/各子命令帮助、版本别名、模块版本/显式版本/开发工作树标识、退出状态及输出失败；真实 CGO_ENABLED=0 构建后的二进制验证帮助、显式版本标识、stdout/stderr 和未知命令退出码，临时二进制已清理。该命令层进展不替代通用开发、生成、打包发布与其他非控件缺口，控件未修改。
+
+本轮最终 `sh scripts/check.sh` 完整通过：Go tests/vet/race、37 SDK 测试、六桌面目标 CGO_ENABLED=0 构建与生命周期示例。Linux/Windows 上实际启动二进制的验收仍不能由交叉构建替代。
+
+## CLI 输出失败与已完成操作（2026-11-13）
+
+复核新增命令输出路径后，修复 doctor 文本平台列表和 init 成功提示忽略写入错误的问题。doctor 的平台列表、环境文本和 JSON 输出失败均返回错误，CLI 返回非零状态。init 若项目已创建但成功提示写出失败，会明确报告“project created at …, but status output failed”，保留完整项目，不因提示失败删除用户结果；重试仍由原有目的目录保护阻止覆盖。
+
+证据：environment_test.go 覆盖 doctor 各输出格式失败；usage_test.go 检查实际 CLI 状态以及 init 写出失败后的项目保留、重试拒绝和内容不变。这是已有实现的可靠性修复，不计作通用开发、生成、打包发布等未完成能力。控件未修改。
+
+本轮最终 `sh scripts/check.sh` 通过：Go tests/vet/race、37 SDK 用例、六桌面目标无 CGO 构建与生命周期示例。整体非控件对齐仍未完成。
+
+## init 空目录与独占写入（2026-11-13）
+
+对照参考 newProject 的“空目录或不存在”条件，修复 OmniGo 原先拒绝所有已存在目录的差异。init 现在允许预先创建的空目录，也能创建缺失的多级目录；非空目录（包括只有隐藏文件的目录）仍拒绝。模板、SDK 和 go.mod 均通过保留的 os.Root 句柄写入，O_EXCL 独占创建避免覆盖其他写入者建立的文件；临时目录锁使同一目标的协作初始化互斥，完成后移除。
+
+写入失败仍保留部分项目，SDK/go.mod 阶段的错误也注明保留位置；不因失败删除用户目录。若初始化被进程终止而遗留文件或锁，后续请求会因非空而拒绝，需先检查已有结果，不自动清理。此修改不代表默认模块名、完整模块路径验证、模板选项、依赖安装或原生应用模板已全部对齐。
+
+证据：scaffold_test.go 覆盖预建空目录、多级目标、隐藏文件保护、两次并发仅一次成功及生成 SDK/模块完整性；真实 CLI 探针验证空目录成功、非空重试拒绝且文件保留，临时项目已清理。控件未修改。
+
+本轮最终 `sh scripts/check.sh` 完整通过：Go tests/vet/race、37 SDK 测试、六桌面目标 CGO_ENABLED=0 构建及生命周期示例。整体非控件对齐仍未完成。

@@ -8,21 +8,33 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strconv"
 	"strings"
 
 	"github.com/herlanai/omnigo/omniweb/client"
+	"golang.org/x/mod/modfile"
+	modmodule "golang.org/x/mod/module"
 )
 
 //go:embed all:template
 var templates embed.FS
 
-var moduleName = regexp.MustCompile(`^[A-Za-z0-9][A-Za-z0-9._-]*(/[A-Za-z0-9][A-Za-z0-9._-]*)+$`)
+func validateModule(name string) error {
+	if err := modmodule.CheckImportPath(name); err != nil {
+		return fmt.Errorf("scaffold: invalid module path: %w", err)
+	}
+	if name == "go" || name == "toolchain" {
+		return errors.New("scaffold: module path is reserved for the Go toolchain")
+	}
+	if _, _, ok := modmodule.SplitPathVersion(name); !ok {
+		return errors.New("scaffold: invalid module major-version suffix")
+	}
+	return nil
+}
 
-func Create(destination, module, framework string) error {
-	if !moduleName.MatchString(module) {
-		return errors.New("scaffold: supply a valid module path, e.g. example.com/myapp")
+func Create(destination, module, framework string) (result error) {
+	if err := validateModule(module); err != nil {
+		return err
 	}
 	if framework == "" {
 		return errors.New("scaffold: --framework must point to the local OmniGo repository until published")
@@ -35,20 +47,52 @@ func Create(destination, module, framework string) error {
 	if err != nil {
 		return err
 	}
-	if !strings.Contains(string(mod), "module github.com/herlanai/omnigo\n") {
+	parsed, err := modfile.Parse(filepath.Join(framework, "go.mod"), mod, nil)
+	if err != nil {
+		return fmt.Errorf("scaffold: invalid framework go.mod: %w", err)
+	}
+	if parsed.Module == nil || parsed.Module.Mod.Path != "github.com/herlanai/omnigo" {
 		return errors.New("scaffold: framework is not an OmniGo checkout")
 	}
-	// Mkdir, not MkdirAll: refuse an existing destination, including an empty one.
-	if err := os.Mkdir(destination, 0755); err != nil {
-		return fmt.Errorf("scaffold: destination must not exist: %w", err)
+	if err := os.MkdirAll(destination, 0755); err != nil {
+		return fmt.Errorf("scaffold: destination must be an empty directory: %w", err)
 	}
+	root, err := os.OpenRoot(destination)
+	if err != nil {
+		return err
+	}
+	defer root.Close()
+	entries, err := fs.ReadDir(root.FS(), ".")
+	if err != nil {
+		return err
+	}
+	if len(entries) != 0 {
+		return errors.New("scaffold: destination must be empty")
+	}
+	// Serialize cooperating initializers after the emptiness check. All writes
+	// are exclusive so another writer cannot have a file silently replaced.
+	const lock = ".omnigo-init.lock"
+	if err := root.Mkdir(lock, 0700); err != nil {
+		return fmt.Errorf("scaffold: initialization already in progress: %w", err)
+	}
+	defer func() {
+		if err := root.Remove(lock); err != nil {
+			result = errors.Join(result, fmt.Errorf("scaffold: project retained at %s; removing initialization lock: %w", destination, err))
+		}
+	}()
 	write := func(name string, data []byte) error {
-		path := filepath.Join(destination, filepath.FromSlash(name))
-		if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil {
+		local := filepath.FromSlash(name)
+		if err := root.MkdirAll(filepath.Dir(local), 0755); err != nil {
 			return err
 		}
-		return os.WriteFile(path, data, 0644)
+		file, err := root.OpenFile(local, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0644)
+		if err != nil {
+			return err
+		}
+		_, writeErr := file.Write(data)
+		return errors.Join(writeErr, file.Close())
 	}
+
 	err = fs.WalkDir(templates, "template", func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
@@ -67,7 +111,10 @@ func Create(destination, module, framework string) error {
 		return fmt.Errorf("scaffold: partial project retained at %s: %w", destination, err)
 	}
 	if err := write("ui/src/lib/omniweb.ts", []byte(client.TypeScript)); err != nil {
-		return err
+		return fmt.Errorf("scaffold: partial project retained at %s: %w", destination, err)
 	}
-	return write("go.mod", []byte(fmt.Sprintf("module %s\n\ngo 1.26.0\n\nrequire github.com/herlanai/omnigo v0.0.0\n\nreplace github.com/herlanai/omnigo => %s\n", module, strconv.Quote(filepath.ToSlash(framework)))))
+	if err := write("go.mod", []byte(fmt.Sprintf("module %s\n\ngo 1.26.0\n\nrequire github.com/herlanai/omnigo v0.0.0\n\nreplace github.com/herlanai/omnigo => %s\n", module, strconv.Quote(filepath.ToSlash(framework))))); err != nil {
+		return fmt.Errorf("scaffold: partial project retained at %s: %w", destination, err)
+	}
+	return nil
 }

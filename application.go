@@ -12,6 +12,7 @@ import (
 	"github.com/herlanai/omnigo/internal/runtime/lifecycle"
 	"github.com/herlanai/omnigo/internal/runtime/rpc"
 	"github.com/herlanai/omnigo/omniui"
+	"github.com/herlanai/omnigo/omniweb"
 	"github.com/herlanai/omnigo/omniwindow"
 	"github.com/herlanai/omnigo/omniwindow/host"
 )
@@ -31,6 +32,10 @@ var ErrNotReady = errors.New("omnigo: native host is not ready")
 type LifecycleOptions = lifecycle.Options
 
 type Options struct {
+	Streams *omniweb.Streams
+	// Events is application-owned; active HTTP subscriptions end on shutdown.
+	Events         *omniweb.Events
+	SingleInstance *SingleInstanceOptions
 	// Window configures the primary Web window during construction.
 	Window *WindowOptions
 	// GoWindow creates the initial native content on the UI goroutine.
@@ -55,6 +60,13 @@ type Application struct {
 }
 
 func New(options Options) (*Application, error) {
+	if options.SingleInstance != nil {
+		value, err := options.SingleInstance.normalized()
+		if err != nil {
+			return nil, err
+		}
+		options.SingleInstance = &value
+	}
 	if options.GoWindow != nil {
 		if options.InitialWindow != "" || options.CreateWindow != nil {
 			return nil, errors.New("omnigo: GoWindow conflicts with window factory")

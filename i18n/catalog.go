@@ -3,6 +3,7 @@ package i18n
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"io/fs"
@@ -52,7 +53,39 @@ func Load(fsys fs.FS, dir, source string) (*Catalog, error) {
 	return New(source, raw)
 }
 func decode(data []byte, locale string) (map[string]string, error) {
+	return decodeCatalog(data, locale, nil)
+}
+
+// A diagnostic consumer can continue after semantic errors in an otherwise
+// readable JSON object. Runtime loading passes nil and remains fail-fast.
+func decodeCatalog(data []byte, locale string, issue func(string, int, error)) (result map[string]string, err error) {
 	d := json.NewDecoder(bytes.NewReader(data))
+	location := nextJSONToken(data, 0)
+	var lines sourceLines
+	line := func() int {
+		if lines == nil {
+			lines = indexLines(data)
+		}
+		return lines.at(location)
+	}
+	defer func() {
+		if err == nil {
+			return
+		}
+		var syntax *json.SyntaxError
+		if errors.As(err, &syntax) {
+			// Decoder mixes Token and Decode calls; its SyntaxError offset is
+			// not necessarily absolute in that mode. Validate the original
+			// document to locate the byte independently of token consumption.
+			var document json.RawMessage
+			if validation := json.Unmarshal(data, &document); errors.As(validation, &syntax) {
+				location = syntax.Offset - 1
+			}
+		} else if errors.Is(err, io.ErrUnexpectedEOF) || errors.Is(err, io.EOF) {
+			location = int64(len(data))
+		}
+		err = &catalogLocationError{cause: err, line: line()}
+	}()
 	token, err := d.Token()
 	if err != nil || token != json.Delim('{') {
 		return nil, fmt.Errorf("i18n: catalog must be object")
@@ -60,37 +93,54 @@ func decode(data []byte, locale string) (map[string]string, error) {
 	out := map[string]string{}
 	seen := map[string]bool{}
 	for d.More() {
+		location = nextJSONToken(data, d.InputOffset())
 		token, err := d.Token()
 		if err != nil {
 			return nil, err
 		}
 		key := token.(string)
-		if seen[key] {
-			return nil, fmt.Errorf("i18n: duplicate key %s", key)
-		}
+		duplicate := seen[key]
 		seen[key] = true
 		var raw json.RawMessage
 		if err = d.Decode(&raw); err != nil {
 			return nil, err
 		}
+		if duplicate {
+			problem := fmt.Errorf("i18n: duplicate key %s", key)
+			if issue == nil {
+				return nil, problem
+			}
+			issue(key, line(), problem)
+			continue
+		}
 		if strings.HasPrefix(key, "@") {
 			if key == "@@locale" {
 				var s string
 				if err = json.Unmarshal(raw, &s); err != nil || s != locale {
-					return nil, fmt.Errorf("i18n: ARB locale does not match file")
+					problem := fmt.Errorf("i18n: ARB locale does not match file")
+					if issue == nil {
+						return nil, problem
+					}
+					issue(key, line(), problem)
 				}
 			}
 			continue
 		}
 		var value string
 		if err = json.Unmarshal(raw, &value); err != nil {
-			return nil, fmt.Errorf("i18n: %s must be string", key)
+			problem := fmt.Errorf("i18n: %s must be string", key)
+			if issue == nil {
+				return nil, problem
+			}
+			issue(key, line(), problem)
+			continue
 		}
 		out[key] = value
 	}
 	if _, err = d.Token(); err != nil {
 		return nil, err
 	}
+	location = nextJSONToken(data, d.InputOffset())
 	if _, err = d.Token(); err != io.EOF {
 		return nil, fmt.Errorf("i18n: trailing catalog data")
 	}

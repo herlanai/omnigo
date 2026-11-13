@@ -77,3 +77,14 @@ func (a *Application) TitleBarState(ctx context.Context) (host.TitleBarState, er
 	}
 	return h.TitleBarState(ctx)
 }
+
+// Activate queues a foreground request and restores the front native window if
+// minimized. A UI callback may enqueue it but must not wait on the result.
+// Completion means the OS request was issued, not guaranteed focus ownership.
+func (a *Application) Activate(ctx context.Context) (<-chan error, error) {
+	h := a.host.Load()
+	if h == nil {
+		return nil, ErrNotReady
+	}
+	return h.Activate(ctx)
+}

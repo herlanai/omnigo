@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/herlanai/omnigo/omniwindow/host"
 	"github.com/herlanai/omnigo/omniweb"
+	"github.com/herlanai/omnigo/omniwindow/host"
 )
 
 func (a *Application) Handle(pattern string, handler http.Handler) (err error) {
@@ -46,7 +46,7 @@ func (a *Application) serveWindow(ctx context.Context, native func(context.Conte
 	}
 	defer listener.Close()
 	origin := "http://" + listener.Addr().String()
-	bridge, err := omniweb.NewHTTP(a.router, omniweb.HTTPOptions{Host: listener.Addr().String(), Origins: []string{origin}, Grants: a.options.Lifecycle.Permissions})
+	bridge, err := omniweb.NewHTTP(a.router, omniweb.HTTPOptions{Streams: a.options.Streams, Events: a.options.Events, Host: listener.Addr().String(), Origins: []string{origin}, Grants: a.options.Lifecycle.Permissions})
 	if err != nil {
 		return err
 	}
@@ -60,15 +60,16 @@ func (a *Application) serveWindow(ctx context.Context, native func(context.Conte
 			files.ServeHTTP(w, r)
 		}
 	}))
-	server := &http.Server{Handler: mux, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 20 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 16 << 10}
-	defer server.Close()
 	lifetime, cancel := context.WithCancel(ctx)
 	defer cancel()
+	server := &http.Server{BaseContext: func(net.Listener) context.Context { return lifetime }, Handler: mux, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 20 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 16 << 10}
+	defer server.Close()
 	done := make(chan error, 1)
 	go func() { err := server.Serve(listener); done <- err; cancel() }()
 	options.Window = *a.window
 	options.Window.URL = origin + a.window.URL
 	nativeErr := native(lifetime, options)
+	cancel()
 	shutdown, stop := context.WithTimeout(context.WithoutCancel(ctx), 3*time.Second)
 	shutdownErr := server.Shutdown(shutdown)
 	stop()
