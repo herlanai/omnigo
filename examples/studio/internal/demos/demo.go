@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-var IDs = append([]string{"shortcuts", "text-storage", "i18n", "date-picker", "data-table"}, append(append(advancedIDs, uiControlIDs...), []string{"tooltip", "hover-card", "context-menu", "input-otp", "file-tree", "aspect-ratio", "combobox", "command", "direction", "dropdown-menu", "popover", "resizable", "scroll-area", "sheet", "skeleton", "accordion", "alert", "alert-dialog", "badge", "button", "button-group", "calendar", "card", "carousel", "checkbox", "code-block", "collapsible", "dialog", "empty", "field", "form", "native-select", "input", "input-group", "kbd", "label", "pagination", "progress", "radio-group", "select", "separator", "slider", "spinner", "switch", "table", "tabs", "textarea", "toggle", "toggle-group", "typography", "markdown", "icon", "loading", "plugin/borderbeam", "plugin/glass", "plugin/scene3d", "plugin/game", "plugin/terminal", "plugin/omnibrowser", "plugin/dsh-go"}...)...)
+var IDs = append([]string{"shortcuts", "text-storage", "i18n", "date-picker", "data-table"}, append(append(advancedIDs, uiControlIDs...), []string{"tooltip", "hover-card", "context-menu", "input-otp", "file-tree", "aspect-ratio", "combobox", "command", "direction", "dropdown-menu", "popover", "resizable", "scroll-area", "sheet", "skeleton", "accordion", "alert", "alert-dialog", "badge", "button", "button-group", "calendar", "card", "carousel", "checkbox", "code-block", "collapsible", "dialog", "empty", "field", "form", "native-select", "input", "input-group", "kbd", "label", "pagination", "progress", "radio-group", "select", "separator", "slider", "spinner", "switch", "table", "tabs", "textarea", "toggle", "toggle-group", "typography", "markdown", "icon", "loading", "plugin/borderbeam", "plugin/glass", "plugin/scene3d", "plugin/game", "plugin/terminal", "plugin/omnibrowser", "plugin/sqlite", "plugin/dsh-go"}...)...)
 
 func Supported(id string) bool {
 	for _, v := range IDs {
@@ -34,6 +34,7 @@ type Demo struct {
 	DatePicker        *ui.DatePickerState
 	DataTable         *ui.DataTableState
 	browser           *browserDemo
+	sqlite            *sqliteDemo
 	// RunTask executes work away from the UI and dispatches its returned callback.
 	RunTask        func(func() func())
 	NativeWeb      *ui.WebViewState

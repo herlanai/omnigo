@@ -7,19 +7,27 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	_ "modernc.org/sqlite"
 	"net/url"
+	"os"
 	"path/filepath"
 	"time"
+
+	"gorm.io/gorm"
+	_ "modernc.org/sqlite"
 )
 
 type Options struct {
 	ReadOnly    bool
 	BusyTimeout time.Duration
 	MaxRows     int
+	// Models are migrated once during Open. Read-only connections cannot migrate.
+	Models            []any
+	WAL               bool
+	CreateDirectories bool
 }
 type DB struct {
 	db      *sql.DB
+	orm     *gorm.DB
 	maxRows int
 }
 type Result struct{ LastInsertID, RowsAffected int64 }
@@ -33,11 +41,23 @@ type Statement struct {
 }
 
 func Open(ctx context.Context, path string, o Options) (*DB, error) {
+	if ctx == nil {
+		return nil, errors.New("sqlite: nil context")
+	}
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+	if o.ReadOnly && (len(o.Models) > 0 || o.WAL || o.CreateDirectories) {
+		return nil, errors.New("sqlite: read-only options cannot migrate, enable WAL or create directories")
+	}
 	if path == "" {
 		return nil, errors.New("sqlite: empty database path")
 	}
 	q := url.Values{}
 	q.Add("_pragma", "foreign_keys(1)")
+	if o.WAL && path != ":memory:" {
+		q.Add("_pragma", "journal_mode(WAL)")
+	}
 	if o.BusyTimeout < 0 {
 		return nil, errors.New("sqlite: negative busy timeout")
 	}
@@ -55,6 +75,11 @@ func Open(ctx context.Context, path string, o Options) (*DB, error) {
 		absolute, err := filepath.Abs(path)
 		if err != nil {
 			return nil, err
+		}
+		if o.CreateDirectories {
+			if err := os.MkdirAll(filepath.Dir(absolute), 0700); err != nil {
+				return nil, err
+			}
 		}
 		if o.ReadOnly {
 			q.Set("mode", "ro")
@@ -75,7 +100,12 @@ func Open(ctx context.Context, path string, o Options) (*DB, error) {
 	if o.MaxRows <= 0 {
 		o.MaxRows = 10000
 	}
-	return &DB{raw, o.MaxRows}, nil
+	db := &DB{db: raw, maxRows: o.MaxRows}
+	if err := db.initializeORM(ctx, o.Models); err != nil {
+		raw.Close()
+		return nil, err
+	}
+	return db, nil
 }
 func (d *DB) Close() error { return d.db.Close() }
 func result(r sql.Result, e error) (Result, error) {
@@ -90,10 +120,16 @@ func result(r sql.Result, e error) (Result, error) {
 	return Result{id, n}, e
 }
 func (d *DB) Execute(ctx context.Context, query string, args ...any) (Result, error) {
+	if ctx == nil {
+		return Result{}, errors.New("sqlite: nil context")
+	}
 	r, e := d.db.ExecContext(ctx, query, args...)
 	return result(r, e)
 }
 func (d *DB) Query(ctx context.Context, query string, args ...any) (Rows, error) {
+	if ctx == nil {
+		return Rows{}, errors.New("sqlite: nil context")
+	}
 	rows, e := d.db.QueryContext(ctx, query, args...)
 	if e != nil {
 		return Rows{}, e
@@ -126,6 +162,9 @@ func (d *DB) Query(ctx context.Context, query string, args ...any) (Rows, error)
 	return out, rows.Err()
 }
 func (d *DB) Transaction(ctx context.Context, statements []Statement) ([]Result, error) {
+	if ctx == nil {
+		return nil, errors.New("sqlite: nil context")
+	}
 	tx, e := d.db.BeginTx(ctx, nil)
 	if e != nil {
 		return nil, e

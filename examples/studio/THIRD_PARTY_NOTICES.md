@@ -39,3 +39,11 @@ https://github.com/notofonts/noto-cjk/tree/main/Sans/SubsetOTF/SC
 under SIL Open Font License 1.1. The complete license and SHA-256 file records
 are in `omniui/plugins/omnibrowser/render/fonts/`. Studio bundles include
 `licenses/noto-sans-sc-OFL.txt`.
+
+## SQLite ORM
+
+The SQLite demo uses GORM v1.31.2 and its SQLite dialect v1.6.0 (MIT),
+with jinzhu/inflection v1.0.0 and jinzhu/now v1.1.5 (MIT). The dialect
+transitively imports mattn/go-sqlite3 v1.14.22 (MIT, bundled SQLite public-domain
+notices); actual plugin connections use modernc.org/sqlite. Complete license
+texts are included under `omniui/plugins/licenses` and copied into Studio bundles.

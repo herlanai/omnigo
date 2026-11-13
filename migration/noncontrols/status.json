@@ -369,7 +369,10 @@
       "implementation": [
         "omniui/plugins/sqlite"
       ],
-      "evidence": [],
+      "evidence": [
+        "omniui/plugins/sqlite/orm_test.go",
+        "examples/studio/internal/demos/sqlite_test.go"
+      ],
       "remaining": [
         "Non-control contracts and remaining behavior in omniui/plugins/status.json; control/panel surfaces deferred"
       ]

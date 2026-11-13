@@ -41,6 +41,9 @@ type browserDemo struct {
 
 // Close releases demo-owned services; native windows call this before disposal.
 func (d *Demo) Close() {
+	if d.sqlite != nil {
+		d.sqlite.close()
+	}
 	if d.plugins != nil && d.plugins.panel != nil {
 		_ = d.plugins.panel.Close()
 	}

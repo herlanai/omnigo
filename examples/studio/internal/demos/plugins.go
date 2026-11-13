@@ -40,6 +40,8 @@ func (d *Demo) pluginContent() *ui.Element {
 	}
 	s := d.plugins
 	switch d.ID {
+	case "plugin/sqlite":
+		return d.sqliteContent()
 	case "plugin/omnibrowser":
 		return d.browserContent()
 	case "plugin/terminal":

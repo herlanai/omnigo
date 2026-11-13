@@ -17,7 +17,7 @@
 | permissionflow | macOS 两类权限查询及屏幕录制请求 | 其他权限、引导面板、Windows |
 | scene3d | 透视、六平面裁剪、深度测试 | 网格/实例、光照、OBJ、轨道控制、缓存 |
 | sfsymbols | AppKit 系统符号转自有位图 | 完整样式/主题和实机验收 |
-| sqlite | 真正 SQLite、参数/结果、事务、外键 | 前端桥、完整选项/资源策略 |
+| [sqlite](sqlite/README.md) | GORM 模型迁移、泛型 CRUD、分页筛选、事务、原生 SQL、Studio 交互演示 | 前端桥、完整选项/资源策略 |
 | terminal | macOS/Linux PTY、有限 VT 屏幕、颜色/光标/备用屏和原生输入视口 | 完整 VT、宽字符、选择/搜索/IME、Windows ConPTY |
 | updater | 签名清单、校验下载与失败清理 | 更新窗口、安装/回滚/重启和偏好 |
 | watch | 根目录隔离的轮询差分、重命名提示 | 原生监听、debounce、前端桥；瞬时变化可能漏报 |

@@ -240,13 +240,18 @@
       "symbol": "Open",
       "implemented": [
         "Pure-Go SQLite execute/query with typed parameters and row limits",
-        "Atomic transactions, foreign keys, cancellation and explicit close"
+        "Atomic transactions, foreign keys, cancellation and explicit close",
+        "GORM sessions and model migration on the existing modernc connection",
+        "Typed CRUD, bounded filtered/paginated lists, GORM transactions, optional WAL and directory creation",
+        "Studio native task demo with CRUD, filtering, rollback and cancellation-aware cleanup"
       ],
       "remaining": [
         "OmniWeb frontend client/bridge, complete reference options and database resource policy; equivalent performance benchmarks"
       ],
       "evidence": [
-        "omniui/plugins/sqlite/sqlite_test.go"
+        "omniui/plugins/sqlite/sqlite_test.go",
+        "omniui/plugins/sqlite/orm_test.go",
+        "examples/studio/internal/demos/sqlite_test.go"
       ],
       "reference": {
         "directory": "/Users/bittime/dev/golet/backend/plugins/sqlite",
