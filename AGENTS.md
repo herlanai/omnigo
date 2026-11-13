@@ -39,7 +39,7 @@ Window: &omnigo.WindowOptions{
 ```
 
 - Use the product name as the title. Adjust dimensions to the content and maintain clear spacing, hierarchy, and contrast in both themes.
-- `TitleBarHidden` hides the system title, background, and window buttons, extending content to the top. Provide discoverable close/quit behavior, preserve system menus and keyboard actions, and test them natively.
+- `TitleBarHidden` hides the system title and makes the title-bar background transparent, extending content to the top. The current macOS host keeps system window buttons visible. Reserve their space using `TopInset`; preserve close/quit behavior, system menus and keyboard actions, and test them natively.
 - To retain macOS traffic lights, use `TitleBarHiddenInset`, optionally with `TrafficLightPosition: &omnigo.Point{X: 12, Y: 11}`. Reserve space using `TopInset` returned by `app.TitleBarState(ctx)`.
 - CSS drag declarations do not establish native WKWebView window dragging. Do not claim dragging works solely because `-webkit-app-region: drag` is present. Check host support and test it; use a style that retains native window interaction areas when necessary.
 - **Go content windows do not have a `TitleBarStyle` field.** Use `ContentWindowOptions.TitleBarHidden: func() bool { return true }`, and set `DragRegion` to an actual Go element ID.
@@ -150,6 +150,43 @@ func main() {
 - RPC handlers process requests off the UI goroutine. Dispatch any UI state access; do not substitute unsynchronized cross-goroutine reads or writes.
 - Production applications embed frontend output and do not require Vite, a Node server, or the source working directory. Separate development tools from distribution assets.
 - See the complete [Studio entry point](examples/studio/cmd/studio/main.go) and [service registrations](examples/studio/cmd/studio/services.go).
+
+### Desktop Workspace Layout
+
+WebView is a rendering technology, not a browser interface. Design the application
+around its primary task and native window behavior:
+
+- Open directly into a useful workspace. Keep marketing heroes, decorative artwork,
+  framework badges, and website footers out of the main application view. Place
+  onboarding, product information, and diagnostics in dedicated views.
+- Fit the shell to the window (`100dvh` with a `100vh` fallback), with
+  `min-height: 0` on shrinking flex/grid children. Keep the toolbar and primary
+  navigation stationary; scroll lists, editors, and inspectors independently.
+  Avoid a document-level scrollbar and nested scrolling for the same content.
+- Use a compact toolbar (usually 44–52 CSS pixels, plus any required native safe
+  area), stable navigation, and a task-focused content pane. Reserve actual native
+  window-control space; do not add multiple empty title/header strips.
+- Preserve native window controls by default. Use `TitleBarHiddenInset` when its
+  inset toolbar arrangement fits the product; `TitleBarHidden` remains supported.
+  Test dragging, double-click behavior, resizing, fullscreen, and close/quit in the
+  packaged application. Never simulate support with CSS alone.
+- The current Web host exposes `TopInset` through `TitleBarState`; it does not yet
+  provide a generic DOM drag-region bridge or automatically synchronized CSS safe
+  area variables. Use the existing native title-bar interaction area until those
+  capabilities exist. Keep application-specific adaptations outside framework code.
+- Shrink desktop layouts by collapsing navigation or secondary panes before
+  stacking the whole workspace into a long mobile page. Keep primary actions
+  available at the declared minimum window size.
+- Use browser chrome (address bars, reload buttons, browser tabs) only when the
+  product actually is a browser. Business tabs represent documents or tasks.
+  External links should use an explicitly wired system-browser action; verify the
+  host API rather than assuming `target="_blank"` opens an external browser.
+- Scope text-selection suppression to toolbar/navigation chrome. Keep document
+  text, code, errors, and form fields selectable. Preserve focus indicators, Tab
+  navigation, standard editing shortcuts, IME, and reduced-motion preferences.
+- Validate light/dark themes, long content, empty/error/loading states, window
+  resizing, and independent scrolling. Cross-compilation and a browser preview
+  alone do not validate native window interactions.
 
 ### A WebView Inside a Go Layout
 
