@@ -8,7 +8,7 @@ require (
 	github.com/creack/pty v1.1.24
 	github.com/dop251/goja v0.0.0-20261110204830-f493a2b600d6
 	github.com/ebitengine/purego v0.11.1
-	github.com/herlanai/omnix v0.1.1
+	github.com/herlanai/omnix v0.1.2
 	github.com/srwiley/oksvg v0.0.0-20221011165216-be6e8873101c
 	github.com/srwiley/rasterx v0.0.0-20210519020934-456a8d69b780
 	github.com/yuin/goldmark v1.8.5

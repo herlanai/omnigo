@@ -165,4 +165,4 @@ it is not used to implement agent execution. `NewDeepSeek(DeepSeekOptions)` now
 returns omnix's provider directly rather than OmniGo's former custom adapter.
 
 Only importing this optional plugin links omnix; importing the OmniGo root
-package does not. Dependency: omnix v0.1.1, [MIT license](licenses/omnix-LICENSE).
+package does not. Dependency: omnix v0.1.2, [MIT license](licenses/omnix-LICENSE).
