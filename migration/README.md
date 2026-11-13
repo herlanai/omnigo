@@ -155,3 +155,13 @@ go run ./tools/parity -source /absolute/path/to/golet -out /tmp/omnigo-reference
 证据：scaffold_test.go 覆盖预建空目录、多级目标、隐藏文件保护、两次并发仅一次成功及生成 SDK/模块完整性；真实 CLI 探针验证空目录成功、非空重试拒绝且文件保留，临时项目已清理。控件未修改。
 
 本轮最终 `sh scripts/check.sh` 完整通过：Go tests/vet/race、37 SDK 测试、六桌面目标 CGO_ENABLED=0 构建及生命周期示例。整体非控件对齐仍未完成。
+
+## init 模块路径与框架声明解析（2026-11-13）
+
+移除旧模块路径正则，使用 golang.org/x/mod 的 CheckImportPath 与 SplitPathVersion，并拒绝 go/toolchain 保留模块名，匹配当前 Go 初始化的校验步骤。合法单段模块名（如 my-app）现在可用；Windows 保留文件名、路径尾随点、注入字符、非法主版本后缀等在创建目标目录前被拒绝。没有把“路径元素内连续点号”额外禁止：本机 Go 1.26 的 go mod init 实测接受它，测试依据实际规则修正。
+
+框架 go.mod 改用正式 modfile.Parse，接受合法引号、CRLF 和行尾注释，只认真实 module 指令；注释中的模块名、缺失或重复 module 指令不能伪装框架身份。这只证明模块声明匹配，不等于整个框架 checkout 的内容完整性验证。使用 x/mod v0.41.0，其许可证保留于 omniui/plugins/licenses/golang.org_x_mod@v0.41.0/LICENSE；未复制参考实现。
+
+证据：module_test.go 覆盖合法/非法路径、拒绝前不创建目录、各类 go.mod 语法与身份判断；真实 CLI 使用 --module my-app 创建项目，随后 go list -m 确认模块名，临时项目已清理。目录派生默认模块名、名称罗马化、模板选项等仍未完成，本轮不把它们计入完成，控件未修改。
+
+验证结果：最终 `sh scripts/check.sh` 完整通过（Go tests/vet/race、37 SDK 测试、六桌面目标 CGO_ENABLED=0 构建、生命周期示例）。真实 CLI 探针明确使用已缓存的 Go 1.26.0 工具链，验证单段模块名以及连续点号路径规则；基础 PATH 上的较旧 Go 配合 GOTOOLCHAIN=local 无法构建本仓库，不将该环境失败误判为模板失败。
