@@ -77,7 +77,8 @@
         "omnix agent.Agent model/tool execution with tools.Pipeline, schema validation and approval",
         "SessionLog-backed successful history, cancellation, usage and bounded turns",
         "Default omnix DeepSeek provider and explicit custom adapters",
-        "Reusable native Go Panel with prompt, streaming messages, approval, feedback/edit/copy, cancellation, configure/reset and window lifetime integration"
+        "Reusable native Go Panel with prompt, streaming messages, approval, feedback/edit/copy, cancellation, configure/reset and window lifetime integration",
+        "Opt-in omnix Ark image tool with ARK_API_KEY, per-call approval, structured provider image URLs and Panel open/copy actions"
       ],
       "remaining": [
         "Reference virtual-list performance and native device acceptance; persistent session resume, history compaction and full omnix skills/subagent/plan surface"
@@ -86,7 +87,8 @@
         "omniui/plugins/dsh-go/conversation_test.go",
         "omniui/plugins/dsh-go/adapter_test.go",
         "omniui/plugins/dsh-go/client_test.go",
-        "omniui/plugins/dsh-go/panel_test.go"
+        "omniui/plugins/dsh-go/panel_test.go",
+        "omniui/plugins/dsh-go/images_test.go"
       ],
       "reference": {
         "directory": "/Users/bittime/dev/golet/backend/plugins/dsh-go",

@@ -47,3 +47,25 @@ tray items (`NewTray`) and bounded system subscriptions (`WatchSystemEvents`)
 are exposed through root `omnigo.Application`. See
 [desktop service usage and limits](../DESKTOP.md). Run the opt-in native probe
 with `CGO_ENABLED=0 go run ./examples/studio/cmd/desktopcheck`.
+
+### HTML file inputs on macOS
+
+Both the main WKWebView and embedded Go-layout WebViews install a shared
+`WKUIDelegate` implementation for HTML file inputs, including custom buttons that
+synchronously call `input.click()`. It opens an asynchronous `NSOpenPanel` sheet,
+forwards multiple/directory selection, and passes selected NSURLs back to WebKit.
+Cancel, an occupied parent sheet, or WebView closure resolves with no selection.
+The host retains WebKit's completion block until exactly one resolution.
+
+File type and size validation remains application-owned; WKOpenPanelParameters
+contains no HTML `accept` filter. See [the local upload fixture](../../examples/webview-upload/README.md).
+Native lifecycle regression (macOS GUI session, executed on the process main thread):
+
+```sh
+OMNIGO_NATIVE_UPLOAD_TEST=1 CGO_ENABLED=0 go test ./omniwindow/host -count=1 -v
+```
+
+The native probe covers the embedded host's installed delegate, input options,
+busy-sheet cancellation, repeated cancellation, and cleanup when the view closes.
+The interactive fixture verifies real FileList delivery and file reads; no file is
+sent to a remote service. This does not establish Windows/Linux WebView support.

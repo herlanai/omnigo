@@ -128,12 +128,64 @@ tools and tool execution errors become tool results for the agent's next step.
 A UI approval callback must dispatch its prompt to the UI and wait on a channel
 or `ctx.Done()` on the worker.
 
+## Image generation with Ark
+
+OmniGo uses omnix's native `provider_ark.Tool()` inside the same Agent pipeline.
+It does not implement another image API or chat loop. Enable it explicitly:
+
+```go
+panel, err := dshgo.NewPanel(dshgo.PanelOptions{
+    Agent: dshgo.Options{
+        DeepSeek: dshgo.DeepSeekOptions{APIKey: os.Getenv("DEEPSEEK_API_KEY")},
+        Images: &dshgo.ImageOptions{}, // Reads ARK_API_KEY; optional ARK_IMAGE_MODEL.
+    },
+    RunTask: env.RunTask,
+    Copy: copyText, // Your application's clipboard callback.
+    OpenImage: openImageURL, // Your application opens this URL on user action.
+})
+// Handle err, retain panel once per window, render panel.View, and close on exit.
+```
+
+`ARK_API_KEY` is independent of the chat provider key. If image generation is
+enabled without a key, construction returns a configuration error. With `Images`
+nil, the tool remains disabled even when the environment contains a key. An
+explicit `ImageOptions.APIKey` or `Model` overrides its environment counterpart.
+`Endpoint` and `Client` are host-owned overrides for integrations and tests;
+endpoints require HTTPS (HTTP is allowed only for loopback), and redirects are
+not followed. Keys are held in an omnix credential store, not tool arguments,
+prompts, panel view state, or session history.
+
+The model calls `ark_generate_image`; omnix owns its schema, supported parameters,
+request, three-minute tool timeout, and response parsing. The tool supports prompt,
+size, PNG/JPEG, transparent/opaque background, and watermark options. Defaults
+follow the pinned omnix release. The default turn timeout becomes five minutes
+when images are enabled; an explicit `Options.Timeout` still takes precedence.
+
+Image calls always use the existing approval policy. `Panel` presents the normal
+per-call Allow/Deny controls. Headless `New` callers must supply `Options.Approve`;
+without it, image calls are denied. No provider request occurs before approval,
+and calls are not automatically retried. Real generation may incur Ark charges.
+
+Successful provider URLs are returned in `Result.Images` and worker-side `images`
+events, independently of what the model writes. They are also fed back to the
+Agent and retained in session events. Panel displays image-result cards with
+**Open image** and **Copy image URL** actions. `OpenImage`/`Copy` callbacks execute
+on the UI goroutine and should not block it. This version does not automatically
+download, decode, or inline-preview remote images. URLs can expire; applications
+own durable saving. Provider failures and denied calls do not create image cards.
+Already-generated images can remain available if a later model step fails.
+
+Studio's existing assistant demo remains explicitly offline and does not start
+paid image generation based solely on environment variables. Integration tests
+use local HTTP fixtures and exercise the real omnix tool, Agent continuation,
+Panel approval/actions, cancellation, missing credentials and provider errors.
+
 ## Lifetime, history and limits
 
 - `New` starts no agent worker or network request. `Run` is blocking; call it
   from a worker, such as an application task. omnix starts its own worker for
   the turn and it is disposed before `Run` returns.
-- Events (`text`, `reasoning`, `tool_start`, `tool_end`) and approval callbacks
+- Events (`text`, `reasoning`, `tool_start`, `tool_end`, `images`) and approval callbacks
   run on the omnix worker. Dispatch all UI state changes to the UI goroutine.
 - `Cancel` interrupts the current turn. `Close` prevents future turns and
   cancels current work without blocking the UI. All providers, tools and
@@ -165,4 +217,4 @@ it is not used to implement agent execution. `NewDeepSeek(DeepSeekOptions)` now
 returns omnix's provider directly rather than OmniGo's former custom adapter.
 
 Only importing this optional plugin links omnix; importing the OmniGo root
-package does not. Dependency: omnix v0.1.2, [MIT license](licenses/omnix-LICENSE).
+package does not. Dependency: omnix v0.1.3, [MIT license](licenses/omnix-LICENSE).

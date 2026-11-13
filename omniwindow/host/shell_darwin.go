@@ -74,6 +74,12 @@ func openShell(app objc.ID, options omniwindow.WindowOptions, quit func(), host 
 		delegate.Send(sel("release"))
 		return nil, fmt.Errorf("host: could not create WKWebView")
 	}
+	detachUpload, err := attachUploadDelegate(web)
+	if err != nil {
+		web.Send(sel("release"))
+		delegate.Send(sel("release"))
+		return nil, err
+	}
 	web.Send(sel("setNavigationDelegate:"), delegate)
 	web.Send(sel("setAutoresizingMask:"), uint64(18))
 	window := objc.ID(objc.GetClass("NSWindow")).Send(sel("alloc")).Send(sel("initWithContentRect:styleMask:backing:defer:"), rect{S: size{W: float64(options.Width), H: float64(options.Height)}}, uint64(1|2|4|8), uint64(2), false)
@@ -117,6 +123,7 @@ func openShell(app objc.ID, options omniwindow.WindowOptions, quit func(), host 
 	window.Send(sel("makeKeyAndOrderFront:"), objc.ID(0))
 	app.Send(sel("activateIgnoringOtherApps:"), true)
 	return func() {
+		detachUpload()
 		host.titlebar = nil
 		app.Send(sel("setDelegate:"), objc.ID(0))
 		window.Send(sel("setDelegate:"), objc.ID(0))

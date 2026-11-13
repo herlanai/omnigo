@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>WebView Upload Check</title>
+<style>body{font:16px system-ui;margin:32px;color:#24362f}section{border:1px solid #cad6ce;padding:18px;margin:18px 0;border-radius:12px}button,input{font:inherit}button{padding:10px 16px}pre{white-space:pre-wrap;overflow-wrap:anywhere}small{display:block;margin-top:12px}</style>
+<h1>WebView file selection</h1><p>Local verification only. No files are sent to a server.</p>
+<section><label>Single file <input id="single" type="file"></label></section>
+<section><button id="avatar-button" type="button">Upload avatar</button><input hidden id="avatar" type="file" accept="image/png,image/jpeg,image/webp"><small>Image type and 10 MiB limit are checked after selection.</small></section>
+<section><label>Multiple files <input id="multiple" type="file" multiple></label></section>
+<section><label>Directory <input id="directory" type="file" webkitdirectory multiple></label></section>
+<pre id="result" role="status">No file selected.</pre>
+<script>
+const result=document.querySelector('#result');
+document.querySelector('#avatar-button').onclick=()=>document.querySelector('#avatar').click();
+for(const input of document.querySelectorAll('input')){
+ input.addEventListener('cancel',()=>{result.textContent='Selection canceled.'});
+ input.addEventListener('change',async()=>{
+  const files=Array.from(input.files);
+  if(input.id==='avatar'&&files.some(f=>!['image/png','image/jpeg','image/webp'].includes(f.type)||f.size>10*1024*1024)){result.textContent='Invalid image type or size.';input.value='';return}
+  result.textContent=JSON.stringify(await Promise.all(files.map(async f=>({name:f.name,size:f.size,type:f.type,readableBytes:(await f.arrayBuffer()).byteLength}))),null,2);
+ });
+}
+</script></html>

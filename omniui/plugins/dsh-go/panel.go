@@ -18,8 +18,10 @@ type PanelOptions struct {
 	// RunTask must be safe from workers and schedule its returned callback on the
 	// UI goroutine with a repaint. Pass omnigo.WindowEnvironment.RunTask.
 	// Without a dispatcher the panel is a disabled, renderable preview.
-	RunTask       func(func() func())
-	Copy          func(string)
+	RunTask func(func() func())
+	Copy    func(string)
+	// OpenImage opens a provider-returned URL on explicit user interaction.
+	OpenImage     func(string)
 	Title, Notice string
 	MaxMessages   int
 }
@@ -27,6 +29,7 @@ type PanelOptions struct {
 type panelMessage struct {
 	id         int
 	role, text string
+	images     []GeneratedImage
 	feedback   ui.MessageFeedback
 }
 type panelApproval struct {
@@ -256,6 +259,8 @@ func (p *Panel) Send(text string) error {
 				switch event.Kind {
 				case "text":
 					answer.text += event.Text
+				case "images":
+					answer.images = append(answer.images, event.Images...)
 				case "tool_start":
 					p.status = "Running tool: " + event.Tool
 				case "tool_end":
@@ -316,6 +321,25 @@ func (p *Panel) View(id string) *ui.Element {
 			actions.OnEdit = func(text string) { p.SetDraft(text) }
 		}
 		rows = append(rows, ui.AIMessage(fmt.Sprintf("%s/message/%d", id, message.id), message.role, message.text, actions).Disabled(locked || p.busy && message.role == "user"))
+		for i, generated := range message.images {
+			imageID := fmt.Sprintf("%s/message/%d/image/%d", id, message.id, i)
+			rows = append(rows, ui.Card(imageID,
+				ui.Text(imageID+"/title", "Generated image · "+generated.Size),
+				ui.Text(imageID+"/url", generated.URL).Wrap(true),
+				ui.Row(imageID+"/actions",
+					ui.Button(imageID+"/open", "Open image", func() {
+						if p.options.OpenImage != nil {
+							p.options.OpenImage(generated.URL)
+						}
+					}).Disabled(locked || p.options.OpenImage == nil),
+					ui.Button(imageID+"/copy", "Copy image URL", func() {
+						if p.options.Copy != nil {
+							p.options.Copy(generated.URL)
+						}
+					}).Disabled(locked || p.options.Copy == nil),
+				).Gap(8),
+			))
+		}
 	}
 	if len(rows) == 0 {
 		rows = append(rows, ui.Text(id+"/empty", "Start a conversation. Tools run only when explicitly registered.").Wrap(true).Muted(true))

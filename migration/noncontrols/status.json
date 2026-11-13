@@ -250,7 +250,10 @@
       "implementation": [
         "omniwindow/host"
       ],
-      "evidence": [],
+      "evidence": [
+        "omniwindow/host/webview_upload_darwin_test.go",
+        "examples/webview-upload/README.md"
+      ],
       "remaining": [
         "Navigation, cookies, scripts, rules, protocol, download and session APIs; non-control frontend service mapping"
       ]

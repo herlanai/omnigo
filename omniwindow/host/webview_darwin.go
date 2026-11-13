@@ -15,6 +15,7 @@ import (
 type embeddedWeb struct {
 	container, web, parent objc.ID
 	closed                 bool
+	detachUpload           func()
 }
 
 func newEmbeddedWeb(parent objc.ID) (*embeddedWeb, error) {
@@ -32,9 +33,15 @@ func newEmbeddedWeb(parent objc.ID) (*embeddedWeb, error) {
 		container.Send(sel("release"))
 		return nil, fmt.Errorf("could not create embedded WKWebView")
 	}
+	detachUpload, err := attachUploadDelegate(web)
+	if err != nil {
+		web.Send(sel("release"))
+		container.Send(sel("release"))
+		return nil, err
+	}
 	container.Send(sel("addSubview:"), web)
 	parent.Send(sel("addSubview:"), container)
-	w := &embeddedWeb{container: container, web: web, parent: parent}
+	w := &embeddedWeb{container: container, web: web, parent: parent, detachUpload: detachUpload}
 	// Local, functional document: no network is needed to verify native input,
 	// DOM events and navigation inside the clipped Go control.
 	return w, nil
@@ -66,6 +73,7 @@ func (w *embeddedWeb) Close() {
 		return
 	}
 	w.closed = true
+	w.detachUpload()
 	w.web.Send(sel("stopLoading"))
 	w.container.Send(sel("removeFromSuperview"))
 	w.web.Send(sel("release"))

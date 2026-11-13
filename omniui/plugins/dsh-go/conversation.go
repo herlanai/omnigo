@@ -12,6 +12,7 @@ import (
 
 	"github.com/herlanai/omnix/pkg/agent"
 	"github.com/herlanai/omnix/pkg/brand"
+	"github.com/herlanai/omnix/pkg/imagegen/provider_ark"
 	"github.com/herlanai/omnix/pkg/llm"
 	"github.com/herlanai/omnix/pkg/session"
 	"github.com/herlanai/omnix/pkg/sysprompt"
@@ -35,6 +36,8 @@ type Tool struct {
 }
 
 type Options struct {
+	// Images opts into omnix image generation; nil leaves it disabled.
+	Images *ImageOptions
 	// DeepSeek is used when Adapter is nil.
 	DeepSeek                                                         DeepSeekOptions
 	Adapter                                                          llm.LLMAdapter
@@ -47,10 +50,12 @@ type Options struct {
 
 type Event struct {
 	Kind, Text, Tool, CallID string
+	Images                   []GeneratedImage
 	IsError                  bool
 }
 
 type Result struct {
+	Images []GeneratedImage
 	Text   string
 	Usage  llm.Usage
 	Steps  int
@@ -100,12 +105,25 @@ func New(o Options) (*Conversation, error) {
 	}
 	if o.Timeout == 0 {
 		o.Timeout = 2 * time.Minute
+		if o.Images != nil {
+			o.Timeout = 5 * time.Minute
+		}
 	}
 	if o.MaxSteps < 1 || o.MaxToolCalls < 1 || o.MaxTokens < 1 || o.MaxTurnBytes < 1 || o.MaxHistoryBytes < o.MaxTurnBytes || o.Timeout < 0 {
 		return nil, errors.New("dshgo: invalid limits")
 	}
 	p := tools.NewPipeline()
 	protected := map[string]bool{}
+	if o.Images != nil {
+		tool, err := newImageTool(*o.Images)
+		if err != nil {
+			return nil, err
+		}
+		p.WithTool(tool)
+		protected[tool.Name] = true
+		o.System += "\n" + imageInstructions
+		o.Images = nil
+	}
 	for _, definition := range o.Tools {
 		if definition.Name == "" || definition.Execute == nil || p.Lookup(definition.Name) != nil {
 			return nil, errors.New("dshgo: invalid or duplicate tool")
@@ -254,6 +272,20 @@ func (c *Conversation) Run(parent context.Context, input string, emit func(Event
 			cancel()
 		} else {
 			guard.used += n
+		}
+		if ec.Request.Tool == provider_ark.ToolName && !ec.Result.IsError {
+			if response, ok := ec.Result.Value.(*provider_ark.Response); ok {
+				var images []GeneratedImage
+				for _, value := range response.Data {
+					if value.Error == nil && value.URL != "" {
+						images = append(images, GeneratedImage{URL: value.URL, Size: value.Size})
+					}
+				}
+				out.Images = append(out.Images, images...)
+				if len(images) > 0 {
+					emit(Event{Kind: "images", Tool: ec.Request.Tool, CallID: ec.Request.CallID.String(), Images: images})
+				}
+			}
 		}
 		emit(Event{Kind: "tool_end", Tool: ec.Request.Tool, CallID: ec.Request.CallID.String(), IsError: ec.Result.IsError})
 		// Execution already took place in the owned omnix pipeline.
