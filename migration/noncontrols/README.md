@@ -53,6 +53,17 @@ See `omniwindow/system/README.md` and `migration/webui.md` for boundaries and us
 Existing reveal/trash, single-instance, events/streams and watch work was preserved.
 No control files or control behavior are changed by this increment.
 
+## Desktop service follow-up
+
+`Application.Screen` now reads native macOS display geometry and cursor state;
+`Appearance` / `SetAppearance` read and override the native application
+appearance, including three desktop accessibility preferences. Readiness follows
+successful initial-window creation. Unused WebView HTTP preconnections are closed
+on shutdown without exhausting the graceful-shutdown budget.
+
+See [method mapping and native evidence](desktop-services.md). Notifications,
+remaining preference fields and other platform implementations remain pending.
+
 ## Refresh and validate
 
 ```sh
@@ -79,5 +90,8 @@ must be recorded separately from six-target cross-compilation.
 - Generator tests also compile recursive DTOs and nullability against the SDK.
   They explicitly skip compiler acceptance when `tsc` is unavailable; this run
   added the installed compiler to PATH and passed that check.
-- No new native-window/Windows/Linux device acceptance or equivalent performance
-  benchmark was performed. Broad non-control parity is still incomplete.
+- The desktop-service follow-up passed a public-API external-module macOS arm64
+  native probe: two displays, dark/light/system override, pre/post-readiness
+  errors and clean shutdown. See `desktop-services.md` for exact observations.
+  Windows/Linux device acceptance and equivalent performance benchmarks remain
+  pending. Broad non-control parity is still incomplete.

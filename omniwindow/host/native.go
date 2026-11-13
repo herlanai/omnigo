@@ -8,19 +8,22 @@ import (
 	"sync"
 
 	"github.com/herlanai/omnigo/internal/runtime/dispatch"
+	"github.com/herlanai/omnigo/omniwindow"
 )
 
 var ErrUnsupported = errors.New("host requires macOS amd64 or arm64; Windows/Linux WebView hosts are unavailable (software windows: omniwindow/nativewindow)")
 
 type Controller struct {
-	mu       sync.Mutex
-	closed   bool
-	queue    *dispatch.Queue
-	ctx      context.Context
-	wake     func()
-	open     func(string, bool) error
-	activate func() error
-	titlebar func(TitleBarRequest) (TitleBarState, error)
+	mu         sync.Mutex
+	closed     bool
+	queue      *dispatch.Queue
+	ctx        context.Context
+	wake       func()
+	open       func(string, bool) error
+	activate   func() error
+	titlebar   func(TitleBarRequest) (TitleBarState, error)
+	screen     func() (omniwindow.ScreenState, error)
+	appearance func(omniwindow.AppearanceSource) (omniwindow.AppearanceState, error)
 }
 
 func (h *Controller) Open(ctx context.Context, id string, dark bool) error {

@@ -27,10 +27,13 @@
         "Bounded single-instance startup handoff retry before payload send; reacquires ownership after owner exit; never retries ambiguous acknowledgements",
         "Application.Activate: queued macOS unhide/front-window restoration/foreground request; safe enqueue from OnLaunch",
         "Single-instance private directories: Unix owner/mode/symlink checks; Windows protected inheritable owner/SYSTEM/admin DACL and existing-owner/ACL validation (compiled, native acceptance pending)",
-        "OnReady callback and cancelable WhenReady with startup-failure/shutdown release"
+        "OnReady callback and cancelable WhenReady with startup-failure/shutdown release",
+        "Native OnReady follows successful initial-window creation; unused browser HTTP preconnections close before graceful shutdown"
       ],
       "evidence": [
-        "readiness_test.go"
+        "readiness_test.go",
+        "http_connections_test.go",
+        "migration/noncontrols/desktop-services.md"
       ]
     },
     {
@@ -160,12 +163,25 @@
         "StyleBackend"
       ],
       "remaining": [
-        "display enumeration and hotplug",
-        "per-monitor DPI",
-        "system appearance changes",
-        "GTK style binding"
+        "Hotplug and appearance/preference notifications; remaining font/accent/input preference fields; Go and Web theme synchronization",
+        "Windows/Linux implementations and native acceptance; rotated/above/left display native validation"
       ],
-      "status": "pending"
+      "status": "partial",
+      "implementation": [
+        "screen.go",
+        "appearance.go",
+        "omniwindow/host/screen_darwin.go",
+        "omniwindow/host/appearance_darwin.go"
+      ],
+      "implemented": [
+        "macOS display and cursor snapshots in logical top-left desktop coordinates, primary/internal flags, work area, scale and rotation",
+        "macOS effective application appearance and system/light/dark override; reduce-motion/transparency and high-contrast snapshots"
+      ],
+      "evidence": [
+        "omniwindow/host/screen_test.go",
+        "omniwindow/host/appearance_test.go",
+        "migration/noncontrols/desktop-services.md"
+      ]
     },
     {
       "id": "system-state",

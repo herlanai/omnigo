@@ -62,7 +62,9 @@ func (a *Application) serveWindow(ctx context.Context, native func(context.Conte
 	}))
 	lifetime, cancel := context.WithCancel(ctx)
 	defer cancel()
+	var pending pendingConnections
 	server := &http.Server{BaseContext: func(net.Listener) context.Context { return lifetime }, Handler: mux, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 20 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 16 << 10}
+	server.ConnState = pending.state
 	defer server.Close()
 	done := make(chan error, 1)
 	go func() { err := server.Serve(listener); done <- err; cancel() }()
@@ -70,6 +72,7 @@ func (a *Application) serveWindow(ctx context.Context, native func(context.Conte
 	options.Window.URL = origin + a.window.URL
 	nativeErr := native(lifetime, options)
 	cancel()
+	pending.stop()
 	shutdown, stop := context.WithTimeout(context.WithoutCancel(ctx), 3*time.Second)
 	shutdownErr := server.Shutdown(shutdown)
 	stop()

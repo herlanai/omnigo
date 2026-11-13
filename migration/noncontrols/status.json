@@ -76,12 +76,22 @@
     {
       "id": "display-theme",
       "group": "desktop",
-      "status": "pending",
-      "implementation": [],
-      "evidence": [],
+      "status": "partial",
+      "implementation": [
+        "screen.go",
+        "appearance.go",
+        "omniwindow/host/screen_darwin.go",
+        "omniwindow/host/appearance_darwin.go"
+      ],
+      "evidence": [
+        "screen_test.go",
+        "omniwindow/host/screen_test.go",
+        "omniwindow/host/appearance_test.go",
+        "migration/noncontrols/desktop-services.md"
+      ],
       "remaining": [
-        "Display enumeration/hotplug/DPI and system appearance notifications",
-        "Per-method behavior mapping required; source files remain in reference inventory"
+        "Display hotplug and appearance/accessibility change subscriptions; accent/font/input preferences; Go theme and Web bridge integration",
+        "Windows/Linux implementation and native acceptance; rotated/above/left display native acceptance (coordinate unit tests only)"
       ]
     },
     {
@@ -136,11 +146,14 @@
         "application.go",
         "run.go",
         "readiness.go",
-        "internal/runtime/lifecycle"
+        "internal/runtime/lifecycle",
+        "http_connections.go"
       ],
       "evidence": [
         "readiness_test.go",
-        "internal/runtime/lifecycle/manager_test.go"
+        "internal/runtime/lifecycle/manager_test.go",
+        "http_connections_test.go",
+        "migration/noncontrols/desktop-services.md"
       ],
       "remaining": [
         "Cancelable before/will-quit, activation/reopen/open-file/open-URL event surface, relaunch and native acceptance"

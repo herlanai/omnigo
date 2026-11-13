@@ -15,6 +15,7 @@ import (
 	"github.com/ebitengine/purego/objc"
 	"github.com/herlanai/omnigo/internal/runtime/dispatch"
 	ui "github.com/herlanai/omnigo/omniui/baseui"
+	"github.com/herlanai/omnigo/omniwindow"
 	"github.com/herlanai/omnigo/omniwindow/clipboard"
 )
 
@@ -96,6 +97,10 @@ func runNative(ctx context.Context, options Options) error {
 		appIcon.Send(sel("release"))
 	}
 	h := &Controller{queue: dispatch.New(128), ctx: ctx}
+	h.screen = nativeScreen
+	h.appearance = func(source omniwindow.AppearanceSource) (omniwindow.AppearanceState, error) {
+		return nativeAppearance(app, source)
+	}
 	h.activate = func() error {
 		app.Send(sel("unhide:"), objc.ID(0))
 		window := app.Send(sel("keyWindow"))
@@ -424,9 +429,6 @@ func runNative(ctx context.Context, options Options) error {
 		}
 		return nil
 	}
-	if options.OnReady != nil {
-		options.OnReady(h)
-	}
 	if options.Window.URL != "" {
 		closeShell, err := openShell(app, options.Window, options.OnQuit, h)
 		if err != nil {
@@ -435,6 +437,11 @@ func runNative(ctx context.Context, options Options) error {
 		defer closeShell()
 	} else if err := h.open(options.InitialWindow, false); err != nil {
 		return err
+	}
+	// Readiness includes successful creation of the initial window. Callbacks
+	// may enqueue work now; the native loop below will service that work.
+	if options.OnReady != nil {
+		options.OnReady(h)
 	}
 	go func() {
 		<-ctx.Done()
