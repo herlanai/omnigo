@@ -6,6 +6,9 @@ import (
 	"errors"
 	"io/fs"
 	"net/http"
+	"os"
+	"path/filepath"
+	"strings"
 	"sync"
 	"sync/atomic"
 
@@ -15,6 +18,7 @@ import (
 	"github.com/herlanai/omnigo/omniweb"
 	"github.com/herlanai/omnigo/omniwindow"
 	"github.com/herlanai/omnigo/omniwindow/host"
+	"github.com/herlanai/omnigo/omniwindow/system"
 )
 
 type WindowOptions = omniwindow.WindowOptions
@@ -32,6 +36,10 @@ var ErrNotReady = errors.New("omnigo: native host is not ready")
 type LifecycleOptions = lifecycle.Options
 
 type Options struct {
+	// Name scopes application data, cache and logs. Defaults to the executable name.
+	Name string
+	// OnReady runs once on the UI goroutine after native host readiness.
+	OnReady func(*Application)
 	Streams *omniweb.Streams
 	// Events is application-owned; active HTTP subscriptions end on shutdown.
 	Events         *omniweb.Events
@@ -49,6 +57,10 @@ type Options struct {
 	Lifecycle     LifecycleOptions
 }
 type Application struct {
+	ready     chan struct{}
+	done      chan struct{}
+	readyOnce sync.Once
+	paths     *system.Paths
 	mu        sync.Mutex
 	used      bool
 	options   Options
@@ -60,6 +72,18 @@ type Application struct {
 }
 
 func New(options Options) (*Application, error) {
+	if options.Name == "" {
+		executable, err := os.Executable()
+		if err != nil {
+			return nil, err
+		}
+		options.Name = strings.TrimSuffix(filepath.Base(executable), ".exe")
+	}
+	paths, err := system.NewPaths(options.Name)
+	if err != nil {
+		return nil, err
+	}
+
 	if options.SingleInstance != nil {
 		value, err := options.SingleInstance.normalized()
 		if err != nil {
@@ -102,7 +126,7 @@ func New(options Options) (*Application, error) {
 	}
 	options.Icon = append([]byte(nil), options.Icon...)
 	options.Lifecycle.Permissions = append([]string(nil), options.Lifecycle.Permissions...)
-	app := &Application{options: options, routes: http.NewServeMux(), router: rpc.New(32, 64<<10), lifecycle: lifecycle.New(options.Lifecycle)}
+	app := &Application{ready: make(chan struct{}), done: make(chan struct{}), paths: paths, options: options, routes: http.NewServeMux(), router: rpc.New(32, 64<<10), lifecycle: lifecycle.New(options.Lifecycle)}
 	if options.Window != nil {
 		if options.GoWindow != nil {
 			return nil, errors.New("omnigo: choose Window or GoWindow for the primary window")

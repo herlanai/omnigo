@@ -26,7 +26,11 @@
         "Options.SingleInstance: ownership before services, secondary argument forwarding without startup, UI-dispatched callbacks, release after service/native shutdown",
         "Bounded single-instance startup handoff retry before payload send; reacquires ownership after owner exit; never retries ambiguous acknowledgements",
         "Application.Activate: queued macOS unhide/front-window restoration/foreground request; safe enqueue from OnLaunch",
-        "Single-instance private directories: Unix owner/mode/symlink checks; Windows protected inheritable owner/SYSTEM/admin DACL and existing-owner/ACL validation (compiled, native acceptance pending)"
+        "Single-instance private directories: Unix owner/mode/symlink checks; Windows protected inheritable owner/SYSTEM/admin DACL and existing-owner/ACL validation (compiled, native acceptance pending)",
+        "OnReady callback and cancelable WhenReady with startup-failure/shutdown release"
+      ],
+      "evidence": [
+        "readiness_test.go"
       ]
     },
     {
@@ -192,6 +196,31 @@
         "metadata-preserving file replacement"
       ],
       "status": "pending"
+    },
+    {
+      "id": "standard-paths",
+      "status": "partial",
+      "interfaces": [
+        "Application.Path",
+        "Application.SetPath"
+      ],
+      "implementation": [
+        "paths.go",
+        "omniwindow/system/paths.go",
+        "omniwindow/system/paths_windows.go"
+      ],
+      "implemented": [
+        "14 standard locations, application-scoped writable directories, overrides, bundle/dev resources, XDG parsing, Windows KnownFolder queries"
+      ],
+      "remaining": [
+        "Windows redirected-folder native acceptance",
+        "Linux XDG native acceptance",
+        "Installed macOS application resource acceptance"
+      ],
+      "evidence": [
+        "omniwindow/system/paths_test.go",
+        "omniwindow/system/paths_unix_test.go"
+      ]
     }
   ],
   "default_status": "pending",

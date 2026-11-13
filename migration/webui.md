@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | Go 服务请求/响应 | omniweb + internal/runtime/rpc | HTTP 与 TS SDK 已实现；桌面 WebView 传输待实现 |
 | 错误类型、请求关联、取消 | omniweb/client | 已实现基本协议及取消 |
-| 类型安全客户端生成 | 模板显式 Services 契约 | 手写类型可用；自动生成待实现 |
+| 类型安全客户端生成 | omniweb/typescript.go + cmd/omni generate | 单次 RPC 类型契约自动生成已实现；事件/流、嵌入字段及完整参考客户端生成仍缺 |
 | 前端事件 on/once/event | omniweb.Events + POST /omniweb/v1/events | Go HTTP NDJSON 事件传输、权限、队列上限、退出取消已实现；TS on/once/event 已接入；macOS ARM64 WKWebView 端到端已验收；其他平台与长期运行仍待验收 |
 | Channel/AsyncIterable 流 | omniweb.Streams / BindStream / Channel | Go 请求级 NDJSON 流及 TS AsyncIterable 已实现；消费确认背压和原生全链路仍待完成 |
 | locale/direction/语言变更与消息格式化 | OmniUI 国际化与 OmniWeb 通知 | 待实现 |
@@ -20,8 +20,8 @@
 | 插件前端客户端 | OmniUI 扩展 + OmniWeb 服务 | 全部待逐项重写 |
 | TanStack Start SPA/shadcn 默认模板 | internal/scaffold + cmd/omni | 生成、npm ci、类型检查、生产构建及浏览器到 Go 调用通过 |
 | 静态资源与 SPA 深链接 | omniweb.Assets | 已实现契约测试 |
-| 桌面热重载、类型生成、打包、签名、更新 | CLI 与平台工具链 | 仅项目生成已实现 |
-| 浏览器和三平台系统 WebView | HTTP 浏览器宿主 + 后续适配器 | 浏览器路径可构建；系统 WebView 尚未接通 |
+| 桌面热重载、类型生成、打包、签名、更新 | CLI 与平台工具链 | init/doctor/keygen/i18n check、单次 RPC 类型生成及 Studio 打包已有实现；完整 dev/build/package/release 仍缺 |
+| 浏览器和三平台系统 WebView | HTTP 浏览器宿主 + 后续适配器 | 浏览器与 macOS WKWebView 已接通，事件/流/watch 有专项验收；Windows/Linux WebView 仍缺 |
 
 更新任何条目时，需要实现、测试和验证环境证据；性能列必须独立于功能列验收。不要求沿用原协议、包名或目录，但不得无说明删除原有能力。
 
@@ -551,3 +551,27 @@ Linux 索引有交叉构建证据；本次实际执行的文件身份测试和�
 证据：`root_revalidation_test.go` 覆盖上述三种新订阅链接替换、既有目录/文件父目录替换后的 remove/EOF、祖先链接改变时保留既有监听、文件原子保存后重新订阅。测试使用真实临时文件系统及显式 Poll，无 sleep。Windows 稳定身份、junction/重解析点与所有并发路径替换情况仍无完整原生验证，原生事件后端、大批次传输及真正页面身份仍未完成。本轮没有修改控件。
 
 最终实现的 `sh scripts/check.sh` 已通过：tests/vet/race、37 个 SDK 用例、六桌面目标无 CGO 构建及生命周期示例。最终版本的 macOS WKWebView 原生回归亦通过：文件事件、文件根完成、拒绝、取消、重载和应用退出；新增路径替换场景仍以 Go 文件系统测试为证据，未据此宣称所有平台原生对齐。
+
+### Unary RPC TypeScript contracts (2026-11-13)
+
+`omniweb.GenerateTypeScript(router)` and `app.GenerateTypeScript()` emit a
+`Services` type for the canonical `OmniWebClient<Services>`. Types come from
+registered generic handlers; handlers are never called. `app.WriteTypeScript(path)`
+leaves identical files untouched and replaces output only after successful
+complete generation. Nil slices/maps/pointers, bytes as base64, time strings,
+RawMessage, recursive structs and JSON field tags are represented explicitly.
+Custom codecs and embedded/ambiguous fields are rejected rather than guessed.
+JavaScript numeric precision is unchanged; large int64 values should use a
+JSON string DTO or `json:",string"`.
+
+```sh
+go run ./cmd/omni generate -package ./examples/your-app -out ui/services.ts
+```
+
+The command runs trusted application code with `OMNIGO_GENERATE` set. Applications
+must use `omnigo.Run` or `app.RunMain`; initialization and registration code still
+executes, while framework services/native windows do not start. Fresh staging
+output is required even when a previous file exists. This is unary RPC contract
+generation only: event/stream contracts, embedded fields, enums/comments and the
+reference convenience wrapper API remain outstanding. It does not supersede the
+existing event/stream runtime or claim full generator parity.

@@ -1,0 +1,376 @@
+{
+  "schema": 1,
+  "reference": "reference.json",
+  "scope": "Non-control capabilities; file/API inventory is coverage scaffolding, not proof of behavior parity.",
+  "updated": "2026-11-13",
+  "items": [
+    {
+      "id": "standard-paths",
+      "group": "desktop",
+      "status": "partial",
+      "implementation": [
+        "paths.go",
+        "omniwindow/system/paths.go",
+        "omniwindow/system/paths_windows.go"
+      ],
+      "evidence": [
+        "omniwindow/system/paths_test.go",
+        "omniwindow/system/paths_unix_test.go",
+        "readiness_test.go"
+      ],
+      "remaining": [
+        "Windows redirected known folders and Linux XDG native acceptance; installed macOS resource lookup acceptance"
+      ]
+    },
+    {
+      "id": "shell-open-reveal-trash",
+      "group": "desktop",
+      "status": "partial",
+      "implementation": [
+        "omniwindow/system"
+      ],
+      "evidence": [
+        "omniwindow/system/reveal_test.go",
+        "omniwindow/system/trash_native_darwin_test.go"
+      ],
+      "remaining": [
+        "Default application lookup; Windows/Linux native acceptance; reveal device acceptance"
+      ]
+    },
+    {
+      "id": "clipboard",
+      "group": "desktop",
+      "status": "partial",
+      "implementation": [
+        "omniwindow/clipboard"
+      ],
+      "evidence": [
+        "omniwindow/clipboard/data_test.go"
+      ],
+      "remaining": [
+        "Delayed ownership, native file lists, image formats, Linux selections; remaining platform audit"
+      ]
+    },
+    {
+      "id": "dialogs",
+      "group": "desktop",
+      "status": "pending",
+      "implementation": [],
+      "evidence": [],
+      "remaining": [
+        "Native open/save/message dialogs, filters, cancellation and window ownership",
+        "Per-method behavior mapping required; source files remain in reference inventory"
+      ]
+    },
+    {
+      "id": "tray-menus",
+      "group": "desktop",
+      "status": "pending",
+      "implementation": [],
+      "evidence": [],
+      "remaining": [
+        "Native tray lifetime, menu updates, icons and callbacks",
+        "Per-method behavior mapping required; source files remain in reference inventory"
+      ]
+    },
+    {
+      "id": "display-theme",
+      "group": "desktop",
+      "status": "pending",
+      "implementation": [],
+      "evidence": [],
+      "remaining": [
+        "Display enumeration/hotplug/DPI and system appearance notifications",
+        "Per-method behavior mapping required; source files remain in reference inventory"
+      ]
+    },
+    {
+      "id": "power-network-media-secrets",
+      "group": "desktop",
+      "status": "pending",
+      "implementation": [],
+      "evidence": [],
+      "remaining": [
+        "Power/network subscriptions, NowPlaying and credential vaults",
+        "Per-method behavior mapping required; source files remain in reference inventory"
+      ]
+    },
+    {
+      "id": "notifications-shortcuts-login",
+      "group": "desktop",
+      "status": "pending",
+      "implementation": [],
+      "evidence": [],
+      "remaining": [
+        "Notifications, global shortcuts, login launch, installed-app queries",
+        "Per-method behavior mapping required; source files remain in reference inventory"
+      ]
+    },
+    {
+      "id": "documents-files",
+      "group": "desktop",
+      "status": "pending",
+      "implementation": [],
+      "evidence": [],
+      "remaining": [
+        "Document/recent-file/recovery/metadata APIs and permission lifetime",
+        "Per-method behavior mapping required; source files remain in reference inventory"
+      ]
+    },
+    {
+      "id": "audio-native-ffi",
+      "group": "desktop",
+      "status": "pending",
+      "implementation": [],
+      "evidence": [],
+      "remaining": [
+        "Reference non-control audio and native FFI service contracts",
+        "Per-method behavior mapping required; source files remain in reference inventory"
+      ]
+    },
+    {
+      "id": "lifecycle-readiness",
+      "group": "lifecycle",
+      "status": "partial",
+      "implementation": [
+        "application.go",
+        "run.go",
+        "readiness.go",
+        "internal/runtime/lifecycle"
+      ],
+      "evidence": [
+        "readiness_test.go",
+        "internal/runtime/lifecycle/manager_test.go"
+      ],
+      "remaining": [
+        "Cancelable before/will-quit, activation/reopen/open-file/open-URL event surface, relaunch and native acceptance"
+      ]
+    },
+    {
+      "id": "single-instance",
+      "group": "lifecycle",
+      "status": "partial",
+      "implementation": [
+        "single_instance.go",
+        "omniwindow/instance"
+      ],
+      "evidence": [
+        "omniwindow/instance/instance_test.go"
+      ],
+      "remaining": [
+        "Windows foreground transfer, Wayland activation and all remaining platform audit cases"
+      ]
+    },
+    {
+      "id": "omniweb-rpc-events-streams",
+      "group": "omniweb",
+      "status": "partial",
+      "implementation": [
+        "omniweb"
+      ],
+      "evidence": [
+        "omniweb/http_test.go"
+      ],
+      "remaining": [
+        "Remaining Channel API/throughput differences, WebView transports across platforms; see migration/webui.md"
+      ]
+    },
+    {
+      "id": "typescript-contracts",
+      "group": "toolchain",
+      "status": "partial",
+      "implementation": [
+        "omniweb/typescript.go",
+        "typescript.go",
+        "cmd/omni/generate.go"
+      ],
+      "evidence": [
+        "omniweb/typescript_test.go",
+        "typescript_test.go",
+        "cmd/omni/generate_test.go"
+      ],
+      "remaining": [
+        "Typed event and stream generation; embedded field flattening; custom codecs, enum/comment metadata, reference convenience client wrappers"
+      ]
+    },
+    {
+      "id": "webview-browser-services",
+      "group": "omniweb",
+      "status": "partial",
+      "implementation": [
+        "omniwindow/host"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Navigation, cookies, scripts, rules, protocol, download and session APIs; non-control frontend service mapping"
+      ]
+    },
+    {
+      "id": "locale-theme-window-bridge",
+      "group": "omniweb",
+      "status": "pending",
+      "implementation": [],
+      "evidence": [],
+      "remaining": [
+        "Locale/direction changes, system appearance/activity, window operations and document/drag service notifications"
+      ]
+    },
+    {
+      "id": "cli-project-development",
+      "group": "toolchain",
+      "status": "partial",
+      "implementation": [
+        "cmd/omni",
+        "internal/scaffold"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Complete CLI command/options parity, dev/hot-reload behavior and frontend asset workflows"
+      ]
+    },
+    {
+      "id": "packaging-release",
+      "group": "toolchain",
+      "status": "partial",
+      "implementation": [
+        "scripts/devtool"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Generic app packaging, DMG/MSI/Linux installers, resource manifests, signing/notarization and release verification"
+      ]
+    },
+    {
+      "id": "plugin-watch",
+      "group": "plugins",
+      "status": "partial",
+      "implementation": [
+        "omniui/plugins/watch"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Remaining reference behavior and frontend lifecycle mapping; see migration/webui.md and plugin audit"
+      ]
+    },
+    {
+      "id": "plugin-automation",
+      "group": "plugins",
+      "status": "partial",
+      "implementation": [
+        "omniui/plugins/automation"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Non-control contracts and remaining behavior in omniui/plugins/status.json; control/panel surfaces deferred"
+      ]
+    },
+    {
+      "id": "plugin-chromium",
+      "group": "plugins",
+      "status": "partial",
+      "implementation": [
+        "omniui/plugins/chromium"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Non-control contracts and remaining behavior in omniui/plugins/status.json; control/panel surfaces deferred"
+      ]
+    },
+    {
+      "id": "plugin-dsh-go",
+      "group": "plugins",
+      "status": "partial",
+      "implementation": [
+        "omniui/plugins/dsh-go"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Non-control contracts and remaining behavior in omniui/plugins/status.json; control/panel surfaces deferred"
+      ]
+    },
+    {
+      "id": "plugin-fetch",
+      "group": "plugins",
+      "status": "partial",
+      "implementation": [
+        "omniui/plugins/fetch"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Non-control contracts and remaining behavior in omniui/plugins/status.json; control/panel surfaces deferred"
+      ]
+    },
+    {
+      "id": "plugin-permissionflow",
+      "group": "plugins",
+      "status": "partial",
+      "implementation": [
+        "omniui/plugins/permissionflow"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Non-control contracts and remaining behavior in omniui/plugins/status.json; control/panel surfaces deferred"
+      ]
+    },
+    {
+      "id": "plugin-sqlite",
+      "group": "plugins",
+      "status": "partial",
+      "implementation": [
+        "omniui/plugins/sqlite"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Non-control contracts and remaining behavior in omniui/plugins/status.json; control/panel surfaces deferred"
+      ]
+    },
+    {
+      "id": "plugin-terminal",
+      "group": "plugins",
+      "status": "partial",
+      "implementation": [
+        "omniui/plugins/terminal"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Non-control contracts and remaining behavior in omniui/plugins/status.json; control/panel surfaces deferred"
+      ]
+    },
+    {
+      "id": "plugin-updater",
+      "group": "plugins",
+      "status": "partial",
+      "implementation": [
+        "omniui/plugins/updater"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Non-control contracts and remaining behavior in omniui/plugins/status.json; control/panel surfaces deferred"
+      ]
+    },
+    {
+      "id": "plugin-websocket",
+      "group": "plugins",
+      "status": "partial",
+      "implementation": [
+        "omniui/plugins/websocket"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Non-control contracts and remaining behavior in omniui/plugins/status.json; control/panel surfaces deferred"
+      ]
+    },
+    {
+      "id": "non-control-examples",
+      "group": "examples",
+      "status": "partial",
+      "implementation": [
+        "examples"
+      ],
+      "evidence": [],
+      "remaining": [
+        "Map and verify reference non-control examples; visual/control examples deferred"
+      ]
+    }
+  ]
+}

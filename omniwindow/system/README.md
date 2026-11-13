@@ -37,3 +37,24 @@ Native macOS verification (only creates, trashes and restores test-owned items):
 ```sh
 OMNIGO_NATIVE_TEST=1 CGO_ENABLED=0 go test ./omniwindow/system -run TestNativeTrash -v
 ```
+
+## Standard application locations
+
+`NewPaths("MyApp")` creates a concurrent-safe resolver without creating directories.
+`Get(PathUserData)`, `Get(PathCache)` and `Get(PathLogs)` create their default
+application-scoped directories with mode 0700 (subject to the OS/filesystem).
+`PathAppData` follows `os.UserConfigDir`, matching the reference contract rather
+than Linux's differently named XDG data directory. User folders are queried but
+never created. Windows uses native KnownFolder paths, including OS redirection;
+Linux reads `user-dirs.dirs` with bounded parsing and no shell evaluation.
+
+`Set(name, path)` records an absolute override without IO; an empty string restores
+the default. Overrides do not rewrite other locations. Existing directory modes
+are not changed. macOS Resources points to Contents/Resources inside a bundle;
+Go temporary build executables use the current project's resources directory.
+Other installed executables use their containing directory. This locates files;
+it does not copy/package them or guarantee they exist.
+
+The application facade is `Options.Name`, `app.Name()`, `app.Path(omnigo.PathCache)`
+and `app.SetPath(...)`. Supply a stable Name for production; otherwise the current
+executable's basename is used. Names must be single portable path components.

@@ -8,6 +8,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"reflect"
+	"sort"
 	"sync"
 )
 
@@ -22,8 +24,9 @@ var (
 
 type handler func(context.Context, []byte) ([]byte, error)
 type route struct {
-	permission string
-	call       handler
+	request, response reflect.Type
+	permission        string
+	call              handler
 }
 type Router struct {
 	mu       sync.RWMutex
@@ -54,7 +57,7 @@ func Bind[Request, Response any](r *Router, name, permission string, fn func(con
 	if _, ok := r.routes[name]; ok {
 		return fmt.Errorf("rpc: duplicate method %q", name)
 	}
-	r.routes[name] = route{permission: permission, call: func(ctx context.Context, raw []byte) ([]byte, error) {
+	r.routes[name] = route{request: reflect.TypeFor[Request](), response: reflect.TypeFor[Response](), permission: permission, call: func(ctx context.Context, raw []byte) ([]byte, error) {
 		var req Request
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		decoder.DisallowUnknownFields()
@@ -112,4 +115,22 @@ func (r *Router) Call(ctx context.Context, name string, raw []byte, grants []str
 		}
 	}()
 	return entry.call(ctx, raw)
+}
+
+// MethodType is a snapshot of a registered JSON method's Go types. It grants no
+// authority and is used only by offline contract generation.
+type MethodType struct {
+	Name              string
+	Request, Response reflect.Type
+}
+
+func (r *Router) MethodTypes() []MethodType {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+	out := make([]MethodType, 0, len(r.routes))
+	for name, route := range r.routes {
+		out = append(out, MethodType{Name: name, Request: route.request, Response: route.response})
+	}
+	sort.Slice(out, func(i, j int) bool { return out[i].Name < out[j].Name })
+	return out
 }

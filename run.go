@@ -37,7 +37,7 @@ func (a *Application) run(ctx context.Context, native func(context.Context, host
 	}
 	a.used = true
 	a.mu.Unlock()
-	defer a.host.Store(nil)
+	defer func() { a.host.Store(nil); close(a.done) }()
 	lease, forwarded, err := a.acquireInstance(ctx)
 	if err != nil {
 		return err
@@ -63,6 +63,12 @@ func (a *Application) run(ctx context.Context, native func(context.Context, host
 	err = a.lifecycle.Run(runCtx, driverFunc(func(ctx context.Context) error {
 		options := host.Options{Icon: a.options.Icon, CreateWindow: a.options.CreateWindow, InitialWindow: a.options.InitialWindow, OnReady: func(h *host.Controller) {
 			a.host.Store(h)
+			a.readyOnce.Do(func() {
+				close(a.ready)
+				if a.options.OnReady != nil {
+					a.options.OnReady(a)
+				}
+			})
 			if lease != nil {
 				ready <- h
 			}
@@ -82,6 +88,9 @@ func (a *Application) run(ctx context.Context, native func(context.Context, host
 // RunMain handles process termination signals and enters Run on the calling
 // main thread. Embedded hosts can continue to use Run with their own context.
 func (a *Application) RunMain() error {
+	if output := os.Getenv("OMNIGO_GENERATE"); output != "" {
+		return a.WriteTypeScript(output)
+	}
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 	return a.Run(ctx)

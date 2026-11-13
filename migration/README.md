@@ -1,5 +1,7 @@
 # 完整功能覆盖清单
 
+当前非控件对齐任务见 [非控件能力审计](noncontrols/README.md)，保留独立的当前参考文件/API 快照、优先级、实现和验证证据；控件暂缓。
+
 参考仓库：本地 `golet`，只读扫描。初始记录包含 **2,412 个源码/文档文件指纹、4,517 条 Go 导出声明和 16 个插件目录**。声明数量包含条件编译变体，并不等于独立功能数量。
 
 `reference.json` 记录接口声明与源文件 SHA-256，不包含函数实现体，不导入旧框架。Go 导出清单排除 internal、cmd、examples 与测试文件；这些目录及前端的源码指纹仍记录在 files 中。**TypeScript 导出、CLI 行为、视觉状态与平台行为尚需进一步建立行为级清单。当前清单不能独自证明完整覆盖。**
@@ -12,17 +14,17 @@
 
 | 功能域 | 重写位置规划 | 当前状态 |
 | --- | --- | --- |
-| 生命周期、主线程调度、事件 | desktop / runtime | 新核心已实现；参考行为尚未逐项验收 |
-| 窗口、多窗口、屏幕、菜单、托盘、快捷键 | desktop / 原生驱动 | 已有实验 Cocoa 与 Win32/X11 软件窗口；父子窗、屏幕、菜单、托盘等仍缺，见平台与专项审计 |
-| 系统 WebView、Web IPC、信任边界、资源协议 | platform / runtime | 仅类型化调用核心已实现 |
+| 生命周期、主线程调度、事件 | omniwindow / internal/runtime | 生命周期核心、就绪等待、单实例已有实现；参考行为尚未逐项验收 |
+| 窗口、多窗口、屏幕、菜单、托盘、快捷键 | omniwindow / 原生驱动 | 已有实验 Cocoa 与 Win32/X11 软件窗口；父子窗、屏幕、菜单、托盘等仍缺，见平台与专项审计 |
+| 系统 WebView、Web IPC、信任边界、资源协议 | omniwindow/host / omniweb | macOS WKWebView、RPC、事件及流已有实现与部分原生验收；其他平台及页面服务仍缺 |
 | 原生 UI、布局、主题、控件、动画、焦点、IME、无障碍 | omniui/baseui | 已有基础 Go 行列布局、控件行为、焦点、文本缓冲、无障碍快照；系统 IME/无障碍待接入 |
 | Metal、D3D、OpenGL、CPU、浏览器渲染 | omniui/baseui 绘制层 | Go CPU 绘制与可选 Metal 矩形 compute 渲染已实现；完整 GPU 控件绘制和其他后端仍待实现 |
 | 图表、代码/富文本/Markdown 编辑器 | omniui/baseui / 可选插件 | 部分实现，DiffView 与独立行级 diff 已有；不代表高级编辑或完整算法覆盖 |
 | Forma 与 AI 组件、加载与特效组件 | omniui/baseui | 多项局部实现，逐项差距见 controls；未宣称完整对齐 |
-| 音频、视频、拖放、剪贴板、文档、国际化 | omniui / desktop | 剪贴板仅编辑操作与 Studio Mac 文本通路；完整数据传输和多语言仍缺 |
+| 音频、视频、拖放、剪贴板、文档、国际化 | omniui / omniwindow | 剪贴板数据接口、Mac/Windows 部分原生通路及 i18n 已有实现；完整媒体、拖放、文档和平台覆盖仍缺 |
 | TS 生成、CLI、热重载、项目模板、打包、更新 | cmd / tooling | init、平台查询 doctor、更新 keygen 已有；Studio 专用开发/打包脚本已有局部实现，通用生成、开发与发布流程未齐，见下方工具链复核 |
-| 原有示例、文档、浏览器与桌面演示 | examples / studio | 已有离屏画廊、Studio 与 native-window 示例；非全部参考示例覆盖 |
-| 全部 16 个插件及前端客户端 | 控件插件归属 omniui/baseui；服务插件使用统一注册协议 | loading 已有 3 种新 Go 绘制，原 29 种及其他插件待完整重写 |
+| 原有示例、文档、浏览器与桌面演示 | examples / examples/studio | 已有离屏画廊、Studio 与 native-window 示例；非全部参考示例覆盖 |
+| 全部 16 个插件及前端客户端 | omniui/plugins；基础控件不导入插件集合 | 非控件插件已有局部实现，watch 等已接 OmniWeb；各项差异保留在插件审计，控件插件本轮暂缓 |
 
 插件清单：automation、borderbeam、chromium、dsh-go、fetch、game、glass、loading、permissionflow、scene3d、sfsymbols、sqlite、terminal、updater、watch、websocket。
 

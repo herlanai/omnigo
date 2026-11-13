@@ -15,6 +15,7 @@ const usage = `OmniGo application tools
 Usage: omni <command> [options]
 
 Commands:
+  generate   Generate unary RPC TypeScript contracts from an application
   init       Create an OmniWeb application from the current template
   doctor     Inspect development tools and platform capabilities
   keygen     Generate an Ed25519 update-signing key pair
