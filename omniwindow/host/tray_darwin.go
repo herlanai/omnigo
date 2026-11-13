@@ -21,6 +21,7 @@ type macTray struct {
 	item, target, menu objc.ID
 	options            omniwindow.TrayOptions
 	actions            map[int64]string
+	roles              map[int64]omniwindow.MenuRole
 	closed             bool
 }
 
@@ -29,7 +30,7 @@ func newNativeTray(o omniwindow.TrayOptions) (trayDriver, error) {
 		trayClass.class, trayClass.err = objc.RegisterClass("OmniGoStatusItemActions", objc.GetClass("NSObject"), nil, nil, []objc.MethodDef{{Cmd: sel("invoke:"), Fn: func(target objc.ID, _ objc.SEL, sender objc.ID) {
 			guard(func() {
 				t := trayTargets[target]
-				if t == nil || t.closed || t.options.OnEvent == nil {
+				if t == nil || t.closed {
 					return
 				}
 				event := omniwindow.TrayEvent{Kind: "menu"}
@@ -44,8 +45,13 @@ func newNativeTray(o omniwindow.TrayOptions) (trayDriver, error) {
 						return
 					}
 					event.ItemID = id
+					if role := t.roles[int64(sender.Send(sel("tag")))]; role != "" {
+						objc.ID(objc.GetClass("NSApplication")).Send(sel("sharedApplication")).Send(sel("sendAction:to:from:"), sel(string(role)+":"), objc.ID(0), sender)
+					}
 				}
-				t.options.OnEvent(event)
+				if t.options.OnEvent != nil {
+					t.options.OnEvent(event)
+				}
 			})
 		}}})
 	})
@@ -83,12 +89,46 @@ func (t *macTray) update(o omniwindow.TrayOptions) error {
 		icon.Send(sel("setTemplate:"), o.Template)
 		icon.Send(sel("setSize:"), size{W: 18, H: 18})
 	}
+	icons := map[string]objc.ID{}
+	defer func() {
+		for _, icon := range icons {
+			icon.Send(sel("release"))
+		}
+	}()
+	var preflight func([]omniwindow.MenuItem) error
+	preflight = func(items []omniwindow.MenuItem) error {
+		for _, entry := range items {
+			if _, _, err := menuKey(entry.Accelerator); err != nil {
+				return err
+			}
+			if len(entry.Icon) > 0 {
+				icon, err := menuImage(entry.Icon, entry.IconTemplate, 16)
+				if err != nil {
+					return err
+				}
+				icons[entry.ID] = icon
+			}
+			if err := preflight(entry.Items); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	if err := preflight(o.Menu); err != nil {
+		return err
+	}
 	actions := map[int64]string{}
+	roles := map[int64]omniwindow.MenuRole{}
 	tag := int64(0)
 	var build func([]omniwindow.MenuItem, bool) objc.ID
 	build = func(items []omniwindow.MenuItem, parentEnabled bool) objc.ID {
 		menu := objc.ID(objc.GetClass("NSMenu")).Send(sel("alloc")).Send(sel("initWithTitle:"), stringID(""))
 		menu.Send(sel("setAutoenablesItems:"), false)
+		direction := int64(0)
+		if o.RightToLeft {
+			direction = 1
+		}
+		menu.Send(sel("setUserInterfaceLayoutDirection:"), direction)
 		for _, entry := range items {
 			if entry.Hidden {
 				continue
@@ -100,6 +140,16 @@ func (t *macTray) update(o omniwindow.TrayOptions) error {
 			item := objc.ID(objc.GetClass("NSMenuItem")).Send(sel("alloc")).Send(sel("initWithTitle:action:keyEquivalent:"), stringID(entry.Label), sel("invoke:"), stringID(""))
 			tag++
 			item.Send(sel("setTag:"), tag)
+			key, mask, _ := menuKey(entry.Accelerator)
+			item.Send(sel("setKeyEquivalent:"), stringID(key))
+			item.Send(sel("setKeyEquivalentModifierMask:"), mask)
+			if icon := icons[entry.ID]; icon != 0 {
+				item.Send(sel("setImage:"), icon)
+			}
+			if entry.RadioGroup != "" {
+				dot := objc.ID(objc.GetClass("NSImage")).Send(sel("imageNamed:"), stringID("NSMenuOnState"))
+				item.Send(sel("setOnStateImage:"), dot)
+			}
 			item.Send(sel("setTarget:"), t.target)
 			enabled := parentEnabled && !entry.Disabled
 			item.Send(sel("setEnabled:"), enabled)
@@ -117,6 +167,7 @@ func (t *macTray) update(o omniwindow.TrayOptions) error {
 				submenu.Send(sel("release"))
 			} else if enabled {
 				actions[tag] = entry.ID
+				roles[tag] = entry.Role
 			}
 			menu.Send(sel("addItem:"), item)
 			item.Send(sel("release"))
@@ -137,6 +188,7 @@ func (t *macTray) update(o omniwindow.TrayOptions) error {
 	}
 	t.menu = menu
 	t.actions = actions
+	t.roles = roles
 	t.options = o
 	button := t.item.Send(sel("button"))
 	button.Send(sel("setTitle:"), stringID(o.Title))

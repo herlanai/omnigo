@@ -66,3 +66,45 @@ func TestRichTextLongWordAndCanceledPointer(t *testing.T) {
 		t.Fatal(e)
 	}
 }
+
+func TestRichTextAlignmentTracksLinkHitRegions(t *testing.T) {
+	for _, align := range []TextAlignment{TextAlignCenter, TextAlignRight} {
+		s, _ := NewSurface(240, 100, NewTheme(false))
+		opened := 0
+		root := RichText("aligned", []TextSpan{{Text: "Open", Link: "/docs"}}, RichTextOptions{Size: 14, LineHeight: 1.5, Align: align, OnLink: func(string) { opened++ }})
+		mount(t, s, Column("root", root))
+		b, _ := s.Bounds("aligned")
+		if b.H != 21 {
+			t.Fatalf("line height: %v", b)
+		}
+		s.Pointer(PointerEvent{Kind: "down", X: 2, Y: 10})
+		s.Pointer(PointerEvent{Kind: "up", X: 2, Y: 10})
+		if opened != 0 {
+			t.Fatal("link hit at old alignment position")
+		}
+		x := 120.
+		if align == TextAlignRight {
+			x = 230
+		}
+		s.Pointer(PointerEvent{Kind: "down", X: x, Y: 10})
+		s.Pointer(PointerEvent{Kind: "up", X: x, Y: 10})
+		if opened != 1 {
+			t.Fatal("aligned link did not open")
+		}
+		s.Close()
+	}
+}
+
+func TestRichTextNoWrapAndCodeIndentation(t *testing.T) {
+	s, _ := NewSurface(120, 400, NewTheme(false))
+	defer s.Close()
+	scroll := ScrollState{}
+	mount(t, s, ScrollArea("scroll", &scroll, RichText("code", []TextSpan{{Text: strings.Repeat("x", 80) + "\n    indented", Monospace: true}}, RichTextOptions{Size: 12, NoWrap: true, PreserveWhitespace: true})).HorizontalScroll(true))
+	x, _ := scroll.Limits()
+	if x <= 0 {
+		t.Fatal("unwrapped line has no horizontal extent")
+	}
+	if got := expandCodeTabs("a\tb\r\n\tc"); got != "a   b\n    c" {
+		t.Fatal(got)
+	}
+}

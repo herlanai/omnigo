@@ -292,6 +292,10 @@ func Stepper(id, label string, value, min, max, step float64, change func(float6
 type CodeBlockState struct {
 	Expanded bool
 	Scroll   ScrollState
+	// Wrap uses the shared rich text layout, preserving indentation and copy bytes.
+	Wrap bool
+	// Language enables the shared editor lexer (currently Go; others plain).
+	Language string
 }
 
 func CodeBlock(id, title, source string, state *CodeBlockState, maxLines int, copyText func(string)) *Element {
@@ -313,6 +317,23 @@ func CodeBlock(id, title, source string, state *CodeBlockState, maxLines int, co
 			label = "Collapse"
 		}
 		controls = append(controls, Button(id+"/expand", label, func() { state.Expanded = !state.Expanded }).Variant(Ghost))
+	}
+	if state.Wrap || state.Language != "" {
+		var spans []TextSpan
+		rows := codeLines(expandCodeTabs(shown), state.Language)
+		for i, row := range rows {
+			if i > 0 {
+				spans = append(spans, TextSpan{Text: "\n", Monospace: true})
+			}
+			for _, run := range row {
+				spans = append(spans, TextSpan{Text: run.text, Monospace: true, codeStyle: run.style})
+			}
+		}
+		body := RichText(id+"/source", spans, RichTextOptions{Size: 12, LineHeight: 1.4, PreserveWhitespace: true, NoWrap: !state.Wrap})
+		if !state.Wrap {
+			body = ScrollArea(id+"/viewport", &state.Scroll, body).HorizontalScroll(true).Height(min(320, float64(len(rows))*16.8+10))
+		}
+		return Card(id, Row(id+"/header", controls...), body)
 	}
 	body := codeText(id+"/source", shown, false)
 	viewport := ScrollArea(id+"/viewport", &state.Scroll, body).HorizontalScroll(true).Height(min(320, body.height+10))

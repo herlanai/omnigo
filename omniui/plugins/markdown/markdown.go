@@ -5,6 +5,7 @@ package markdown
 import (
 	"errors"
 	"fmt"
+	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/extension"
@@ -12,8 +13,8 @@ import (
 	"github.com/yuin/goldmark/text"
 	"github.com/yuin/goldmark/util"
 	"html"
+	"image/color"
 	"net/url"
-	ui "github.com/herlanai/omnigo/omniui/baseui"
 	"strconv"
 	"strings"
 	"unicode"
@@ -61,10 +62,16 @@ func (d *Document) Source() string {
 // Options callbacks run synchronously on the UI goroutine. Link destinations
 // are validated, but opening them is exclusively the application's decision.
 type Options struct {
-	OnLink     func(string)
-	OnCopyCode func(string)
-	CodeBlock  func(id, language, source string) *ui.Element
-	FontSize   float64
+	OnLink       func(string)
+	OnCopyCode   func(string)
+	CodeBlock    func(id, language, source string) *ui.Element
+	FontSize     float64
+	LineHeight   float64
+	BlockSpacing float64
+	WrapCode     bool
+	// Image resolves application-owned images synchronously without network I/O.
+	// A nil result uses the accessible alt-text placeholder.
+	Image func(id, destination, title, alt string) *ui.Element
 }
 type State struct {
 	doc  *Document
@@ -116,6 +123,12 @@ func (s *State) Build(id string, d *Document, o Options) *ui.Element {
 	if o.FontSize == 0 {
 		o.FontSize = 14
 	}
+	if o.LineHeight == 0 {
+		o.LineHeight = 1.5
+	}
+	if o.BlockSpacing == 0 {
+		o.BlockSpacing = o.FontSize * .75
+	}
 	if s.rich == nil {
 		s.rich = map[string]*ui.RichTextState{}
 	}
@@ -124,14 +137,16 @@ func (s *State) Build(id string, d *Document, o Options) *ui.Element {
 	}
 	usedRich := map[string]*ui.RichTextState{}
 	usedCode := map[string]*ui.CodeBlockState{}
-	paragraph := func(key string, n ast.Node, size float64, bold bool) *ui.Element {
+	rich := func(key string, runs []ui.TextSpan, size float64, align ui.TextAlignment) *ui.Element {
 		st := s.rich[key]
 		if st == nil {
 			st = &ui.RichTextState{}
 		}
 		usedRich[key] = st
-		runs := inline(n, d.source, ui.TextSpan{Bold: bold})
-		return ui.RichText(key, runs, ui.RichTextOptions{Size: size, State: st, OnLink: o.OnLink})
+		return ui.RichText(key, runs, ui.RichTextOptions{Size: size, State: st, OnLink: o.OnLink, LineHeight: o.LineHeight, Align: align})
+	}
+	paragraph := func(key string, n ast.Node, size float64, bold bool) *ui.Element {
+		return rich(key, inline(n, d.source, ui.TextSpan{Bold: bold}), size, ui.TextAlignLeft)
 	}
 	var block func(ast.Node, string) *ui.Element
 	var children func(ast.Node, string) []*ui.Element
@@ -155,17 +170,31 @@ func (s *State) Build(id string, d *Document, o Options) *ui.Element {
 			st = &ui.CodeBlockState{}
 		}
 		usedCode[key] = st
+		st.Wrap = o.WrapCode
+		st.Language = language
 		title := language
 		if title == "" {
 			title = "Code"
 		}
-		return ui.CodeBlock(key, title, source, st, 0, o.OnCopyCode)
+		return ui.CodeBlock(key, title, source, st, 0, o.OnCopyCode).Padding(o.FontSize * .85).Gap(8)
 	}
 	block = func(n ast.Node, key string) *ui.Element {
 		switch v := n.(type) {
 		case *ast.Heading:
-			return paragraph(key, n, o.FontSize*[]float64{1, 2, 1.65, 1.4, 1.2, 1.1, 1}[v.Level], true).Role("heading")
+			return paragraph(key, n, max(6, min(96, o.FontSize*[]float64{1, 1.6, 1.35, 1.15, 1, .95, .9}[v.Level])), true).Role("heading")
 		case *ast.Paragraph, *ast.TextBlock:
+			if img, ok := n.FirstChild().(*ast.Image); ok && img.NextSibling() == nil && o.Image != nil {
+				destination := html.UnescapeString(string(img.Destination))
+				if SafeLink(destination) && !strings.HasPrefix(strings.ToLower(destination), "mailto:") {
+					var alt strings.Builder
+					for _, run := range inline(img, d.source, ui.TextSpan{}) {
+						alt.WriteString(run.Text)
+					}
+					if element := o.Image(key, destination, string(img.Title), alt.String()); element != nil {
+						return element
+					}
+				}
+			}
 			return paragraph(key, n, o.FontSize, false)
 		case *ast.FencedCodeBlock:
 			return code(key, string(v.Language(d.source)), string(v.Lines().Value(d.source)))
@@ -174,6 +203,15 @@ func (s *State) Build(id string, d *Document, o Options) *ui.Element {
 		case *ast.ThematicBreak:
 			return ui.Separator(key)
 		case *ast.Blockquote:
+			if kind, runs, ok := alertContent(n, d.source); ok {
+				parts := []*ui.Element{ui.Text(key+"/title", kind).FontWeight(600), rich(key+"/text", runs, o.FontSize, ui.TextAlignLeft)}
+				for child, i := n.FirstChild().NextSibling(), 1; child != nil; child, i = child.NextSibling(), i+1 {
+					parts = append(parts, block(child, fmt.Sprintf("%s/%d", key, i)))
+				}
+				return ui.Column(key, parts...).Padding(12).Gap(8).Role("note").PaintSurface(func(p *ui.Painter, r ui.Rect) {
+					p.Fill(ui.Rect{X: r.X, Y: r.Y, W: 3, H: r.H}, alertColor(kind, p.Theme()), 1)
+				})
+			}
 			return ui.Column(key, children(n, key)...).Padding(12).PaintSurface(func(p *ui.Painter, r ui.Rect) {
 				p.Fill(r, p.Theme().Muted, 6)
 				p.Fill(ui.Rect{X: r.X, Y: r.Y, W: 3, H: r.H}, p.Theme().Border, 1)
@@ -181,7 +219,7 @@ func (s *State) Build(id string, d *Document, o Options) *ui.Element {
 		case *ast.List:
 			var items []*ui.Element
 			index := v.Start
-			if index < 1 {
+			if !v.IsOrdered() {
 				index = 1
 			}
 			i := 0
@@ -191,11 +229,17 @@ func (s *State) Build(id string, d *Document, o Options) *ui.Element {
 				if v.IsOrdered() {
 					marker = strconv.Itoa(index) + "."
 				}
-				items = append(items, ui.Row(p, ui.Text(p+"/marker", marker).Width(24), ui.Column(p+"/body", children(item, p+"/body")...).Grow(1)).Gap(6))
+				mark := ui.Text(p+"/marker", marker).FontSize(o.FontSize).Width(o.FontSize * 1.6)
+				if first := item.FirstChild(); first != nil {
+					if task, ok := first.FirstChild().(*ext.TaskCheckBox); ok {
+						mark = ui.Checkbox(p+"/marker", "", task.IsChecked, nil).Disabled(true).Width(o.FontSize * 1.6).Label("Task")
+					}
+				}
+				items = append(items, ui.Row(p, mark, ui.Column(p+"/body", children(item, p+"/body")...).Gap(o.BlockSpacing).Grow(1)).Gap(6).Role("listitem"))
 				index++
 				i++
 			}
-			return ui.Column(key, items...).Gap(6).Role("list")
+			return ui.Column(key, items...).Gap(o.FontSize * .25).Role("list")
 		case *ast.ListItem:
 			return ui.Column(key, children(n, key)...)
 		case *ext.Table:
@@ -207,10 +251,28 @@ func (s *State) Build(id string, d *Document, o Options) *ui.Element {
 				column := 0
 				_, header := row.(*ext.TableHeader)
 				for cell := row.FirstChild(); cell != nil; cell = cell.NextSibling() {
-					cells = append(cells, paragraph(fmt.Sprintf("%s/%d", p, column), cell, o.FontSize, header).Grow(1))
+					align := ui.TextAlignLeft
+					if c, ok := cell.(*ext.TableCell); ok {
+						if c.Alignment == ext.AlignCenter {
+							align = ui.TextAlignCenter
+						}
+						if c.Alignment == ext.AlignRight {
+							align = ui.TextAlignRight
+						}
+					}
+					cellID := fmt.Sprintf("%s/%d", p, column)
+					role := "cell"
+					if header {
+						role = "columnheader"
+					}
+					cells = append(cells, ui.Column(cellID, rich(cellID+"/text", inline(cell, d.source, ui.TextSpan{Bold: header}), o.FontSize, align)).Padding(o.FontSize*.6).Role(role))
 					column++
 				}
-				rows = append(rows, ui.Row(p, cells...).Padding(8).Role("row"), ui.Separator(p+"/rule"))
+				line := ui.Grid(p, len(cells), 0, cells...).Role("row")
+				if header {
+					line.PaintSurface(func(p *ui.Painter, r ui.Rect) { p.Fill(r, p.Theme().Muted, 0) })
+				}
+				rows = append(rows, line, ui.Separator(p+"/rule"))
 				rowIndex++
 			}
 			return ui.Column(key, rows...).Gap(0).Role("table")
@@ -229,7 +291,7 @@ func (s *State) Build(id string, d *Document, o Options) *ui.Element {
 			return ui.Text(key, string(n.Text(d.source))).Wrap(true)
 		}
 	}
-	root := ui.Column(id, children(d.root, id)...).Gap(12).Role("document").Label("Markdown document")
+	root := ui.Column(id, children(d.root, id)...).Gap(o.BlockSpacing).Role("document").Label("Markdown document")
 	s.rich = usedRich
 	s.code = usedCode
 	return root
@@ -295,11 +357,7 @@ func inline(parent ast.Node, source []byte, style ui.TextSpan) []ui.TextSpan {
 			result = append(result, inline(n, source, s)...)
 			add("]", s)
 		case *ext.TaskCheckBox:
-			if v.IsChecked {
-				add("[x] ", s)
-			} else {
-				add("[ ] ", s)
-			}
+			// The containing list item supplies a read-only native checkbox.
 		case *ext.FootnoteLink:
 			add(fmt.Sprintf("[%d]", v.Index), s)
 		case *ext.FootnoteBacklink:
@@ -310,4 +368,67 @@ func inline(parent ast.Node, source []byte, style ui.TextSpan) []ui.TextSpan {
 		}
 	}
 	return result
+}
+
+// GitHub alert markers are recognized only at the beginning of a quote's
+// first paragraph. Strip the marker from display spans, never from source.
+func alertContent(n ast.Node, source []byte) (string, []ui.TextSpan, bool) {
+	first, ok := n.FirstChild().(*ast.Paragraph)
+	if !ok {
+		return "", nil, false
+	}
+	runs := inline(first, source, ui.TextSpan{})
+	if len(runs) == 0 {
+		return "", nil, false
+	}
+	for _, kind := range []string{"Note", "Tip", "Important", "Warning", "Caution"} {
+		marker := "[!" + strings.ToUpper(kind) + "]"
+		// Goldmark can split the bracketed marker into multiple adjacent text nodes.
+		var text strings.Builder
+		for _, run := range runs {
+			text.WriteString(run.Text)
+		}
+		all := text.String()
+		if !strings.HasPrefix(all, marker) {
+			continue
+		}
+		rest := strings.TrimPrefix(all, marker)
+		if rest != "" && !strings.HasPrefix(rest, " ") && !strings.HasPrefix(rest, "\n") {
+			continue
+		}
+		remaining := len(marker)
+		for len(runs) > 0 && remaining > 0 {
+			if len(runs[0].Text) <= remaining {
+				remaining -= len(runs[0].Text)
+				runs = runs[1:]
+			} else {
+				runs[0].Text = runs[0].Text[remaining:]
+				remaining = 0
+			}
+		}
+		for len(runs) > 0 {
+			runs[0].Text = strings.TrimLeft(runs[0].Text, " \n")
+			if runs[0].Text != "" {
+				break
+			}
+			runs = runs[1:]
+		}
+		return kind, runs, true
+	}
+	return "", nil, false
+}
+
+func alertColor(kind string, theme ui.Theme) color.NRGBA {
+	colors := map[string]color.NRGBA{
+		"Note": {R: 37, G: 99, B: 235, A: 255}, "Tip": {R: 22, G: 128, B: 61, A: 255},
+		"Important": {R: 126, G: 34, B: 206, A: 255}, "Warning": {R: 161, G: 98, B: 7, A: 255},
+		"Caution": {R: 220, G: 38, B: 38, A: 255},
+	}
+	c := colors[kind]
+	if theme.Background.R < 128 {
+		c.R = uint8((uint16(c.R) + 255) / 2)
+		c.G = uint8((uint16(c.G) + 255) / 2)
+		c.B = uint8((uint16(c.B) + 255) / 2)
+	}
+	return c
 }

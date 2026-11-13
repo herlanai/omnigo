@@ -21,3 +21,14 @@ func (a *Application) NewTray(ctx context.Context, o TrayOptions) (*Tray, error)
 	}
 	return h.NewTray(ctx, o)
 }
+
+type MenuRole = omniwindow.MenuRole
+
+const (
+	MenuRoleCopy      = omniwindow.MenuRoleCopy
+	MenuRoleCut       = omniwindow.MenuRoleCut
+	MenuRolePaste     = omniwindow.MenuRolePaste
+	MenuRoleSelectAll = omniwindow.MenuRoleSelectAll
+	MenuRoleUndo      = omniwindow.MenuRoleUndo
+	MenuRoleRedo      = omniwindow.MenuRoleRedo
+)

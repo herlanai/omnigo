@@ -10,6 +10,11 @@ import (
 
 type MenuItem struct {
 	ID, Label, ToolTip                   string
+	Accelerator                          string
+	Role                                 MenuRole
+	RadioGroup                           string
+	Icon                                 []byte
+	IconTemplate                         bool
 	Disabled, Hidden, Checked, Separator bool
 	Items                                []MenuItem
 }
@@ -26,6 +31,7 @@ type TrayOptions struct {
 	ID, Title, ToolTip string
 	Icon               []byte // PNG; optional if Title is supplied
 	Template           bool
+	RightToLeft        bool
 	Menu               []MenuItem
 	OnEvent            func(TrayEvent)
 }
@@ -65,14 +71,45 @@ func PrepareTray(o TrayOptions) (TrayOptions, error) {
 			return nil, fmt.Errorf("tray: menu nesting exceeds 8")
 		}
 		result := slices.Clone(items)
+		checkedGroups := map[string]bool{}
 		for i := range result {
 			count++
 			if count > 512 {
 				return nil, fmt.Errorf("tray: too many menu items")
 			}
 			item := &result[i]
+			if err := validateMenuRole(item.Role); err != nil {
+				return nil, err
+			}
+			if item.Accelerator != "" {
+				if _, err := MenuKeyEquivalent(item.Accelerator); err != nil {
+					return nil, err
+				}
+			}
+			if len(item.Icon) > 0 {
+				if len(item.Icon) > 4<<20 {
+					return nil, fmt.Errorf("menu: icon exceeds 4 MiB")
+				}
+				config, err := png.DecodeConfig(bytes.NewReader(item.Icon))
+				if err != nil || config.Width > 4096 || config.Height > 4096 {
+					return nil, fmt.Errorf("menu: invalid PNG icon")
+				}
+				item.Icon = slices.Clone(item.Icon)
+			}
+			if item.RadioGroup != "" && (item.Separator || len(item.Items) > 0) {
+				return nil, fmt.Errorf("menu: radio item must be a leaf")
+			}
+			if item.Role != "" && (item.Separator || len(item.Items) > 0) {
+				return nil, fmt.Errorf("menu: role must be a leaf")
+			}
 			if strings.ContainsRune(item.ID+item.Label+item.ToolTip, 0) {
 				return nil, fmt.Errorf("tray: NUL in menu")
+			}
+			if item.RadioGroup != "" && item.Checked {
+				if checkedGroups[item.RadioGroup] {
+					return nil, fmt.Errorf("menu: multiple checked items in radio group %q", item.RadioGroup)
+				}
+				checkedGroups[item.RadioGroup] = true
 			}
 			if item.Separator {
 				if len(item.Items) > 0 {

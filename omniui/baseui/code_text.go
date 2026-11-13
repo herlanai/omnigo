@@ -25,27 +25,14 @@ func codeText(id, source string, danger bool) *Element {
 }
 
 func codeTextSpaced(id, source string, danger bool, lineHeight float64) *Element {
-	lines := strings.Split(strings.ReplaceAll(source, "\r\n", "\n"), "\n")
+	lines := strings.Split(expandCodeTabs(source), "\n")
 	face, err := opentype.NewFace(codeFont, &opentype.FaceOptions{Size: 12, DPI: 72, Hinting: font.HintingFull})
 	if err != nil {
 		panic(err)
 	}
 	width := 1.0
-	for i, line := range lines {
-		var b strings.Builder
-		column := 0
-		for _, ch := range line {
-			if ch == '\t' {
-				n := 4 - column%4
-				b.WriteString(strings.Repeat(" ", n))
-				column += n
-			} else {
-				b.WriteRune(ch)
-				column++
-			}
-		}
-		lines[i] = b.String()
-		width = max(width, float64(font.MeasureString(face, lines[i]).Ceil()))
+	for _, line := range lines {
+		width = max(width, float64(font.MeasureString(face, line).Ceil()))
 	}
 	face.Close()
 	e := Canvas(id, "Command output", func(p *Painter, r Rect) {
@@ -72,4 +59,24 @@ func codeTextSpaced(id, source string, danger bool, lineHeight float64) *Element
 	}).Width(width).Height(float64(len(lines)) * lineHeight).Role("text")
 	e.description = source
 	return e
+}
+
+func expandCodeTabs(source string) string {
+	var b strings.Builder
+	column := 0
+	for _, ch := range strings.ReplaceAll(source, "\r\n", "\n") {
+		switch ch {
+		case '\t':
+			n := 4 - column%4
+			b.WriteString(strings.Repeat(" ", n))
+			column += n
+		case '\n':
+			b.WriteRune(ch)
+			column = 0
+		default:
+			b.WriteRune(ch)
+			column++
+		}
+	}
+	return b.String()
 }

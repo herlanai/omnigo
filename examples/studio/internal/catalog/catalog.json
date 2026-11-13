@@ -1051,7 +1051,7 @@
     "target": "omniui/baseui"
   },
   {
-    "description": "Go 原生 CommonMark/GFM：标题、行内格式、列表、引用、代码块、表格和链接。选择、图片、数学、增量解析和完整无障碍尚未完成。",
+    "description": "Go 原生 CommonMark/GFM：阅读排版、提示块、任务复选框、对齐表格、Go 代码高亮与换行、应用图片回调。跨块选择、流式增量解析和完整无障碍尚未完成。",
     "evidence": [
       "omniui/plugins/markdown/markdown_test.go",
       "omniui/baseui/rich_text_test.go"
@@ -1063,9 +1063,9 @@
     "reference": "backend/ui/markdown",
     "remaining": [
       "Text selection and plain/HTML/Markdown clipboard formats",
-      "Images, math, alerts, mentions, link context menus and heading anchors",
+      "Inline images and automatic loading, math, mentions, link context menus and heading anchors",
       "Incremental parsing, streaming syntax healing and reveal animation",
-      "Per-link platform accessibility, complex shaping and configurable font fallback"
+      "Per-link platform accessibility, complex shaping and full typography theming"
     ],
     "status": "partial",
     "symbol": "State.View",
@@ -2154,7 +2154,7 @@
   },
   {
     "demo": "i18n",
-    "description": "Go 多语言目录、语言切换、CLDR 复数与数字格式；英语、德语、法语原生控件演示。日期/货币完整格式、生成器与控件全局翻译仍待补齐。",
+    "description": "Go 多语言目录、语言切换、CLDR 复数与数字格式；英语、简繁中文、德语、法语、日语、阿拉伯语、希伯来语、印地语原生控件演示（复杂文字整形仍有限制）。日期/货币完整格式、生成器与控件全局翻译仍待补齐。",
     "group": "framework",
     "id": "i18n",
     "implementation": "i18n",

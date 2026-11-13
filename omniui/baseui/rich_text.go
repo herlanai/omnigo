@@ -15,6 +15,7 @@ type TextSpan struct {
 	Text, Link                 string
 	Bold, Italic, Code, Strike bool
 	Monospace                  bool
+	codeStyle                  int
 }
 type RichTextState struct {
 	Link    int
@@ -25,7 +26,22 @@ type RichTextOptions struct {
 	Size   float64
 	State  *RichTextState
 	OnLink func(string)
+	// LineHeight is a multiplier of Size; zero keeps the default 1.55.
+	LineHeight float64
+	Align      TextAlignment
+	// PreserveWhitespace retains indentation after explicit and wrapped breaks.
+	PreserveWhitespace bool
+	// NoWrap measures full line widths, for horizontal scroll containers.
+	NoWrap bool
 }
+type TextAlignment uint8
+
+const (
+	TextAlignLeft TextAlignment = iota
+	TextAlignCenter
+	TextAlignRight
+)
+
 type richFragment struct {
 	text string
 	span TextSpan
@@ -68,7 +84,7 @@ func richFace(style int, size float64) font.Face {
 	if e != nil {
 		panic(e)
 	}
-	return f
+	return withSystemFallback(f, size)
 }
 
 // RichText lays out formatted runs in a single wrapping paragraph. Links share
@@ -80,6 +96,12 @@ func RichText(id string, spans []TextSpan, o RichTextOptions) *Element {
 	}
 	if !finite(o.Size) || o.Size < 6 || o.Size > 96 {
 		panic("baseui: invalid rich text size")
+	}
+	if o.LineHeight == 0 {
+		o.LineHeight = 1.55
+	}
+	if !finite(o.LineHeight) || o.LineHeight < 1 || o.LineHeight > 4 || o.Align > TextAlignRight {
+		panic("baseui: invalid rich text layout")
 	}
 	spans = append([]TextSpan(nil), spans...)
 	state := o.State
@@ -107,7 +129,7 @@ func RichText(id string, spans []TextSpan, o RichTextOptions) *Element {
 			indices[i] = found
 		}
 	}
-	lineHeight := o.Size * 1.55
+	lineHeight := o.Size * o.LineHeight
 	cachedWidth := -1.
 	var fragments []richFragment
 	var measuredW, measuredH float64
@@ -148,14 +170,14 @@ func RichText(id string, spans []TextSpan, o RichTextOptions) *Element {
 				}
 				token := runes[start:end]
 				tw := float64(font.MeasureString(face, string(token))) / 64
-				if !space && x > 0 && x+tw > width {
+				if !o.NoWrap && !space && x > 0 && x+tw > width {
 					newline()
 				}
 				remainingWidth := tw
 				for len(token) > 0 {
 					n := len(token)
 					advance := remainingWidth
-					if advance > width-x {
+					if !o.NoWrap && advance > width-x {
 						n = 0
 						advance = 0
 						for n < len(token) {
@@ -170,7 +192,7 @@ func RichText(id string, spans []TextSpan, o RichTextOptions) *Element {
 							}
 						}
 					}
-					if space && x == 0 && y > 0 {
+					if space && x == 0 && y > 0 && !o.PreserveWhitespace {
 						token = nil
 						break
 					}
@@ -186,7 +208,31 @@ func RichText(id string, spans []TextSpan, o RichTextOptions) *Element {
 			}
 		}
 		measuredW = min(width, max(measuredW, x))
+		if o.NoWrap {
+			measuredW = max(measuredW, x)
+			for _, f := range fragments {
+				measuredW = max(measuredW, f.box.X+f.box.W)
+			}
+		}
 		measuredH = y + lineHeight
+		if o.Align != TextAlignLeft {
+			for start := 0; start < len(fragments); {
+				end := start + 1
+				for end < len(fragments) && fragments[end].box.Y == fragments[start].box.Y {
+					end++
+				}
+				last := fragments[end-1].box
+				offset := max(0, width-last.X-last.W)
+				if o.Align == TextAlignCenter {
+					offset /= 2
+				}
+				for i := start; i < end; i++ {
+					fragments[i].box.X += offset
+				}
+				start = end
+			}
+			measuredW = width
+		}
 	}
 	e := Canvas(id, plain.String(), func(p *Painter, r Rect) {
 		layout(max(1, r.W))
@@ -216,6 +262,9 @@ func RichText(id string, spans []TextSpan, o RichTextOptions) *Element {
 			q := *p
 			q.face = f
 			fg := p.theme.Text
+			if fragment.span.codeStyle > 0 {
+				fg = p.theme.Chart[(fragment.span.codeStyle-1)%len(p.theme.Chart)]
+			}
 			if fragment.span.Code {
 				p.Fill(b, p.theme.Muted, 3)
 			}

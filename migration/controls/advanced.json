@@ -8,7 +8,7 @@
       "status": "partial",
       "implementation": "omniui/plugins/markdown",
       "symbol": "State.View",
-      "description": "Go 原生 CommonMark/GFM：标题、行内格式、列表、引用、代码块、表格和链接。选择、图片、数学、增量解析和完整无障碍尚未完成。",
+      "description": "Go 原生 CommonMark/GFM：阅读排版、提示块、任务复选框、对齐表格、Go 代码高亮与换行、应用图片回调。跨块选择、流式增量解析和完整无障碍尚未完成。",
       "reference": "backend/ui/markdown",
       "evidence": [
         "omniui/plugins/markdown/markdown_test.go",
@@ -16,9 +16,9 @@
       ],
       "remaining": [
         "Text selection and plain/HTML/Markdown clipboard formats",
-        "Images, math, alerts, mentions, link context menus and heading anchors",
+        "Inline images and automatic loading, math, mentions, link context menus and heading anchors",
         "Incremental parsing, streaming syntax healing and reveal animation",
-        "Per-link platform accessibility, complex shaping and configurable font fallback"
+        "Per-link platform accessibility, complex shaping and full typography theming"
       ]
     },
     {

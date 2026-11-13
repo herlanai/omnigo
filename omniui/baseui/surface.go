@@ -92,8 +92,8 @@ func NewSurface(width, height int, theme Theme) (*Surface, error) {
 	return NewSurfaceWithFont(width, height, theme, nil)
 }
 
-// A supplied face is caller-owned. The default Go font supports Latin; callers
-// must supply suitable fonts for CJK. Complex-script shaping is not implemented.
+// A supplied face is caller-owned. Default faces use Inter with lazy system
+// font fallback where available. Complex-script shaping is not implemented.
 func NewSurfaceWithFont(width, height int, theme Theme, face font.Face) (*Surface, error) {
 	if width <= 0 || height <= 0 || width > 16384 || height > 16384 || int64(width)*int64(height) > 64_000_000 {
 		return nil, errors.New("baseui: invalid surface dimensions")

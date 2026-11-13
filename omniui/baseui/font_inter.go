@@ -43,7 +43,7 @@ func weightedFace(weight int, mono bool, size float64) font.Face {
 	if err != nil {
 		panic(err)
 	}
-	return f
+	return withSystemFallback(f, size)
 }
 func textWeight(e *Element) int {
 	if e.fontWeight <= 400 {

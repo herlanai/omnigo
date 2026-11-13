@@ -199,7 +199,7 @@ export class OmniWebEvents<Events extends Record<string, unknown>> {
         const response = await this.fetcher(`${this.base}/events`, { method: "POST", credentials: "same-origin", redirect: "error",
           headers: { "Content-Type": "application/json" }, body: JSON.stringify({ v: protocolVersion, topics: [name] }), signal: controller.signal });
         if (controller.signal.aborted) { await response.body?.cancel(); if (!stopped) throw controller.signal.reason; return; }
-        if (!response.ok || response.headers.get("Content-Type")?.split(";")[0].trim().toLowerCase() !== "application/x-ndjson" || !response.body) {
+        if (!response.ok || response.headers.get("Content-Type")?.split(";")[0]?.trim().toLowerCase() !== "application/x-ndjson" || !response.body) {
           await response.body?.cancel();
           throw new OmniWebError(response.ok ? "protocol" : `http_${response.status}`, "Event stream rejected");
         }
@@ -390,7 +390,7 @@ export class OmniWebStreams<API extends StreamContract<API>> {
         controller.signal.throwIfAborted();
         const response=await this.fetcher(`${this.base}/stream`,{method:"POST",headers:{"Content-Type":"application/json"},credentials:"same-origin",redirect:"error",body,signal:controller.signal});
         if(controller.signal.aborted){await response.body?.cancel();throw controller.signal.reason}
-        if(!response.ok||!response.body||response.headers.get("Content-Type")?.split(";")[0].trim().toLowerCase()!=="application/x-ndjson"){
+        if(!response.ok||!response.body||response.headers.get("Content-Type")?.split(";")[0]?.trim().toLowerCase()!=="application/x-ndjson"){
           await response.body?.cancel();throw new OmniWebError(response.ok?"protocol":`http_${response.status}`,"Stream rejected");
         }
         reader=response.body.getReader();

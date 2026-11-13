@@ -41,7 +41,7 @@ image, err := surface.Render()
 - 数据与反馈：FileTree、Calendar 单选/多选/范围、固定窗口 Table、Progress、Meter、Alert、Empty、CodeBlock、Kbd、Dialog、AlertDialog。
 - 可选 Go 插件：`omniui/baseui/loading` 的 Ring、Dots、Bars、Clock、Ripple、Orbit、Pulse。使用相同 Painter、主题、虚拟时钟和减少动态效果策略。
 
-这些入口是**局部重写成果，不是完整对齐声明**。Select 已使用可滚动的锚定弹层并支持键盘与 typeahead，Table 只有显式可见行窗口与排序回调，CodeBlock 不含高亮/选择，Carousel 不含手势；日历不含本地化文本与 RTL；Tabs/RadioGroup 已使用单个 Tab 停靠点并支持方向键切换；其他组合的 roving-tabindex 语义仍待逐项验收。菜单栏、图表、AI 组合的剩余能力，以及尚未实现的编辑器、富文本与其他插件见 [覆盖清单](../../migration/controls/README.md)。
+这些入口是**局部重写成果，不是完整对齐声明**。Select 已使用可滚动的锚定弹层并支持键盘与 typeahead，Table 只有显式可见行窗口与排序回调，CodeBlock 支持 Go 词法高亮，尚不含文字选择，Carousel 不含手势；日历不含本地化文本与 RTL；Tabs/RadioGroup 已使用单个 Tab 停靠点并支持方向键切换；其他组合的 roving-tabindex 语义仍待逐项验收。菜单栏、图表、AI 组合的剩余能力，以及尚未实现的编辑器、富文本与其他插件见 [覆盖清单](../../migration/controls/README.md)。
 
 ## 统一样式
 
@@ -49,7 +49,7 @@ InputGroup 共用外框及 focus-within，内部输入不重复绘制边框，�
 
 `theme/tokens.json` 仅保存设计数据，由 Go 读取：14 DIP 正文、36 DIP 基础控件高度、16 DIP 基础圆角（按钮/单行输入为胶囊，文本域为 12 DIP）、4 DIP 间距单位，以及参照 golet Forma 的中性明暗语义颜色。错误文字使用更深的浅色主题红色以维持对比度。控件共用边框、焦点、禁用、选中、危险和表单错误表现。没有逐组件独立 CSS。
 
-默认文本对比度测试检查正文、辅助文字、主按钮文字与错误文字。自定义主题不自动保证对比度；颜色可通过返回的 Theme 值覆盖。字体绘制使用 `golang.org/x/image` 的纯 Go 字体栈，所有平台默认嵌入 Inter 4.1，使用真实 400/500/600/700 静态字重；富文本使用同族斜体，代码使用 Go Mono。Inter 的 OFL 许可证随资源与 Studio 分发。默认字形覆盖 Latin/Greek/Cyrillic；CJK 需要调用方通过 `NewSurfaceWithFont` 提供合适字体。复杂文字整形、字素簇导航、系统字体回退和平台 IME 连接仍待实现。
+默认文本对比度测试检查正文、辅助文字、主按钮文字与错误文字。自定义主题不自动保证对比度；颜色可通过返回的 Theme 值覆盖。字体绘制使用 `golang.org/x/image` 的纯 Go 字体栈，所有平台默认嵌入 Inter 4.1，使用真实 400/500/600/700 静态字重；富文本使用同族斜体，代码使用 Go Mono。Inter 的 OFL 许可证随资源与 Studio 分发。Inter 字形覆盖 Latin/Greek/Cyrillic，缺字时延迟使用已安装的系统字体（见下文“系统字体回退”）。没有候选字体时可通过 `NewSurfaceWithFont` 提供字体。复杂文字整形、字素簇导航和完整平台 IME 连接仍待实现。
 
 ## 验证与展示
 
@@ -147,7 +147,7 @@ go run ./examples/studio/cmd/gallery -controls chart,model-selector -chart-kind 
 
 ### Terminal 命令输出与 CodeBlock
 
-`Terminal(..., TerminalOptions{Open: &disclosure, OnCopy: copyText, MaxHeight: 320})` 支持应用持有的折叠状态和复制回调。运行中状态优先；未报告退出值时为 pending，非零退出为 error。输出使用 Go Mono 等宽字体、4 列 Tab 停靠和双向滚动，复制不改动原始文本。追加输出只在原来接近末尾时跟随。CodeBlock 也使用等宽滚动区。文字选择和语法高亮仍缺失；这两个控件都不是 PTY/VT 插件。
+`Terminal(..., TerminalOptions{Open: &disclosure, OnCopy: copyText, MaxHeight: 320})` 支持应用持有的折叠状态和复制回调。运行中状态优先；未报告退出值时为 pending，非零退出为 error。输出使用 Go Mono 等宽字体、4 列 Tab 停靠和双向滚动，复制不改动原始文本。追加输出只在原来接近末尾时跟随。CodeBlock 默认也使用等宽滚动区；设置 `CodeBlockState.Wrap` 可换行，设置 `Language: "go"` 可复用编辑器词法高亮。复制保留原文。文字选择仍缺失；这两个控件都不是 PTY/VT 插件。
 
 可选插件的规范位置已按用户要求迁为 `omniui/plugins`；其中 Loading 按最新要求合并，唯一实现与测试位于 `omniui/baseui/loading`，旧导入路径已移除。基础控件不会导入插件集合。`Element.PaintSurface` 为 Go 插件提供当前元素表面绘制回调（先于子节点）；`Painter.Snapshot` 返回受限、自有背景快照，`Painter.Image` 提供剪裁和圆角位图合成。回调仍只能在 UI goroutine 内使用，不能保留 Painter。
 
@@ -181,14 +181,14 @@ go run ./examples/studio/cmd/gallery -controls chart,model-selector -chart-kind 
 
 键盘导航显示外扩焦点环，普通鼠标点击不再套重焦点框；输入框保留当前编辑边框。外环允许进入布局容器的内边距，但受卡片/弹层/滚动视口边界约束。弹层通过纯 Go 的有界柔和阴影与背景区分；不保留 Painter。相关测试见 `visual_style_test.go`，完整离屏预览由 Studio gallery 生成。
 
-这是共用视觉层的改进，不是全部控件与 golet 的逐像素对齐声明。自定义绘制控件、系统字体回退/CJK、全部状态/动画、原生窗口与系统无障碍仍需后续验收。
+这是共用视觉层的改进，不是全部控件与 golet 的逐像素对齐声明。自定义绘制控件、完整系统字体发现、全部状态/动画、原生窗口与系统无障碍仍需后续验收。
 
 
 ## Maia 演示视觉基线
 
 按只读参考 `ui/forma/theme.go`、`inputs.go`、`layout.go`、`navigation.go` 的尺寸与状态规则调整：Card 外边距 24、区段间距 24，CardHeader 间距 8、标题 16/500、说明 14，CardContent 间距 16；Field 间距 8、Form 间距 24；Tabs 内容 30 + 上下各 3、条目圆角 12。新增 CardHeader/CardTitle/CardDescription/CardContent/CardFooter 组合入口。
 
-Maia 输入和 Outline 使用半透明 input 底色；按钮各变体有独立悬停色，禁用按钮使用半透明绘制，保留底层背景。默认与高 DPI 字体、文字测量和富文本使用同一 Inter 解析字体集合，500 使用真正的 Medium；这不是完整 CoreText 文字整形或 CJK 回退实现。
+Maia 输入和 Outline 使用半透明 input 底色；按钮各变体有独立悬停色，禁用按钮使用半透明绘制，保留底层背景。默认与高 DPI 字体、文字测量和富文本使用同一 Inter 解析字体集合，500 使用真正的 Medium；这不是完整 CoreText 文字整形；系统字体字形回退见下文。
 
 Studio 采用参考的 1040×840 逻辑画布、32 外边距、24 主间距，统一卡片章节及可滚动演示区，输入/按钮/Badge 同屏展示更多状态。`gallery -controls all` 现在包含所有可运行 Go 控件与绘制插件；CEF 浏览器是独立宿主，不作为 CPU gallery 绘制。
 
@@ -228,3 +228,11 @@ Studio 采用参考的 1040×840 逻辑画布、32 外边距、24 主间距，�
 `DatePicker` 将 Calendar 与 Popover 组合，支持单日/范围选择、禁用日期、键盘打开、取消和焦点恢复。初始显示月份由调用方提供，不读取系统时钟。`DataTable` 支持文本筛选、稳定文本排序、分页、列显隐及跨页选择；每页最多 100 行、数据源最多 10,000 行，不隐式推断数字排序，也不是服务端表格。
 
 完整的 66 项 shadcn 目录盘点及未实现行为见 [shadcn 审计](../../migration/controls/shadcn.md)。这次覆盖共享绘制层并补充上述组合控件，不表示所有变体和平台行为已逐项对齐。
+
+## 系统字体回退
+
+默认 Inter 普通文本、各字重和富文本在缺字时延迟使用已安装的系统字体。macOS 查找 Arial Unicode / Hiragino Sans GB，Windows 查找微软雅黑 / 明体，Linux 查找常见路径的 Noto Sans CJK。测量与绘制共用字形选择，跨字体不应用 kerning；高 DPI 创建对应字号的字形。Latin 文本不会触发系统字体文件读取，字体解析在进程内共享，每个 face 的光栅资源随 Surface 关闭释放。系统字体不会复制或打包进应用。
+
+此前“默认只支持 Latin、必须提供自定义 face 才能显示中文”的说明由此更新。缺少候选字体的机器仍需安装字体或提供自定义 face；这不是完整的系统字体发现、字重匹配、Unicode bidi 或复杂文字整形。macOS 已测试简繁中文、日文字形及 1×/2× 字号；Windows/Linux 候选路径尚待原生机器验证。
+
+Markdown 共享的 `RichTextOptions` 新增 `LineHeight`（字号倍率）、`Align`（逐行左/中/右对齐）、`NoWrap`（为横向滚动测量完整行宽）及 `PreserveWhitespace`（保留代码缩进）。布局、绘制及链接指针命中使用相同的对齐后坐标，默认行为保持不变。

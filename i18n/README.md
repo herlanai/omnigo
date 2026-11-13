@@ -18,7 +18,7 @@ err = translator.SetLanguage("fr")
 
 `{n, plural, =0 {No files} one {# file} other {# files}}`
 
-Studio 的 Languages 原生 Go 演示提供英语、德语、法语切换，切换时计数状态保持，按钮和数字格式同步变化。
+Studio 的 Languages 原生 Go 演示通过下拉菜单提供英语、简体中文（zh-Hans）、繁体中文（zh-Hant）、德语、法语、日语、阿拉伯语、希伯来语、印地语切换。切换时计数状态保持，标题、按钮、选择统计和数字格式同步变化；每个窗口持有独立 Translator。中文地区标签通过 Catalog.Resolve 匹配简繁体（如 zh-CN 与 zh-TW）。阿拉伯语和希伯来语切换行布局方向，但复杂文字整形和 Unicode 双向段落排版仍未实现，演示会显示限制提示。
 
 仍未覆盖完整 ICU/CLDR：日期/时间 skeleton、相对时间、compact number、全局系统语言跟随、强类型生成器、伪本地化、所有框架控件和原生菜单文本。RTL() 仅提供方向信息，不等于双向排版/字体回退。未支持的格式明确报错，不静默输出原串。数值限定 IEEE754 可精确表示的整数范围，避免大整数复数选择失真；高精度小数及可见末尾零语义仍待扩展。
 
