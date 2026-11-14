@@ -12,7 +12,8 @@ require (
 	github.com/srwiley/oksvg v0.0.0-20221011165216-be6e8873101c
 	github.com/srwiley/rasterx v0.0.0-20210519020934-456a8d69b780
 	github.com/yuin/goldmark v1.8.5
-	golang.org/x/image v0.46.0
+	golang.org/x/image v0.47.0
+	golang.org/x/mobile v0.0.0-20261011034528-197770444867
 	golang.org/x/net v0.62.0
 	golang.org/x/sys v0.49.0
 	golang.org/x/text v0.43.0
@@ -25,6 +26,7 @@ require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/mattn/go-sqlite3 v1.14.22 // indirect
+	golang.org/x/exp/shiny v0.0.0-20261009195045-ca0d7ba23607 // indirect
 )
 
 require (
@@ -36,7 +38,7 @@ require (
 	github.com/mattn/go-isatty v0.0.24 // indirect
 	github.com/ncruces/go-strftime v1.0.0 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
-	golang.org/x/mod v0.41.0
+	golang.org/x/mod v0.42.0
 	modernc.org/libc v1.77.1 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.12.1 // indirect

@@ -21,6 +21,7 @@ import (
 	"unicode"
 
 	"github.com/herlanai/omnigo/internal/appbuild"
+	"github.com/herlanai/omnigo/internal/mobilebuild"
 )
 
 //go:embed all:desktop
@@ -40,7 +41,9 @@ type projectWriter func(string, []byte) error
 
 func writeConfig(write projectWriter, kind, name, id string) error {
 	c := appbuild.Config{Toolchain: "go", Package: "./app", Output: "build/app", GOOS: "darwin", GOARCH: "arm64", Dev: &appbuild.DevOptions{Watch: []string{"app", "go.mod", "go.sum"}}}
-	if kind == "browser" {
+	if kind == "mobile" {
+		c = appbuild.Config{Toolchain: "go", Mobile: &mobilebuild.Config{Package: "./app", Output: "build/mobile", Name: name, ID: id, Version: "0.1.0"}}
+	} else if kind == "browser" {
 		c.Toolchain, c.GOOS, c.GOARCH = "web", runtime.GOOS, runtime.GOARCH
 		if c.GOOS == "windows" {
 			c.Output += ".exe"
@@ -99,32 +102,7 @@ func writeDesktop(write projectWriter, kind, name string) error {
 	}); err != nil {
 		return err
 	}
-	// A deterministic, application-name-specific starter icon; no Studio artwork.
-	sum := sha256.Sum256([]byte(name))
-	img := image.NewNRGBA(image.Rect(0, 0, 1024, 1024))
-	for y := 0; y < 1024; y++ {
-		for x := 0; x < 1024; x++ {
-			c := color.NRGBA{sum[0]/2 + 40, sum[1]/2 + 40, sum[2]/2 + 40, 255}
-			if x > 220 && x < 804 && y > 220 && y < 804 && (x < 320 || x > 704 || y < 320 || y > 704) {
-				c = color.NRGBA{245, 245, 250, 255}
-			}
-			img.SetNRGBA(x, y, c)
-		}
-	}
-	var pngData bytes.Buffer
-	if err = png.Encode(&pngData, img); err != nil {
-		return err
-	}
-	if err = write("app/assets/icon.png", pngData.Bytes()); err != nil {
-		return err
-	}
-	var icns bytes.Buffer
-	icns.WriteString("icns")
-	_ = binary.Write(&icns, binary.BigEndian, uint32(16+pngData.Len()))
-	icns.WriteString("ic10")
-	_ = binary.Write(&icns, binary.BigEndian, uint32(8+pngData.Len()))
-	icns.Write(pngData.Bytes())
-	if err = write("app/assets/AppIcon.icns", icns.Bytes()); err != nil {
+	if err = writeIcon(write, name); err != nil {
 		return err
 	}
 	readme := fmt.Sprintf(`# %s
@@ -203,3 +181,36 @@ const webPage = `<!doctype html>
 :root{color-scheme:light dark;font:15px system-ui}*{box-sizing:border-box}body{margin:0;height:100vh;height:100dvh;display:flex;flex-direction:column;background:Canvas;color:CanvasText}header{height:48px;flex-shrink:0;padding:12px 20px;border-bottom:1px solid GrayText;font-weight:600}main{flex:1;min-height:0;overflow:auto;padding:24px}label{display:block;margin-bottom:12px}textarea{font:inherit;display:block;width:100%;height:55vh;padding:12px;border:1px solid GrayText;border-radius:6px;resize:vertical}button{font:inherit;padding:8px 16px;margin-top:12px}button:focus-visible,textarea:focus-visible{outline:2px solid Highlight;outline-offset:3px}#status{margin-left:12px}
 </style></head><body><header>APP_NAME</header><main><label for="note">Scratchpad — notes stay in this window until it closes</label><textarea id="note" placeholder="Start writing…"></textarea><button id="clear">Clear note</button><span id="status" role="status"></span></main>
 <script>const note=document.getElementById('note');document.getElementById('clear').addEventListener('click',()=>{note.value='';note.focus();document.getElementById('status').textContent='Note cleared';});</script></body></html>`
+
+func writeIcon(write projectWriter, name string) error {
+	var err error
+	// A deterministic, application-name-specific starter icon; no Studio artwork.
+	sum := sha256.Sum256([]byte(name))
+	img := image.NewNRGBA(image.Rect(0, 0, 1024, 1024))
+	for y := 0; y < 1024; y++ {
+		for x := 0; x < 1024; x++ {
+			c := color.NRGBA{sum[0]/2 + 40, sum[1]/2 + 40, sum[2]/2 + 40, 255}
+			if x > 220 && x < 804 && y > 220 && y < 804 && (x < 320 || x > 704 || y < 320 || y > 704) {
+				c = color.NRGBA{245, 245, 250, 255}
+			}
+			img.SetNRGBA(x, y, c)
+		}
+	}
+	var pngData bytes.Buffer
+	if err = png.Encode(&pngData, img); err != nil {
+		return err
+	}
+	if err = write("app/assets/icon.png", pngData.Bytes()); err != nil {
+		return err
+	}
+	var icns bytes.Buffer
+	icns.WriteString("icns")
+	_ = binary.Write(&icns, binary.BigEndian, uint32(16+pngData.Len()))
+	icns.WriteString("ic10")
+	_ = binary.Write(&icns, binary.BigEndian, uint32(8+pngData.Len()))
+	icns.Write(pngData.Bytes())
+	if err = write("app/assets/AppIcon.icns", icns.Bytes()); err != nil {
+		return err
+	}
+	return nil
+}

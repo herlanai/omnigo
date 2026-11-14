@@ -1,0 +1,86 @@
+name: Experimental mobile builds and native probes
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Generate external mobile app and build simulator and device bundles
+        shell: bash
+        run: |
+          set -euo pipefail
+          go build -o "$RUNNER_TEMP/omni" ./cmd/omni
+          "$RUNNER_TEMP/omni" init --template mobile --framework "$PWD" --module example.com/mobile --name 'Mobile Probe' --id com.example.mobileprobe "$RUNNER_TEMP/mobile"
+          cd "$RUNNER_TEMP/mobile"
+          go mod tidy
+          "$RUNNER_TEMP/omni" mobile doctor --target ios-simulator --arch "$(go env GOHOSTARCH)"
+          "$RUNNER_TEMP/omni" mobile build --target ios-simulator --arch "$(go env GOHOSTARCH)"
+          "$RUNNER_TEMP/omni" mobile build --target ios
+      - name: Install and require native first frame
+        shell: bash
+        run: |
+          set -euo pipefail
+          go run ./scripts/ci/nativeprobe ios "$RUNNER_TEMP/mobile"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-mobile-probe
+          path: |
+            ${{ runner.temp }}/mobile/build/mobile
+            ${{ runner.temp }}/mobile/ios-native.*
+          if-no-files-found: error
+  android:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install pinned mobile tools and SDK packages
+        run: |
+          set -euo pipefail
+          sdkmanager 'platforms;android-35' 'build-tools;35.0.0' 'ndk;30.0.16248370'
+          go install golang.org/x/mobile/cmd/gomobile@v0.0.0-20261011034528-197770444867
+          gomobile init
+      - name: Generate and build arm64 and emulator APKs
+        run: |
+          set -euo pipefail
+          go build -o "$RUNNER_TEMP/omni" ./cmd/omni
+          "$RUNNER_TEMP/omni" init --template mobile --framework "$PWD" --module example.com/mobile --name 'Mobile Probe' --id com.example.mobileprobe "$RUNNER_TEMP/mobile"
+          cd "$RUNNER_TEMP/mobile"
+          go mod tidy
+          "$RUNNER_TEMP/omni" mobile build --target android
+          "$RUNNER_TEMP/omni" mobile build --target android --arch amd64
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          disable-animations: true
+          script: go run ./scripts/ci/nativeprobe android "$RUNNER_TEMP/mobile"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-mobile-probe
+          path: |
+            ${{ runner.temp }}/mobile/build/mobile
+            ${{ runner.temp }}/mobile/android-native.*
+          if-no-files-found: error

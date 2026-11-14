@@ -117,7 +117,7 @@ browser 模板生成浏览器应用；go 和 webview 模板生成桌面应用。
 ## 平台支持
 
 平台、控件、Transport、打包和验收状态统一见 [当前能力矩阵](docs/status.md)。
-历史迁移记录不覆盖当前状态。创建应用请从 [应用开发指南](docs/getting-started.md) 开始。
+历史迁移记录不覆盖当前状态。创建应用请从 [应用开发指南](docs/getting-started.md) 开始；iOS/Android 实验性 Go 界面构建见 [移动端指南](docs/mobile.md)。
 
 ## 项目结构
 

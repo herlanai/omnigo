@@ -78,7 +78,7 @@ Apple M5 / darwin arm64 / Go 1.26.2，CGO_ENABLED=0。DiffView 预热后只测�
 
 运行 CGO_ENABLED=0 go run ./examples/studio/cmd/framecheck，在主线程创建并关闭 AppKit 窗口；640×480 DIP、2×、100 次 image copy / setImage / displayIfNeeded 提交，P50 935 µs、P95 1.958 ms、P99 3.154 ms。见 [原生提交](benchmarks/native-submit-2026-11-14.txt)。不包含硬件输入、应用绘制和 compositor 呈现。首次 Go benchmark 线程被 AppKit 拒绝，已改用主线程命令。
 
-运行 python3 scripts/measure/idle.py PID 60 可采样 CPU/RSS；CPU 是系统平滑值，RSS 单位 KiB。30 秒样本不构成长期泄漏验收。真正输入到屏幕延迟仍需平台呈现时间戳或外部仪器验证。
+运行 go run ./scripts/measure/idle PID 60 可采样 CPU/RSS；CPU 是系统平滑值，RSS 单位 KiB。30 秒样本不构成长期泄漏验收。真正输入到屏幕延迟仍需平台呈现时间戳或外部仪器验证。
 
 [30 秒原生计数器采样](benchmarks/native-idle-2026-11-14.csv)末段 CPU 0%，RSS 119200–129888 KiB；不代表长期稳定上界。
 

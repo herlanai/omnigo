@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.omnigomobile" android:versionCode="1" android:versionName="0.1.0">
+ <application android:label="OmniGo Mobile" android:debuggable="true">
+  <activity android:name="org.golang.app.GoNativeActivity" android:label="OmniGo Mobile" android:exported="true" android:configChanges="orientation|keyboardHidden|screenSize">
+   <meta-data android:name="android.app.lib_name" android:value="mobile"/>
+   <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+  </activity>
+ </application>
+</manifest>

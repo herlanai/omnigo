@@ -1,3 +1,5 @@
+//go:build !ios && !android
+
 // Package omnigo builds desktop applications from framework windows, Go content
 // and typed services. Native resources and transports belong to the framework.
 package omnigo

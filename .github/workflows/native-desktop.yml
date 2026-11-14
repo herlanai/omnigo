@@ -19,9 +19,6 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
       - name: Install X11 test environment
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y xvfb libx11-6
@@ -37,7 +34,7 @@ jobs:
           else
             go test -json -count=1 -timeout=90s ./omniwindow/nativewindow -run '^TestNative(WindowLifecycle|OwnedChildLifecycle)$' | tee native-results.jsonl
           fi
-          python scripts/ci/require_native_tests.py native-results.jsonl TestNativeWindowLifecycle TestNativeOwnedChildLifecycle
+          go run ./scripts/ci/nativeprobe require native-results.jsonl TestNativeWindowLifecycle TestNativeOwnedChildLifecycle
       - uses: actions/upload-artifact@v4
         if: always()
         with:

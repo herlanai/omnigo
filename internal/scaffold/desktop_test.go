@@ -87,3 +87,35 @@ func TestProjectOptionsRejectBeforeWriting(t *testing.T) {
 		}
 	}
 }
+
+func TestMobileProjectUsesPublicAPI(t *testing.T) {
+	framework, err := filepath.Abs("../..")
+	if err != nil {
+		t.Fatal(err)
+	}
+	dir := filepath.Join(t.TempDir(), "mobile")
+	if err = CreateProject(dir, "example.com/mobile", framework, "mobile", "Mobile Notes", "com.example.notes"); err != nil {
+		t.Fatal(err)
+	}
+	cmd := exec.CommandContext(t.Context(), "go", "test", "-mod=mod", "./...")
+	cmd.Dir = dir
+	cmd.Env = append(os.Environ(), "CGO_ENABLED=0", "GOWORK=off", "GOPROXY=off")
+	if output, err := cmd.CombinedOutput(); err != nil {
+		t.Fatalf("public mobile API: %v\n%s", err, output)
+	}
+	manifest, err := os.ReadFile(filepath.Join(dir, "app/AndroidManifest.xml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(manifest), "org.golang.app.GoNativeActivity") || strings.Contains(string(manifest), "uses-sdk") {
+		t.Fatal("invalid gomobile manifest")
+	}
+	var c appbuild.Config
+	raw, _ := os.ReadFile(filepath.Join(dir, "omnigo.json"))
+	if err = json.Unmarshal(raw, &c); err != nil || c.Mobile == nil {
+		t.Fatal(err)
+	}
+	if err = c.Mobile.Validate(); err != nil {
+		t.Fatal(err)
+	}
+}

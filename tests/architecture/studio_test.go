@@ -4,6 +4,8 @@ import (
 	"go/parser"
 	"go/token"
 	"io/fs"
+	"os"
+	"os/exec"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -41,5 +43,20 @@ func TestStudioUsesFrameworkInsteadOfNativeBindings(t *testing.T) {
 	})
 	if err != nil {
 		t.Fatal(err)
+	}
+}
+
+func TestDesktopDoesNotLinkMobileNativeDriver(t *testing.T) {
+	cmd := exec.CommandContext(t.Context(), "go", "list", "-deps", "./examples/desktop-counter")
+	cmd.Dir = filepath.Join("..", "..")
+	cmd.Env = append(os.Environ(), "CGO_ENABLED=0", "GOWORK=off")
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Fatalf("desktop dependency graph: %v\n%s", err, output)
+	}
+	for _, dependency := range strings.Fields(string(output)) {
+		if strings.HasPrefix(dependency, "golang.org/x/mobile/") {
+			t.Errorf("desktop unexpectedly links mobile native dependency %s", dependency)
+		}
 	}
 }

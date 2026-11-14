@@ -25,6 +25,19 @@ Evergreen Runtime。Linux 后端需 `omnigo_webkitgtk` 标签、GTK4/WebKitGTK6 
 这两种 Web 主窗口不代表 Go 内容窗口、菜单、系统服务或标题栏完整支持。
 原生 RPC 不包括资源、事件订阅或流；这些仍使用 HTTP。
 
+## 移动端（新增实验路径）
+
+| 目标 | 构建产物 | 本地运行证据 |
+| --- | --- | --- |
+| iOS arm64 模拟器 | ad-hoc .app | iOS 26.5 模拟器首帧与截图通过 |
+| iOS arm64 真机 | 未签名 .app | 未做设备签名/安装验收 |
+| Android arm64 | SDK 35 清单、开发签名 APK | 构建、ABI、签名、对齐校验；未做设备运行验收 |
+| Android amd64 | 开发签名模拟器 APK，已构建/校验 | 原生模拟器 CI 已配置，尚未运行 |
+
+使用 `omni init --template mobile`、`omnigo.RunMobile` 和 `omni mobile build`。
+仅移动原生宿主启用 cgo，桌面依然 CGO_ENABLED=0。Go 界面先落地；移动 WebView、
+IME、系统读屏和完整手机交互仍未实现，不继承桌面的能力等级。见 [移动端指南](mobile.md)。
+
 ## 控件与性能
 
 - Go 控件采用 CPU 绘制；macOS 主路径直接提交 RGBA。GPU 仍为可选实验能力。

@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/herlanai/omnigo/internal/mobilebuild"
 	"io"
 	"os"
 	"os/exec"
@@ -14,14 +15,15 @@ import (
 )
 
 type Config struct {
-	Toolchain string        `json:"toolchain,omitempty"`
-	Dev       *DevOptions   `json:"dev,omitempty"`
-	Package   string        `json:"package"`
-	Output    string        `json:"output"`
-	GOOS      string        `json:"goos"`
-	GOARCH    string        `json:"goarch"`
-	Before    [][]string    `json:"before,omitempty"`
-	Bundle    *BundleConfig `json:"bundle,omitempty"`
+	Mobile    *mobilebuild.Config `json:"mobile,omitempty"`
+	Toolchain string              `json:"toolchain,omitempty"`
+	Dev       *DevOptions         `json:"dev,omitempty"`
+	Package   string              `json:"package"`
+	Output    string              `json:"output"`
+	GOOS      string              `json:"goos"`
+	GOARCH    string              `json:"goarch"`
+	Before    [][]string          `json:"before,omitempty"`
+	Bundle    *BundleConfig       `json:"bundle,omitempty"`
 }
 
 type Runner func(context.Context, string, []string, []string, io.Writer) error

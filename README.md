@@ -118,7 +118,8 @@ The browser template generates a browser application; the go and webview templat
 
 See the [current capability matrix](docs/status.md) for platform, control, transport,
 packaging and validation status. This is the single current summary; historical
-migration records do not override it. Start a project with the [application guide](docs/getting-started.md).
+migration records do not override it. Start a project with the [application guide](docs/getting-started.md). Experimental
+iOS/Android Go builds have a separate [mobile guide](docs/mobile.md).
 
 ## Project layout
 

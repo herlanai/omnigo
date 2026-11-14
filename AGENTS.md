@@ -298,13 +298,15 @@ Inspect package contents and architecture, then launch the `.app` after copying 
 
 ## 9. Framework Engineering Rules
 
+- Prefer Go for repository tooling, CI probes, and measurement utilities. Avoid adding Python dependencies when Go can implement the task; retain platform-native tools where needed.
+
 - Public application entry points belong to the root package; platform/window capabilities to `omniwindow`; Go controls to `omniui/baseui`; the Web protocol to `omniweb`; Studio to `examples/studio`.
 - Keep root Go files focused on the public `omnigo` API and `Application` composition. Application HTTP hosting and single-instance handoff belong to `internal/apphost`; generated-file publication to `internal/codegen`; cooperative background work to `internal/runtime/lifecycle`. Keep implementation tests with their packages and repository dependency checks in `tests/architecture`. Do not move public types or methods merely to reduce root file count.
 - `internal/runtime` and `internal/text` are implementation details. External applications must use public entry points such as `omnigo.LifecycleOptions`, `omniweb.NewRouter`, and `baseui.TextSnapshot`. Framework code may use `internal/runtime/dispatch` for cross-goroutine work.
 - Implement control behavior, layout, themes, painting, compositions, and control plugins in Go. Do not replace Go controls with React/TSX or WebViews. Application Web frontends may use React/TypeScript as required.
 - Before control work, read `omniui/baseui/README.md` and `migration/controls/README.md`. Preserve capability audits. API names, static screenshots, aliases, and successful builds do not establish complete behavioral coverage.
 - The local reference repository is read-only. Do not copy implementation bodies, rename and import its framework, or add it as a dependency. Preserve licenses for third-party libraries and assets actually used; existing explicitly authorized ports retain their directory-specific licensing requirements.
-- All Go targets must build with `CGO_ENABLED=0`. Do not force optional GPU, CEF, or service-plugin dependencies into applications that do not use them.
+- Desktop Go targets must build with `CGO_ENABLED=0`. iOS/Android native host linking may use cgo (explicit user authorization, 2026-11-14); keep control behavior in Go and exclude mobile native dependencies from desktop builds. Do not force optional GPU, CEF, or service-plugin dependencies into applications that do not use them.
 - Test interactions with deterministic events and explicit clocks, not sleeps. Validate disabled/read-only behavior, focus, cancellation, IME composition, bounds, resource lifetime, and dark/light rendering as relevant.
 - Run `sh scripts/check.sh` for substantive core changes: Go tests, vet, race detection, SDK tests, and six desktop cross-compilation targets. Changes to generated projects or public APIs must also be validated from an independent external Go module.
 - Cross-compilation does not establish native compatibility. Report incomplete behavior and measurement limits accurately. Never describe partial controls as full coverage or claim speedups without equivalent benchmarks.

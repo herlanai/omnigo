@@ -1,3 +1,5 @@
+//go:build !ios && !android
+
 package omnigo
 
 import "github.com/herlanai/omnigo/omniwindow/system"

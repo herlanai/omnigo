@@ -38,8 +38,8 @@ func Create(destination, module, framework string) error {
 }
 
 func CreateProject(destination, module, framework, kind, name, bundleID string) (result error) {
-	if kind != "go" && kind != "webview" && kind != "browser" {
-		return errors.New("scaffold: template must be go, webview or browser")
+	if kind != "go" && kind != "webview" && kind != "browser" && kind != "mobile" {
+		return errors.New("scaffold: template must be go, webview, browser or mobile")
 	}
 	if err := validateIdentity(name, bundleID); err != nil {
 		return err
@@ -125,6 +125,10 @@ func CreateProject(destination, module, framework, kind, name, bundleID string) 
 		if err := write("ui/src/lib/omniweb.ts", []byte(client.TypeScript)); err != nil {
 			return fmt.Errorf("scaffold: partial project retained at %s: %w", destination, err)
 		}
+	} else if kind == "mobile" {
+		if err := writeMobile(write, name, bundleID); err != nil {
+			return err
+		}
 	} else {
 		if err := writeDesktop(write, kind, name); err != nil {
 			return fmt.Errorf("scaffold: partial project retained at %s: %w", destination, err)
@@ -133,7 +137,7 @@ func CreateProject(destination, module, framework, kind, name, bundleID string) 
 	if err := writeConfig(write, kind, name, bundleID); err != nil {
 		return err
 	}
-	if err := write(".gitignore", []byte("/build/\n/releases/\n/node_modules/\n/ui/node_modules/\n/ui/dist/\n/ui/.tanstack/\n/ui/.output/\n")); err != nil {
+	if err := write(".gitignore", []byte("/.omni/\n/build/\n/releases/\n/node_modules/\n/ui/node_modules/\n/ui/dist/\n/ui/.tanstack/\n/ui/.output/\n")); err != nil {
 		return err
 	}
 	if err := write("go.mod", []byte(fmt.Sprintf("module %s\n\ngo 1.26.0\n\nrequire github.com/herlanai/omnigo v0.0.0\n\nreplace github.com/herlanai/omnigo => %s\n", module, strconv.Quote(filepath.ToSlash(framework))))); err != nil {

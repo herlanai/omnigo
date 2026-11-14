@@ -31,7 +31,7 @@ func runTo(args []string, output io.Writer) error {
 			return &usageError{message: "usage: omni help [command]"}
 		}
 		switch args[1] {
-		case "init", "doctor", "keygen", "generate", "build", "package", "dev":
+		case "mobile", "init", "doctor", "keygen", "generate", "build", "package", "dev":
 			if len(args) != 2 {
 				return &usageError{message: "unexpected help argument"}
 			}
@@ -57,6 +57,8 @@ func runTo(args []string, output io.Writer) error {
 		info, _ := debug.ReadBuildInfo()
 		_, err := fmt.Fprintln(output, buildVersion(info, version))
 		return err
+	case "mobile":
+		return mobileCommand(args[1:], output)
 	case "i18n":
 		return checkI18n(args[1:], output)
 	case "dev":
@@ -79,7 +81,7 @@ func runTo(args []string, output io.Writer) error {
 	flags := flag.NewFlagSet("init", flag.ContinueOnError)
 	framework := flags.String("framework", "", "local OmniGo checkout")
 	module := flags.String("module", "example.com/apps", "new Go module path")
-	kind := flags.String("template", "go", "project template: go, webview, browser")
+	kind := flags.String("template", "go", "project template: go, webview, browser, mobile")
 	name := flags.String("name", "My App", "desktop application display name")
 	bundleID := flags.String("id", "com.example.myapp", "macOS bundle identifier")
 	if err := parseFlags(flags, args[1:], output); err != nil {
@@ -91,7 +93,11 @@ func runTo(args []string, output io.Writer) error {
 	if err := scaffold.CreateProject(flags.Arg(0), *module, *framework, *kind, *name, *bundleID); err != nil {
 		return err
 	}
-	_, err := fmt.Fprintf(output, "Created %s (%s). Follow its README.md for doctor, dev, build and distribution.\n", flags.Arg(0), *kind)
+	commands := "doctor, dev, build and distribution"
+	if *kind == "mobile" {
+		commands = "mobile doctor and mobile build"
+	}
+	_, err := fmt.Fprintf(output, "Created %s (%s). Follow its README.md for %s.\n", flags.Arg(0), *kind, commands)
 	if err != nil {
 		return fmt.Errorf("project created at %s, but status output failed: %w", flags.Arg(0), err)
 	}

@@ -73,3 +73,8 @@ omni doctor --all --json
 
 最后一个命令仅列出当前 CLI 构建的后端，不执行工具检查。[当前能力矩阵](status.md)
 区分构建、原生探针与人工验收；命令成功不自动提升平台支持等级。
+
+## iOS / Android
+
+使用 `--template mobile` 创建 Go 控件移动项目，再运行 `omni mobile doctor/build`。
+它与三个桌面/浏览器模板分开；移动原生宿主允许 cgo。详见 [移动端指南](mobile.md)。

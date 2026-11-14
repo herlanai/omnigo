@@ -73,6 +73,7 @@ jobs:
         run: |
           set -euo pipefail
           go build -o "$RUNNER_TEMP/omni" ./cmd/omni
+          go build -o "$RUNNER_TEMP/nativeprobe" ./scripts/ci/nativeprobe
           "$RUNNER_TEMP/omni" init --template '${{ matrix.template }}' --name 'Starter Probe' --id com.example.starterprobe --framework "$PWD" --module example.com/starter "$RUNNER_TEMP/starter"
           cd "$RUNNER_TEMP/starter"
           go mod tidy
@@ -81,7 +82,7 @@ jobs:
           codesign --verify --strict 'releases/0.1.0/Starter Probe.app'
           hdiutil verify 'releases/0.1.0/Starter Probe-darwin-arm64.dmg'
           swiftc "$GITHUB_WORKSPACE/scripts/ci/visible_window.swift" -o "$RUNNER_TEMP/visible-window"
-          python3 "$GITHUB_WORKSPACE/scripts/ci/desktop_project.py" "$PWD" "$RUNNER_TEMP/visible-window" '${{ matrix.template }}'
+          "$RUNNER_TEMP/nativeprobe" desktop "$PWD" "$RUNNER_TEMP/visible-window" '${{ matrix.template }}'
       - uses: actions/upload-artifact@v4
         with:
           name: starter-${{ matrix.template }}-darwin-arm64

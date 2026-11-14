@@ -15,6 +15,7 @@ const usage = `OmniGo application tools
 Usage: omni <command> [options]
 
 Commands:
+  mobile     Build or inspect iOS/Android native Go applications
   dev        Rebuild and restart a local application on source changes
   package    Build a macOS app and DMG into a new release directory
   build      Build an application executable from omnigo.json

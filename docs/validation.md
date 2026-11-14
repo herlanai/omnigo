@@ -63,7 +63,7 @@
 
 ## Windows/Linux 原生 CI 配置（2026-11-14）
 
-新增 `.github/workflows/native-desktop.yml`，在 Windows runner 与 Linux Xvfb 执行现有原生软件窗口和父子窗口测试。结果以 JSON artifact 保留，`scripts/ci/require_native_tests.py` 拒绝缺失/跳过/失败的必需测试。检查器的两个单元测试本地通过。
+新增 `.github/workflows/native-desktop.yml`，在 Windows runner 与 Linux Xvfb 执行现有原生软件窗口和父子窗口测试。结果以 JSON artifact 保留，`scripts/ci/nativeprobe` 拒绝缺失/跳过/失败的必需测试。检查器的两个单元测试本地通过。
 
 工作流尚未在远程运行，不能计作 Windows/Linux 原生验收，更不代表 WebView2/WebKitGTK 已实现。完整升级边界见 `migration/wails-v3-upgrade.md`。
 
@@ -134,7 +134,7 @@ updater race/子进程测试；没有新增 Windows/Linux 原生运行证据。
 - 独立 Go/WebView 项目真实生成 ad-hoc 签名 .app 和含 Applications 快捷方式的 DMG，
   codesign、Mach-O arm64 架构及 hdiutil 校验通过。复制至独立安装目录后从 `/`
   启动，CoreGraphics 窗口列表确认两个可见窗口；WebView 嵌入页面请求通过。
-  同样的探针已保存为 `scripts/ci/desktop_project.py` 与 `visible_window.swift`。
+  同样的探针已保存为 `scripts/ci/nativeprobe` 与 `visible_window.swift`。
 - 浏览器项目使用锁文件执行 npm ci，统一 CLI 完成 Vite、TypeScript 与 Go 构建；
   `scripts/ci/browser_project.mjs` 验证真实 HTML、编译资源及标准 SDK 的 Unicode RPC。
   Node 测试客户端显式设置浏览器同源 Origin；未设置时服务器正确返回 403。
@@ -143,3 +143,42 @@ updater race/子进程测试；没有新增 Windows/Linux 原生运行证据。
 - 新 CI 配置完成 YAML 解析；仓库尚未提交/推送执行，远程 CI 和分支保护未验收。
   窗口探针不覆盖完整鼠标/键盘交互、人工读屏或公证发布；本次无 Windows/Linux
   实机证据。项目自身许可证仍需所有者决定，没有代为选用开源授权条款。
+
+## iOS / Android Go 界面构建（2026-11-14）
+
+- 用户明确允许仅移动原生宿主 ABI/链接启用 cgo；桌面六目标仍 CGO_ENABLED=0。
+  `go list -deps ./examples/desktop-counter` 不含 x/mobile native driver，架构回归已加入。
+- 完整 `scripts/check.sh` 通过，日志 `/tmp/omnigo-mobile-tools/full-check.log`：
+  Go tests、vet、race、40 SDK tests、六个默认桌面目标与四个可选 Web 后端构建。
+  新增移动 canvas 单测覆盖缩放坐标、主指/次指、前后台取消、尺寸变化、关闭与非法输入；
+  独立生成模块消费根包 RunMobile 并构建通过。
+- 独立项目 `/tmp/omnigo-mobile-project`：iOS simulator arm64、iOS device arm64、
+  Android arm64 与 amd64 四种产物均完成真实构建。移动源码复用 baseui，不导入 nsgo。
+- iOS 26.5 / iPhone 17 Pro 模拟器：安装、原生首帧标记与截图通过。截图曾发现
+  x/mobile 物理点直接作为 UI 坐标导致控件过大，已改为 UIKit scale/safe-area；
+  带空格 bundle URL 的 runtime chdir 警告已通过 ID 命名 bundle 消除。
+  原 Python iOS 探针本地实跑通过；现已迁移至 `scripts/ci/nativeprobe`。没有进行真实设备签名/安装、人工读屏或全输入源验收。
+- Android SDK 工具重新生成清单/资源后，aapt2 dump 确认 minSdk 23 / targetSdk 35、
+  应用 ID/version/icon 正确；两个 ABI 均存在对应 ELF 原生库，apksigner v1/v2/v3
+  验证及 zipalign -P 16 检查通过。未在本机运行 Android 模拟器/设备；不能据此
+  宣称手机生命周期、16 KiB 页运行与交互已验收。
+- 构建产物：`/tmp/omnigo-mobile-project/build/mobile-verified/`。
+  iOS screenshot：`/tmp/omnigo-mobile-project/ios-native.png`。
+  日志保存在 `/tmp/omnigo-mobile-tools/project-*.log`。模拟器包 ad-hoc，真机包未签名，
+  APK 是开发签名；不包含商店发布结论。
+- 新增 `.github/workflows/mobile.yml` 的 simulator/emulator 首帧探针与 artifact，
+  YAML/脚本语法检查通过；尚未远程执行。移动 WebView、软件键盘/IME、系统读屏、
+  手势滚动和平台完整取消事件仍保留缺口，见 docs/mobile.md。
+
+## 仓库工具迁移至 Go（2026-11-14）
+
+- 移除 5 个 Python 工具及其 Python 单元测试；原生验收统一为
+  `go run ./scripts/ci/nativeprobe` 的 `ios`、`android`、`desktop`、`require` 子命令。
+  CPU/RSS 采样改为 `go run ./scripts/measure/idle PID [seconds]`。
+- CI 不再安装或调用 Python；iOS 模拟器选择与 JSON 解析也由 Go 完成。
+  Swift 可见窗口探针和平台 SDK 工具继续承担平台专属检查。
+- Go 检查器测试、race、vet 通过，Windows/Linux amd64 交叉构建通过；
+  三份更新的 workflow YAML 解析通过。缺失、跳过、失败、包级失败和畸形日志均被拒绝。
+- Go 版 iOS 探针本地完成安装、首帧、截图和应用终止；Go/WebView 桌面探针
+  在临时安装目录启动既有应用并确认可见窗口，WebView 内嵌资源校验通过。
+  Android 探针仅完成构建检查，尚无本地模拟器/设备运行证据，远程 CI 未执行。

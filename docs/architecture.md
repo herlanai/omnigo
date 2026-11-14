@@ -134,3 +134,12 @@ Studio 保持现有 RPC 路径兼容，在服务适配层将空标题栏请求�
 实现级测试随实现放置；需要访问 `Application` 私有状态和替换原生驱动的
 根包集成测试保留。源码依赖检查移至 `tests/architecture`。新文件归属以职责
 为依据，不再向根包添加独立的内部实现，也不建立通用 `utils` 包。
+
+## 移动宿主边界
+
+根包 MobileOptions/RunMobile 是公开移动入口。omniwindow/mobile 负责移动生命周期、
+触摸、坐标和原生帧提交，复用 baseui；internal/mobilebuild 负责 iOS/Android
+打包，CLI 只解析配置与命令。桌面根包组合文件通过 !ios && !android 隔离。
+移动宿主用 x/mobile 的 cgo 原生桥接，桌面依赖图不链接该宿主。
+当前不是 nsgo 原生控件树移植，也不表示手机 IME/无障碍已经继承桌面实现。
+详见 [移动端构建与限制](mobile.md)。
