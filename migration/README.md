@@ -60,9 +60,9 @@ go run ./tools/parity -source /absolute/path/to/golet -out /tmp/omnigo-reference
 | init | `omni init` 生成 OmniWeb 浏览器宿主模板；原生桌面及完整模板选项仍缺 |
 | doctor | 已加入基础开发工具检查及平台诊断，保留平台 JSON 接口；原生运行时和签名身份检查未齐 |
 | keygen | 本轮新增 Ed25519 密钥对生成、输出目录与显式覆盖，见下文 |
-| generate / gen | 类型化 TS 客户端及消息目录访问器生成未实现 |
-| dev | Studio 有专用脚本；任意应用的统一启动、监听、热重载未实现 |
-| build | Studio 有专用打包；通用项目配置、各平台安装包、签名与发布未齐 |
+| generate | 已有契约生成入口；具体输出与限制见 `cmd/omni/generate.go`，不代表全部消息目录访问器覆盖 |
+| dev | 已有通用 macOS/Linux 监听、重建和重启；前端 HMR、Windows dev 未实现 |
+| build / package | 已有通用配置构建及 macOS app/DMG 打包；其他平台安装包和生产发布签名未齐 |
 | i18n check | 已有配置/显式目录入口和语法、消息键、参数名/类型诊断；复数类别与框架覆盖检查仍缺 |
 | install-skills | 应用开发配套技能安装命令未实现 |
 | version / 全局 help | 已有版本别名、全局/子命令帮助、构建版本与 revision 信息；帮助只列已实现命令 |
@@ -167,3 +167,22 @@ go run ./tools/parity -source /absolute/path/to/golet -out /tmp/omnigo-reference
 证据：module_test.go 覆盖合法/非法路径、拒绝前不创建目录、各类 go.mod 语法与身份判断；真实 CLI 使用 --module my-app 创建项目，随后 go list -m 确认模块名，临时项目已清理。目录派生默认模块名、名称罗马化、模板选项等仍未完成，本轮不把它们计入完成，控件未修改。
 
 验证结果：最终 `sh scripts/check.sh` 完整通过（Go tests/vet/race、37 SDK 测试、六桌面目标 CGO_ENABLED=0 构建、生命周期示例）。真实 CLI 探针明确使用已缓存的 Go 1.26.0 工具链，验证单段模块名以及连续点号路径规则；基础 PATH 上的较旧 Go 配合 GOTOOLCHAIN=local 无法构建本仓库，不将该环境失败误判为模板失败。
+
+
+## 2026-11-14：Golet 后续对齐状态
+
+本轮以本地只读 Golet `031db49` 为参考；没有运行参考性能基准。
+历史章节描述当时状态，以本节和当前实现为准。
+
+| 优先级 | 项目 | 本轮结果与后续边界 |
+| --- | --- | --- |
+| P0 | 更新工具格式兼容 | `omni-update` 可直接读取 keygen 的 Base64 公钥，签名支持 raw/Base64；签名、篡改拒绝及外部模块验证覆盖。生产发布配置、签名和更新 UX 仍归应用负责。 |
+| P1 | 原生输入法 | 修复焦点转移、移除、禁用、只读、替换 buffer、关闭时残留组合文本；未实现 macOS NSTextInputClient，也未宣称真实输入法验收。 |
+| P1 | 编辑器 | 按不可变文档快照和语言缓存词法结果、行数、行宽；普通文本绘制仅读取视口附近行。修改时仍需全文词法分析，长行、语言服务和复杂文字整形仍缺。TextBuffer 已有 rope，不重复新增文本容器。 |
+| P1 | 无障碍 | 仍有 Surface 语义快照，系统读屏适配未完成；状态保持 partial。 |
+| P2 | 树形列表 | 只为可见行生成标签，typeahead 按需获取全量标签；展开索引和导航选项仍为 O(N)，未宣称增量树索引。 |
+| P2 | 绘制性能 | 加入屏幕外文本测量回归和编辑器热构建基准；脏区域、GPU、端到端呈现对照仍待实现。macOS 已走像素提交，PNG 不是当前主路径。 |
+| P2 | 桌面工具链 | doctor 增加可选 GTK/WebKitGTK/GLib/GObject loader 清单检查；存在库名不等于加载或运行成功。原生模板和 Windows Runtime 验收仍缺。 |
+
+相关证据：`alignment_cache_test.go`、`encoding_test.go`、`keygen_test.go`、
+`environment_test.go`。全量能力分母保留，不提高完整对齐数量。

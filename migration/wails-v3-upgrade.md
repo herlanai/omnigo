@@ -8,9 +8,9 @@
 | --- | --- | --- |
 | 1. 统一窗口、生命周期和前端桌面 SDK | 已有显式权限桌面查询/对话框 RPC，统一窗口与其余 SDK 待实现 | 稳定窗口 ID；操作能力查询；关闭拦截；销毁后拒绝调用；前端 Window/Dialog/Clipboard/Screen 接入；UI 回调无同步等待死锁 |
 | 2. 通用 dev/build/package 和类型生成联动 | build、macOS/Linux dev 重建重启及 macOS package 已实现，完整 HMR/Windows dev/签名联动待实现 | 独立外部项目启动；Go/前端重建；子进程退出；生成失败保留旧文件；应用配置；临时 staging 和原子发布；macOS app/DMG 验证 |
-| 3. Windows/Linux WebView 与原生 CI | GTK4/WebKitGTK 实验宿主及页面 CI 已接入，原生待验证；WebView2 待实现 | 下述平台专项矩阵全部有执行证据；交叉编译不计原生通过 |
-| 4. 更新安装、恢复与重启 | 单文件签名安装/确认/回滚及显式崩溃恢复已实现，完整应用更新仍待实现 | 签名校验；同卷暂存；等待退出；原子替换；失败恢复；重启确认；并发安装和取消测试 |
-| 5. 原生 Transport 与性能比较 | 待实现 | 与 HTTP 共享权限/取消/流控语义；导航来源隔离；二进制请求；窗口关闭清理；同负载延迟和内存记录 |
+| 3. Windows/Linux WebView 与原生 CI | WebView2 与 GTK4/WebKitGTK 实验宿主及原生 CI 已接入，Windows/Linux 实机待验证 | 下述平台专项矩阵全部有执行证据；交叉编译不计原生通过 |
+| 4. 更新安装、恢复与重启 | 单文件与 macOS .app ZIP 安装、恢复、辅助进程重启确认已实现并本机验证；断电持久性与发布 UX 未覆盖 | 签名校验；同卷暂存；等待退出；原子替换；失败恢复；重启确认；并发安装和取消测试 |
+| 5. 原生 Transport 与性能比较 | WKWebView/WebView2 unary 与 batch 已实现；WK 真机通过；Linux、原生流及性能对比未覆盖 | 与 HTTP 共享权限/取消/流控语义；导航来源隔离；二进制请求；窗口关闭清理；同负载延迟和内存记录 |
 | 6. Go 控件输入、无障碍和大数据 | 已有上一轮局部改进，未完成 | 原生 IME、辅助技术、焦点与选择；大数据视口构建；长期生命周期与等价绘制性能验收 |
 
 ## Windows / Linux 分阶段验收
@@ -48,3 +48,17 @@ omni build -config omnigo.json 支持显式目标、配置目录相对路径、�
 ## dev 首批运行流程
 
 显式源码路径内容哈希监听、串行重建、失败保留旧进程、成功后进程组重启、SIGINT 清理。可通过 before 串联既有类型生成。watch/args 修改需重启会话，生成输出必须排除；不是前端 HMR。Windows Job Object 与脱离会话的子进程管理仍缺失。
+
+
+## 本批交付边界
+
+`.app` ZIP 路径验证、发布签名、codesign 与 bundle ID 检查、备份恢复和
+启动握手已落地；`cmd/omni-update --wait-stdin` 可等待旧进程关闭继承管道。
+独立模块真实签名 `.app` 的安装 → 原生窗口就绪 → 自动确认 → 清理备份通过。
+确认点是原生宿主 OnReady，不是业务后台任务全部成功。详细使用与格式限制见
+`omniui/plugins/updater/README.md`。
+
+WebView2 使用可选 `omnigo_webview2` 构建标记和匹配架构的微软 loader DLL。
+Windows amd64/arm64 交叉构建不能替代真实 Windows 验收；用户当前没有该环境。
+原生 Transport 复用现有协议、权限与主机身份，macOS 实际页面回路已通过。
+事件/流继续使用 HTTP，Linux 仍使用 HTTPTransport，未宣称全平台功能对齐。

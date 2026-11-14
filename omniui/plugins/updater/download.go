@@ -1,6 +1,6 @@
 // Package updater verifies signed releases and stages bounded downloads.
-// Installation primitives require a host-owned helper and startup confirmation;
-// the package does not autonomously stop or relaunch an application.
+// Installation and supervised restart require an external helper. Applications
+// report native startup readiness before the previous version is removed.
 package updater
 
 import (

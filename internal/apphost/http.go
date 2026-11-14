@@ -61,7 +61,7 @@ func ServeWindow(ctx context.Context, native func(context.Context, host.Options)
 	defer server.Close()
 	done := make(chan error, 1)
 	go func() { err := server.Serve(listener); done <- err; cancel() }()
-	options.NativeExchange = omniweb.NativeExchange(web.Router, web.Permissions)
+	options.NativeExchange = bridge.NativeExchange()
 	options.Window = web.Window
 	options.Window.URL = origin + web.Window.URL
 	nativeErr := native(lifetime, options)

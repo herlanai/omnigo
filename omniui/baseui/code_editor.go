@@ -12,7 +12,33 @@ type CodeEditorState struct {
 	Text   *TextBuffer
 	Scroll ScrollState
 	Find   FindBarState
+	cache  codeEditorCache
 }
+
+// Cached runs are immutable so previously mounted elements retain their snapshot.
+type codeEditorCache struct {
+	valid     bool
+	snapshot  TextSnapshot
+	language  string
+	rows      [][]codeRun
+	lineCount int
+	width     float64
+ lines []string
+ states []lexicalState
+ widths []int
+ lexed int
+}
+
+func (s *CodeEditorState) prepare(language string) *codeEditorCache {
+	snapshot := s.Text.Snapshot()
+	if s.cache.valid && s.cache.language == language && s.cache.snapshot.Same(snapshot) {
+		return &s.cache
+	}
+	s.cache = incrementalCode(s.cache,s.Text.String(),language)
+ s.cache.snapshot=snapshot
+	return &s.cache
+}
+
 type CodeEditorOptions struct {
 	Height   float64
 	Language string
@@ -117,21 +143,16 @@ func CodeEditor(id string, state *CodeEditorState, o CodeEditorOptions) *Element
 	if !finite(o.Height) || o.Height <= 0 {
 		panic("baseui: invalid editor height")
 	}
-	text := state.Text.String()
-	lines := strings.Split(text, "\n")
+	cache := state.prepare(o.Language)
 	edit := Textarea(id+"/input", "Code editor", state.Text).FontSize(14)
 	edit.monospace = true
-	edit.codeRows = codeLines(text, o.Language)
+	edit.codeRows = cache.rows
 	edit.captureTab = true
 	face := richFace(4, 14)
 	lineHeight := float64(face.Metrics().Height.Ceil()) + 4
 	face.Close()
-	edit.Height(float64(len(lines))*lineHeight + 20).MinHeight(o.Height - 10)
-	width := 400.0
-	for _, line := range lines {
-		width = max(width, float64(utf8.RuneCountInString(line))*9+64)
-	}
-	edit.Width(width)
+	edit.Height(float64(cache.lineCount)*lineHeight + 20).MinHeight(o.Height - 10)
+	edit.Width(cache.width)
 	edit.onChange = o.OnChange
 	insert := func(value string) {
 		before := state.Text.String()
@@ -209,12 +230,12 @@ func CodeEditor(id string, state *CodeEditorState, o CodeEditorOptions) *Element
 	}
 	matches := 0
 	if state.Find.Query != nil && state.Find.Query.String() != "" {
-		matches = strings.Count(text, state.Find.Query.String())
+		matches = strings.Count(state.Text.String(), state.Find.Query.String())
 	}
 	find := FindBar(id+"/find", &state.Find, FindBarOptions{Matches: matches, OnQuery: func(q string) { state.FindNext(q, false) }, OnSelect: func(int) {
 		if state.Find.Query != nil {
 			state.FindNext(state.Find.Query.String(), false)
 		}
 	}})
-	return Column(id, find, ScrollArea(id+"/scroll", &state.Scroll, edit).Height(o.Height).HorizontalScroll(true), Text(id+"/status", fmt.Sprintf("%d lines · %s · Ctrl/Cmd+F find · Ctrl/Cmd+Tab leave editor", len(lines), o.Language)).FontSize(12).Muted(true)).Gap(6)
+	return Column(id, find, ScrollArea(id+"/scroll", &state.Scroll, edit).Height(o.Height).HorizontalScroll(true), Text(id+"/status", fmt.Sprintf("%d lines · %s · Ctrl/Cmd+F find · Ctrl/Cmd+Tab leave editor", cache.lineCount, o.Language)).FontSize(12).Muted(true)).Gap(6)
 }

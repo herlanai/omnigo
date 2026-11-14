@@ -11,8 +11,16 @@ import (
 // The host must validate the sending frame's origin before invoking it. Grants
 // are host-owned and copied; clients cannot supply permissions in their payload.
 func NativeExchange(router *Router, grants []string) func(context.Context, []byte) ([]byte, error) {
+	return nativeExchange(router, grants, &RequestSource{})
+}
+
+// NativeExchange shares this HTTP host's grants and source identity with its native window.
+func (h *HTTP) NativeExchange() func(context.Context, []byte) ([]byte, error) {
+	return nativeExchange(h.router, h.options.Grants, h.source)
+}
+
+func nativeExchange(router *Router, grants []string, source *RequestSource) func(context.Context, []byte) ([]byte, error) {
 	grants = append([]string(nil), grants...)
-	source := &RequestSource{}
 	return func(ctx context.Context, raw []byte) ([]byte, error) {
 		if router == nil || ctx == nil {
 			return nil, fmt.Errorf("omniweb: native host is not configured")

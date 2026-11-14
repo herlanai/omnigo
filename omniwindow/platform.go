@@ -33,6 +33,10 @@ func Platform(goos, goarch string) PlatformSupport {
 			p.NativeWindow = "experimental-x11-software"
 		}
 		p.Evidence = "Optional omniwindow/nativewindow driver; cross-build only, no native runtime verification. Studio WebView host unavailable"
+		if goos == "windows" && experimentalWebView2 {
+			p.WebView = "experimental-webview2"
+			p.Evidence = "Opt-in Win32/WebView2 main window and native RPC; matching loader/runtime required; native Windows verification pending"
+		}
 		if goos == "linux" && experimentalWebKitGTK {
 			p.WebView = "experimental-webkitgtk6"
 			p.Evidence = "Opt-in GTK4/WebKitGTK 6 Web main window; runtime libraries/display required; native validation pending; Go content windows and desktop services unsupported"

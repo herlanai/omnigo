@@ -130,6 +130,9 @@ func (s *Surface) Close() error {
 		m.initialized = false
 		m.interacting = false
 	}
+	if i, ok := s.index[s.focus]; ok && s.entries[i].element.buffer != nil {
+		s.entries[i].element.buffer.CancelComposition()
+	}
 	s.notificationManagers = nil
 	_ = s.notifyPointerHover("", PointerEvent{Kind: "cancel"})
 	for _, item := range s.entries {
@@ -285,6 +288,7 @@ func (s *Surface) Mount(root *Element) error {
 		return err
 	}
 	defer s.syncHover()
+	previousInput, hadInput := s.enabled(s.focus)
 	previous, hadPointer := s.enabled(s.pressed)
 	previousHover, hadHover := s.enabled(s.hoverListener)
 	oldFrames := []entry{}
@@ -295,6 +299,12 @@ func (s *Surface) Mount(root *Element) error {
 	}
 	s.root = cloned
 	s.relayout()
+	if hadInput && previousInput.element.buffer != nil {
+		current, ok := s.enabled(s.focus)
+		if !ok || current.element.readOnly || current.element.buffer != previousInput.element.buffer {
+			previousInput.element.buffer.CancelComposition()
+		}
+	}
 	for _, item := range oldFrames {
 		if i, ok := s.index[item.element.id]; !ok || s.entries[i].element.onFrame == nil {
 			item.element.onFrame(s.now, false, s.theme.ReduceMotion)
@@ -670,6 +680,9 @@ func (s *Surface) changeFocus(id string) {
 	}
 	if i, ok := s.index[s.focus]; ok {
 		e := s.entries[i].element
+		if e.buffer != nil {
+			e.buffer.CancelComposition()
+		}
 		if e.onBlur != nil {
 			e.onBlur()
 		}

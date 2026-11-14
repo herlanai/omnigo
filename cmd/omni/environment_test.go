@@ -162,3 +162,40 @@ func TestDoctorPropagatesOutputFailuresInEveryFormat(t *testing.T) {
 		}
 	}
 }
+
+func TestDoctorWebKitLibrariesAreOptionalAndExact(t *testing.T) {
+	for _, present := range []bool{false, true} {
+		output := "libgtk-4.so.10 (libc6) => /wrong\nlibwebkitgtk-6.0.so.40 (libc6) => /wrong"
+		if present {
+			output = "libgtk-4.so.1 (libc6) => /gtk\nlibwebkitgtk-6.0.so.4 (libc6) => /webkit"
+		}
+		p := healthyProbe()
+		previous := p.run
+		p.run = func(ctx context.Context, name string, args ...string) (string, error) {
+			if name == "ldconfig" {
+				return output, nil
+			}
+			return previous(ctx, name, args...)
+		}
+		report := inspectEnvironment(t.Context(), "linux", "amd64", p)
+		if !report.Ready {
+			t.Fatal("optional libraries blocked ordinary applications")
+		}
+		found := 0
+		for _, check := range report.Checks {
+			if check.Name == "libgtk-4.so.1" || check.Name == "libwebkitgtk-6.0.so.4" {
+				found++
+				want := "warn"
+				if present {
+					want = "pass"
+				}
+				if check.Status != want {
+					t.Fatal(check)
+				}
+			}
+		}
+		if found != 2 {
+			t.Fatal("missing WebKit diagnostics")
+		}
+	}
+}

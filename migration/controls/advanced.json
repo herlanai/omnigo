@@ -453,7 +453,7 @@
       "reference": "backend/ui/editor",
       "description": "Go 代码编辑：等宽字体、行号、语法着色、缩进、换行、选区、撤销及查找。",
       "remaining": [
-        "Incremental text storage and viewport-only shaping for large files",
+        "Incremental lexing and edit-time layout; avoid full string materialization on edits and add horizontal virtualization for very long lines",
         "Multiple cursors, folding, completion, diagnostics and language server integration",
         "Other language lexers, replace-all, native IME and complex shaping"
       ],

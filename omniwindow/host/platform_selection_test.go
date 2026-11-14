@@ -41,3 +41,21 @@ func TestLinuxWebKitOptInSelectsRealHost(t *testing.T) {
 		}
 	}
 }
+
+func TestWindowsWebView2OptInSelectsRealHost(t *testing.T) {
+	for _, arch := range []string{"amd64", "arm64"} {
+		c := build.Default
+		c.GOOS = "windows"
+		c.GOARCH = arch
+		c.CgoEnabled = false
+		c.BuildTags = []string{"omnigo_webview2"}
+		p, err := c.ImportDir(".", 0)
+		if err != nil {
+			t.Fatal(err)
+		}
+		files := strings.Join(p.GoFiles, " ")
+		if !strings.Contains(files, "webview2_windows.go") || strings.Contains(files, "unsupported.go") {
+			t.Fatalf("%s selected wrong host: %s", arch, files)
+		}
+	}
+}

@@ -98,6 +98,14 @@ func openShell(app objc.ID, options omniwindow.WindowOptions, quit func(), host 
 	window.Send(sel("setContentView:"), web)
 	chrome = newWindowChrome(window)
 	if _, err := chrome.apply(TitleBarRequest{Style: options.TitleBarStyle, TrafficLightPosition: options.TrafficLightPosition}); err != nil {
+		detachBridge()
+		detachUpload()
+		web.Send(sel("setNavigationDelegate:"), objc.ID(0))
+		window.Send(sel("setDelegate:"), objc.ID(0))
+		window.Send(sel("close"))
+		window.Send(sel("release"))
+		web.Send(sel("release"))
+		delegate.Send(sel("release"))
 		return nil, err
 	}
 	host.titlebar = chrome.apply

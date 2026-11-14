@@ -236,7 +236,9 @@ func winKey(v uint32) string {
 func openBackend(o omniwindow.WindowOptions) (backend, error) {
 	return openOwnedWindow(o, 0)
 }
-func (w *winHost) child(o omniwindow.WindowOptions) (backend, error) { return openOwnedWindow(o, w.hwnd) }
+func (w *winHost) child(o omniwindow.WindowOptions) (backend, error) {
+	return openOwnedWindow(o, w.hwnd)
+}
 func openOwnedWindow(o omniwindow.WindowOptions, owner uintptr) (backend, error) {
 	classOnce.Do(func() {
 		if err := windows.GetModuleHandleEx(2, nil, &module); err != nil {
@@ -316,4 +318,12 @@ func (w *winHost) present(img *image.RGBA) error {
 		return fmt.Errorf("nativewindow: StretchDIBits failed")
 	}
 	return nil
+}
+
+// HWND returns the Win32 handle during UI callbacks only. Never retain it after Closing.
+func (w *Window) HWND() uintptr {
+	if driver, ok := w.driver.(*winHost); ok {
+		return driver.hwnd
+	}
+	return 0
 }

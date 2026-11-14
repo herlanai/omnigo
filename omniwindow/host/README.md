@@ -92,3 +92,33 @@ actual page JavaScript to complete a Unicode HTTP roundtrip before succeeding.
 The Linux CI job runs it under Xvfb and D-Bus; this is not Wayland acceptance.
 This backend has cross-build evidence only until that job or a desktop run is
 observed passing. Do not infer native success from this documentation.
+
+
+## Experimental Windows WebView2
+
+`CGO_ENABLED=0 go build -tags omnigo_webview2 ./...` enables a Win32 Web main
+window for Windows amd64/arm64. Deploy Microsoft's matching WebView2Loader.dll
+beside the executable and install the WebView2 Evergreen Runtime. The loader is
+loaded by absolute path, without silently falling back to a browser. The backend
+uses STA COM callbacks, owns controller lifetime, resizes to the native client
+rectangle, rejects cross-origin top-level navigation/popups, denies browser
+permission prompts, and returns initialization/process failures to Go.
+
+Native unary/batch RPC is available through `NativeExchange` and the canonical
+TypeScript `NativeTransport`. Incoming message sources must match the application
+origin; cancellation and window shutdown cancel pending RPC. Profiles persist in
+the user's cache directory. Custom titlebars, Go content factories and native
+desktop service methods are not implemented by this backend. This is opt-in and
+has cross-build evidence only: no Windows test environment was available locally.
+The Windows CI job deploys a pinned Microsoft loader and requires real JavaScript
+→ Go → JavaScript completion; its result has not been observed yet.
+
+## Native unary/batch Transport
+
+WKWebView uses message handlers with reply; WebView2 uses WebMessageReceived and
+PostWebMessageAsJson. Root applications automatically attach the existing router
+and trusted grants. `new NativeTransport()` chooses the available native bridge;
+`HTTPTransport` remains available. Both transports share the HTTP host's source
+identity. Assets, events and streams still use HTTP. Linux currently has no native
+Transport. Payload bounds are 1 MiB per request, 64 calls per batch and 4 MiB per
+reply. No latency or memory improvement is claimed without equivalent benchmarks.

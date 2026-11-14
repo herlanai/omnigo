@@ -1,0 +1,12 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/herlanai/omnigo/omniui/baseui
+cpu: Apple M5
+BenchmarkCodeEditorWarmBuild/1000-10         	  817875	      1456 ns/op	   11486 B/op	      38 allocs/op
+BenchmarkCodeEditorWarmBuild/1000-10         	  842710	      1417 ns/op	   11486 B/op	      38 allocs/op
+BenchmarkCodeEditorWarmBuild/1000-10         	  872253	      1383 ns/op	   11486 B/op	      38 allocs/op
+BenchmarkCodeEditorWarmBuild/100000-10       	  750663	      1609 ns/op	   11497 B/op	      38 allocs/op
+BenchmarkCodeEditorWarmBuild/100000-10       	  737623	      2473 ns/op	   11497 B/op	      38 allocs/op
+BenchmarkCodeEditorWarmBuild/100000-10       	  239248	      4905 ns/op	   11497 B/op	      38 allocs/op
+PASS
+ok  	github.com/herlanai/omnigo/omniui/baseui	8.474s

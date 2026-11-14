@@ -75,3 +75,28 @@
 仅为单文件可执行程序更新事务的显式恢复。Windows 锁实现有交叉构建证据，
 未执行 Windows 原生进程测试；目录 app 安装、进程退出等待、自动重启健康确认
 和断电持久性不在本轮验收范围内。日志不完整时保留文件并返回错误。
+
+
+## .app 安装与原生 Transport 验证（2026-11-14，本批）
+
+- 独立外部模块 `/tmp/omnigo-bundle-acceptance`：ad-hoc 签名 bundle，发布签名 ZIP
+  安装，真实原生窗口启动，自动健康握手和备份清理通过。不是公证分发验收。
+- `examples/native-rpc-smoke`：WKWebView 原生 message/reply 的 Unicode RPC 和退出通过。
+- Bundle 单元/进程测试覆盖归档越界拒绝、确认/回滚、恢复时拒绝活跃所有者、
+  丢失可执行文件、真实子进程确认与确认前退出。SDK 测试覆盖 WebView2 回包关联和取消清理。
+- Windows WebView2 是可选实验后端；用户没有 Windows 环境。Windows/Linux workflow
+  尚未执行，不能宣称原生通过。完整状态以 migration/wails-v3-upgrade.md 为准。
+
+最终 `sh scripts/check.sh` 通过：Go tests、vet、race、40 个 SDK 测试、六个默认
+桌面目标，以及 Windows WebView2/Linux WebKitGTK 各两种架构的可选后端构建。
+日志：`/tmp/omnigo-final-upgrade-check.log`。最后的更新子进程清理调整另行通过
+updater race/子进程测试；没有新增 Windows/Linux 原生运行证据。
+
+## Golet 后续对齐验证（2026-11-14）
+
+- `sh scripts/check.sh` 通过，日志 `/tmp/omnigo-golet-alignment-check.log`：Go tests、vet、race、SDK 和默认/可选桌面后端跨编译。
+- 最后补充的 doctor 库名检查另行通过 `go test -race ./cmd/omni` 与 vet；库存在不代表原生运行成功。
+- 外部模块 `/tmp/omnigo-golet-alignment-external` 实际消费 keygen 公钥、解析 Base64 签名并验签，使用公开 CodeEditor API 重建和绘制通过。
+- `/tmp/omnigo-golet-alignment-gallery` 生成编辑器、树、树表六张 2× 明暗截图；抽查编辑器亮色及树表暗色未见明显裁切，不代表参考像素一致或系统输入法验收。
+- 缓存失效、旧快照不可变、屏幕外文本不测量、标签按视口构建、组合文本失焦/卸载清理均有专项测试。热构建基准范围见 performance.md。
+- 本批没有新增 Windows/Linux 实机、macOS NSTextInputClient 或系统读屏证据。

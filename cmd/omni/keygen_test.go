@@ -36,7 +36,7 @@ func TestKeygenProducesPairAcceptedByUpdater(t *testing.T) {
 	if err != nil || len(secret) != ed25519.PrivateKeySize {
 		t.Fatal("invalid private key encoding")
 	}
-	public, err := base64.StdEncoding.DecodeString(strings.TrimSpace(string(publicText)))
+	public, err := updater.ParsePublicKey(publicText)
 	if err != nil || len(public) != ed25519.PublicKeySize {
 		t.Fatal("invalid public key encoding")
 	}

@@ -13,8 +13,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/herlanai/omnigo/omniwindow"
 	"github.com/herlanai/omnigo/internal/runtime/dispatch"
+	"github.com/herlanai/omnigo/omniwindow"
 )
 
 type Event struct {
@@ -31,12 +31,14 @@ type Event struct {
 // Paint must return an opaque RGBA framebuffer matching the client size in pixels.
 // Tick is called only when NextFrame requests a timer, never by a polling loop.
 type Options struct {
-	Window      omniwindow.WindowOptions
-	Event       func(Event) error
-	Paint       func(width, height int) (*image.RGBA, error)
-	NextFrame   func() (time.Duration, bool)
-	Tick        func() error
-	Ready       func(*Window) error
+	Window    omniwindow.WindowOptions
+	Event     func(Event) error
+	Paint     func(width, height int) (*image.RGBA, error)
+	NextFrame func() (time.Duration, bool)
+	Tick      func() error
+	Ready     func(*Window) error
+	// Closing runs on the UI thread before the native window is destroyed, including Ready failure.
+	Closing     func()
 	ShouldClose func() bool
 }
 type backend interface {
@@ -142,6 +144,9 @@ func (w *Window) run(ctx context.Context, open func(omniwindow.WindowOptions) (b
 		}
 	})
 	defer stop()
+	if w.options.Closing != nil {
+		defer w.options.Closing()
+	}
 	if w.options.Ready != nil {
 		if err := w.options.Ready(w); err != nil {
 			return err

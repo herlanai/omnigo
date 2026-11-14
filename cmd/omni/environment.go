@@ -149,6 +149,23 @@ func inspectEnvironment(ctx context.Context, goos, goarch string, probe environm
 		} else {
 			add("X11", "warn", "libX11.so.6 not confirmed in loader cache; required only by the optional X11 host")
 		}
+		for _, lib := range []string{"libgtk-4.so.1", "libwebkitgtk-6.0.so.4", "libglib-2.0.so.0", "libgobject-2.0.so.0"} {
+			found := false
+			if err == nil {
+				for _, line := range strings.Split(output, "\n") {
+					fields := strings.Fields(line)
+					if len(fields) > 0 && fields[0] == lib {
+						found = true
+						break
+					}
+				}
+			}
+			if found {
+				add(lib, "pass", "Listed in loader cache; optional WebKitGTK backend was not loaded or run")
+			} else {
+				add(lib, "warn", "Not confirmed in loader cache; required by the optional omnigo_webkitgtk backend")
+			}
+		}
 		optional("osslsigncode", "Windows signing from this host")
 	case "windows":
 		optional("signtool", "Windows application signing")

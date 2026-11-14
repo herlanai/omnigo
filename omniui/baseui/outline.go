@@ -107,7 +107,17 @@ func outlineView[K comparable](id string, state *OutlineState[K], roots []K, o O
 	visit(roots, -1, 0, false)
 	options := make([]Option, len(rows))
 	for i, row := range rows {
-		options[i] = Option{ID: row.id, Label: o.Label(row.key), Disabled: row.disabled}
+		options[i] = Option{ID: row.id, Disabled: row.disabled}
+	}
+	labelsReady := false
+	fillLabels := func() {
+		if labelsReady {
+			return
+		}
+		for i, row := range rows {
+			options[i].Label = o.Label(row.key)
+		}
+		labelsReady = true
 	}
 	rowID := func(i int) string { return id + "/item/" + rows[i].id + "/select" }
 	selectKey := func(key K) {
@@ -150,7 +160,8 @@ func outlineView[K comparable](id string, state *OutlineState[K], roots []K, o O
 	for i := start; i < end; i++ {
 		row := rows[i]
 		prefix := id + "/item/" + row.id
-		item := Button(rowID(i), options[i].Label, func() { selectKey(row.key) }).Variant(Ghost).Grow(1).Height(32).Role("treeitem")
+		label := o.Label(row.key)
+		item := Button(rowID(i), label, func() { selectKey(row.key) }).Variant(Ghost).Grow(1).Height(32).Role("treeitem")
 		item.alignStart = true
 		item.selected = state.HasSelection && state.Selected == row.key
 		item.treeLevel, item.expanded = row.depth+1, row.branch && state.Open[row.key]
@@ -198,6 +209,7 @@ func outlineView[K comparable](id string, state *OutlineState[K], roots []K, o O
 			return true
 		}
 		item.onText = func(text string, now time.Duration) string {
+			fillLabels()
 			target := state.search.find(text, now, i, options)
 			if target >= 0 {
 				reveal(target)
@@ -206,7 +218,7 @@ func outlineView[K comparable](id string, state *OutlineState[K], roots []K, o O
 			}
 			return ""
 		}
-		arrow := Button(prefix+"/toggle", "", func() { state.Open[row.key] = !state.Open[row.key] }).Variant(Ghost).Width(24).Height(32).Label("Toggle " + options[i].Label).Disabled(!row.branch)
+		arrow := Button(prefix+"/toggle", "", func() { state.Open[row.key] = !state.Open[row.key] }).Variant(Ghost).Width(24).Height(32).Label("Toggle " + label).Disabled(!row.branch)
 		arrow.branch, arrow.expanded, arrow.textIndent, arrow.skipTab = row.branch, state.Open[row.key], 14, true
 		first := Row(prefix+"/first", Column(prefix+"/indent").Width(float64(row.depth)*o.Indent+.01), arrow, item).Gap(0)
 		cells := []*Element{sizeCell(first, 0)}

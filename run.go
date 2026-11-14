@@ -3,6 +3,7 @@ package omnigo
 import (
 	"context"
 	"errors"
+	"github.com/herlanai/omnigo/internal/startup"
 	"os"
 	"os/signal"
 	"syscall"
@@ -69,6 +70,11 @@ func (a *Application) run(ctx context.Context, native func(context.Context, host
 				if a.options.OnReady != nil {
 					a.options.OnReady(a)
 				}
+				go func() {
+					if startup.Confirm(ctx) != nil {
+						cancel()
+					}
+				}()
 			})
 			if lease != nil {
 				ready <- h

@@ -69,3 +69,38 @@ jobs:
           name: webkit-page-results
           path: webkit-results.txt
           if-no-files-found: error
+  webview2:
+    name: Experimental WebView2 native RPC
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Prepare Microsoft loader and Evergreen runtime
+        shell: pwsh
+        run: |
+          Invoke-WebRequest https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.2903.40 -OutFile webview2.zip
+          Expand-Archive webview2.zip -DestinationPath webview2-sdk
+          New-Item -ItemType Directory -Force build/webview2
+          Copy-Item webview2-sdk/build/native/x64/WebView2Loader.dll build/webview2/
+          Invoke-WebRequest https://go.microsoft.com/fwlink/p/?LinkId=2124703 -OutFile evergreen.exe
+          $p = Start-Process ./evergreen.exe -ArgumentList '/silent','/install' -Wait -PassThru
+          Write-Output "Evergreen bootstrap exit: $($p.ExitCode); actual runtime required by smoke test"
+      - name: Run native message/reply RPC probe
+        shell: pwsh
+        env:
+          CGO_ENABLED: '0'
+        run: |
+          go build -tags omnigo_webview2 -o build/webview2/smoke.exe ./examples/native-rpc-smoke
+          if ($LASTEXITCODE -ne 0) { throw 'WebView2 build failed' }
+          & ./build/webview2/smoke.exe 2>&1 | Tee-Object webview2-results.txt
+          if ($LASTEXITCODE -ne 0) { throw 'WebView2 native probe failed' }
+          if (-not (Select-String -Path webview2-results.txt -Pattern '^PASS: native message/reply RPC')) { throw 'Missing successful native RPC result' }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: webview2-native-results
+          path: webview2-results.txt
+          if-no-files-found: error

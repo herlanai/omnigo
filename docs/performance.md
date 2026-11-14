@@ -81,3 +81,15 @@ Apple M5 / darwin arm64 / Go 1.26.2，CGO_ENABLED=0。DiffView 预热后只测�
 运行 python3 scripts/measure/idle.py PID 60 可采样 CPU/RSS；CPU 是系统平滑值，RSS 单位 KiB。30 秒样本不构成长期泄漏验收。真正输入到屏幕延迟仍需平台呈现时间戳或外部仪器验证。
 
 [30 秒原生计数器采样](benchmarks/native-idle-2026-11-14.csv)末段 CPU 0%，RSS 119200–129888 KiB；不代表长期稳定上界。
+
+
+## 2026-11-14：CodeEditor 文档快照缓存
+
+Apple M5 / darwin arm64 / CGO_ENABLED=0，三次采样。未修改文档的热构建：
+1,000 行为 11,486 B/op、38 allocs/op；100,000 行为 11,497 B/op、38 allocs/op。
+测量只包含 CodeEditor 构造，不包含 Mount、首次词法分析、编辑更新、绘制或呈现。
+与全量检查并行运行，耗时存在竞争，不据此声称 Golet 对照加速或端到端提升。
+原始记录：[editor-cache-2026-11-14.txt](benchmarks/editor-cache-2026-11-14.txt)。
+
+普通输入/文本域绘制通过 rope 行索引跳过屏幕外文本；专项测试用字体测量探针
+确认屏幕外行未被测量。复杂文字排版、长行横向裁剪前的测量仍不在本轮覆盖范围。

@@ -15,3 +15,9 @@ done
 
 # Cross-compilation checks core portability, not working desktop drivers.
 go run ./examples/lifecycle
+
+# Optional WebView backends must select and compile their actual implementations.
+for target_arch in amd64 arm64; do
+  CGO_ENABLED=0 GOOS=windows GOARCH="$target_arch" go build -tags omnigo_webview2 ./...
+  CGO_ENABLED=0 GOOS=linux GOARCH="$target_arch" go build -tags omnigo_webkitgtk ./...
+done

@@ -604,9 +604,8 @@ func (s *Surface) drawElement(p *Painter, item entry) {
 		}
 		p.clip = intersect(p.clip, inputClip)
 		b := e.buffer
-		lines := strings.Split(b.text, "\n")
+		document := b.Snapshot()
 		anchor, caret := b.Selection()
-		offset := 0
 		lineHeight := s.lineHeight()
 		top := r.Y + 8
 		if e.kind == InputKind {
@@ -625,7 +624,12 @@ func (s *Surface) drawElement(p *Painter, item entry) {
 		if e.kind == InputKind {
 			scroll = max(0, s.textWidth(string([]rune(b.text)[:caret]))-(r.W-2*inset))
 		}
-		for row, line := range lines {
+		// Keep one adjacent line for glyph overhang and composition underlines.
+		first := max(0, int(math.Floor((p.clip.Y-top)/lineHeight))-1)
+		last := min(document.LineCount(), int(math.Ceil((p.clip.Y+p.clip.H-top)/lineHeight))+1)
+		offset := document.RuneOffset(document.LineStart(first))
+		for row := first; row < last; row++ {
+			line := document.Line(row)
 			runes := []rune(line)
 			start, end := max(0, min(anchor, caret)-offset), min(len(runes), max(anchor, caret)-offset)
 			if end > start {

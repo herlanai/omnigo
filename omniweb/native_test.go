@@ -38,3 +38,21 @@ func TestNativePermissionsAndBatchValidation(t *testing.T) {
 		t.Fatal("batch executed before validation")
 	}
 }
+
+func TestNativeExchangeSharesHTTPHostIdentity(t *testing.T) {
+	router := NewRouter(4, 1024)
+	var observed *RequestSource
+	if err := Bind(router, "source", "", func(ctx context.Context, _ struct{}) (bool, error) { observed = Source(ctx); return true, nil }); err != nil {
+		t.Fatal(err)
+	}
+	h, err := NewHTTP(router, HTTPOptions{Host: "127.0.0.1:7331", Origins: []string{"http://127.0.0.1:7331"}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err = h.NativeExchange()(t.Context(), []byte(`{"v":1,"id":"1","method":"source","params":{}}`)); err != nil {
+		t.Fatal(err)
+	}
+	if observed != h.source {
+		t.Fatal("native and HTTP requests have different host identities")
+	}
+}

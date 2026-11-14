@@ -198,3 +198,18 @@ breadcrumb_test.go 同时验证控件几何与实际字形像素的纵向范围�
 - framecheck 在进程主线程测 AppKit 复制与同步 display 提交。空闲采样工具为 scripts/measure/idle.py。真正屏幕呈现延迟和长期 RSS 尚未验收。
 
 回归见 alignment_regression_test.go；测量见 docs/performance.md。本轮不升级目录项为 complete。
+
+
+## 2026-11-14：编辑器缓存、视口绘制与输入生命周期
+
+CodeEditor 以不可变 TextSnapshot 的身份和语言为缓存键，缓存高亮、行数、最大行宽。
+编辑、撤销、语言切换和 buffer 替换会失效；旧挂载树引用的高亮切片不原地修改。
+文本绘制用 rope 行索引读取视口附近行，保留相邻行以容纳字形与组合文本下划线。
+这不是编辑时增量词法分析，也不是复杂文字整形或横向长行虚拟化。
+
+TreeOutline/OutlineTable 的标签仅在可见行构建；typeahead 首次使用时获取全量标签。
+行展开索引、唯一性验证和导航选项仍是 O(N)。不复用可能被旧控件回调捕获的可变切片。
+
+Surface 在焦点转移、控件移除/禁用/只读、buffer 替换和关闭时取消组合文本，
+不会把草稿提交到另一个输入框，也不会生成撤销记录。原生 NSTextInputClient 和读屏
+适配尚未接入。验证见 `omniui/baseui/alignment_cache_test.go`；所有状态保持 partial。

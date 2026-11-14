@@ -436,15 +436,16 @@ export class OmniWebStreams<API extends StreamContract<API>> {
   }
 }
 
-/** Unary/batch RPC through the macOS WKWebView native reply bridge.
+/** Unary/batch RPC through WKWebView or WebView2 native bridges.
  * Assets, events and streams continue to use their existing HTTP paths.
  */
 export class NativeTransport implements Transport {
   private readonly post: (message: string) => Promise<unknown>;
   constructor(post?: (message: string) => Promise<unknown>) {
     const host = (globalThis as unknown as { webkit?: { messageHandlers?: { omnigoNative?: { postMessage(message: string): Promise<unknown> } } } }).webkit?.messageHandlers?.omnigoNative;
-    if (!post && !host) throw new OmniWebError("unsupported", "Native RPC bridge unavailable");
-    this.post = post ?? ((message) => host!.postMessage(message));
+    const edge = (globalThis as unknown as { chrome?: { webview?: EdgeBridge } }).chrome?.webview;
+    if (!post && !host && !edge) throw new OmniWebError("unsupported", "Native RPC bridge unavailable");
+    this.post = post ?? (host ? ((message) => host.postMessage(message)) : edgePost(edge!));
   }
   async exchange(request: Request | Request[], signal: AbortSignal): Promise<unknown> {
     if (signal.aborted) throw signal.reason;
@@ -453,7 +454,7 @@ export class NativeTransport implements Transport {
     if (new TextEncoder().encode(body).length > 1024 * 1024) throw new OmniWebError("too_large", "Native request exceeds limit");
     let abort!: () => void;
     const canceled = new Promise<never>((_, reject) => {
-      abort = () => { this.post(JSON.stringify({kind: "cancel", token})).catch(() => {}); reject(signal.reason); };
+      abort = () => { reject(signal.reason); try { void this.post(JSON.stringify({kind: "cancel", token})).catch(() => {}); } catch {} };
       signal.addEventListener("abort", abort, {once: true});
     });
     try {
@@ -462,4 +463,30 @@ export class NativeTransport implements Transport {
       return JSON.parse(raw) as unknown;
     } finally { signal.removeEventListener("abort", abort); }
   }
+}
+
+interface EdgeBridge {
+  postMessage(message: string): void;
+  addEventListener(type: "message", listener: (event: {data: unknown}) => void): void;
+  removeEventListener(type: "message", listener: (event: {data: unknown}) => void): void;
+}
+function edgePost(host: EdgeBridge): (message: string) => Promise<unknown> {
+ const pending = new Map<string, () => void>();
+ return (message) => {
+  const envelope = JSON.parse(message) as {kind: string; token: string};
+  if (envelope.kind === "cancel") { pending.get(envelope.token)?.(); host.postMessage(message); return Promise.resolve(""); }
+  return new Promise((resolve, reject) => {
+   let timer: ReturnType<typeof setTimeout>;
+   const cleanup = () => { clearTimeout(timer); pending.delete(envelope.token); host.removeEventListener("message", receive); };
+   const receive = (event: {data: unknown}) => {
+    const value = event.data as {token?: string; result?: unknown; error?: string} | null;
+    if (!value || value.token !== envelope.token) return;
+    cleanup(); if (typeof value.error === "string") reject(new OmniWebError("native",value.error)); else resolve(value.result);
+   };
+   pending.set(envelope.token, () => { cleanup(); reject(new OmniWebError("canceled", "Native call canceled")); });
+   host.addEventListener("message", receive);
+   timer = setTimeout(() => { cleanup(); reject(new OmniWebError("timeout", "Native reply timed out")); }, 31000);
+   try { host.postMessage(message); } catch (error) { cleanup(); reject(error); }
+  });
+ };
 }
