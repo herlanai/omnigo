@@ -14,15 +14,17 @@ type textSnapshot struct {
 
 // TextBuffer owns text and selection in rune offsets, not byte offsets. IME
 // composition remains separate until CommitComposition. Undo is bounded to 100
-// edits. Grapheme-cluster navigation and platform IME adapters remain pending.
+// edits. Grapheme-cluster navigation remains pending. Native host adapters must use
+// UTF-16-aware Surface methods rather than treating rune offsets as OS offsets.
 type TextBuffer struct {
-	text          string
-	document      rope.Text
-	anchor, caret int
-	composition   string
-	undo, redo    []textSnapshot
-	Limit         int // Maximum runes; zero is unlimited.
-	OnChange      func(string)
+	text            string
+	document        rope.Text
+	anchor, caret   int
+	composition     string
+	markedSelection TextRange
+	undo, redo      []textSnapshot
+	Limit           int // Maximum runes; zero is unlimited.
+	OnChange        func(string)
 }
 
 func NewTextBuffer(text string) *TextBuffer {
@@ -87,10 +89,13 @@ func (b *TextBuffer) replace(text string, limit int) {
 		b.OnChange(b.text)
 	}
 }
-func (b *TextBuffer) Set(text string)            { b.Select(0, utf8.RuneCountInString(b.text)); b.Replace(text) }
-func (b *TextBuffer) SetComposition(text string) { b.composition = strings.ToValidUTF8(text, "�") }
-func (b *TextBuffer) CancelComposition()         { b.composition = "" }
-func (b *TextBuffer) CommitComposition()         { text := b.composition; b.composition = ""; b.Replace(text) }
+func (b *TextBuffer) Set(text string) { b.Select(0, utf8.RuneCountInString(b.text)); b.Replace(text) }
+func (b *TextBuffer) SetComposition(text string) {
+	b.composition = strings.ToValidUTF8(text, "�")
+	b.markedSelection = TextRange{utf16Length(b.composition), 0}
+}
+func (b *TextBuffer) CancelComposition() { b.composition = "" }
+func (b *TextBuffer) CommitComposition() { text := b.composition; b.composition = ""; b.Replace(text) }
 func (b *TextBuffer) Undo() bool {
 	if len(b.undo) == 0 {
 		return false

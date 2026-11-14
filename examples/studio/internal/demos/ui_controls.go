@@ -128,7 +128,7 @@ func (d *Demo) uiControlContent() *ui.Element {
 			s.outline.Open = map[string]bool{"Engineering": true}
 		}
 		children := map[string][]string{"Engineering": {"Platform", "Applications", "Archived"}, "Platform": {"Runtime", "Rendering"}, "Design": {"Components", "Icons"}}
-		options := ui.OutlineOptions[string]{ID: func(k string) string { return k }, Label: func(k string) string { return k }, Children: func(k string) []string { return children[k] }, Disabled: func(k string) bool { return k == "Archived" }, OnSelect: func(k string) { d.Message = "Selected: " + k }, OnActivate: func(k string) { d.Message = "Opened: " + k }}
+		options := ui.OutlineOptions[string]{Incremental: true, ID: func(k string) string { return k }, Label: func(k string) string { return k }, Children: func(k string) []string { return children[k] }, Disabled: func(k string) bool { return k == "Archived" }, OnSelect: func(k string) { d.Message = "Selected: " + k }, OnActivate: func(k string) { d.Message = "Opened: " + k }}
 		roots := []string{"Engineering", "Design", "Documentation"}
 		if d.ID == "outline" {
 			return ui.TreeOutline("outline", &s.outline, roots, options)

@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/herlanai/omnigo/internal/text/rope"
 	"golang.org/x/image/font"
 	"golang.org/x/image/math/fixed"
 )
@@ -606,6 +607,15 @@ func (s *Surface) drawElement(p *Painter, item entry) {
 		b := e.buffer
 		document := b.Snapshot()
 		anchor, caret := b.Selection()
+		markedStart, markedEnd := -1, -1
+		if s.focus == e.id && b.composition != "" {
+			state, _ := s.NativeText()
+			document = rope.New(state.Text)
+			anchor = document.RuneOffset(document.FromUTF16(state.Selected.Location))
+			caret = document.RuneOffset(document.FromUTF16(state.Selected.Location + state.Selected.Length))
+			markedStart = document.RuneOffset(document.FromUTF16(state.Marked.Location))
+			markedEnd = document.RuneOffset(document.FromUTF16(state.Marked.Location + state.Marked.Length))
+		}
 		lineHeight := s.lineHeight()
 		top := r.Y + 8
 		if e.kind == InputKind {
@@ -622,7 +632,7 @@ func (s *Surface) drawElement(p *Painter, item entry) {
 		}
 		scroll := 0.
 		if e.kind == InputKind {
-			scroll = max(0, s.textWidth(string([]rune(b.text)[:caret]))-(r.W-2*inset))
+			scroll = max(0, s.textWidth(document.Slice(0, document.FromRune(caret)))-(r.W-2*inset))
 		}
 		// Keep one adjacent line for glyph overhang and composition underlines.
 		first := max(0, int(math.Floor((p.clip.Y-top)/lineHeight))-1)
@@ -638,7 +648,7 @@ func (s *Surface) drawElement(p *Painter, item entry) {
 				p.Fill(Rect{left, top + float64(row)*lineHeight, right - left, lineHeight}, t.Selection, 0)
 			}
 			baseline := top + float64(row)*lineHeight + float64(s.face.Metrics().Ascent.Ceil())
-			if e.codeRows != nil && row < len(e.codeRows) {
+			if e.codeRows != nil && markedStart < 0 && row < len(e.codeRows) {
 				p.Text(r.X+8-scroll, baseline, strconv.Itoa(row+1), t.MutedText)
 				tx := x - scroll
 				for _, run := range e.codeRows[row] {
@@ -655,9 +665,14 @@ func (s *Surface) drawElement(p *Painter, item entry) {
 			if s.focus == e.id && caret >= offset && caret <= offset+len(runes) {
 				cx := x - scroll + s.textWidth(string(runes[:caret-offset]))
 				p.Fill(Rect{cx, top + float64(row)*lineHeight, 1, lineHeight}, t.Focus, 0)
-				if b.composition != "" {
-					p.Text(cx, baseline, b.composition, fg)
-					p.Line(cx, baseline+2, cx+s.textWidth(b.composition), baseline+2, 1, t.Focus)
+
+			}
+			if markedStart >= 0 {
+				lo, hi := max(0, markedStart-offset), min(len(runes), markedEnd-offset)
+				if hi > lo {
+					left := x - scroll + s.textWidth(string(runes[:lo]))
+					right := x - scroll + s.textWidth(string(runes[:hi]))
+					p.Line(left, baseline+2, right, baseline+2, 1, t.Focus)
 				}
 			}
 			offset += len(runes) + 1

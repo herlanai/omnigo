@@ -5,7 +5,6 @@ import (
 	"go/scanner"
 	"go/token"
 	"strings"
-	"unicode/utf8"
 )
 
 type CodeEditorState struct {
@@ -23,10 +22,10 @@ type codeEditorCache struct {
 	rows      [][]codeRun
 	lineCount int
 	width     float64
- lines []string
- states []lexicalState
- widths []int
- lexed int
+	lines     []string
+	states    []lexicalState
+	widths    []int
+	lexed     int
 }
 
 func (s *CodeEditorState) prepare(language string) *codeEditorCache {
@@ -34,8 +33,8 @@ func (s *CodeEditorState) prepare(language string) *codeEditorCache {
 	if s.cache.valid && s.cache.language == language && s.cache.snapshot.Same(snapshot) {
 		return &s.cache
 	}
-	s.cache = incrementalCode(s.cache,s.Text.String(),language)
- s.cache.snapshot=snapshot
+	s.cache = incrementalCode(s.cache, s.Text.String(), language)
+	s.cache.snapshot = snapshot
 	return &s.cache
 }
 

@@ -35,8 +35,11 @@ type entry struct {
 	rtl          bool
 }
 type Accessibility struct {
-	Level       int
-	DescribedBy string
+	CanPress, CanAdjust, CanFocus, Multiline bool
+	Minimum, Maximum                         float64
+	Parent                                   string
+	Level                                    int
+	DescribedBy                              string
 
 	Expanded, HasPopup bool
 	Controls           string
@@ -1133,6 +1136,12 @@ func (s *Surface) Accessibility() []Accessibility {
 			continue
 		}
 		value := ""
+		if e.kind == TextKind {
+			value = e.text
+		}
+		if e.kind == SliderKind {
+			value = fmt.Sprint(e.value)
+		}
 		if e.buffer != nil {
 			value = e.buffer.String()
 		}
@@ -1145,7 +1154,19 @@ func (s *Surface) Accessibility() []Accessibility {
 				}
 			}
 		}
-		out = append(out, Accessibility{DescribedBy: describedBy, ID: e.id, Role: e.role, Label: e.label, Description: e.description, Value: value, Bounds: item.bounds, Level: e.treeLevel, Expanded: e.expanded, HasPopup: e.controls != "", Controls: e.controls, Disabled: item.disabled || !s.inScope(item), ReadOnly: e.readOnly, Invalid: e.invalid, Focused: s.focus == e.id, Checked: e.checked, Mixed: e.mixed, Selected: e.selected})
+		parent := item.parent
+		for parent != "" {
+			i, ok := s.index[parent]
+			if !ok {
+				parent = ""
+				break
+			}
+			if s.entries[i].element.role != "" {
+				break
+			}
+			parent = s.entries[i].parent
+		}
+		out = append(out, Accessibility{Parent: parent, CanPress: e.activate != nil, CanAdjust: e.kind == SliderKind, CanFocus: interactive(e), Multiline: e.kind == TextareaKind, Minimum: e.min, Maximum: e.max, DescribedBy: describedBy, ID: e.id, Role: e.role, Label: e.label, Description: e.description, Value: value, Bounds: item.bounds, Level: e.treeLevel, Expanded: e.expanded, HasPopup: e.controls != "", Controls: e.controls, Disabled: item.disabled || !s.inScope(item), ReadOnly: e.readOnly, Invalid: e.invalid, Focused: s.focus == e.id, Checked: e.checked, Mixed: e.mixed, Selected: e.selected})
 	}
 	return out
 }

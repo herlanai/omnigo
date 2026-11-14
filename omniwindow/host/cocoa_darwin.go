@@ -39,16 +39,24 @@ type rect struct {
 	S size
 }
 type window struct {
-	titlebarHidden bool
-	width, height  int
-	dark           bool
-	web            *embeddedWeb
-	native, view   objc.ID
-	surface        *ui.Surface
-	content        ContentWindowOptions
-	start          time.Time
-	timer          *time.Timer
-	frameToken     uint64
+	textContext     objc.ID
+	textClosing     bool
+	access          map[string]objc.ID
+	accessRoots     []objc.ID
+	accessFocus     string
+	accessSelection ui.TextRange
+	imeFocus        string
+	discardingText  bool
+	titlebarHidden  bool
+	width, height   int
+	dark            bool
+	web             *embeddedWeb
+	native, view    objc.ID
+	surface         *ui.Surface
+	content         ContentWindowOptions
+	start           time.Time
+	timer           *time.Timer
+	frameToken      uint64
 }
 
 var frames frameRenderer
@@ -211,6 +219,13 @@ func runNative(ctx context.Context, options Options) error {
 					repaint(w)
 					return
 				}
+				if !up && !cmd && flags&(1<<18) == 0 {
+					if input, ok := w.surface.NativeText(); ok && input.Editable {
+						events := objc.ID(objc.GetClass("NSArray")).Send(sel("arrayWithObject:"), event)
+						id.Send(sel("interpretKeyEvents:"), events)
+						return
+					}
+				}
 				if key != "" {
 					if err := w.surface.Key(ui.KeyEvent{Key: key, Up: up, Shift: flags&(1<<17) != 0, Command: cmd, Ctrl: flags&(1<<18) != 0, Alt: flags&(1<<19) != 0, Super: cmd, Repeat: event.Send(sel("isARepeat")) != 0}); err != nil {
 						log.Print(err)
@@ -246,7 +261,10 @@ func runNative(ctx context.Context, options Options) error {
 			repaint(w)
 		})
 	}
-	viewClass, err := objc.RegisterClass("OmniGoUIAppCanvas", objc.GetClass("NSImageView"), nil, nil, []objc.MethodDef{
+	if err := registerAccessibility(repaint); err != nil {
+		return err
+	}
+	viewClass, err := objc.RegisterClass("OmniGoUIAppCanvas", objc.GetClass("NSImageView"), []*objc.Protocol{objc.GetProtocol("NSTextInputClient")}, nil, append([]objc.MethodDef{
 		{Cmd: sel("acceptsFirstResponder"), Fn: func(objc.ID, objc.SEL) bool { return true }},
 		{Cmd: sel("scrollWheel:"), Fn: wheel},
 		{Cmd: sel("mouseMoved:"), Fn: pointer("move")},
@@ -255,7 +273,7 @@ func runNative(ctx context.Context, options Options) error {
 		{Cmd: sel("rightMouseUp:"), Fn: pointer("up")},
 		{Cmd: sel("mouseDown:"), Fn: pointer("down")}, {Cmd: sel("mouseDragged:"), Fn: pointer("move")}, {Cmd: sel("mouseUp:"), Fn: pointer("up")},
 		{Cmd: sel("keyDown:"), Fn: keyboard(false)}, {Cmd: sel("keyUp:"), Fn: keyboard(true)},
-	})
+	}, append(nativeTextMethods(repaint), canvasAccessibilityMethods()...)...))
 	if err != nil {
 		return err
 	}
@@ -273,6 +291,8 @@ func runNative(ctx context.Context, options Options) error {
 							w.timer = nil
 						}
 						w.frameToken++
+						closeNativeText(w)
+						closeAccessibility(w)
 						w.content.close()
 						_ = w.surface.Close()
 						if w.web != nil {
@@ -301,8 +321,13 @@ func runNative(ctx context.Context, options Options) error {
 				for _, w := range windows {
 					if w.native == n.Send(sel("object")) {
 						_ = w.surface.Advance(time.Since(w.start))
+						w.surface.CancelComposition()
+						w.discardingText = true
+						w.textContext.Send(sel("discardMarkedText"))
+						w.discardingText = false
 						w.surface.SetActive(false)
 						_ = w.surface.Pointer(ui.PointerEvent{Kind: "cancel"})
+						repaint(w)
 					}
 				}
 			})
@@ -490,7 +515,9 @@ func paint(w *window, h *Controller) error {
 		return err
 	}
 	w.surface.Advance(time.Since(w.start))
+	syncNativeInputFocus(w)
 	w.surface.SyncNativeViews()
+	syncAccessibility(w)
 	scale := objc.Send[float64](w.native, sel("backingScaleFactor"))
 	frame, err := frames.pixels(w.surface, w.width, w.height, scale)
 	if err != nil {
@@ -503,6 +530,7 @@ func paint(w *window, h *Controller) error {
 
 	w.view.Send(sel("setImage:"), image)
 	image.Send(sel("release"))
+	w.view.Send(sel("inputContext")).Send(sel("invalidateCharacterCoordinates"))
 	if delay, scheduled := w.surface.NextWakeup(); scheduled && w.native.Send(sel("isVisible")) != 0 && w.native.Send(sel("isMiniaturized")) == 0 {
 		w.timer = time.AfterFunc(delay, func() {
 			_, err := h.post(h.ctx, func() error {

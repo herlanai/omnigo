@@ -186,3 +186,13 @@ go run ./tools/parity -source /absolute/path/to/golet -out /tmp/omnigo-reference
 
 相关证据：`alignment_cache_test.go`、`encoding_test.go`、`keygen_test.go`、
 `environment_test.go`。全量能力分母保留，不提高完整对齐数量。
+
+
+## 2026-11-14：四项后续实现
+
+上一节 P1/P2 状态更新：macOS 原生文本协议和系统无障碍对象已接入并通过真实
+AppKit 协议探针；Go 代码高亮已支持编辑后的词法状态传播与后缀复用；树形索引
+支持显式版本缓存、展开增量及局部子树失效。公开接口与使用方式见 baseui/README。
+
+仍不宣称人工 VoiceOver 全体验、所有输入源、Windows/Linux 系统读屏、复杂文字
+整形或所有控件完整对齐。增量算法保留行/扁平索引复制成本，测量范围见 performance.md。

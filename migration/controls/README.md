@@ -213,3 +213,21 @@ TreeOutline/OutlineTable 的标签仅在可见行构建；typeahead 首次使用
 Surface 在焦点转移、控件移除/禁用/只读、buffer 替换和关闭时取消组合文本，
 不会把草稿提交到另一个输入框，也不会生成撤销记录。原生 NSTextInputClient 和读屏
 适配尚未接入。验证见 `omniui/baseui/alignment_cache_test.go`；所有状态保持 partial。
+
+
+## 2026-11-14：原生协议与增量索引接入
+
+本节更新上一节的未完成边界：macOS NSTextInputClient 与 NSAccessibility
+适配已经实现，真实 AppKit 探针通过；人工 VoiceOver、输入源矩阵与其他平台
+原生验收仍缺失，目录项不提升为完整对齐。
+
+- Go 高亮使用行状态检查点，跨行注释/raw string 状态收敛后停止重扫；随机编辑、
+  CR、Unicode、插入/删除和单行修改测试通过。切分与复制行索引仍是 O(N)。
+- Outline/OutlineTable 的显式 Incremental 模式缓存索引，Open 变化自动更新；
+  `Invalidate(parentKey)` 刷新局部数据子树，Revision 或无参数 Invalidate 重建整个模型。
+  局部更新测试确认未重新获取其他分支；旧挂载快照保持不可变。
+- 原生输入测试覆盖代理对边界、虚拟组合文档、显式替换、提交/撤销与只读保护。
+  无障碍测试覆盖能力限制、文本选择、对象失效；原生探针调用真实 AppKit 方法。
+
+证据：`native_text_test.go`、`text_access_probe_darwin.go` 与 `inputcheck`；
+原始增量基准见 `docs/benchmarks/incremental-2026-11-14.txt`。

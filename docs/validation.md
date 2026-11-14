@@ -100,3 +100,24 @@ updater race/子进程测试；没有新增 Windows/Linux 原生运行证据。
 - `/tmp/omnigo-golet-alignment-gallery` 生成编辑器、树、树表六张 2× 明暗截图；抽查编辑器亮色及树表暗色未见明显裁切，不代表参考像素一致或系统输入法验收。
 - 缓存失效、旧快照不可变、屏幕外文本不测量、标签按视口构建、组合文本失焦/卸载清理均有专项测试。热构建基准范围见 performance.md。
 - 本批没有新增 Windows/Linux 实机、macOS NSTextInputClient 或系统读屏证据。
+
+
+## 四项原生/增量实现验证（2026-11-14）
+
+- `sh scripts/check.sh` 最终通过，日志 `/tmp/omnigo-native-context-final-check.log`。
+  后续高亮字符串所有权调整另行通过 baseui/host race 测试；没有将构建当成原生验收。
+- `CGO_ENABLED=0 go run ./examples/studio/cmd/inputcheck` 在当前 macOS arm64
+  真实 AppKit 窗口通过：marked text、代理对范围、候选框坐标、提交/撤销、原生
+  NSEvent 输入、AX 角色/操作/选择、AppKit 无障碍子对象遍历及关闭后回调失效。
+  探针曾发现默认 NSImageView 的 inputContext 为空；已改为显式拥有并释放
+  NSTextInputContext，真实键盘路径复测通过。
+- 单元测试覆盖随机编辑时增量/全量词法结果对照、与整文档 Go scanner 的有效
+  示例对照、单行编辑仅重扫一行、树展开与完整索引一致、局部增删重排不读取
+  无关分支、只读/禁用操作拒绝、UTF-16 选择和组合文本一次撤销。
+- 独立外部模块 `/tmp/omnigo-four-capabilities-external` 使用公开原生文本 API、
+  增量树选项和局部 Invalidate 完成构建与绘制。
+- 原始增量基准：`docs/benchmarks/incremental-2026-11-14.txt`。编辑时索引复制、
+  展开映射比较及最坏词法状态传播成本仍存在，未声明全流程常数时间或 Golet 倍率。
+- 新增 macOS 原生协议 CI job，尚无远程执行结果。本地没有开启 VoiceOver、
+  请求系统辅助功能授权或遍历所有输入源；人工朗读/导航、Intel 实机和 Windows
+  UIA/Linux AT-SPI 仍未验收。

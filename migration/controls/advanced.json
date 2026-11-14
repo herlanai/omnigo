@@ -342,7 +342,7 @@
         "omniui/baseui/alignment_regression_test.go"
       ],
       "remaining": [
-        "Incremental flattened indexing, variable row heights and insertion scroll anchoring",
+        "Variable row heights, insertion scroll anchoring and avoiding full flattened-array copies during structural updates",
         "Multi-selection, drag reorder and recursive Alt expansion",
         "Custom prefix/row rendering and native accessibility"
       ]
@@ -361,7 +361,7 @@
         "omniui/baseui/alignment_regression_test.go"
       ],
       "remaining": [
-        "Incremental flattened indexing, variable row heights and insertion scroll anchoring",
+        "Variable row heights, insertion scroll anchoring and avoiding full flattened-array copies during structural updates",
         "Column sorting/resizing/reordering and cell selection",
         "Multi-selection, drag reorder and native accessibility"
       ]
@@ -453,9 +453,9 @@
       "reference": "backend/ui/editor",
       "description": "Go 代码编辑：等宽字体、行号、语法着色、缩进、换行、选区、撤销及查找。",
       "remaining": [
-        "Incremental lexing and edit-time layout; avoid full string materialization on edits and add horizontal virtualization for very long lines",
+        "Avoid full string/line-index materialization on edits; horizontal virtualization for very long lines and full incremental layout",
         "Multiple cursors, folding, completion, diagnostics and language server integration",
-        "Other language lexers, replace-all, native IME and complex shaping"
+        "Other language lexers, replace-all, complex shaping and native IME input-source acceptance across platforms"
       ],
       "evidence": [
         "omniui/baseui/rewrite_controls_test.go",

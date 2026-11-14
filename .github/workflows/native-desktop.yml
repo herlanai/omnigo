@@ -104,3 +104,27 @@ jobs:
           name: webview2-native-results
           path: webview2-results.txt
           if-no-files-found: error
+  appkit-input-accessibility:
+    name: AppKit text and accessibility protocols
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Exercise real AppKit text and accessibility objects
+        shell: bash
+        env:
+          CGO_ENABLED: '0'
+        run: |
+          set -euo pipefail
+          go env GOHOSTOS GOHOSTARCH
+          go run ./examples/studio/cmd/inputcheck 2>&1 | tee appkit-input-results.txt
+          grep -q '^PASS: AppKit marked text' appkit-input-results.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: appkit-input-accessibility-results
+          path: appkit-input-results.txt
+          if-no-files-found: error

@@ -122,3 +122,33 @@ and trusted grants. `new NativeTransport()` chooses the available native bridge;
 identity. Assets, events and streams still use HTTP. Linux currently has no native
 Transport. Payload bounds are 1 MiB per request, 64 calls per batch and 4 MiB per
 reply. No latency or memory improvement is claimed without equivalent benchmarks.
+
+
+## macOS native input and accessibility
+
+The Go canvas implements Apple's NSTextInputClient protocol. Keyboard text is
+routed through interpretKeyEvents and an explicitly owned NSTextInputContext; marked text is kept separate from committed
+content and reported as a virtual UTF-16 document. Native queries include marked
+and selected ranges, attributed substrings, screen insertion rectangles and point
+hit testing. Commit is one undoable edit. Focus transitions and key-window loss
+clear the input context; drawing uses the same virtual composition and selection.
+
+Each semantic control has a stable NSAccessibilityElement proxy, with role,
+label, value, enabled/selected state, screen frame and parent/children links.
+Actions dispatch directly on the UI thread through Surface control operations;
+disabled/read-only/removed objects reject mutations. Text UTF-16 selection and
+slider ranges are exposed. Layout, value, focus and text-selection notifications
+are sent through NSAccessibilityPostNotification. Proxies retained by the OS after
+window closure become inert.
+
+Run `CGO_ENABLED=0 go run ./examples/studio/cmd/inputcheck` on the process main
+thread. This opens a real AppKit window and exercises native selectors, Unicode
+composition, candidate geometry, commit/undo, AX roles/actions/text selection and
+stale-object cleanup. It also routes a real NSEvent through the input context and
+checks AppKit's unignored accessibility-child traversal. The local macOS arm64 probe passed. It does not activate
+VoiceOver or request accessibility trust, and does not substitute for human
+VoiceOver reading, an input-source matrix or native Intel acceptance. Windows
+UIA and Linux AT-SPI adapters are not implemented here.
+
+Protocol references: [NSTextInputClient](https://developer.apple.com/documentation/appkit/nstextinputclient)
+and [Apple accessibility integration](https://developer.apple.com/documentation/accessibility/integrating-accessibility-into-your-app).

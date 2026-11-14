@@ -6,7 +6,7 @@
 
 ## 已实现的运行链路
 
-Go 构造 Element → Mount 校验并快照 → Row/Column 布局 → 指针/键盘命中与焦点 → 控件状态/回调 → Go CPU 绘制。`Surface.Accessibility()` 输出角色、名称、值、几何与状态，供未来平台无障碍适配器使用；目前尚未接入系统屏幕阅读器。
+Go 构造 Element → Mount 校验并快照 → Row/Column 布局 → 指针/键盘命中与焦点 → 控件状态/回调 → Go CPU 绘制。`Surface.Accessibility()` 输出角色、名称、值、几何与状态，供平台无障碍适配器使用；macOS 宿主已接入 NSAccessibility 对象、操作和通知，VoiceOver 人工验收与其他平台适配仍待完成。
 
 ```go
 import "github.com/herlanai/omnigo/omniui/baseui"
@@ -236,3 +236,37 @@ Studio 采用参考的 1040×840 逻辑画布、32 外边距、24 主间距，�
 此前“默认只支持 Latin、必须提供自定义 face 才能显示中文”的说明由此更新。缺少候选字体的机器仍需安装字体或提供自定义 face；这不是完整的系统字体发现、字重匹配、Unicode bidi 或复杂文字整形。macOS 已测试简繁中文、日文字形及 1×/2× 字号；Windows/Linux 候选路径尚待原生机器验证。
 
 Markdown 共享的 `RichTextOptions` 新增 `LineHeight`（字号倍率）、`Align`（逐行左/中/右对齐）、`NoWrap`（为横向滚动测量完整行宽）及 `PreserveWhitespace`（保留代码缩进）。布局、绘制及链接指针命中使用相同的对齐后坐标，默认行为保持不变。
+
+
+## 原生文本与增量状态（2026-11-14）
+
+macOS Go 内容窗口通过 `NSTextInputClient` 处理 marked text、UTF-16 范围、提交、
+取消和候选框坐标。`Surface.NativeText`、`EditNativeText`、`NativeTextRect` 与
+`NativeTextIndex` 供 UI 线程上的原生宿主使用；普通应用仍使用 Input/Textarea。
+输入法草稿是虚拟文档的一部分，提交前不进入文本缓冲和撤销历史。
+
+`Surface.Accessibility` 的父节点与能力信息映射到 macOS 原生对象；按钮操作、
+滑块调整、文本赋值/选择遵循现有控件校验。对象 ID 在挂载之间稳定，卸载后操作
+失效。原生协议探针见 `examples/studio/cmd/inputcheck`。这不代表所有控件已通过
+人工 VoiceOver 导航、朗读和通知验收，Windows UIA/Linux AT-SPI 不在此实现内。
+
+CodeEditor 对 Go 代码维护逐行词法状态，编辑只重新分析受影响区域，跨行注释与
+原始字符串状态收敛后复用后缀。修改时仍拆分/复制行索引，最坏情况下仍需分析
+整个后缀；不是常数时间编辑，也不含语言服务器。
+
+树形控件可显式启用缓存：
+
+```go
+options := ui.OutlineOptions[string]{
+    Incremental: true, Revision: modelVersion,
+    ID: id, Label: label, Children: children,
+    RowHeight: 32, Height: 320,
+}
+// 修改某个节点的孩子顺序或内容后：
+state.Invalidate(parentKey)
+// 替换根集合后：提高 Revision，或调用 state.Invalidate()。
+```
+
+展开状态 `Open` 自动追踪。局部失效仅获取对应子树；普通重建复用现有索引。
+结构变化时仍复制扁平索引并验证唯一性，以保护旧挂载树的回调快照。
+不开启 Incremental 时保持原来的自动全量读取行为。

@@ -14,6 +14,8 @@ type OutlineState[K comparable] struct {
 	HasSelection bool
 	Scroll       ScrollState
 	search       typeSearch
+	index        *outlineIndex[K]
+	dirty        map[K]bool
 }
 type OutlineOptions[K comparable] struct {
 	// ID must return a nonempty, stable, unique identifier for each item.
@@ -28,6 +30,11 @@ type OutlineOptions[K comparable] struct {
 	// Custom cells must fit this height; zero preserves intrinsic layout.
 	RowHeight float64
 	Height    float64
+	// Incremental caches model traversal. Increment Revision whenever roots, IDs,
+	// children or disabled state change, or use state.Invalidate for local changes.
+	// Expansion in Open is tracked automatically.
+	Incremental bool
+	Revision    uint64
 }
 
 // OutlineColumn builds a cell using the supplied unique element ID. Width zero
@@ -81,43 +88,22 @@ func outlineView[K comparable](id string, state *OutlineState[K], roots []K, o O
 	if o.Indent == 0 {
 		o.Indent = 18
 	}
-	rows := []outlineEntry[K]{}
-	seen := map[K]bool{}
-	ids := map[string]bool{}
-	var visit func([]K, int, int, bool)
-	visit = func(items []K, parent, depth int, disabled bool) {
-		if depth > 64 {
-			panic("baseui: outline depth exceeds 64")
-		}
-		for _, key := range items {
-			itemID := o.ID(key)
-			if seen[key] || itemID == "" || ids[itemID] || len(rows) >= 100000 {
-				panic("baseui: duplicate/cyclic outline or row budget exceeded")
-			}
-			seen[key], ids[itemID] = true, true
-			children := append([]K(nil), o.Children(key)...)
-			off := disabled || (o.Disabled != nil && o.Disabled(key))
-			index := len(rows)
-			rows = append(rows, outlineEntry[K]{key, itemID, parent, depth, len(children) > 0, off})
-			if state.Open[key] {
-				visit(children, index, depth+1, off)
-			}
-		}
-	}
-	visit(roots, -1, 0, false)
-	options := make([]Option, len(rows))
-	for i, row := range rows {
-		options[i] = Option{ID: row.id, Disabled: row.disabled}
-	}
+	rows := state.indexRows(roots, o)
+	var options []Option
 	labelsReady := false
-	fillLabels := func() {
-		if labelsReady {
-			return
+	fillOptions := func(labels bool) {
+		if options == nil {
+			options = make([]Option, len(rows))
+			for i, row := range rows {
+				options[i] = Option{ID: row.id, Disabled: row.disabled}
+			}
 		}
-		for i, row := range rows {
-			options[i].Label = o.Label(row.key)
+		if labels && !labelsReady {
+			for i, row := range rows {
+				options[i].Label = o.Label(row.key)
+			}
+			labelsReady = true
 		}
-		labelsReady = true
 	}
 	rowID := func(i int) string { return id + "/item/" + rows[i].id + "/select" }
 	selectKey := func(key K) {
@@ -178,6 +164,7 @@ func outlineView[K comparable](id string, state *OutlineState[K], roots []K, o O
 			target := -1
 			switch key {
 			case "Up", "Down", "Home", "End":
+				fillOptions(false)
 				target = optionKey(ev, i, options)
 			case "Right":
 				if row.branch {
@@ -209,7 +196,7 @@ func outlineView[K comparable](id string, state *OutlineState[K], roots []K, o O
 			return true
 		}
 		item.onText = func(text string, now time.Duration) string {
-			fillLabels()
+			fillOptions(true)
 			target := state.search.find(text, now, i, options)
 			if target >= 0 {
 				reveal(target)
