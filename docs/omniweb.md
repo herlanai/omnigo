@@ -9,7 +9,7 @@ OmniWeb 是 OmniGo 的 Web UI 协议。OmniUI 保持统一的控件、主题与�
 默认栈是 **TanStack Start + React + TypeScript + shadcn 配置 + Tailwind CSS**。Start 采用 SPA 模式生成 `ui/dist/client/index.html`；Go 只托管 client 目录，业务逻辑由 Go 执行，生产运行不启动 Node 服务。
 
 ```sh
-go run ./cmd/omni init \
+go run ./cmd/omni init --template browser \
   --framework "$PWD" \
   --module example.com/myapp \
   /tmp/my-omniweb-app
@@ -19,7 +19,7 @@ npm run build:web
 npm start
 ```
 
-打开 `http://127.0.0.1:7331`。当前这是浏览器宿主，不是原生桌面窗口。目标路径必须不存在；CLI 不覆盖已有项目。`--framework` 是本地替换路径，发布前不能省略。
+打开 `http://127.0.0.1:7331`。当前这是浏览器宿主，不是原生桌面窗口。目标路径必须为空或不存在；CLI 不覆盖已有项目。`--framework` 是本地替换路径，发布前不能省略。
 
 开发时分别执行 `npm run dev:host` 和 `npm run dev:web`，访问 `http://127.0.0.1:5173`。Vite 将 `/omniweb/` 代理到 Go，浏览器仍使用同源请求。默认没有时钟或状态轮询。
 

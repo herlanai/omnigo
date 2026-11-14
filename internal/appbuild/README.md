@@ -27,7 +27,7 @@ replacement atomicity follows the host filesystem/OS guarantees. Preparation
 commands are not transactional. Concurrent builds are not serialized.
 
 This command produces an executable, not a complete app bundle or installer.
-Generic dev/package/sign/notarize commands remain pending. Cross-building does
+Use the dev and macOS package commands described below; Developer ID signing and notarization remain pending. Cross-building does
 not validate native platform support or supply WebView runtimes.
 
 ## macOS app and DMG
@@ -88,3 +88,5 @@ preservation. Detached child sessions and preparation-command descendants are no
 managed by this process-group implementation. Windows dev is explicitly rejected
 until Job Object ownership and cleanup are implemented. Dev requires a host-native
 target; build may still cross-compile.
+
+Project templates and toolchain-aware doctor: [getting started](../../docs/getting-started.md). Current capabilities: [status](../../docs/status.md).

@@ -1,4 +1,4 @@
-// Package scaffold creates the default TanStack Start + shadcn Web UI project.
+// Package scaffold creates standalone Go, WebView and browser projects.
 package scaffold
 
 import (
@@ -32,7 +32,18 @@ func validateModule(name string) error {
 	return nil
 }
 
-func Create(destination, module, framework string) (result error) {
+// Create preserves the original browser scaffold for existing internal callers.
+func Create(destination, module, framework string) error {
+	return CreateProject(destination, module, framework, "browser", "My App", "com.example.myapp")
+}
+
+func CreateProject(destination, module, framework, kind, name, bundleID string) (result error) {
+	if kind != "go" && kind != "webview" && kind != "browser" {
+		return errors.New("scaffold: template must be go, webview or browser")
+	}
+	if err := validateIdentity(name, bundleID); err != nil {
+		return err
+	}
 	if err := validateModule(module); err != nil {
 		return err
 	}
@@ -93,25 +104,37 @@ func Create(destination, module, framework string) (result error) {
 		return errors.Join(writeErr, file.Close())
 	}
 
-	err = fs.WalkDir(templates, "template", func(path string, d fs.DirEntry, err error) error {
+	if kind == "browser" {
+		err = fs.WalkDir(templates, "template", func(path string, d fs.DirEntry, err error) error {
+			if err != nil {
+				return err
+			}
+			if d.IsDir() || path == "template/.gitignore" {
+				return nil
+			}
+			data, err := templates.ReadFile(path)
+			if err != nil {
+				return err
+			}
+			name := strings.TrimSuffix(strings.TrimPrefix(path, "template/"), ".tmpl")
+			return write(name, data)
+		})
 		if err != nil {
-			return err
+			return fmt.Errorf("scaffold: partial project retained at %s: %w", destination, err)
 		}
-		if d.IsDir() {
-			return nil
+		if err := write("ui/src/lib/omniweb.ts", []byte(client.TypeScript)); err != nil {
+			return fmt.Errorf("scaffold: partial project retained at %s: %w", destination, err)
 		}
-		data, err := templates.ReadFile(path)
-		if err != nil {
-			return err
+	} else {
+		if err := writeDesktop(write, kind, name); err != nil {
+			return fmt.Errorf("scaffold: partial project retained at %s: %w", destination, err)
 		}
-		name := strings.TrimSuffix(strings.TrimPrefix(path, "template/"), ".tmpl")
-		return write(name, data)
-	})
-	if err != nil {
-		return fmt.Errorf("scaffold: partial project retained at %s: %w", destination, err)
 	}
-	if err := write("ui/src/lib/omniweb.ts", []byte(client.TypeScript)); err != nil {
-		return fmt.Errorf("scaffold: partial project retained at %s: %w", destination, err)
+	if err := writeConfig(write, kind, name, bundleID); err != nil {
+		return err
+	}
+	if err := write(".gitignore", []byte("/build/\n/releases/\n/node_modules/\n/ui/node_modules/\n/ui/dist/\n/ui/.tanstack/\n/ui/.output/\n")); err != nil {
+		return err
 	}
 	if err := write("go.mod", []byte(fmt.Sprintf("module %s\n\ngo 1.26.0\n\nrequire github.com/herlanai/omnigo v0.0.0\n\nreplace github.com/herlanai/omnigo => %s\n", module, strconv.Quote(filepath.ToSlash(framework))))); err != nil {
 		return fmt.Errorf("scaffold: partial project retained at %s: %w", destination, err)

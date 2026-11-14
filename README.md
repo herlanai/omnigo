@@ -112,18 +112,13 @@ Building the CEF host requires CMake and a native C++ toolchain. Ordinary Go tar
 | **Embedded WebView** | `omniwindow/host.WebViewOptions` | Place a real WKWebView inside a Go layout. |
 | **Standalone Web app** | OmniWeb project template | Combine TanStack Start, React, and TypeScript with Go services. |
 
-The Web template currently generates a browser application. Native window support and the Web protocol evolve independently. See the [OmniWeb guide](docs/omniweb.md).
+The browser template generates a browser application; the go and webview templates generate desktop applications. Native window support and the Web protocol evolve independently. See the [OmniWeb guide](docs/omniweb.md).
 
 ## Platform support
 
-| Platform | Go target builds | Native runtime status |
-| --- | --- | --- |
-| macOS arm64 | `CGO_ENABLED=0` | AppKit, WKWebView, and Studio have native validation; developer preview. |
-| macOS amd64 | `CGO_ENABLED=0` | Cocoa host implemented; Intel hardware validation pending. |
-| Windows amd64 / arm64 | `CGO_ENABLED=0` | Optional experimental Win32 software windows; Studio host unavailable. |
-| Linux amd64 / arm64 | `CGO_ENABLED=0` | Optional experimental X11 software windows; Studio host unavailable. |
-
-Cross-compilation does not establish native compatibility. Full IME support, system accessibility, complex text shaping, and a unified multi-window API remain in progress. Go controls primarily use CPU rendering; GPU support is partial and experimental.
+See the [current capability matrix](docs/status.md) for platform, control, transport,
+packaging and validation status. This is the single current summary; historical
+migration records do not override it. Start a project with the [application guide](docs/getting-started.md).
 
 ## Project layout
 

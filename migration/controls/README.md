@@ -1,5 +1,8 @@
 # Go 控件完整重写审计
 
+> 本文保留按日期的历史过程与证据；旧条目中的“当前/尚未”仅指当批次。最新能力以 [当前状态](../../docs/status.md) 为准，历史缺口的关闭需要后续证据。
+
+
 ## Terminal 演示对齐（2026-11-12）
 
 只读核对 `backend/examples/studio/ai_patterns.go` 与 `backend/ui/forma/{ai_trace,code_block,code_block_icons}.go`。演示改用相同的 `go test ./...` 命令、成功退出状态和两行 `ok  example/backend` / `ok  example/ui` 输出，删除原有额外四态切换栏。控件改为无外层卡片的折叠轨迹、普通状态文字、24 DIP 输出缩进、灰底轻边框输出块、12 DIP 标题与正文、19.5 DIP 行距和图形复制按钮。保留取消、禁用/只读、原字节复制、双轴滚动与跟随行为。

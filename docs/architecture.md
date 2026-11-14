@@ -38,7 +38,7 @@ flowchart TD
     Web[omniweb] --> RPC[internal/runtime/rpc]
 ```
 
-Cocoa 宿主已迁入公开的 `omniwindow/host`，不再反向依赖 Studio。Studio 通过根包 `omnigo.New`、`omnigo.Bind`、`app.ConfigureMainWindow` 和 `app.Run` 启动；资源服务器复用 OmniWeb，扩展生命周期复用 `lifecycle.Manager`。窗口工厂只提供 Go 控件内容与应用回调。Windows/Linux 的软件驱动仍在 `omniwindow/nativewindow`，当前 `host` 的 WebKit 宿主不支持这两个平台；跨编译不代表实机验收。
+Cocoa 宿主已迁入公开的 `omniwindow/host`，不再反向依赖 Studio。Studio 通过根包 `omnigo.New`、`omnigo.Bind`、`app.ConfigureMainWindow` 和 `app.Run` 启动；资源服务器复用 OmniWeb，扩展生命周期复用 `lifecycle.Manager`。窗口工厂只提供 Go 控件内容与应用回调。Windows/Linux 的软件驱动仍在 `omniwindow/nativewindow`，`host` 已有可选 WebView2 和 GTK4/WebKitGTK6 Web 主窗口后端，Go 内容窗口与平台服务仍有缺口。具体支持和证据统一见 [当前状态](status.md)；跨编译不代表实机验收。
 
 ## 已合并的实现
 

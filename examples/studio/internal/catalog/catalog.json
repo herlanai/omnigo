@@ -1425,7 +1425,7 @@
     "kind": "control",
     "reference": "backend/ui/outline.go",
     "remaining": [
-      "Incremental flattened indexing, variable row heights and insertion scroll anchoring",
+      "Variable row heights, insertion scroll anchoring and avoiding full flattened-array copies during structural updates",
       "Multi-selection, drag reorder and recursive Alt expansion",
       "Custom prefix/row rendering and native accessibility"
     ],
@@ -1446,7 +1446,7 @@
     "kind": "control",
     "reference": "backend/ui/outline.go",
     "remaining": [
-      "Incremental flattened indexing, variable row heights and insertion scroll anchoring",
+      "Variable row heights, insertion scroll anchoring and avoiding full flattened-array copies during structural updates",
       "Column sorting/resizing/reordering and cell selection",
       "Multi-selection, drag reorder and native accessibility"
     ],
@@ -1552,9 +1552,9 @@
     "kind": "control",
     "reference": "backend/ui/editor",
     "remaining": [
-      "Incremental text storage and viewport-only shaping for large files",
+      "Avoid full string/line-index materialization on edits; horizontal virtualization for very long lines and full incremental layout",
       "Multiple cursors, folding, completion, diagnostics and language server integration",
-      "Other language lexers, replace-all, native IME and complex shaping"
+      "Other language lexers, replace-all, complex shaping and native IME input-source acceptance across platforms"
     ],
     "status": "partial",
     "symbol": "CodeEditor",

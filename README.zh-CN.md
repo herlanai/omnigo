@@ -112,18 +112,12 @@ CEF 宿主构建需要 CMake 和原生 C++ 工具链。普通 Go 目标支持 `C
 | **内嵌 WebView** | `omniwindow/host.WebViewOptions` | 在 Go 布局中展示真实 WKWebView。 |
 | **独立 Web 应用** | OmniWeb 项目模板 | TanStack Start、React、TypeScript 与 Go 服务组合。 |
 
-Web 模板当前生成浏览器应用。原生窗口能力与 Web 协议分别演进，详见 [OmniWeb 指南](docs/omniweb.md)。
+browser 模板生成浏览器应用；go 和 webview 模板生成桌面应用。原生窗口能力与 Web 协议分别演进，详见 [OmniWeb 指南](docs/omniweb.md)。
 
 ## 平台支持
 
-| 平台 | Go 目标构建 | 原生运行状态 |
-| --- | --- | --- |
-| macOS arm64 | `CGO_ENABLED=0` | AppKit、WKWebView 及 Studio 有原生验证，仍处于开发预览。 |
-| macOS amd64 | `CGO_ENABLED=0` | 已接入 Cocoa 宿主；待 Intel 实机验收。 |
-| Windows amd64 / arm64 | `CGO_ENABLED=0` | 可选实验性 Win32 软件窗口；Studio 宿主尚未接入。 |
-| Linux amd64 / arm64 | `CGO_ENABLED=0` | 可选实验性 X11 软件窗口；Studio 宿主尚未接入。 |
-
-跨平台编译不等于原生兼容性验收。完整 IME、系统无障碍、复杂文字整形及统一多窗口 API 仍在完善中。Go 控件当前以 CPU 渲染为主，GPU 支持处于局部实验阶段。
+平台、控件、Transport、打包和验收状态统一见 [当前能力矩阵](docs/status.md)。
+历史迁移记录不覆盖当前状态。创建应用请从 [应用开发指南](docs/getting-started.md) 开始。
 
 ## 项目结构
 

@@ -1,0 +1,89 @@
+name: Framework checks
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  core:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Download dependencies for offline external module tests
+        run: go mod download
+      - name: Tests, vet, race, SDK, external projects and ten build targets
+        shell: bash
+        run: |
+          set -euo pipefail
+          sh scripts/check.sh 2>&1 | tee framework-checks.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: framework-checks
+          path: framework-checks.log
+          if-no-files-found: error
+  browser-project:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Build independent browser project and validate served assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          go build -o "$RUNNER_TEMP/omni" ./cmd/omni
+          "$RUNNER_TEMP/omni" init --template browser --framework "$PWD" --module example.com/browser "$RUNNER_TEMP/browser"
+          cd "$RUNNER_TEMP/browser"
+          go mod tidy
+          npm --prefix ui ci
+          "$RUNNER_TEMP/omni" doctor
+          "$RUNNER_TEMP/omni" build
+          node "$GITHUB_WORKSPACE/scripts/ci/browser_project.mjs" "$PWD"
+  desktop-projects:
+    runs-on: macos-15
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        template: [go, webview]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Create, build, sign and package independent desktop application
+        shell: bash
+        run: |
+          set -euo pipefail
+          go build -o "$RUNNER_TEMP/omni" ./cmd/omni
+          "$RUNNER_TEMP/omni" init --template '${{ matrix.template }}' --name 'Starter Probe' --id com.example.starterprobe --framework "$PWD" --module example.com/starter "$RUNNER_TEMP/starter"
+          cd "$RUNNER_TEMP/starter"
+          go mod tidy
+          "$RUNNER_TEMP/omni" doctor
+          "$RUNNER_TEMP/omni" package
+          codesign --verify --strict 'releases/0.1.0/Starter Probe.app'
+          hdiutil verify 'releases/0.1.0/Starter Probe-darwin-arm64.dmg'
+          swiftc "$GITHUB_WORKSPACE/scripts/ci/visible_window.swift" -o "$RUNNER_TEMP/visible-window"
+          python3 "$GITHUB_WORKSPACE/scripts/ci/desktop_project.py" "$PWD" "$RUNNER_TEMP/visible-window" '${{ matrix.template }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: starter-${{ matrix.template }}-darwin-arm64
+          path: ${{ runner.temp }}/starter/releases/0.1.0
+          if-no-files-found: error

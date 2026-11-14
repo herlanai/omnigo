@@ -24,7 +24,7 @@ func Platform(goos, goarch string) PlatformSupport {
 		p.WebView = "experimental-wkwebview"
 		p.Evidence = "Cross-build only; native Intel machine not yet verified"
 		if goarch == "arm64" {
-			p.Evidence = "AppKit titlebar and WKWebView native probes; full IME/accessibility still incomplete"
+			p.Evidence = "AppKit/WKWebView/native RPC and NSTextInputClient/NSAccessibility probes passed on arm64; manual VoiceOver and full input-source coverage pending"
 		}
 	case "windows", "linux":
 		p.CoreBuild = true
@@ -32,7 +32,7 @@ func Platform(goos, goarch string) PlatformSupport {
 		if goos == "linux" {
 			p.NativeWindow = "experimental-x11-software"
 		}
-		p.Evidence = "Optional omniwindow/nativewindow driver; cross-build only, no native runtime verification. Studio WebView host unavailable"
+		p.Evidence = "Optional omniwindow/nativewindow driver; cross-build only, no native runtime verification. Web main-window backend disabled in this build; opt in with omnigo_webview2 (Windows) or omnigo_webkitgtk (Linux)"
 		if goos == "windows" && experimentalWebView2 {
 			p.WebView = "experimental-webview2"
 			p.Evidence = "Opt-in Win32/WebView2 main window and native RPC; matching loader/runtime required; native Windows verification pending"

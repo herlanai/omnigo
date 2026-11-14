@@ -19,7 +19,7 @@ Commands:
   package    Build a macOS app and DMG into a new release directory
   build      Build an application executable from omnigo.json
   generate   Generate unary RPC TypeScript contracts from an application
-  init       Create an OmniWeb application from the current template
+  init       Create a Go desktop, WebView desktop or browser application
   doctor     Inspect development tools and platform capabilities
   keygen     Generate an Ed25519 update-signing key pair
   i18n check Check application message catalogs
@@ -27,12 +27,13 @@ Commands:
   help       Show this help or a command's flags
 
 Examples:
+  omni init --template go --framework /path/to/omnigo ./my-app
   omni help init
   omni doctor --check --json
   omni i18n check --json ./my-app
 
 Windows dev, complete typed-client generation and release publishing are not
-implemented by this CLI yet. See migration/README.md for remaining parity work.
+implemented by this CLI yet. See docs/status.md for current capabilities.
 `
 
 // Release builds may supply -ldflags '-X main.version=vX.Y.Z'. Otherwise use

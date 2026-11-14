@@ -6,6 +6,8 @@ import (
 	"encoding/json"
 	"errors"
 	"io/fs"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -95,7 +97,7 @@ func TestDoctorDefaultChecksToolsAndSupportsAllTargets(t *testing.T) {
 	if err := doctorTo(nil, &out, healthyProbe()); err != nil {
 		t.Fatal(err)
 	}
-	if !strings.Contains(out.String(), "[pass] go:") || !strings.Contains(out.String(), "[pass] node:") {
+	if !strings.Contains(out.String(), "[pass] go:") || strings.Contains(out.String(), "[pass] node:") {
 		t.Fatal(out.String())
 	}
 	out.Reset()
@@ -197,5 +199,40 @@ func TestDoctorWebKitLibrariesAreOptionalAndExact(t *testing.T) {
 		if found != 2 {
 			t.Fatal("missing WebKit diagnostics")
 		}
+	}
+}
+
+func TestGoProfileDoesNotRequireNode(t *testing.T) {
+	p := fixtureProbe(map[string]string{"go": "go version go1.26.0 darwin/arm64"})
+	for _, profile := range []string{"go", "web", "studio"} {
+		report := inspectEnvironmentProfile(t.Context(), "darwin", "arm64", p, profile)
+		if report.Ready != (profile == "go") {
+			t.Fatal(profile, report)
+		}
+	}
+}
+
+func TestDoctorSelectsProjectToolchain(t *testing.T) {
+	for _, profile := range []string{"go", "web", "studio", "invalid"} {
+		path := filepath.Join(t.TempDir(), "omnigo.json")
+		if err := os.WriteFile(path, []byte(`{"toolchain":"`+profile+`"}`), 0600); err != nil {
+			t.Fatal(err)
+		}
+		got, err := environmentProfile("auto", path)
+		if profile == "invalid" {
+			if err == nil {
+				t.Fatal("invalid toolchain accepted")
+			}
+			continue
+		}
+		if err != nil || got != profile {
+			t.Fatal(got, err)
+		}
+	}
+	if _, err := environmentProfile("auto", filepath.Join(t.TempDir(), "missing.json")); err == nil {
+		t.Fatal("explicit missing config ignored")
+	}
+	if got, err := environmentProfile("go", "missing.json"); err != nil || got != "go" {
+		t.Fatal(got, err)
 	}
 }

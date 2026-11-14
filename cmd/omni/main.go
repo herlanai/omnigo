@@ -79,16 +79,19 @@ func runTo(args []string, output io.Writer) error {
 	flags := flag.NewFlagSet("init", flag.ContinueOnError)
 	framework := flags.String("framework", "", "local OmniGo checkout")
 	module := flags.String("module", "example.com/apps", "new Go module path")
+	kind := flags.String("template", "go", "project template: go, webview, browser")
+	name := flags.String("name", "My App", "desktop application display name")
+	bundleID := flags.String("id", "com.example.myapp", "macOS bundle identifier")
 	if err := parseFlags(flags, args[1:], output); err != nil {
 		return err
 	}
 	if flags.NArg() != 1 {
 		return fmt.Errorf("init requires exactly one new destination directory")
 	}
-	if err := scaffold.Create(flags.Arg(0), *module, *framework); err != nil {
+	if err := scaffold.CreateProject(flags.Arg(0), *module, *framework, *kind, *name, *bundleID); err != nil {
 		return err
 	}
-	_, err := fmt.Fprintf(output, "Created %s: OmniWeb + TanStack Start + shadcn (browser host; native WebView pending).\n", flags.Arg(0))
+	_, err := fmt.Fprintf(output, "Created %s (%s). Follow its README.md for doctor, dev, build and distribution.\n", flags.Arg(0), *kind)
 	if err != nil {
 		return fmt.Errorf("project created at %s, but status output failed: %w", flags.Arg(0), err)
 	}
@@ -102,6 +105,8 @@ func doctor(args []string) error {
 func doctorTo(args []string, output io.Writer, probe environmentProbe) error {
 	flags := flag.NewFlagSet("doctor", flag.ContinueOnError)
 	all := flags.Bool("all", false, "show six platform targets")
+	profile := flags.String("profile", "auto", "toolchain: auto (read config, otherwise go), go, web, studio")
+	config := flags.String("config", "omnigo.json", "project configuration for auto profile")
 	jsonOutput := flags.Bool("json", false, "machine-readable platform capabilities (with --check: environment report)")
 	check := flags.Bool("check", false, "check local development tools; default for human output without --all")
 	if err := parseFlags(flags, args, output); err != nil {
@@ -115,9 +120,12 @@ func doctorTo(args []string, output io.Writer, probe environmentProbe) error {
 		platforms = omniwindow.Platforms()
 	}
 	if *check || (!*jsonOutput && !*all) {
-		report := inspectEnvironment(context.Background(), runtime.GOOS, runtime.GOARCH, probe)
+		selected, err := environmentProfile(*profile, *config)
+		if err != nil {
+			return err
+		}
+		report := inspectEnvironmentProfile(context.Background(), runtime.GOOS, runtime.GOARCH, probe, selected)
 		report.Platforms = platforms
-		var err error
 		if *jsonOutput {
 			encoder := json.NewEncoder(output)
 			encoder.SetIndent("", "  ")
@@ -139,6 +147,9 @@ func doctorTo(args []string, output io.Writer, probe environmentProbe) error {
 		encoder := json.NewEncoder(output)
 		encoder.SetIndent("", "  ")
 		return encoder.Encode(platforms)
+	}
+	if _, err := fmt.Fprintln(output, "Current capability matrix: https://github.com/herlanai/omnigo/blob/main/docs/status.md"); err != nil {
+		return err
 	}
 	for _, p := range platforms {
 		if _, err := fmt.Fprintf(output, "%s/%s: core-build=%t native-window=%s webview=%s\n  %s\n", p.OS, p.Arch, p.CoreBuild, p.NativeWindow, p.WebView, p.Evidence); err != nil {

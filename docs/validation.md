@@ -1,5 +1,8 @@
 # 初始验证记录
 
+> 本文保留按日期的历史过程与证据；旧条目中的“当前/尚未”仅指当批次。最新能力以 [当前状态](status.md) 为准，历史缺口的关闭需要后续证据。
+
+
 日期：2026-11-11。环境：Apple M5，darwin/arm64，Go 1.26.2。
 
 本次使用 `GOCACHE=/tmp/omnigo-go-cache`，避免受限环境下默认缓存目录的写入限制。
@@ -121,3 +124,22 @@ updater race/子进程测试；没有新增 Windows/Linux 原生运行证据。
 - 新增 macOS 原生协议 CI job，尚无远程执行结果。本地没有开启 VoiceOver、
   请求系统辅助功能授权或遍历所有输入源；人工朗读/导航、Intel 实机和 Windows
   UIA/Linux AT-SPI 仍未验收。
+
+## P0 收敛验证（2026-11-14）
+
+- 当前状态汇总迁至 `docs/status.md`；首页、架构、CLI 和历史记录均指向该入口。
+- `sh scripts/check.sh` 通过，日志 `/tmp/omnigo-p0-check.log`：Go tests、vet、race、
+  40 个 SDK 测试、六个默认目标和四个可选 Web 后端构建。新增 scaffold 测试在
+  独立模块中 tidy 并以只读模块模式依据生成配置构建 Go/WebView 桌面项目。
+- 独立 Go/WebView 项目真实生成 ad-hoc 签名 .app 和含 Applications 快捷方式的 DMG，
+  codesign、Mach-O arm64 架构及 hdiutil 校验通过。复制至独立安装目录后从 `/`
+  启动，CoreGraphics 窗口列表确认两个可见窗口；WebView 嵌入页面请求通过。
+  同样的探针已保存为 `scripts/ci/desktop_project.py` 与 `visible_window.swift`。
+- 浏览器项目使用锁文件执行 npm ci，统一 CLI 完成 Vite、TypeScript 与 Go 构建；
+  `scripts/ci/browser_project.mjs` 验证真实 HTML、编译资源及标准 SDK 的 Unicode RPC。
+  Node 测试客户端显式设置浏览器同源 Origin；未设置时服务器正确返回 403。
+- 本地交付样本：`/tmp/omnigo-p0-go/releases/0.1.0`、
+  `/tmp/omnigo-p0-webview/releases/0.1.0`。源码保存在对应项目目录。
+- 新 CI 配置完成 YAML 解析；仓库尚未提交/推送执行，远程 CI 和分支保护未验收。
+  窗口探针不覆盖完整鼠标/键盘交互、人工读屏或公证发布；本次无 Windows/Linux
+  实机证据。项目自身许可证仍需所有者决定，没有代为选用开源授权条款。

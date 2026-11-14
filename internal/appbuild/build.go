@@ -14,13 +14,14 @@ import (
 )
 
 type Config struct {
-	Dev     *DevOptions   `json:"dev,omitempty"`
-	Package string        `json:"package"`
-	Output  string        `json:"output"`
-	GOOS    string        `json:"goos"`
-	GOARCH  string        `json:"goarch"`
-	Before  [][]string    `json:"before,omitempty"`
-	Bundle  *BundleConfig `json:"bundle,omitempty"`
+	Toolchain string        `json:"toolchain,omitempty"`
+	Dev       *DevOptions   `json:"dev,omitempty"`
+	Package   string        `json:"package"`
+	Output    string        `json:"output"`
+	GOOS      string        `json:"goos"`
+	GOARCH    string        `json:"goarch"`
+	Before    [][]string    `json:"before,omitempty"`
+	Bundle    *BundleConfig `json:"bundle,omitempty"`
 }
 
 type Runner func(context.Context, string, []string, []string, io.Writer) error
@@ -53,6 +54,9 @@ func Build(ctx context.Context, configPath string, output io.Writer, run Runner)
 	var extra any
 	if err = decoder.Decode(&extra); err != io.EOF {
 		return "", errors.New("appbuild: expected one JSON object")
+	}
+	if c.Toolchain != "" && c.Toolchain != "go" && c.Toolchain != "web" && c.Toolchain != "studio" {
+		return "", errors.New("appbuild: toolchain must be go, web or studio")
 	}
 	if c.Package == "" || strings.HasPrefix(c.Package, "-") || c.Output == "" {
 		return "", errors.New("appbuild: package and output are required")

@@ -203,7 +203,7 @@ See the [WebView demo](examples/studio/internal/demos/webview.go) and [window co
 From the repository root, generate a standalone Web project. The destination must not already exist:
 
 ```sh
-go run ./cmd/omni init --framework "$PWD" --module example.com/myapp /tmp/my-omniweb-app
+go run ./cmd/omni init --template browser --framework "$PWD" --module example.com/myapp /tmp/my-omniweb-app
 cd /tmp/my-omniweb-app
 npm --prefix ui ci
 npm run build:web

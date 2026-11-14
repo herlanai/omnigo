@@ -13,6 +13,8 @@ import (
 	"strings"
 	"time"
 
+	"encoding/json"
+	"github.com/herlanai/omnigo/internal/appbuild"
 	"github.com/herlanai/omnigo/omniwindow"
 )
 
@@ -85,6 +87,41 @@ func versionAtLeast(value string, major, minor int) bool {
 }
 
 func inspectEnvironment(ctx context.Context, goos, goarch string, probe environmentProbe) environmentReport {
+	return inspectEnvironmentProfile(ctx, goos, goarch, probe, "web")
+}
+
+func environmentProfile(profile, config string) (string, error) {
+	if profile == "auto" {
+		f, err := os.Open(config)
+		if os.IsNotExist(err) && config == "omnigo.json" {
+			return "go", nil
+		}
+		if err != nil {
+			return "", err
+		}
+		defer f.Close()
+		var c appbuild.Config
+		d := json.NewDecoder(io.LimitReader(f, 1<<20))
+		d.DisallowUnknownFields()
+		if err = d.Decode(&c); err != nil {
+			return "", err
+		}
+		var extra any
+		if err = d.Decode(&extra); err != io.EOF {
+			return "", errors.New("doctor: expected one configuration object")
+		}
+		profile = c.Toolchain
+		if profile == "" {
+			profile = "go"
+		}
+	}
+	if profile != "go" && profile != "web" && profile != "studio" {
+		return "", errors.New("doctor: profile must be auto, go, web or studio")
+	}
+	return profile, nil
+}
+
+func inspectEnvironmentProfile(ctx context.Context, goos, goarch string, probe environmentProbe, profile string) environmentReport {
 	report := environmentReport{Ready: true, Platforms: []omniwindow.PlatformSupport{omniwindow.Platform(goos, goarch)}}
 	add := func(name, status, detail string) {
 		report.Checks = append(report.Checks, environmentCheck{name, status, detail})
@@ -109,12 +146,18 @@ func inspectEnvironment(ctx context.Context, goos, goarch string, probe environm
 		add(name, "pass", output)
 	}
 	version("go", []string{"version"}, 1, 26)
-	version("node", []string{"--version"}, 24, 0)
-	npm := "npm"
-	if goos == "windows" {
-		npm = "npm.cmd"
+	if profile == "web" || profile == "studio" {
+		version("node", []string{"--version"}, 24, 0)
+		if profile == "studio" {
+			version("pnpm", []string{"--version"}, 10, 33)
+		} else {
+			npm := "npm"
+			if goos == "windows" {
+				npm = "npm.cmd"
+			}
+			version(npm, []string{"--version"}, 1, 0)
+		}
 	}
-	version(npm, []string{"--version"}, 1, 0)
 	optional := func(name, feature string) {
 		location, err := probe.lookup(name)
 		if err != nil {
@@ -123,8 +166,7 @@ func inspectEnvironment(ctx context.Context, goos, goarch string, probe environm
 		}
 		add(name, "pass", location+" (found on PATH; "+feature+" was not exercised)")
 	}
-	optional("bun", "alternate frontend workflows")
-	optional("pnpm", "the repository Studio workflow")
+
 	optional("makensis", "Windows installer packaging")
 	optional("gh", "GitHub release upload")
 	switch goos {
