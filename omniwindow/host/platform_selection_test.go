@@ -23,3 +23,21 @@ func TestDarwinArchitecturesSelectNativeHost(t *testing.T) {
 		}
 	}
 }
+
+func TestLinuxWebKitOptInSelectsRealHost(t *testing.T) {
+	for _, arch := range []string{"amd64", "arm64"} {
+		c := build.Default
+		c.GOOS = "linux"
+		c.GOARCH = arch
+		c.CgoEnabled = false
+		c.BuildTags = []string{"omnigo_webkitgtk"}
+		p, err := c.ImportDir(".", 0)
+		if err != nil {
+			t.Fatal(err)
+		}
+		files := strings.Join(p.GoFiles, " ")
+		if !strings.Contains(files, "webkit_linux.go") || strings.Contains(files, "unsupported.go") {
+			t.Fatalf("%s selected wrong host: %s", arch, files)
+		}
+	}
+}

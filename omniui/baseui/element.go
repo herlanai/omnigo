@@ -163,6 +163,7 @@ type Element struct {
 	paint                                                         func(*Painter, Rect)
 	onKey                                                         func(KeyEvent) bool
 	onSubmit                                                      func()
+	onBlur                                                        func()
 	animated                                                      bool
 }
 

@@ -108,9 +108,9 @@ func (s *Surface) syncHover() {
 		}
 		if !eligible {
 			if s.within(s.focus, e.id) {
-				s.focus = ""
+				s.changeFocus("")
 				if exists && !s.entries[anchor].disabled {
-					s.focus = e.anchor
+					s.changeFocus(e.anchor)
 				}
 			}
 			changed = changed || state.open
@@ -163,7 +163,7 @@ func (s *Surface) dismissHover() bool {
 		state := s.hoverStates[e.id]
 		if state != nil && (state.open || state.waiting) {
 			if s.within(s.focus, e.id) {
-				s.focus = e.anchor
+				s.changeFocus(e.anchor)
 			}
 			state.open = false
 			state.waiting = false

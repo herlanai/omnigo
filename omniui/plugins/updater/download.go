@@ -1,5 +1,6 @@
 // Package updater verifies signed releases and stages bounded downloads.
-// It never installs or relaunches an application without a host implementation.
+// Installation primitives require a host-owned helper and startup confirmation;
+// the package does not autonomously stop or relaunch an application.
 package updater
 
 import (

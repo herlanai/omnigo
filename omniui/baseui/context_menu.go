@@ -47,7 +47,7 @@ func (s *Surface) contextAt(x, y float64) error {
 			if item.disabled || item.element.readOnly {
 				return nil
 			}
-			s.focus = target
+			s.changeFocus(target)
 			return guarded(func() { item.element.onContext(x-item.bounds.X, y-item.bounds.Y, false) })
 		}
 		target = item.parent

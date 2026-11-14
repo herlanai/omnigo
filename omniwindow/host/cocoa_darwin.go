@@ -96,7 +96,7 @@ func runNative(ctx context.Context, options Options) error {
 		app.Send(sel("setApplicationIconImage:"), appIcon)
 		appIcon.Send(sel("release"))
 	}
-	h := &Controller{queue: dispatch.New(128), ctx: ctx}
+	h := &Controller{queue: dispatch.New(128), ctx: ctx, nativeExchange: options.NativeExchange}
 	h.screen = nativeScreen
 	h.newTray = newNativeTray
 	h.watchSystem = func(notify func(omniwindow.SystemEventKind)) (func(), error) { return watchNativeSystem(app, notify) }

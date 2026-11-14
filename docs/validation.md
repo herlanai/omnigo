@@ -57,3 +57,21 @@
 - 新增宿主关闭与后台提交竞争测试。最终完整 `scripts/check.sh` 的 Go tests、vet、race、SDK 测试和六目标 CGO=0 交叉编译通过。进程 SIGINT 退出成功；没有把交叉编译当作其他平台客户端实机验证。
 
 当前宿主为 Studio 内部实验实现，仅 macOS Apple Silicon 支持；固定尺寸 CPU 控件窗口、PNG 上传、无 Retina 绘制/系统 IME/原生无障碍/GPU。框架功能区仍是说明，待重写控件与插件仍不可演示。无性能领先或完整覆盖结论。
+
+## Windows/Linux 原生 CI 配置（2026-11-14）
+
+新增 `.github/workflows/native-desktop.yml`，在 Windows runner 与 Linux Xvfb 执行现有原生软件窗口和父子窗口测试。结果以 JSON artifact 保留，`scripts/ci/require_native_tests.py` 拒绝缺失/跳过/失败的必需测试。检查器的两个单元测试本地通过。
+
+工作流尚未在远程运行，不能计作 Windows/Linux 原生验收，更不代表 WebView2/WebKitGTK 已实现。完整升级边界见 `migration/wails-v3-upgrade.md`。
+
+## 更新器显式恢复验证（2026-11-14）
+
+新增持久事务日志、保存的发布签名、OS 进程锁及 RecoverInstallation。
+真实子进程安装后未确认即退出，父进程重新接管并分别确认/回滚通过；
+活跃所有者拒绝、签名损坏拒绝、备份篡改拒绝及 Close 后交接均通过。
+独立外部模块的签名安装 → Close → RecoverInstallation → Rollback 验证通过。
+最终 scripts/check.sh 通过，日志 /tmp/omnigo-recovery-final-check.log。
+
+仅为单文件可执行程序更新事务的显式恢复。Windows 锁实现有交叉构建证据，
+未执行 Windows 原生进程测试；目录 app 安装、进程退出等待、自动重启健康确认
+和断电持久性不在本轮验收范围内。日志不完整时保留文件并返回错误。

@@ -188,3 +188,13 @@ breadcrumb_test.go 同时验证控件几何与实际字形像素的纵向范围�
 - CompletionMenu：过滤、键盘候选选择、禁用项、rune 范围插入和编辑撤销；绑定文档快照，拒绝将过期候选应用到已修改文档。当前是可组合独立候选面板，语言服务、自动触发、光标锚定和 snippet 未实现。
 
 证据：`diff_view_test.go`、`editor_navigation_test.go`、Studio sweep；截图位于 `build/editor-controls-review`。三项状态保持 partial，不能据此宣称全部 golet 控件已经完整对齐。
+
+
+## 2026-11-14：差异视图、数值输入、树形视口与原生测量
+
+- DiffView 缓存统一视图行映射；分栏视图共享不可变行数组，文本修改/还原/撤销后重算。
+- NumberInput 修复 1e-14 等步长被固定 12 位舍入抹除，失焦恢复有效值草稿且不重复通知。保留已有输入精度语义，不复制 golet 对所有输入按步长精度舍入的行为；地区格式和原生 IME 失焦验收仍缺失。
+- TreeOutline / OutlineTable 新增 RowHeight / Height，显式启用固定行高视口。仅单元格构建虚拟化，展开层级索引仍为 O(N)。
+- framecheck 在进程主线程测 AppKit 复制与同步 display 提交。空闲采样工具为 scripts/measure/idle.py。真正屏幕呈现延迟和长期 RSS 尚未验收。
+
+回归见 alignment_regression_test.go；测量见 docs/performance.md。本轮不升级目录项为 complete。

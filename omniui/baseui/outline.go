@@ -2,6 +2,7 @@ package baseui
 
 import (
 	"fmt"
+	"math"
 	"time"
 )
 
@@ -23,6 +24,10 @@ type OutlineOptions[K comparable] struct {
 	OnSelect   func(K)
 	OnActivate func(K)
 	Indent     float64
+	// RowHeight enables fixed-height viewport virtualization when positive.
+	// Custom cells must fit this height; zero preserves intrinsic layout.
+	RowHeight float64
+	Height    float64
 }
 
 // OutlineColumn builds a cell using the supplied unique element ID. Width zero
@@ -47,7 +52,7 @@ func TreeOutline[K comparable](id string, state *OutlineState[K], roots []K, o O
 
 // OutlineTable renders a tree with a fixed header and arbitrary Go cell controls.
 // The first column contains disclosure and selection; subsequent cells are built
-// by the application. Column sorting/resizing and row virtualization are pending.
+// by the application. Column sorting/resizing are pending. RowHeight enables virtualization.
 func OutlineTable[K comparable](id string, state *OutlineState[K], roots []K, o OutlineOptions[K], columns []OutlineColumn[K]) *Element {
 	if len(columns) == 0 {
 		panic("baseui: outline table requires columns")
@@ -63,6 +68,12 @@ func OutlineTable[K comparable](id string, state *OutlineState[K], roots []K, o 
 func outlineView[K comparable](id string, state *OutlineState[K], roots []K, o OutlineOptions[K], columns []OutlineColumn[K]) *Element {
 	if state == nil || o.ID == nil || o.Label == nil || o.Children == nil || !finite(o.Indent) || o.Indent < 0 {
 		panic("baseui: invalid outline")
+	}
+	if !finite(o.RowHeight) || o.RowHeight < 0 || (o.RowHeight > 0 && o.RowHeight < 32) || !finite(o.Height) || o.Height < 0 || o.Height > 16384 || !finite(state.Scroll.Y) {
+		panic("baseui: invalid outline viewport")
+	}
+	if o.Height == 0 {
+		o.Height = 280
 	}
 	if state.Open == nil {
 		state.Open = make(map[K]bool)
@@ -112,8 +123,32 @@ func outlineView[K comparable](id string, state *OutlineState[K], roots []K, o O
 		}
 		return e.Grow(1)
 	}
-	elements := make([]*Element, 0, len(rows))
-	for i, row := range rows {
+	start, end := 0, len(rows)
+	stride := o.RowHeight + 2
+	reveal := func(i int) {
+		if o.RowHeight == 0 {
+			return
+		}
+		top := float64(i) * stride
+		if top < state.Scroll.Y {
+			state.Scroll.Y = top
+		}
+		if top+o.RowHeight > state.Scroll.Y+o.Height {
+			state.Scroll.Y = top + o.RowHeight - o.Height
+		}
+	}
+	if o.RowHeight > 0 {
+		total := math.Max(0, float64(len(rows))*stride-2)
+		state.Scroll.Y = math.Max(0, math.Min(state.Scroll.Y, total-o.Height))
+		start = max(0, int(state.Scroll.Y/stride)-2)
+		end = min(len(rows), int(math.Ceil((state.Scroll.Y+o.Height)/stride))+2)
+	}
+	elements := make([]*Element, 0, end-start+2)
+	if start > 0 {
+		elements = append(elements, Column(id+"/before").Height(float64(start)*stride-2))
+	}
+	for i := start; i < end; i++ {
+		row := rows[i]
 		prefix := id + "/item/" + row.id
 		item := Button(rowID(i), options[i].Label, func() { selectKey(row.key) }).Variant(Ghost).Grow(1).Height(32).Role("treeitem")
 		item.alignStart = true
@@ -156,6 +191,7 @@ func outlineView[K comparable](id string, state *OutlineState[K], roots []K, o O
 				return false
 			}
 			if target >= 0 {
+				reveal(target)
 				selectKey(rows[target].key)
 				ev.RequestFocus(rowID(target))
 			}
@@ -164,6 +200,7 @@ func outlineView[K comparable](id string, state *OutlineState[K], roots []K, o O
 		item.onText = func(text string, now time.Duration) string {
 			target := state.search.find(text, now, i, options)
 			if target >= 0 {
+				reveal(target)
 				selectKey(rows[target].key)
 				return rowID(target)
 			}
@@ -183,9 +220,15 @@ func outlineView[K comparable](id string, state *OutlineState[K], roots []K, o O
 		}
 		line := Row(prefix, cells...).Gap(8).Disabled(row.disabled).Role("row")
 		line.centerItems = true
+		if o.RowHeight > 0 {
+			line.Height(o.RowHeight)
+		}
 		elements = append(elements, line)
 	}
-	viewport := ScrollArea(id+"/rows", &state.Scroll, elements...).Height(280).Gap(2).Role("tree").Label("Outline")
+	if end < len(rows) {
+		elements = append(elements, Column(id+"/after").Height(float64(len(rows)-end)*stride-2))
+	}
+	viewport := ScrollArea(id+"/rows", &state.Scroll, elements...).Height(o.Height).Gap(2).Role("tree").Label("Outline")
 	viewport.skipTab = true
 	if len(columns) == 0 {
 		return Column(id, viewport).Gap(0)

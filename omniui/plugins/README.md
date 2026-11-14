@@ -19,7 +19,7 @@
 | sfsymbols | AppKit 系统符号转自有位图 | 完整样式/主题和实机验收 |
 | [sqlite](sqlite/README.md) | GORM 模型迁移、泛型 CRUD、分页筛选、事务、原生 SQL、Studio 交互演示 | 前端桥、完整选项/资源策略 |
 | terminal | macOS/Linux PTY、有限 VT 屏幕、颜色/光标/备用屏和原生输入视口 | 完整 VT、宽字符、选择/搜索/IME、Windows ConPTY |
-| updater | 签名清单、校验下载与失败清理 | 更新窗口、安装/回滚/重启和偏好 |
+| updater | 签名清单、校验下载、单文件安装/确认/回滚事务 | 更新窗口、app 目录安装、退出助手、重启确认、崩溃恢复和偏好 |
 | watch | 根目录隔离的轮询差分、重命名提示 | 原生监听、debounce、前端桥；瞬时变化可能漏报 |
 | websocket | 文本/二进制连接、协议协商、限额/取消 | 浏览器式发送队列、前端桥和页面生命周期 |
 

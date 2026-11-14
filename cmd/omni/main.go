@@ -31,7 +31,7 @@ func runTo(args []string, output io.Writer) error {
 			return &usageError{message: "usage: omni help [command]"}
 		}
 		switch args[1] {
-		case "init", "doctor", "keygen", "generate":
+		case "init", "doctor", "keygen", "generate", "build", "package", "dev":
 			if len(args) != 2 {
 				return &usageError{message: "unexpected help argument"}
 			}
@@ -59,6 +59,12 @@ func runTo(args []string, output io.Writer) error {
 		return err
 	case "i18n":
 		return checkI18n(args[1:], output)
+	case "dev":
+		return devApplication(args[1:], output)
+	case "package":
+		return packageApplication(args[1:], output)
+	case "build":
+		return buildApplication(args[1:], output)
 	case "generate":
 		return generate(args[1:], output)
 	case "keygen":

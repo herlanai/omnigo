@@ -1,0 +1,1 @@
+go1.26.2 darwin/arm64 samples=100 640x480 DIP 2x: submit p50=935.209µs p95=1.958042ms p99=3.154208ms

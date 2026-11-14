@@ -11,7 +11,7 @@ import (
 )
 
 func TestCLIHelpUsesOutputAndSucceedsWithoutDoingWork(t *testing.T) {
-	for _, args := range [][]string{{"help"}, {"-h"}, {"--help"}, {"help", "init"}, {"init", "-h"}, {"help", "doctor"}, {"doctor", "--help"}, {"help", "keygen"}, {"keygen", "-h"}, {"help", "i18n"}, {"help", "i18n", "check"}, {"i18n", "--help"}, {"i18n", "check", "-h"}, {"help", "version"}} {
+	for _, args := range [][]string{{"help"}, {"-h"}, {"--help"}, {"help", "build"}, {"build", "-h"}, {"help", "init"}, {"init", "-h"}, {"help", "doctor"}, {"doctor", "--help"}, {"help", "keygen"}, {"keygen", "-h"}, {"help", "i18n"}, {"help", "i18n", "check"}, {"i18n", "--help"}, {"i18n", "check", "-h"}, {"help", "version"}} {
 		var out, diagnostics bytes.Buffer
 		if code := cli(args, &out, &diagnostics); code != 0 || out.Len() == 0 || diagnostics.Len() != 0 {
 			t.Fatal(args, code, out.String(), diagnostics.String())
@@ -24,7 +24,7 @@ func TestCLIUnknownCommandAndFlagExitCodes(t *testing.T) {
 		args []string
 		code int
 	}{
-		{nil, 2}, {[]string{"not-a-command"}, 2}, {[]string{"help", "build"}, 2}, {[]string{"version", "extra"}, 2}, {[]string{"--help", "extra"}, 2},
+		{nil, 2}, {[]string{"not-a-command"}, 2}, {[]string{"help", "unknown"}, 2}, {[]string{"version", "extra"}, 2}, {[]string{"--help", "extra"}, 2},
 		{[]string{"doctor", "--unknown"}, 1}, {[]string{"keygen", "--unknown"}, 1}, {[]string{"i18n", "check", "--unknown"}, 1},
 	} {
 		var out, diagnostics bytes.Buffer

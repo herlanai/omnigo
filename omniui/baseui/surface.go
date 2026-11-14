@@ -664,11 +664,23 @@ func (s *Surface) Bounds(id string) (Rect, bool) {
 	return s.entries[i].bounds, true
 }
 func (s *Surface) Focused() string { return s.focus }
+func (s *Surface) changeFocus(id string) {
+	if s.focus == id {
+		return
+	}
+	if i, ok := s.index[s.focus]; ok {
+		e := s.entries[i].element
+		if e.onBlur != nil {
+			e.onBlur()
+		}
+	}
+	s.focus = id
+}
 func (s *Surface) Focus(id string) bool {
 	defer s.syncHover()
 	if i, ok := s.index[id]; ok && s.focusEligible(id) && interactive(s.entries[i].element) {
 		s.reveal(id)
-		s.focus = id
+		s.changeFocus(id)
 		if e := s.entries[i].element; e.nativeView != nil && !e.readOnly {
 			e.nativeView.view.Focus()
 		}
@@ -826,7 +838,7 @@ func (s *Surface) Pointer(ev PointerEvent) error {
 		}
 		s.pressed = target
 		if target != "" {
-			s.focus = target
+			s.changeFocus(target)
 		}
 		if i, ok := s.index[target]; ok {
 			item := s.entries[i]

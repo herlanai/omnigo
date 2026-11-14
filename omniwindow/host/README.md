@@ -69,3 +69,26 @@ The native probe covers the embedded host's installed delegate, input options,
 busy-sheet cancellation, repeated cancellation, and cleanup when the view closes.
 The interactive fixture verifies real FileList delivery and file reads; no file is
 sent to a remote service. This does not establish Windows/Linux WebView support.
+
+
+## Experimental Linux Web main window
+
+Build with `CGO_ENABLED=0 go build -tags omnigo_webkitgtk` to select the
+GTK4/WebKitGTK 6 backend on linux/amd64 or linux/arm64. It dynamically requires
+libgtk-4.so.1, libwebkitgtk-6.0.so.4, GLib and GObject, plus a usable desktop display.
+Missing libraries/symbols/display produce an error. The default Linux build still
+uses ErrUnsupported for this host; no silent fallback is performed.
+
+The current path creates one Web main window, loads the existing HTTP resource
+server, rejects cross-origin top-level navigation and new windows, dispatches
+worker requests and cleans up on context cancellation/window close. It uses the
+system titlebar. Custom titlebars, Go content factories, native menus, desktop
+service methods, explicit profile configuration and native message Transport
+are not implemented for this backend. It does not bundle WebKit or disable its
+sandbox. Native library handles remain loaded for process lifetime.
+
+`CGO_ENABLED=0 go run -tags omnigo_webkitgtk ./examples/webview-smoke` requires
+actual page JavaScript to complete a Unicode HTTP roundtrip before succeeding.
+The Linux CI job runs it under Xvfb and D-Bus; this is not Wayland acceptance.
+This backend has cross-build evidence only until that job or a desktop run is
+observed passing. Do not infer native success from this documentation.

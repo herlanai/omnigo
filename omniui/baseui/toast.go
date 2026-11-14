@@ -194,7 +194,7 @@ func (s *Surface) syncNotifications() {
 	if changed {
 		s.relayout()
 		if !s.focusEligible(s.focus) {
-			s.focus = ""
+			s.changeFocus("")
 		}
 	}
 }

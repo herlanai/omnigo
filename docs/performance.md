@@ -70,3 +70,14 @@ CGO_ENABLED=0 go test ./omniwindow/host -run '^$' -bench BenchmarkFramePipeline 
 ## 虚拟列表新增实现的规模检查
 
 `BenchmarkVirtualListMount` 包含 VirtualList 构建与 Surface.Mount，640×480 Surface、240 DIP 视口、48 DIP 行高、overscan=2，每个可见项包含选择按钮与文本。同一机器 Go 1.26.0 / Apple M2 Max / darwin arm64、CGO_ENABLED=0，3 次采样中位数：1,000 项 **70.766 µs / 72,843 B / 300 allocs**；1,000,000 项 **71.057 µs / 72,843 B / 300 allocs**。这说明该固定视口没有随总行数构建全部元素；不代表真实数据获取、可变行高或像素绘制性能。原始输出见 [虚拟列表记录](benchmarks/virtual-list-2026-11-11.txt)。
+
+
+## 2026-11-14：缓存与原生提交测量
+
+Apple M5 / darwin arm64 / Go 1.26.2，CGO_ENABLED=0。DiffView 预热后只测构建，不含 Mount、首次 diff、绘制：1,000 行与 100,000 行均约 9.4 KB、30 allocs/op，3 次样本见 [原始记录](benchmarks/alignment-diff-2026-11-14.txt)。与全量检查并行执行，耗时存在竞争，不声称相对 golet 的性能倍率。
+
+运行 CGO_ENABLED=0 go run ./examples/studio/cmd/framecheck，在主线程创建并关闭 AppKit 窗口；640×480 DIP、2×、100 次 image copy / setImage / displayIfNeeded 提交，P50 935 µs、P95 1.958 ms、P99 3.154 ms。见 [原生提交](benchmarks/native-submit-2026-11-14.txt)。不包含硬件输入、应用绘制和 compositor 呈现。首次 Go benchmark 线程被 AppKit 拒绝，已改用主线程命令。
+
+运行 python3 scripts/measure/idle.py PID 60 可采样 CPU/RSS；CPU 是系统平滑值，RSS 单位 KiB。30 秒样本不构成长期泄漏验收。真正输入到屏幕延迟仍需平台呈现时间戳或外部仪器验证。
+
+[30 秒原生计数器采样](benchmarks/native-idle-2026-11-14.csv)末段 CPU 0%，RSS 119200–129888 KiB；不代表长期稳定上界。

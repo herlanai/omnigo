@@ -46,15 +46,17 @@
       "implementation": "omniui/baseui/value_controls.go",
       "symbol": "NumberInput",
       "reference": "backend/ui",
-      "description": "Incomplete text, valid numeric updates, bounds and step buttons/keys. Remaining: Blur normalization, locale decimal syntax and exact reference formatting",
+      "description": "Incomplete drafts, bounded numeric updates, tiny steps and blur draft restoration; locale and exact reference formatting remain partial.",
       "implemented": [
-        "Incomplete text, valid numeric updates, bounds and step buttons/keys"
+        "Incomplete text, valid numeric updates, bounds and step buttons/keys",
+        "Blur draft restoration without duplicate notifications; tiny decimal stepping"
       ],
       "remaining": [
-        "Blur normalization, locale decimal syntax and exact reference formatting"
+        "Locale decimal syntax, exact reference formatting and native IME blur validation"
       ],
       "evidence": [
-        "omniui/baseui/ui_controls_test.go"
+        "omniui/baseui/ui_controls_test.go",
+        "omniui/baseui/alignment_regression_test.go"
       ]
     },
     {
@@ -333,13 +335,14 @@
       "implementation": "omniui/baseui/outline.go",
       "symbol": "TreeOutline",
       "reference": "backend/ui/outline.go",
-      "description": "通用键控树：业务键选择、展开折叠、键盘导航、typeahead 与禁用继承。",
+      "description": "通用键控树：业务键选择、展开折叠、键盘导航、typeahead 与禁用继承。 Explicit fixed RowHeight enables viewport-only cell construction; flattened indexing remains O(N).",
       "evidence": [
         "omniui/baseui/missing_controls_test.go",
-        "examples/studio/internal/demos/sweep_test.go"
+        "examples/studio/internal/demos/sweep_test.go",
+        "omniui/baseui/alignment_regression_test.go"
       ],
       "remaining": [
-        "Virtualization, variable row heights and scroll anchoring",
+        "Incremental flattened indexing, variable row heights and insertion scroll anchoring",
         "Multi-selection, drag reorder and recursive Alt expansion",
         "Custom prefix/row rendering and native accessibility"
       ]
@@ -351,13 +354,14 @@
       "implementation": "omniui/baseui/outline.go",
       "symbol": "OutlineTable",
       "reference": "backend/ui/outline.go",
-      "description": "树形表格：固定表头、业务键层级选择、自定义 Go 单元格与固定/弹性列宽。",
+      "description": "树形表格：固定表头、业务键层级选择、自定义 Go 单元格与固定/弹性列宽。 Explicit fixed RowHeight enables viewport-only cell construction; flattened indexing remains O(N).",
       "evidence": [
         "omniui/baseui/missing_controls_test.go",
-        "examples/studio/internal/demos/sweep_test.go"
+        "examples/studio/internal/demos/sweep_test.go",
+        "omniui/baseui/alignment_regression_test.go"
       ],
       "remaining": [
-        "Virtualization, variable row heights and scroll anchoring",
+        "Incremental flattened indexing, variable row heights and insertion scroll anchoring",
         "Column sorting/resizing/reordering and cell selection",
         "Multi-selection, drag reorder and native accessibility"
       ]
@@ -501,7 +505,7 @@
       "implementation": "omniui/baseui/diff_view.go",
       "symbol": "DiffView",
       "reference": "backend/ui/editor/diffview.go",
-      "description": "Go 原生逐行比较、统一/双栏视图、差异导航、逐块还原与撤销。",
+      "description": "Go 原生逐行比较、统一/双栏视图、差异导航、逐块还原与撤销。 Immutable split rows and cached unified mapping avoid full row copies on rebuild.",
       "remaining": [
         "Inline character highlighting, syntax highlighting and minimap",
         "Collapsible unchanged ranges, annotations, line selection and review actions",
@@ -511,7 +515,8 @@
       ],
       "evidence": [
         "omniui/baseui/diff_view_test.go",
-        "examples/studio/internal/demos/sweep_test.go"
+        "examples/studio/internal/demos/sweep_test.go",
+        "omniui/baseui/alignment_regression_test.go"
       ]
     },
     {

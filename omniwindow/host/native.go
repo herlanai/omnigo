@@ -14,6 +14,7 @@ import (
 var ErrUnsupported = errors.New("host requires macOS amd64 or arm64; Windows/Linux WebView hosts are unavailable (software windows: omniwindow/nativewindow)")
 
 type Controller struct {
+	nativeExchange  func(context.Context, []byte) ([]byte, error)
 	subscriptions   map[*SystemSubscription]struct{}
 	watchSystem     func(func(omniwindow.SystemEventKind)) (func(), error)
 	stopSystemWatch func()

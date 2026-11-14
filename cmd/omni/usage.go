@@ -15,6 +15,9 @@ const usage = `OmniGo application tools
 Usage: omni <command> [options]
 
 Commands:
+  dev        Rebuild and restart a local application on source changes
+  package    Build a macOS app and DMG into a new release directory
+  build      Build an application executable from omnigo.json
   generate   Generate unary RPC TypeScript contracts from an application
   init       Create an OmniWeb application from the current template
   doctor     Inspect development tools and platform capabilities
@@ -28,7 +31,7 @@ Examples:
   omni doctor --check --json
   omni i18n check --json ./my-app
 
-General dev/build, typed-client generation and release publishing are not
+Windows dev, complete typed-client generation and release publishing are not
 implemented by this CLI yet. See migration/README.md for remaining parity work.
 `
 

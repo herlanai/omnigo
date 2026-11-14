@@ -1,0 +1,71 @@
+name: Native desktop probes
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  software-window:
+    name: Native software window (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2022]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install X11 test environment
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y xvfb libx11-6
+      - name: Run real native window probes
+        shell: bash
+        env:
+          CGO_ENABLED: '0'
+          OMNIGO_NATIVE_TEST: '1'
+        run: |
+          set -euo pipefail
+          if [ "$RUNNER_OS" = Linux ]; then
+            xvfb-run -a go test -json -count=1 -timeout=90s ./omniwindow/nativewindow -run '^TestNative(WindowLifecycle|OwnedChildLifecycle)$' | tee native-results.jsonl
+          else
+            go test -json -count=1 -timeout=90s ./omniwindow/nativewindow -run '^TestNative(WindowLifecycle|OwnedChildLifecycle)$' | tee native-results.jsonl
+          fi
+          python scripts/ci/require_native_tests.py native-results.jsonl TestNativeWindowLifecycle TestNativeOwnedChildLifecycle
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-results-${{ matrix.os }}
+          path: native-results.jsonl
+          if-no-files-found: error
+  webkitgtk:
+    name: Experimental GTK4 WebKit page roundtrip
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Install native WebKit runtime
+        run: sudo apt-get update && sudo apt-get install -y xvfb dbus-x11 libgtk-4-1 libwebkitgtk-6.0-4
+      - name: Run real page JavaScript and Go roundtrip
+        env:
+          CGO_ENABLED: '0'
+        shell: bash
+        run: |
+          set -euo pipefail
+          dbus-run-session -- xvfb-run -a go run -tags omnigo_webkitgtk ./examples/webview-smoke 2>&1 | tee webkit-results.txt
+          grep -q '^PASS: native page JavaScript' webkit-results.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: webkit-page-results
+          path: webkit-results.txt
+          if-no-files-found: error

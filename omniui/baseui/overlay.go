@@ -162,12 +162,12 @@ func (s *Surface) updateLayerFocus() {
 	}
 	for len(s.focusLayers) > shared {
 		last := s.focusLayers[len(s.focusLayers)-1]
-		s.focus = last.returnTo
+		s.changeFocus(last.returnTo)
 		s.focusLayers = s.focusLayers[:len(s.focusLayers)-1]
 	}
 	for _, id := range s.layers[shared:] {
 		s.focusLayers = append(s.focusLayers, focusLayer{id, s.focus})
-		s.focus = ""
+		s.changeFocus("")
 		e := s.entries[s.index[id]].element
 		// Only the top layer is eligible for focus.
 		if id == s.modal {

@@ -159,7 +159,7 @@ go run ./examples/studio/cmd/gallery -controls chart,model-selector -chart-kind 
 
 新增 NumberInput、DateInput、TimeInput、SearchField、Rating、RangeSlider、TokenField、Toolbar、ColorPicker、ColorWell、Image、Grid、CheckboxGroup、EditableText 和 FindBar，全部在本包实现，已有控件保持复用。Studio 各有独立示例。所有状态及回调仅在 UI goroutine 使用；处理事件后重新 Mount。
 
-- 数值输入保留未完成的草稿，仅有效范围内的数字更新值，Enter/Escape 归一化。当前不含失焦归一化和地区数字格式。
+- 数值输入保留未完成的草稿，仅有效范围内的数字更新值，Enter/Escape 归一化。失焦恢复有效值草稿且不重复通知；地区数字格式尚未实现。
 - 日期选择保留时间、时区；时间的小时/分钟方向键循环而不改变日期，支持可选 AM/PM。地区格式、自动跳段仍缺失。
 - 范围滑块提供共同轨道、两个焦点手柄、最近手柄命中、步进和取消恢复。刻度与完整 RTL 尚未完成。
 - 颜色选择提供 HSV 方块、彩色色相轨道、透明度轨道、RGB/RGBA 十六进制和预设色。没有系统颜色面板或广色域管理。
@@ -196,7 +196,7 @@ Studio 采用参考的 1040×840 逻辑画布、32 外边距、24 主间距，�
 
 `DecimalInput` 使用 `math/big.Int` 进行精确十进制运算，`Step` 的小数位数确定精度；支持可选上下限、合法千位分组、输入校验、方向键步进和 Enter/Escape 规范化草稿。输入法组合期间不步进，外部 Value 更新会替换草稿。失焦格式化与本地化小数分隔符仍待补充。
 
-`TreeOutline[K]`（避开既有 `Outline` 按钮样式常量）和 `OutlineTable[K]` 通过 ID、Label、Children 回调接受业务数据，按键保持展开和选择状态。支持父子与同级键盘导航、typeahead、禁用继承、独立展开按钮和激活回调；表格支持固定表头、固定/弹性列宽与自定义 Go 单元格。当前只展开可见层级，但可见行尚未虚拟化；多选、拖拽和列排序/调整宽度仍未实现。
+`TreeOutline[K]`（避开既有 `Outline` 按钮样式常量）和 `OutlineTable[K]` 通过 ID、Label、Children 回调接受业务数据，按键保持展开和选择状态。支持父子与同级键盘导航、typeahead、禁用继承、独立展开按钮和激活回调；表格支持固定表头、固定/弹性列宽与自定义 Go 单元格。设置 OutlineOptions.RowHeight（至少 32 DIP）可启用固定行高虚拟化，Height 默认 280；自定义单元格必须适配该高度。仍需遍历展开层级以维护键盘导航；多选、拖拽和列排序/调整宽度仍未实现。
 
 ## 可复用的 CPU 帧缓冲
 

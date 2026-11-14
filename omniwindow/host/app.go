@@ -8,8 +8,8 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/herlanai/omnigo/omniwindow"
 	ui "github.com/herlanai/omnigo/omniui/baseui"
+	"github.com/herlanai/omnigo/omniwindow"
 )
 
 var started atomic.Bool
@@ -72,12 +72,14 @@ func (c ContentWindowOptions) normalized() (ContentWindowOptions, error) {
 
 type WindowFactory func(key string, dark bool, services WindowServices) (ContentWindowOptions, error)
 type Options struct {
-	Window        omniwindow.WindowOptions
-	Icon          []byte
-	CreateWindow  WindowFactory
-	InitialWindow string            // Required without a Web UI shell URL.
-	OnReady       func(*Controller) // UI callback; start workers here, never wait on Controller methods.
-	OnQuit        func()
+	// NativeExchange handles trusted same-origin RPC off the UI goroutine.
+	NativeExchange func(context.Context, []byte) ([]byte, error)
+	Window         omniwindow.WindowOptions
+	Icon           []byte
+	CreateWindow   WindowFactory
+	InitialWindow  string            // Required without a Web UI shell URL.
+	OnReady        func(*Controller) // UI callback; start workers here, never wait on Controller methods.
+	OnQuit         func()
 }
 
 func (o Options) normalized() (Options, error) {

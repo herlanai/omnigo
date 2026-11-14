@@ -45,14 +45,24 @@ func NumberInput(id, label string, state *NumberInputState, o NumberInputOptions
 	}
 	step := func(delta float64) {
 		v := state.Value + delta
-		// Stabilize ordinary decimal steps without rounding arbitrary typed precision.
-		scale := math.Pow10(min(12, max(0, -int(math.Floor(math.Log10(o.Step)))+6)))
-		if finite(v * scale) {
-			v = math.Round(v*scale) / scale
+		// Correct ordinary floating point addition without erasing tiny steps.
+		digits := strconv.FormatFloat(o.Step, 'f', -1, 64)
+		places := 0
+		if dot := strings.IndexByte(digits, '.'); dot >= 0 {
+			places = len(digits) - dot - 1
+		}
+		scale := math.Pow10(places)
+		if finite(scale) && finite(v*scale) {
+			rounded := math.Round(v*scale) / scale
+			// Preserve typed precision finer than the configured step.
+			if math.Abs(rounded-v) <= math.Abs(delta)*1e-9 {
+				v = rounded
+			}
 		}
 		set(v, true)
 	}
 	input := Input(id+"/input", label, state.Text).Grow(1).Role("spinbutton")
+	input.onBlur = func() { state.Text.Set(format(state.Value)) }
 	input.value, input.min, input.max, input.step = state.Value, o.Min, o.Max, o.Step
 	input.onChange = func(s string) {
 		if v, e := strconv.ParseFloat(strings.TrimSpace(s), 64); e == nil && finite(v) && v >= o.Min && v <= o.Max {

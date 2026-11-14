@@ -66,16 +66,24 @@ func openShell(app objc.ID, options omniwindow.WindowOptions, quit func(), host 
 	}
 	delegate := objc.ID(cls).Send(sel("new"))
 	config := objc.ID(objc.GetClass("WKWebViewConfiguration")).Send(sel("new"))
+	detachBridge, err := attachNativeBridge(config, host, origin)
+	if err != nil {
+		config.Send(sel("release"))
+		delegate.Send(sel("release"))
+		return nil, err
+	}
 	// The host stores no persistent browsing session, credentials or third-party website data.
 	config.Send(sel("setWebsiteDataStore:"), objc.ID(objc.GetClass("WKWebsiteDataStore")).Send(sel("nonPersistentDataStore")))
 	web := objc.ID(objc.GetClass("WKWebView")).Send(sel("alloc")).Send(sel("initWithFrame:configuration:"), rect{S: size{W: float64(options.Width), H: float64(options.Height)}}, config)
 	config.Send(sel("release"))
 	if web == 0 {
+		detachBridge()
 		delegate.Send(sel("release"))
 		return nil, fmt.Errorf("host: could not create WKWebView")
 	}
 	detachUpload, err := attachUploadDelegate(web)
 	if err != nil {
+		detachBridge()
 		web.Send(sel("release"))
 		delegate.Send(sel("release"))
 		return nil, err
@@ -123,6 +131,7 @@ func openShell(app objc.ID, options omniwindow.WindowOptions, quit func(), host 
 	window.Send(sel("makeKeyAndOrderFront:"), objc.ID(0))
 	app.Send(sel("activateIgnoringOtherApps:"), true)
 	return func() {
+		detachBridge()
 		detachUpload()
 		host.titlebar = nil
 		app.Send(sel("setDelegate:"), objc.ID(0))

@@ -23,6 +23,7 @@ type DiffState struct {
 	oldLines, newLines []string
 	hunks              []DiffHunk
 	rows               []diff.Row
+	unifiedRows        []diff.Row
 	undo               []string
 }
 
@@ -45,6 +46,7 @@ func (s *DiffState) compute() {
 		s.hunks[i] = DiffHunk{h.OldStart, h.OldEnd, h.NewStart, h.NewEnd}
 	}
 	s.rows = result.Rows
+	s.unifiedRows = nil
 	s.Current = max(0, min(s.Current, len(s.hunks)-1))
 }
 func (s *DiffState) Hunks() []DiffHunk { s.compute(); return append([]DiffHunk(nil), s.hunks...) }
@@ -124,18 +126,22 @@ func DiffView(id string, s *DiffState, height float64, onChange func(string)) *E
 		}).Variant(Ghost).Disabled(len(s.undo) == 0))
 	// Wrap the actions so narrow native windows preserve every action.
 	toolbar.Wrap(true).Gap(6)
-	rows := append([]diff.Row(nil), s.rows...)
+	rows := s.rows
 	a, b := s.oldLines, s.newLines
 	unified := s.Unified
 	if unified {
-		rows = nil
-		for _, r := range s.rows {
-			if r.Old >= 0 && r.New >= 0 && a[r.Old] != b[r.New] {
-				rows = append(rows, diff.Row{Old: r.Old, New: -1}, diff.Row{Old: -1, New: r.New})
-			} else {
-				rows = append(rows, r)
+		if s.unifiedRows == nil {
+			mapped := make([]diff.Row, 0, len(s.rows))
+			for _, r := range s.rows {
+				if r.Old >= 0 && r.New >= 0 && a[r.Old] != b[r.New] {
+					mapped = append(mapped, diff.Row{Old: r.Old, New: -1}, diff.Row{Old: -1, New: r.New})
+				} else {
+					mapped = append(mapped, r)
+				}
 			}
+			s.unifiedRows = mapped
 		}
+		rows = s.unifiedRows
 	}
 	canvas := Canvas(id+"/lines", "Line differences", func(p *Painter, r Rect) {
 		theme := p.Theme()

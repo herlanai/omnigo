@@ -435,3 +435,31 @@ export class OmniWebStreams<API extends StreamContract<API>> {
     };
   }
 }
+
+/** Unary/batch RPC through the macOS WKWebView native reply bridge.
+ * Assets, events and streams continue to use their existing HTTP paths.
+ */
+export class NativeTransport implements Transport {
+  private readonly post: (message: string) => Promise<unknown>;
+  constructor(post?: (message: string) => Promise<unknown>) {
+    const host = (globalThis as unknown as { webkit?: { messageHandlers?: { omnigoNative?: { postMessage(message: string): Promise<unknown> } } } }).webkit?.messageHandlers?.omnigoNative;
+    if (!post && !host) throw new OmniWebError("unsupported", "Native RPC bridge unavailable");
+    this.post = post ?? ((message) => host!.postMessage(message));
+  }
+  async exchange(request: Request | Request[], signal: AbortSignal): Promise<unknown> {
+    if (signal.aborted) throw signal.reason;
+    const token = crypto.randomUUID();
+    const body = JSON.stringify({kind: "call", token, request});
+    if (new TextEncoder().encode(body).length > 1024 * 1024) throw new OmniWebError("too_large", "Native request exceeds limit");
+    let abort!: () => void;
+    const canceled = new Promise<never>((_, reject) => {
+      abort = () => { this.post(JSON.stringify({kind: "cancel", token})).catch(() => {}); reject(signal.reason); };
+      signal.addEventListener("abort", abort, {once: true});
+    });
+    try {
+      const raw = await Promise.race([this.post(body), canceled]);
+      if (typeof raw !== "string" || new TextEncoder().encode(raw).length > 4 * 1024 * 1024) throw new OmniWebError("protocol", "Invalid native response");
+      return JSON.parse(raw) as unknown;
+    } finally { signal.removeEventListener("abort", abort); }
+  }
+}
