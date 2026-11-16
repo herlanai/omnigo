@@ -271,6 +271,20 @@ state.Invalidate(parentKey)
 结构变化时仍复制扁平索引并验证唯一性，以保护旧挂载树的回调快照。
 不开启 Incremental 时保持原来的自动全量读取行为。
 
+## 可选 macOS 系统字体
+
+应用可以在创建任何 Surface 之前调用 `UseSystemUIFont()`，启用本机安装的
+PingFang SC（常规/中等/半粗）。返回值表示系统字体是否可用；不可用时继续使用
+Inter 和原有字符回退。字体按 PostScript 名称识别，支持 macOS MobileAsset
+目录，不能把 Apple 字体资源重新分发到安装包。
+
+该设置作用于进程内所有后续 UI 字体测量和绘制，不能在 Surface 创建后动态切换。
+代码区域保持等宽字体；苹方没有斜体，启用后斜体 UI 文本保持直立字体。
+这仍是 Go 栅格化，不代表 CoreText 完整文字整形。
+
+`ActionRow(id, label, action, children...)` 将非交互子控件组合成可点击行，
+支持整行点击、键盘和无障碍按钮操作；使用主题表面及悬停色。不能嵌套按钮或输入框。
+
 ### Leading-icon menu rows
 
 `MenuButton(id, label, source, action)` renders a leading icon and left-aligned
