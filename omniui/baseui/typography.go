@@ -61,7 +61,7 @@ func (e *Element) Size(size ControlSize) *Element {
 	default:
 		panic("baseui: invalid control size")
 	}
-	if e.iconSource != nil && e.kind == ButtonKind {
+	if e.iconSource != nil && e.kind == ButtonKind && e.text == "" {
 		e.width = e.height
 		e.iconOptions.Size = min(20, e.height-10)
 	}

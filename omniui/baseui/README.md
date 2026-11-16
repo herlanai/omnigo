@@ -270,3 +270,13 @@ state.Invalidate(parentKey)
 展开状态 `Open` 自动追踪。局部失效仅获取对应子树；普通重建复用现有索引。
 结构变化时仍复制扁平索引并验证唯一性，以保护旧挂载树的回调快照。
 不开启 Incremental 时保持原来的自动全量读取行为。
+
+### Leading-icon menu rows
+
+`MenuButton(id, label, source, action)` renders a leading icon and left-aligned
+visible label as one Ghost button. The icon is vertically centered; RTL mirrors
+its placement. `Size` preserves the natural text width, and the entire row uses
+existing pointer, keyboard, focus and disabled behavior. Use this for sidebar
+agent/contact actions instead of a separate Icon plus centered Button.
+`menu_button_test.go` covers light/dark rendering, sizing, full-row activation
+and disabled interaction. This does not change the existing control audit status.
