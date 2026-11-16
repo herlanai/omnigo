@@ -294,3 +294,10 @@ existing pointer, keyboard, focus and disabled behavior. Use this for sidebar
 agent/contact actions instead of a separate Icon plus centered Button.
 `menu_button_test.go` covers light/dark rendering, sizing, full-row activation
 and disabled interaction. This does not change the existing control audit status.
+
+Go 窗口的系统红绿灯由宿主负责。应用通过根包的
+`ContentWindowOptions{MinWidth: ..., MinHeight: ..., WindowButtons:
+&WindowButtonLayout{Left: 16, Top: 17, Spacing: 22}}` 配合
+`TitleBarHidden` 启用原生按钮，不需要导入 purego/objc。
+WindowButtons 仅在 macOS 隐藏标题栏时重排，恢复标题栏后返回原生位置。
+位置单位为内容区 DIP，Top 从内容区顶边计算；nil 保持原先隐藏按钮的行为。

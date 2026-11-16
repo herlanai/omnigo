@@ -55,3 +55,33 @@ func TestFrameworkHostHasNoStudioDependency(t *testing.T) {
 		}
 	}
 }
+
+func TestContentWindowNativeChromeOptions(t *testing.T) {
+	base := ContentWindowOptions{Width: 800, Height: 600, View: func() *ui.Element { return ui.Text("t", "test") }}
+	for _, m := range [][2]int{{-1, 0}, {0, -1}, {801, 0}, {0, 601}} {
+		c := base
+		c.MinWidth, c.MinHeight = m[0], m[1]
+		if _, err := c.normalized(); err == nil {
+			t.Fatal("accepted invalid minimum", m)
+		}
+	}
+	layout := &WindowButtonLayout{Left: 16, Top: 17}
+	base.MinWidth, base.MinHeight, base.WindowButtons = 400, 300, layout
+	c, err := base.normalized()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if c.WindowButtons.Spacing != 22 || layout.Spacing != 0 {
+		t.Fatal("defaults mutate caller")
+	}
+	layout.Left = 99
+	if c.WindowButtons.Left != 16 {
+		t.Fatal("layout not snapshotted")
+	}
+	for _, spacing := range []float64{-1, 1, 15} {
+		base.WindowButtons = &WindowButtonLayout{Spacing: spacing}
+		if _, err := base.normalized(); err == nil {
+			t.Fatal("accepted overlapping buttons")
+		}
+	}
+}
