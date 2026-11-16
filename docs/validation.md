@@ -63,9 +63,9 @@
 
 ## Windows/Linux 原生 CI 配置（2026-11-14）
 
-新增 `.github/workflows/native-desktop.yml`，在 Windows runner 与 Linux Xvfb 执行现有原生软件窗口和父子窗口测试。结果以 JSON artifact 保留，`scripts/ci/nativeprobe` 拒绝缺失/跳过/失败的必需测试。检查器的两个单元测试本地通过。
+新增 `.github/workflows/native-desktop.yml`，在 Windows runner 与 Linux Xvfb 执行现有原生软件窗口和父子窗口测试。结果以 JSON artifact 保留，`tools/cmd/nativeprobe` 拒绝缺失/跳过/失败的必需测试。检查器的两个单元测试本地通过。
 
-工作流尚未在远程运行，不能计作 Windows/Linux 原生验收，更不代表 WebView2/WebKitGTK 已实现。完整升级边界见 `migration/wails-v3-upgrade.md`。
+工作流尚未在远程运行，不能计作 Windows/Linux 原生验收，更不代表 WebView2/WebKitGTK 已实现。完整升级边界见 `docs/compatibility/wails-v3-upgrade.md`。
 
 ## 更新器显式恢复验证（2026-11-14）
 
@@ -88,7 +88,7 @@
 - Bundle 单元/进程测试覆盖归档越界拒绝、确认/回滚、恢复时拒绝活跃所有者、
   丢失可执行文件、真实子进程确认与确认前退出。SDK 测试覆盖 WebView2 回包关联和取消清理。
 - Windows WebView2 是可选实验后端；用户没有 Windows 环境。Windows/Linux workflow
-  尚未执行，不能宣称原生通过。完整状态以 migration/wails-v3-upgrade.md 为准。
+  尚未执行，不能宣称原生通过。完整状态以 docs/compatibility/wails-v3-upgrade.md 为准。
 
 最终 `sh scripts/check.sh` 通过：Go tests、vet、race、40 个 SDK 测试、六个默认
 桌面目标，以及 Windows WebView2/Linux WebKitGTK 各两种架构的可选后端构建。
@@ -134,7 +134,7 @@ updater race/子进程测试；没有新增 Windows/Linux 原生运行证据。
 - 独立 Go/WebView 项目真实生成 ad-hoc 签名 .app 和含 Applications 快捷方式的 DMG，
   codesign、Mach-O arm64 架构及 hdiutil 校验通过。复制至独立安装目录后从 `/`
   启动，CoreGraphics 窗口列表确认两个可见窗口；WebView 嵌入页面请求通过。
-  同样的探针已保存为 `scripts/ci/nativeprobe` 与 `visible_window.swift`。
+  同样的探针已保存为 `tools/cmd/nativeprobe` 与 `visible_window.swift`。
 - 浏览器项目使用锁文件执行 npm ci，统一 CLI 完成 Vite、TypeScript 与 Go 构建；
   `scripts/ci/browser_project.mjs` 验证真实 HTML、编译资源及标准 SDK 的 Unicode RPC。
   Node 测试客户端显式设置浏览器同源 Origin；未设置时服务器正确返回 403。
@@ -157,7 +157,7 @@ updater race/子进程测试；没有新增 Windows/Linux 原生运行证据。
 - iOS 26.5 / iPhone 17 Pro 模拟器：安装、原生首帧标记与截图通过。截图曾发现
   x/mobile 物理点直接作为 UI 坐标导致控件过大，已改为 UIKit scale/safe-area；
   带空格 bundle URL 的 runtime chdir 警告已通过 ID 命名 bundle 消除。
-  原 Python iOS 探针本地实跑通过；现已迁移至 `scripts/ci/nativeprobe`。没有进行真实设备签名/安装、人工读屏或全输入源验收。
+  原 Python iOS 探针本地实跑通过；现已迁移至 `tools/cmd/nativeprobe`。没有进行真实设备签名/安装、人工读屏或全输入源验收。
 - Android SDK 工具重新生成清单/资源后，aapt2 dump 确认 minSdk 23 / targetSdk 35、
   应用 ID/version/icon 正确；两个 ABI 均存在对应 ELF 原生库，apksigner v1/v2/v3
   验证及 zipalign -P 16 检查通过。未在本机运行 Android 模拟器/设备；不能据此
@@ -173,8 +173,8 @@ updater race/子进程测试；没有新增 Windows/Linux 原生运行证据。
 ## 仓库工具迁移至 Go（2026-11-14）
 
 - 移除 5 个 Python 工具及其 Python 单元测试；原生验收统一为
-  `go run ./scripts/ci/nativeprobe` 的 `ios`、`android`、`desktop`、`require` 子命令。
-  CPU/RSS 采样改为 `go run ./scripts/measure/idle PID [seconds]`。
+  `go run ./tools/cmd/nativeprobe` 的 `ios`、`android`、`desktop`、`require` 子命令。
+  CPU/RSS 采样改为 `go run ./tools/cmd/idle PID [seconds]`。
 - CI 不再安装或调用 Python；iOS 模拟器选择与 JSON 解析也由 Go 完成。
   Swift 可见窗口探针和平台 SDK 工具继续承担平台专属检查。
 - Go 检查器测试、race、vet 通过，Windows/Linux amd64 交叉构建通过；
@@ -182,3 +182,16 @@ updater race/子进程测试；没有新增 Windows/Linux 原生运行证据。
 - Go 版 iOS 探针本地完成安装、首帧、截图和应用终止；Go/WebView 桌面探针
   在临时安装目录启动既有应用并确认可见窗口，WebView 内嵌资源校验通过。
   Android 探针仅完成构建检查，尚无本地模拟器/设备运行证据，远程 CI 未执行。
+
+## 仓库结构整理（2026-11-16）
+
+- 根包 Go 文件从 29 个归并为 12 个（7 个实现、5 个测试）；通过 Go AST
+  对比确认全部 100 个声明与整理前一致，公开 API、类型身份与测试场景保留。
+- Go 维护命令统一到 `tools/cmd`；兼容性资料迁到 `docs/compatibility`，
+  参考快照保持原内容，CI、生成器和审计证据路径同步更新。
+- `sh scripts/check.sh` 完整通过：Go 测试、vet、race、40 个 SDK 测试、
+  六个桌面目标的 CGO-disabled 构建、生命周期示例，以及 Windows WebView2 / Linux
+  WebKitGTK 两种架构的可选后端构建。日志：`/tmp/omnigo-structure-check.log`。
+- 独立临时 Go module 验证 New、窗口选项、后台服务、Query、DesktopBridge、
+  TypeScript 生成和宿主就绪前的错误约定；迁移后的目录生成器运行成功，输出不变。
+- 本轮没有变更原生窗口行为，未新增原生交互或跨平台实机验收证据。

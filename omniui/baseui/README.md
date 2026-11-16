@@ -41,11 +41,11 @@ image, err := surface.Render()
 - 数据与反馈：FileTree、Calendar 单选/多选/范围、固定窗口 Table、Progress、Meter、Alert、Empty、CodeBlock、Kbd、Dialog、AlertDialog。
 - 可选 Go 插件：`omniui/baseui/loading` 的 Ring、Dots、Bars、Clock、Ripple、Orbit、Pulse。使用相同 Painter、主题、虚拟时钟和减少动态效果策略。
 
-这些入口是**局部重写成果，不是完整对齐声明**。Select 已使用可滚动的锚定弹层并支持键盘与 typeahead，Table 只有显式可见行窗口与排序回调，CodeBlock 支持 Go 词法高亮，尚不含文字选择，Carousel 不含手势；日历不含本地化文本与 RTL；Tabs/RadioGroup 已使用单个 Tab 停靠点并支持方向键切换；其他组合的 roving-tabindex 语义仍待逐项验收。菜单栏、图表、AI 组合的剩余能力，以及尚未实现的编辑器、富文本与其他插件见 [覆盖清单](../../migration/controls/README.md)。
+这些入口是**局部重写成果，不是完整对齐声明**。Select 已使用可滚动的锚定弹层并支持键盘与 typeahead，Table 只有显式可见行窗口与排序回调，CodeBlock 支持 Go 词法高亮，尚不含文字选择，Carousel 不含手势；日历不含本地化文本与 RTL；Tabs/RadioGroup 已使用单个 Tab 停靠点并支持方向键切换；其他组合的 roving-tabindex 语义仍待逐项验收。菜单栏、图表、AI 组合的剩余能力，以及尚未实现的编辑器、富文本与其他插件见 [覆盖清单](../../docs/compatibility/controls/README.md)。
 
 ## 统一样式
 
-InputGroup 共用外框及 focus-within，内部输入不重复绘制边框，并保留错误和文本域高度。`Separator(id, true)` 提供竖向分隔线；`Button(...).Variant(Link)` 提供透明链接样式和悬停下划线，保留按钮交互与禁用语义。此次全目录复查记录见 [审计](../../migration/controls/README.md)。
+InputGroup 共用外框及 focus-within，内部输入不重复绘制边框，并保留错误和文本域高度。`Separator(id, true)` 提供竖向分隔线；`Button(...).Variant(Link)` 提供透明链接样式和悬停下划线，保留按钮交互与禁用语义。此次全目录复查记录见 [审计](../../docs/compatibility/controls/README.md)。
 
 `theme/tokens.json` 仅保存设计数据，由 Go 读取：14 DIP 正文、36 DIP 基础控件高度、16 DIP 基础圆角（按钮/单行输入为胶囊，文本域为 12 DIP）、4 DIP 间距单位，以及参照 golet Forma 的中性明暗语义颜色。错误文字使用更深的浅色主题红色以维持对比度。控件共用边框、焦点、禁用、选中、危险和表单错误表现。没有逐组件独立 CSS。
 
@@ -113,7 +113,7 @@ go run ./examples/studio/cmd/gallery -scale 2
 
 ## 消息、工作流、导航、图表和通知
 
-新增的 37 个目录项都有 Go 实现及 Studio 示例；审计状态为 **86 partial / 0 pending**，完整参考对齐仍为 **0**。每项缺口见 `migration/controls/status.json` 的 `remaining`。
+新增的 37 个目录项都有 Go 实现及 Studio 示例；审计状态为 **86 partial / 0 pending**，完整参考对齐仍为 **0**。每项缺口见 `docs/compatibility/controls/status.json` 的 `remaining`。
 
 - `MessageScroller`/`Chat` 使用调用方保存的 `ScrollState`。追加内容仅在原来处于底部时自动跟随；用户上滚后保留位置。`Text.Wrap(true)` 支持纯文本折行，尚非 Unicode 字素/双向排版或 Markdown。
 - `AIMessage` 明确区分用户/助手动作，streaming 时禁用；所有复制、编辑、重试回调由应用处理。`PromptInputState.Text` 使用 `TextBuffer`，提交为文本、模型、effort、附件元数据的独立快照。控件不自动清空输入，不启动上传/网络；应用回调后更新状态并 Mount。IME preedit 不提交，Shift+Enter 换行。
@@ -153,7 +153,7 @@ go run ./examples/studio/cmd/gallery -controls chart,model-selector -chart-kind 
 
 ### Markdown 阅读控件
 
-`omniui/plugins/markdown` 通过可选 Goldmark 解析器生成 Go 原生控件，支持标题、行内样式、列表、引用、代码块、GFM 表格和链接回调。详见该包 README。独立于原有 86 项目录，在 `migration/controls/advanced.json` 保留未完成能力；不等同于富文本编辑器。
+`omniui/plugins/markdown` 通过可选 Goldmark 解析器生成 Go 原生控件，支持标题、行内样式、列表、引用、代码块、GFM 表格和链接回调。详见该包 README。独立于原有 86 项目录，在 `docs/compatibility/controls/advanced.json` 保留未完成能力；不等同于富文本编辑器。
 
 ## `ui` 基础控件缺项补充
 
@@ -167,7 +167,7 @@ go run ./examples/studio/cmd/gallery -controls chart,model-selector -chart-kind 
 - EditableText 通过 Enter/F2 或按钮进入编辑，选中文件扩展名前的部分；Enter/Save 提交，Escape/Cancel 恢复。没有延迟重命名、双击或失焦提交。
 - TokenField 支持标签添加/删除和最多 20 个过滤建议；Toolbar 支持单 Tab 停靠点的方向键导航。标签换行、弹层建议、工具栏溢出等仍缺失。
 
-完整构造入口盘点为 `migration/controls/ui.json`，逐项能力见 `advanced.json`；名称映射仅说明已有代码位置，不是完整对齐。`ui_controls_test.go` 覆盖取消、IME、只读/禁用、范围、像素所有权、编辑历史及状态回调等边界。
+完整构造入口盘点为 `docs/compatibility/controls/ui.json`，逐项能力见 `advanced.json`；名称映射仅说明已有代码位置，不是完整对齐。`ui_controls_test.go` 覆盖取消、IME、只读/禁用、范围、像素所有权、编辑历史及状态回调等边界。
 
 ### 矢量图标
 
@@ -219,7 +219,7 @@ Studio 采用参考的 1040×840 逻辑画布、32 外边距、24 主间距，�
 
 圆角填充批量写入完全覆盖像素，边框跳过空心内部；高 DPI 字体按当前比例复用并在切换或关闭时释放。原有独立图像所有权和 UI goroutine 约束不变。视觉基线已进一步采用下述 shadcn 预设：CardTitle 为 16 DIP/500，卡片保留轻边框。
 
-可运行 `go run ./examples/control-showcase` 查看真实 Go 控件组合的明暗与键盘状态截图。[视觉与性能记录](../../migration/controls/visual-performance.md) 说明基准、像素一致性测试和剩余限制；不宣称相对 golet 的 100 倍提升。
+可运行 `go run ./examples/control-showcase` 查看真实 Go 控件组合的明暗与键盘状态截图。[视觉与性能记录](../../docs/compatibility/controls/visual-performance.md) 说明基准、像素一致性测试和剩余限制；不宣称相对 golet 的 100 倍提升。
 
 ## shadcn 样式与组合控件
 
@@ -227,7 +227,7 @@ Studio 采用参考的 1040×840 逻辑画布、32 外边距、24 主间距，�
 
 `DatePicker` 将 Calendar 与 Popover 组合，支持单日/范围选择、禁用日期、键盘打开、取消和焦点恢复。初始显示月份由调用方提供，不读取系统时钟。`DataTable` 支持文本筛选、稳定文本排序、分页、列显隐及跨页选择；每页最多 100 行、数据源最多 10,000 行，不隐式推断数字排序，也不是服务端表格。
 
-完整的 66 项 shadcn 目录盘点及未实现行为见 [shadcn 审计](../../migration/controls/shadcn.md)。这次覆盖共享绘制层并补充上述组合控件，不表示所有变体和平台行为已逐项对齐。
+完整的 66 项 shadcn 目录盘点及未实现行为见 [shadcn 审计](../../docs/compatibility/controls/shadcn.md)。这次覆盖共享绘制层并补充上述组合控件，不表示所有变体和平台行为已逐项对齐。
 
 ## 系统字体回退
 

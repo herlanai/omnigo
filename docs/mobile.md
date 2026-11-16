@@ -120,5 +120,5 @@ mobile.output 或由应用管理旧构建；不自动删除应用或源码。doc
 不是编译、签名或原生运行验收。
 
 `.github/workflows/mobile.yml` 配置了独立项目构建和原生首帧探针；
-`go run ./scripts/ci/nativeprobe ios` / `android` 缺少首帧标记就失败并保留日志/截图。
+`go run ./tools/cmd/nativeprobe ios` / `android` 缺少首帧标记就失败并保留日志/截图。
 远程工作流尚未运行，不能宣称 CI 已通过。实际本地证据见 [validation](validation.md)。

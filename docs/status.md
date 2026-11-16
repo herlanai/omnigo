@@ -1,6 +1,6 @@
 # OmniGo 当前能力与支持状态
 
-更新：2026-11-14。本文是当前能力状态的唯一汇总入口；migration 和 validation
+更新：2026-11-14。本文是当前能力状态的唯一汇总入口；docs/compatibility 和 validation
 中的带日期记录是历史证据，不覆盖本页。实现变化时同时更新本页与对应验收记录。
 CLI `doctor` 输出的是当前构建启用的后端和本机工具检查，不等同于以下实机验收。
 
@@ -48,7 +48,7 @@ IME、系统读屏和完整手机交互仍未实现，不继承桌面的能力�
   固定行高虚拟化不代表可变行高、滚动锚定或全流程常数复杂度。
 - 系统输入/读屏探针不替代所有输入源、VoiceOver 人工导航及每个控件行为验收。
 
-专项缺口保留在 [控件审计](../migration/controls/README.md)；测量范围见
+专项缺口保留在 [控件审计](compatibility/controls/README.md)；测量范围见
 [性能记录](performance.md)，原生证据见 [验证记录](validation.md)。
 
 ## 应用开发与交付

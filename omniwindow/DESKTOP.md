@@ -171,4 +171,4 @@ context cleanup, tray state/update/menu action/removal, real app appearance KVO,
 and synthetic display/wake notifications. It does not change system preferences,
 put the machine to sleep, or write files selected by a dialog.
 
-See `migration/noncontrols/desktop-services.md` for platform limits and evidence.
+See `docs/compatibility/services/desktop-services.md` for platform limits and evidence.

@@ -118,7 +118,7 @@ The browser template generates a browser application; the go and webview templat
 
 See the [current capability matrix](docs/status.md) for platform, control, transport,
 packaging and validation status. This is the single current summary; historical
-migration records do not override it. Start a project with the [application guide](docs/getting-started.md). Experimental
+compatibility records do not override it. Start a project with the [application guide](docs/getting-started.md). Experimental
 iOS/Android Go builds have a separate [mobile guide](docs/mobile.md).
 
 ## Project layout
@@ -136,6 +136,10 @@ omnigo/                 Application entry points, windows, services, registratio
 │   ├── text/rope/      Immutable text storage
 │   └── scaffold/       Project templates
 ├── tests/architecture/ Repository dependency checks
+├── cmd/                Distributable application CLI commands
+├── tools/cmd/          Repository development, audits, and native probes
+├── scripts/            Shell checks and platform-specific CI adapters
+├── docs/compatibility/ Reference inventories and capability audit evidence
 ├── i18n/               Language catalogs and message formatting
 └── examples/           Runnable examples
     └── studio/         Developer showcase application
@@ -144,6 +148,7 @@ omnigo/                 Application entry points, windows, services, registratio
 ## Documentation and development
 
 - [Architecture and naming](docs/architecture.md) · Responsibilities, dependency boundaries, and API migration.
+- [Repository tools](tools/README.md) · Development commands, audits, and validation probes.
 - [Go controls](omniui/baseui/README.md) · Usage and current limitations.
 - [Plugin directory](omniui/plugins/README.md) · Optional plugins and implementation status.
 - [Performance](docs/performance.md) · Measurement methodology and benchmark evidence.

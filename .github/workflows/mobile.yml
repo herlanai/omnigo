@@ -29,7 +29,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          go run ./scripts/ci/nativeprobe ios "$RUNNER_TEMP/mobile"
+          go run ./tools/cmd/nativeprobe ios "$RUNNER_TEMP/mobile"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -75,7 +75,7 @@ jobs:
           api-level: 35
           arch: x86_64
           disable-animations: true
-          script: go run ./scripts/ci/nativeprobe android "$RUNNER_TEMP/mobile"
+          script: go run ./tools/cmd/nativeprobe android "$RUNNER_TEMP/mobile"
       - uses: actions/upload-artifact@v4
         if: always()
         with:

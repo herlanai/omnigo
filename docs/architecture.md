@@ -83,9 +83,7 @@ Surface、控件状态、原生窗口与 GPU 设备由所属 UI goroutine 使用
 迁为 `omniwindow/host`，控制对象为 `host.Controller`。扩展生命周期独立为
 `internal/runtime/lifecycle.Manager`，不承担窗口配置和原生事件处理。
 
-根包按职责拆分：application.go（构造）、run.go（运行）、window.go（窗口）、
-binding.go（RPC）、registration.go（注册组合）、service.go（后台服务）、
-http.go（资源与路由）。平台实现使用 `_darwin.go` 等系统后缀。
+根包文件的当前组织见下文；平台实现使用 `_darwin.go` 等系统后缀。
 
 此次是源码级破坏性迁移，仓库内所有调用已更新；没有保留旧导入路径的转发包。
 
@@ -124,7 +122,7 @@ Studio 保持现有 RPC 路径兼容，在服务适配层将空标题栏请求�
 根目录是 `github.com/herlanai/omnigo` 包。`Application`、`Options`、`Run`、
 泛型 `Bind`/`Method`/`Query` 和应用方法继续放在这里，保持现有导入路径、
 类型身份和方法集合。Go 不允许在另一个包中为这些类型定义方法，因此
-`dialog.go`、`tray.go`、`window.go` 等公开入口文件应保留为薄封装。
+`desktop.go`、`system.go`、`window.go` 等公开入口文件保留为薄封装。
 
 实现按所有权下沉：HTTP 监听与退出、单实例交接在 `internal/apphost`；
 后台任务在已有 `internal/runtime/lifecycle`；生成文件写入在
@@ -134,6 +132,41 @@ Studio 保持现有 RPC 路径兼容，在服务适配层将空标题栏请求�
 实现级测试随实现放置；需要访问 `Application` 私有状态和替换原生驱动的
 根包集成测试保留。源码依赖检查移至 `tests/architecture`。新文件归属以职责
 为依据，不再向根包添加独立的内部实现，也不建立通用 `utils` 包。
+
+## 仓库组织与命名（2026-11-16）
+
+根包按完整职责归并短文件，公开类型、函数签名和导入路径保持不变：
+
+| 文件 | 职责 |
+| --- | --- |
+| `application.go` | Options、Application 和构造时的依赖组合 |
+| `lifecycle.go` | Run、就绪等待、后台服务和单实例协调入口 |
+| `window.go` | 主窗口配置、内容窗口和标题栏操作 |
+| `desktop.go` | 原生对话框、菜单角色和托盘入口 |
+| `system.go` | 应用路径、屏幕、外观和系统事件入口 |
+| `web.go` | 注册组合、类型化 RPC、HTTP 路由、契约生成和桌面桥接 |
+| `mobile.go` | 独立构建约束下的移动入口 |
+
+根包集成测试按 application、lifecycle、system、web、transport 五个领域组织；
+测试函数和场景保留。实现测试继续与所属包放在一起。
+
+目录以职责和使用者区分：
+
+- `cmd/`：提供给框架使用者的可执行入口（omni、omni-update、omnibrowser）。
+- `tools/cmd/`：仓库维护者使用的 Go 命令。`dev` 编排 Studio，
+  `controlaudit`、`featureaudit`、`platformaudit`、`serviceaudit`、`parity`
+  保留审计边界，`nativeprobe` 做原生验收检查，`idle` 做进程采样。
+- `scripts/`：Shell 验证入口与 CI 必需的 MJS/Swift 适配，不再混放 Go 命令包。
+- `docs/compatibility/`：参考清单、历史验收证据与剩余差距；子目录
+  `controls`、`platform`、`services`、`features`、`framework` 表示审计领域。
+  `docs/status.md` 仍是当前能力汇总。
+- `internal/`：仅存放框架实现。已有 apphost、codegen、runtime、scaffold 等
+  包按所有权组织，不为减少文件数移动公开 API，也不增加 core/common/utils 层。
+
+原 `scripts/devtool` 命令改用 `go run ./tools/cmd/dev`；pnpm 快捷命令不变。
+原 `tools/<审计命令>` 改为 `tools/cmd/<审计命令>`。原 `migration/` 资料迁到
+`docs/compatibility/`，其中 noncontrols 改名 services，internal 改名 framework。
+CI、目录生成器和审计证据路径与新位置同步维护。
 
 ## 移动宿主边界
 

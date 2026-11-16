@@ -134,12 +134,18 @@ omnigo/                 应用入口、窗口配置、服务与注册
 │   ├── text/rope/      不可变文本存储
 │   └── scaffold/       项目模板
 ├── tests/architecture/ 仓库依赖边界检查
+├── cmd/                面向应用开发者的 CLI 入口
+├── tools/cmd/          仓库开发、审计和原生验收工具
+├── scripts/            Shell 检查和平台 CI 适配
+├── docs/compatibility/ 参考清单、兼容性审计和历史证据
 ├── i18n/               语言目录与消息格式
 └── examples/           可运行的使用示例
     └── studio/         开发演示应用
 ```
 
 ## 文档与开发
+
+仓库开发命令、审计与验收工具见 [工具指南](tools/README.md)；目录职责和命名约定见 [架构说明](docs/architecture.md)。
 
 - [架构与命名](docs/architecture.md) · 模块职责、依赖边界与 API 迁移说明。
 - [Go 控件](omniui/baseui/README.md) · 控件使用方式与当前限制。

@@ -7,7 +7,7 @@
 | 插件 | 本批实际能力 | 主要缺口 |
 | --- | --- | --- |
 | automation | 私有 socket、UI 调度、控件快照/输入/截图 | 多窗口、菜单/页面、settle、CLI |
-| borderbeam | 五种色场/辉光模式、配色、暂停/隐藏、强度/周期/范围、Studio 同结构演示 | 参考色场精确系数、完整色相参数及逐像素/实机对比；见 [对齐记录](../../migration/controls/borderbeam.md) |
+| borderbeam | 五种色场/辉光模式、配色、暂停/隐藏、强度/周期/范围、Studio 同结构演示 | 参考色场精确系数、完整色相参数及逐像素/实机对比；见 [对齐记录](../../docs/compatibility/controls/borderbeam.md) |
 | chromium | CEF 原生浏览器、标签页、导航、主题、Chrome 扩展、CDP、助手、打包与 Studio 启动 | Windows/Intel 原生验收、Linux 宿主、布局内嵌视图 |
 | dsh-go | Go Panel、omnix Agent、工具审批、会话历史、取消与预算 | 虚拟列表、原生设备验收、持久化恢复、完整 skills/subagent/plan 能力 |
 | fetch | 有界流式 HTTP、重定向策略、取消 | OmniWeb 客户端和页面生命周期 |
@@ -37,6 +37,6 @@ Chromium 的 `Launch` 使用可选安装的 CEF 原生宿主。`pnpm setup:chrom
 
 运行 `CGO_ENABLED=0 go test ./omniui/plugins/...` 和仓库完整的 `sh scripts/check.sh`。Studio 新增 Borderbeam、Glass、Scene3D、Game 演示；目录状态保持 partial，服务插件不会误指向同名基础控件。
 
-Markdown 阅读组件位于 `omniui/plugins/markdown`，通过可选 Goldmark 解析器组合 Go 原生控件。实现、测试和许可证均在该目录；Studio 保留 Markdown 演示入口，能力缺口继续由 `migration/controls/advanced.json` 审计。
+Markdown 阅读组件位于 `omniui/plugins/markdown`，通过可选 Goldmark 解析器组合 Go 原生控件。实现、测试和许可证均在该目录；Studio 保留 Markdown 演示入口，能力缺口继续由 `docs/compatibility/controls/advanced.json` 审计。
 
 新增独立服务演示 **OmniBrowser**（非 golet 原有 16 项之一）：核心位于 `omniui/plugins/omnibrowser`，提供纯 Go HTTP/DOM/JS 与抓取；可选 `omniui/plugins/omnibrowser/render` 提供 Go 语义预览，Studio 入口为 `plugin/omnibrowser`。它不是现有 Chromium 插件的替代，也没有完整浏览器兼容性；具体能力与限制见 `omniui/plugins/omnibrowser/README.md`。
