@@ -734,6 +734,12 @@ func (s *Surface) drawElement(p *Painter, item entry) {
 		if e.kind == ButtonKind {
 			size := min(e.iconOptions.Size, r.W, r.H)
 			box = Rect{r.X + (r.W-size)/2, r.Y + (r.H-size)/2, size, size}
+			if e.alignStart && e.text != "" {
+				box.X = r.X + 12
+				if item.rtl {
+					box.X = r.X + r.W - 12 - size
+				}
+			}
 		}
 		c := fg
 		if e.iconOptions.Color.A != 0 {

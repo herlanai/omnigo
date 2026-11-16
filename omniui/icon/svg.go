@@ -178,6 +178,24 @@ func normalize(data []byte) ([]byte, error) {
 					attrs = append(attrs, xml.Attr{Name: xml.Name{Local: "stroke"}, Value: "none"})
 				}
 			}
+			// SVG rect inherits an omitted radius from the other axis.
+			// oksvg otherwise defaults the missing axis to zero.
+			if t.Name.Local == "rect" {
+				rx, ry := "", ""
+				for _, a := range attrs {
+					if a.Name.Local == "rx" {
+						rx = a.Value
+					}
+					if a.Name.Local == "ry" {
+						ry = a.Value
+					}
+				}
+				if rx != "" && ry == "" {
+					attrs = append(attrs, xml.Attr{Name: xml.Name{Local: "ry"}, Value: rx})
+				} else if ry != "" && rx == "" {
+					attrs = append(attrs, xml.Attr{Name: xml.Name{Local: "rx"}, Value: ry})
+				}
+			}
 			t.Attr = attrs
 			token = t
 		case xml.EndElement:

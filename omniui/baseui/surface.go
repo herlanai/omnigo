@@ -482,7 +482,7 @@ func (s *Surface) measureNatural(e *Element, width float64) (float64, float64) {
 			if e.inlineLink {
 				padding = 0
 			}
-			w = s.textWidth(e.text) + 2*padding
+			w = s.textWidth(e.text) + 2*padding + e.textIndent
 		}
 		if h == 0 {
 			h = s.theme.Height

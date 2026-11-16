@@ -68,3 +68,19 @@ func TestCompactArcFlags(t *testing.T) {
 		}
 	}
 }
+
+func TestRectangleImplicitRadius(t *testing.T) {
+	for _, radii := range []string{`rx="4"`, `ry="4"`, `rx="4" ry="4"`, `rx="4" ry="0"`} {
+		svg := MustParseSVG([]byte(`<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" ` + radii + `/></svg>`))
+		img, err := svg.Rasterize(96, 96, color.NRGBA{A: 255}, 0)
+		if err != nil {
+			t.Fatal(err)
+		}
+		_, _, _, corner := img.At(13, 13).RGBA()
+		_, _, _, edge := img.At(28, 13).RGBA()
+		square := strings.Contains(radii, `ry="0"`)
+		if (corner != 0) != square || edge == 0 {
+			t.Fatalf("%s: corner=%d edge=%d", radii, corner, edge)
+		}
+	}
+}

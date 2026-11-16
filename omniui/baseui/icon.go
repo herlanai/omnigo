@@ -79,3 +79,18 @@ func IconButton(id, label string, source IconSource, action func()) *Element {
 	e.iconOptions = IconOptions{Size: 20}
 	return e
 }
+
+// MenuButton combines a leading icon and left-aligned text in one clickable row.
+// The icon shares the button's vertical center and interaction colors. Unlike
+// IconButton, its natural width includes the visible label.
+func MenuButton(id, label string, source IconSource, action func()) *Element {
+	if label == "" || source == nil {
+		panic("baseui: menu button needs a label and source")
+	}
+	e := Button(id, label, action).Variant(Ghost)
+	e.alignStart = true
+	e.textIndent = 28
+	e.iconSource = source
+	e.iconOptions = IconOptions{Size: 20}
+	return e
+}

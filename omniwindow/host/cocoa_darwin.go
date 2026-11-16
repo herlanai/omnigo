@@ -278,6 +278,28 @@ func runNative(ctx context.Context, options Options) error {
 		return err
 	}
 	delegateClass, err := objc.RegisterClass("OmniGoUIAppWindowDelegate", objc.GetClass("NSObject"), nil, nil, []objc.MethodDef{
+		{Cmd: sel("windowDidResize:"), Fn: func(_ objc.ID, _ objc.SEL, n objc.ID) {
+			guard(func() {
+				native := n.Send(sel("object"))
+				for _, w := range windows {
+					if w.native != native {
+						continue
+					}
+					bounds := objc.Send[rect](w.view, sel("bounds"))
+					width, height := int(bounds.S.W), int(bounds.S.H)
+					if width <= 0 || height <= 0 || (width == w.width && height == w.height) {
+						return
+					}
+					if err := w.surface.Resize(width, height); err != nil {
+						log.Printf("host resize: %v", err)
+						return
+					}
+					w.width, w.height = width, height
+					repaint(w)
+					return
+				}
+			})
+		}},
 		{Cmd: sel("windowWillClose:"), Fn: func(_ objc.ID, _ objc.SEL, n objc.ID) {
 			guard(func() {
 				native := n.Send(sel("object"))
@@ -415,12 +437,14 @@ func runNative(ctx context.Context, options Options) error {
 			return err
 		}
 		w.width, w.height, w.surface = viewWidth, viewHeight, surface
-		w.native = objc.ID(objc.GetClass("NSWindow")).Send(sel("alloc")).Send(sel("initWithContentRect:styleMask:backing:defer:"), rect{S: size{W: float64(viewWidth), H: float64(viewHeight)}}, uint64(1|2|4), uint64(2), false)
+		w.native = objc.ID(objc.GetClass("NSWindow")).Send(sel("alloc")).Send(sel("initWithContentRect:styleMask:backing:defer:"), rect{S: size{W: float64(viewWidth), H: float64(viewHeight)}}, uint64(1|2|4|8), uint64(2), false)
+		w.native.Send(sel("setCollectionBehavior:"), uint64(1<<7))
 		w.native.Send(sel("setReleasedWhenClosed:"), false)
 		w.native.Send(sel("setAcceptsMouseMovedEvents:"), true)
 		w.native.Send(sel("setTitle:"), stringID(content.Title))
 		w.native.Send(sel("setDelegate:"), delegate)
 		w.view = objc.ID(viewClass).Send(sel("alloc")).Send(sel("initWithFrame:"), rect{S: size{W: float64(viewWidth), H: float64(viewHeight)}})
+		w.view.Send(sel("setAutoresizingMask:"), uint64(2|16))
 		w.view.Send(sel("setImageScaling:"), uint64(2))
 		tracking := objc.ID(objc.GetClass("NSTrackingArea")).Send(sel("alloc")).Send(sel("initWithRect:options:owner:userInfo:"), rect{}, uint64(1|2|0x20|0x200), w.view, objc.ID(0))
 		w.view.Send(sel("addTrackingArea:"), tracking)

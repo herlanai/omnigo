@@ -79,8 +79,15 @@ func richStyle(s TextSpan) int {
 	}
 	return n
 }
+func richFont(style int) *opentype.Font {
+	if style < 4 {
+		return interfaceFont([]int{400, 700, 401, 701}[style])
+	}
+	return richFonts[style]()
+}
+
 func richFace(style int, size float64) font.Face {
-	f, e := opentype.NewFace(richFonts[style](), &opentype.FaceOptions{Size: size, DPI: 72, Hinting: font.HintingNone})
+	f, e := opentype.NewFace(richFont(style), &opentype.FaceOptions{Size: size, DPI: 72, Hinting: font.HintingNone})
 	if e != nil {
 		panic(e)
 	}

@@ -39,7 +39,7 @@ func weightedFace(weight int, mono bool, size float64) font.Face {
 	if weight < 400 {
 		weight = 400
 	}
-	f, err := opentype.NewFace(interFonts[weight](), &opentype.FaceOptions{Size: size, DPI: 72, Hinting: font.HintingNone})
+	f, err := opentype.NewFace(interfaceFont(weight), &opentype.FaceOptions{Size: size, DPI: 72, Hinting: font.HintingNone})
 	if err != nil {
 		panic(err)
 	}

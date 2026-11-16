@@ -7,6 +7,8 @@ import "github.com/ebitengine/purego/objc"
 // Keep the titled style so the window remains keyable and retains standard
 // close/minimize behavior. Full-size content removes the titlebar's reserved area.
 func (w *window) setTitlebarHidden(hidden bool) {
+	// Native style changes can synchronously deliver resize notifications.
+	w.titlebarHidden = hidden
 	const fullSizeContent uint64 = 1 << 15
 	mask := uint64(w.native.Send(sel("styleMask")))
 	frame := objc.Send[rect](w.native, sel("frame"))
