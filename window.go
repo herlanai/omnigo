@@ -64,6 +64,9 @@ func (a *Application) SetTitleBar(ctx context.Context, r host.TitleBarRequest) (
 // ContentWindowOptions describes native Go content; its callbacks run on the UI goroutine.
 type ContentWindowOptions = host.ContentWindowOptions
 
+// WindowButtonLayout positions native macOS buttons in a hidden Go titlebar.
+type WindowButtonLayout = host.WindowButtonLayout
+
 // WindowEnvironment provides capabilities scoped to the content window. RunTask
 // dispatches completion to the live window; do not retain transient paint state.
 type WindowEnvironment struct {

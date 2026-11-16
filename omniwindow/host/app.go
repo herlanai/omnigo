@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"math"
 	"net/url"
 	"sync"
 	"sync/atomic"
@@ -35,15 +36,22 @@ type WebViewOptions struct {
 }
 
 // ContentWindowOptions describes one Go window; callbacks run on its UI goroutine.
+// WindowButtonLayout places native macOS traffic lights in a hidden titlebar.
+// Left/Top are content-view DIP offsets; Spacing is the distance between buttons.
+// Nil leaves the existing hidden-button behavior unchanged.
+type WindowButtonLayout struct{ Left, Top, Spacing float64 }
+
 type ContentWindowOptions struct {
-	WebView        *WebViewOptions
-	Title          string
-	Width, Height  int
-	View           func() *ui.Element
-	BeforeRender   func(*ui.Surface) error
-	Close          func()
-	TitleBarHidden func() bool
-	DragRegion     string
+	MinWidth, MinHeight int
+	WindowButtons       *WindowButtonLayout
+	WebView             *WebViewOptions
+	Title               string
+	Width, Height       int
+	View                func() *ui.Element
+	BeforeRender        func(*ui.Surface) error
+	Close               func()
+	TitleBarHidden      func() bool
+	DragRegion          string
 }
 
 func (c ContentWindowOptions) close() {
@@ -60,6 +68,24 @@ func (c ContentWindowOptions) normalized() (ContentWindowOptions, error) {
 	}
 	if c.Height == 0 {
 		c.Height = 840
+	}
+	if c.MinWidth < 0 || c.MinHeight < 0 || c.MinWidth > c.Width || c.MinHeight > c.Height {
+		return c, errors.New("host: minimum size must fit initial window size")
+	}
+	if c.WindowButtons != nil {
+		b := *c.WindowButtons
+		if b.Spacing == 0 {
+			b.Spacing = 22
+		}
+		for _, v := range []float64{b.Left, b.Top, b.Spacing} {
+			if math.IsNaN(v) || math.IsInf(v, 0) || v < 0 || v > 16384 {
+				return c, errors.New("host: invalid window button layout")
+			}
+		}
+		if b.Spacing < 16 {
+			return c, errors.New("host: window button spacing too small")
+		}
+		c.WindowButtons = &b
 	}
 	if err := (omniwindow.WindowOptions{Title: c.Title, Width: c.Width, Height: c.Height}).Validate(); err != nil {
 		return c, err

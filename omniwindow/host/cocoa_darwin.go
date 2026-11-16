@@ -39,6 +39,8 @@ type rect struct {
 	S size
 }
 type window struct {
+	buttonParents   [3]objc.ID
+	buttonFrames    [3]rect
 	textContext     objc.ID
 	textClosing     bool
 	access          map[string]objc.ID
@@ -332,6 +334,7 @@ func runNative(ctx context.Context, options Options) error {
 								delete(byName, name)
 							}
 						}
+						w.releaseButtonParents()
 						w.native.Send(sel("autorelease"))
 						break
 					}
@@ -439,6 +442,9 @@ func runNative(ctx context.Context, options Options) error {
 		w.width, w.height, w.surface = viewWidth, viewHeight, surface
 		w.native = objc.ID(objc.GetClass("NSWindow")).Send(sel("alloc")).Send(sel("initWithContentRect:styleMask:backing:defer:"), rect{S: size{W: float64(viewWidth), H: float64(viewHeight)}}, uint64(1|2|4|8), uint64(2), false)
 		w.native.Send(sel("setCollectionBehavior:"), uint64(1<<7))
+		if content.MinWidth > 0 || content.MinHeight > 0 {
+			w.native.Send(sel("setContentMinSize:"), size{W: float64(content.MinWidth), H: float64(content.MinHeight)})
+		}
 		w.native.Send(sel("setReleasedWhenClosed:"), false)
 		w.native.Send(sel("setAcceptsMouseMovedEvents:"), true)
 		w.native.Send(sel("setTitle:"), stringID(content.Title))
@@ -524,6 +530,7 @@ func paint(w *window, h *Controller) error {
 			w.setTitlebarHidden(hidden)
 		}
 	}
+	w.layoutWindowButtons()
 	if w.timer != nil {
 		w.timer.Stop()
 		w.timer = nil
