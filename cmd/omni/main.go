@@ -95,7 +95,7 @@ func runTo(args []string, output io.Writer) error {
 	}
 	commands := "doctor, dev, build and distribution"
 	if *kind == "mobile" {
-		commands = "mobile doctor and mobile build"
+		commands = "mobile doctor, mobile dev and mobile build"
 	}
 	_, err := fmt.Fprintf(output, "Created %s (%s). Follow its README.md for %s.\n", flags.Arg(0), *kind, commands)
 	if err != nil {

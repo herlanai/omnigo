@@ -38,6 +38,10 @@ func (s *Surface) deferOverlay(e *Element, disabled bool, modal, parent string) 
 	}
 }
 func (s *Surface) relayout() {
+	// Relayout runs only after visible state changed; measurement results from
+	// the previous pass are stale and the host must repaint.
+	clear(s.measures)
+	s.touch()
 	s.entries = s.entries[:0]
 	clear(s.index)
 	s.overlays = nil

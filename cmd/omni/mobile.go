@@ -19,14 +19,14 @@ import (
 
 func mobileCommand(args []string, out io.Writer) error {
 	if len(args) == 0 {
-		return errors.New("usage: omni mobile build|doctor --target ios-simulator|ios|android")
+		return errors.New("usage: omni mobile build|dev|doctor --target ios-simulator|ios|android")
 	}
 	if args[0] == "-h" || args[0] == "--help" {
-		_, err := fmt.Fprintln(out, "Usage: omni mobile build|doctor [-config omnigo.json] [-target ios-simulator|ios|android] [-arch arm64|amd64]\nMobile native linking uses cgo; desktop builds remain CGO_ENABLED=0. Device iOS output is unsigned; Android APK is for development.")
+		_, err := fmt.Fprintln(out, "Usage: omni mobile build|dev|doctor [-config omnigo.json] [-target ios-simulator|ios|android] [-arch arm64|amd64]\nMobile native linking uses cgo; desktop builds remain CGO_ENABLED=0. Device iOS output is unsigned; Android APK is for development.\ndev rebuilds, reinstalls and relaunches on a booted iOS Simulator or a running Android emulator or device whenever sources change; it is a full rebuild loop, not a hot code swap, and does not support the unsigned iOS device target.")
 		return err
 	}
 	action := args[0]
-	if action != "build" && action != "doctor" {
+	if action != "build" && action != "dev" && action != "doctor" {
 		return fmt.Errorf("unknown mobile command %q", action)
 	}
 	f := flag.NewFlagSet("mobile "+action, flag.ContinueOnError)
@@ -99,10 +99,20 @@ func mobileCommand(args []string, out io.Writer) error {
 	if c.Mobile == nil {
 		return errors.New("mobile configuration missing; create with omni init --template mobile")
 	}
+	if action == "dev" {
+		return mobileDevCommand(ctx, path, c, t, out)
+	}
 	result, err := mobilebuild.Build(ctx, filepath.Dir(path), *c.Mobile, t, out)
 	if err != nil {
 		return err
 	}
 	_, err = fmt.Fprintln(out, "Built", result, "(experimental; iOS device signing and store release are application-owned)")
 	return err
+}
+
+func mobileDevCommand(ctx context.Context, configPath string, c appbuild.Config, t mobilebuild.Target, out io.Writer) error {
+	if c.Mobile == nil {
+		return errors.New("mobile configuration missing; create with omni init --template mobile")
+	}
+	return mobilebuild.Dev(ctx, mobilebuild.DevOptions{Dir: filepath.Dir(configPath), Config: *c.Mobile, Target: t, Out: out})
 }

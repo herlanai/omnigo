@@ -84,11 +84,19 @@ type Surface struct {
 	ownedFace                                 bool
 	root                                      *Element
 	entries                                   []entry
+	measures                                  map[measureKey][2]float64
 	index                                     map[string]int
 	focus, pressed, hover, modal, returnFocus string
 	requestedFocus                            string
 	closed                                    bool
+	dirty                                     bool
 	now                                       time.Duration
+}
+
+// measureKey memoizes one measure result for the current relayout pass.
+type measureKey struct {
+	element *Element
+	width   float64
 }
 
 func NewSurface(width, height int, theme Theme) (*Surface, error) {
@@ -112,7 +120,7 @@ func NewSurfaceWithFont(width, height int, theme Theme, face font.Face) (*Surfac
 	if theme.Height == 0 || theme.FontSize == 0 {
 		return nil, errors.New("baseui: theme height and font size must be positive")
 	}
-	s := &Surface{width: width, height: height, theme: theme, face: face, index: make(map[string]int)}
+	s := &Surface{width: width, height: height, theme: theme, face: face, index: make(map[string]int), measures: make(map[measureKey][2]float64)}
 	if face == nil {
 		s.face = richFace(0, theme.FontSize)
 		s.ownedFace = true
@@ -294,7 +302,7 @@ func (s *Surface) Mount(root *Element) error {
 	previousInput, hadInput := s.enabled(s.focus)
 	previous, hadPointer := s.enabled(s.pressed)
 	previousHover, hadHover := s.enabled(s.hoverListener)
-	oldFrames := []entry{}
+	var oldFrames []entry
 	for _, item := range s.entries {
 		if item.element.onFrame != nil {
 			oldFrames = append(oldFrames, item)
@@ -335,7 +343,7 @@ func (s *Surface) Mount(root *Element) error {
 		}
 	}
 	s.updateLayerFocus()
-	reveal := []string{}
+	var reveal []string
 	for _, item := range s.entries {
 		if item.element.revealChild != "" {
 			reveal = append(reveal, item.element.revealChild)
@@ -365,15 +373,41 @@ func (s *Surface) Mount(root *Element) error {
 }
 
 func (s *Surface) lineHeight() float64 { return float64(s.face.Metrics().Height.Ceil()) + 4 }
+
+// touch marks visual state as changed. Internal mutators call it so hosts can
+// skip full rebuild-and-render passes after input events that changed nothing.
+func (s *Surface) touch() { s.dirty = true }
+
+// TakeDirty reports whether anything since the previous call may have changed
+// the rendered output, and clears the flag. Hosts call it after input
+// handling: a false result means the frame cannot differ from the last one.
+// The flag is conservative — it may report changes that turn out invisible,
+// never the reverse.
+func (s *Surface) TakeDirty() bool {
+	dirty := s.dirty
+	s.dirty = false
+	return dirty
+}
 func (s *Surface) textWidth(text string) float64 {
 	return float64(font.MeasureString(s.face, text).Ceil())
 }
+
+// measure caches one measurement per element and available width for the
+// current relayout pass. Layout asks for the same pair several times (parent
+// sizing, grow accounting and placement), and text measurement dominates
+// layout cost. Results depend only on the element, the width, and the theme
+// and face, which are fixed between relayouts.
 func (s *Surface) measure(e *Element, width float64) (float64, float64) {
-	w, h := s.measureNatural(e, width)
-	if e.hidden {
-		return w, h
+	key := measureKey{element: e, width: width}
+	if m, ok := s.measures[key]; ok {
+		return m[0], m[1]
 	}
-	return w, max(h, e.minHeight)
+	w, h := s.measureNatural(e, width)
+	if !e.hidden {
+		h = max(h, e.minHeight)
+	}
+	s.measures[key] = [2]float64{w, h}
+	return w, h
 }
 func (s *Surface) measureNatural(e *Element, width float64) (float64, float64) {
 	switch e.kind {
@@ -585,7 +619,7 @@ func (s *Surface) layout(e *Element, r, clip Rect, disabled bool, modal, parent 
 	if e.kind != ColumnKind && e.kind != RowKind && e.kind != CardKind && e.kind != ModalKind && e.kind != PopupKind {
 		return
 	}
-	rowSizes := map[*Element]Rect{}
+	var rowSizes map[*Element]Rect
 	if e.kind == RowKind {
 		rowSizes = s.rowSizes(e, inner.W)
 	}
@@ -691,6 +725,7 @@ func (s *Surface) changeFocus(id string) {
 		}
 	}
 	s.focus = id
+	s.touch()
 }
 func (s *Surface) Focus(id string) bool {
 	defer s.syncHover()
@@ -835,6 +870,7 @@ func (s *Surface) Pointer(ev PointerEvent) error {
 
 	switch ev.Kind {
 	case "down":
+		s.touch()
 		if s.modal != "" {
 			panel := s.entries[s.index[s.modal]]
 			if !panel.bounds.Contains(ev.X, ev.Y) && !(panel.element.allowAnchorFocus && s.entries[s.index[panel.element.anchor]].bounds.Contains(ev.X, ev.Y)) {
@@ -879,12 +915,17 @@ func (s *Surface) Pointer(ev PointerEvent) error {
 			s.dragScroll(ev.X, ev.Y)
 			return nil
 		}
-		s.hover = target
+		if target != s.hover {
+			s.hover = target
+			s.touch()
+		}
 		return s.drag(ev.X, ev.Y, true)
 	case "leave":
 		s.hover = ""
+		s.touch()
 	case "cancel":
 		s.hover = ""
+		s.touch()
 		s.scrollDrag = ""
 		if i, ok := s.index[s.splitDrag]; ok {
 			s.entries[i].element.split.Fraction = s.splitStart
@@ -893,6 +934,7 @@ func (s *Surface) Pointer(ev PointerEvent) error {
 		s.splitDrag = ""
 		s.pressed = ""
 	case "up":
+		s.touch()
 		if s.splitDrag != "" {
 			s.splitDrag = ""
 			s.pressed = ""
@@ -922,6 +964,7 @@ func (s *Surface) drag(x, y float64, extend bool) error {
 	}
 	if e.element.otpLength > 0 {
 		s.selectOTP(e, x, extend)
+		s.touch()
 		return nil
 	}
 	if e.element.buffer != nil {
@@ -955,6 +998,7 @@ func (s *Surface) drag(x, y float64, extend bool) error {
 			anchor = b.anchor
 		}
 		b.Select(anchor, caret)
+		s.touch()
 		return nil
 	}
 	if e.element.kind != SliderKind || e.element.readOnly {
@@ -967,6 +1011,7 @@ func (s *Surface) drag(x, y float64, extend bool) error {
 		return nil
 	}
 	v.value = number
+	s.touch()
 	return guarded(func() {
 		if v.changeNumber != nil {
 			v.changeNumber(number)
@@ -984,6 +1029,8 @@ func (s *Surface) Key(ev KeyEvent) error {
 	if s.closed {
 		return errors.New("baseui: closed surface")
 	}
+	// Keyboard events are low frequency; treat every one as a potential change.
+	s.touch()
 	if !ev.Up && !ev.Repeat && (ev.Key == "ContextMenu" || ev.Key == "F10" && ev.Shift) {
 		return s.contextFocused()
 	}
@@ -1096,6 +1143,7 @@ func (s *Surface) TextInput(text string) error {
 	if !ok || e.element.readOnly {
 		return nil
 	}
+	s.touch()
 	if e.element.onText != nil {
 		return guarded(func() {
 			if id := e.element.onText(text, s.now); id != "" {
@@ -1112,6 +1160,7 @@ func (s *Surface) SetComposition(text string) {
 	e, ok := s.enabled(s.focus)
 	if ok && !e.element.readOnly && e.element.buffer != nil {
 		e.element.buffer.SetComposition(text)
+		s.touch()
 	}
 }
 func (s *Surface) CommitComposition() error {
@@ -1119,6 +1168,7 @@ func (s *Surface) CommitComposition() error {
 	if !ok || e.element.readOnly || e.element.buffer == nil {
 		return nil
 	}
+	s.touch()
 	return guarded(func() {
 		text := e.element.buffer.Composition()
 		if text == "" {
@@ -1178,14 +1228,20 @@ func (s *Surface) Advance(now time.Duration) error {
 		return errors.New("baseui: animation time cannot move backwards")
 	}
 	s.now = now
+	ranFrames := false
 	for _, item := range s.entries {
 		if item.element.onFrame != nil {
+			ranFrames = true
 			if err := guarded(func() {
 				item.element.onFrame(now, !s.inactive && !item.disabled && !item.element.readOnly && item.clip.W > 0 && item.clip.H > 0, s.theme.ReduceMotion)
 			}); err != nil {
 				return err
 			}
 		}
+	}
+	// Time-based visuals (spinners, animations, timed callbacks) may differ now.
+	if ranFrames || s.NeedsAnimation() {
+		s.touch()
 	}
 	s.syncHover()
 	return nil

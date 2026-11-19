@@ -113,6 +113,7 @@ func (s *Surface) EditNativeText(text string, replacement TextRange, selected *T
 		return originalA
 	}
 	begin, end := nativeToOriginal(unionA), nativeToOriginal(unionZ)
+	s.touch()
 	return guarded(func() {
 		b.Select(b.document.RuneOffset(begin), b.document.RuneOffset(end))
 		if selected != nil {
@@ -127,6 +128,7 @@ func (s *Surface) EditNativeText(text string, replacement TextRange, selected *T
 func (s *Surface) CancelComposition() {
 	if item, ok := s.enabled(s.focus); ok && item.element.buffer != nil {
 		item.element.buffer.CancelComposition()
+		s.touch()
 	}
 }
 

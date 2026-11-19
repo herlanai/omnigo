@@ -153,7 +153,7 @@ updater race/子进程测试；没有新增 Windows/Linux 原生运行证据。
   新增移动 canvas 单测覆盖缩放坐标、主指/次指、前后台取消、尺寸变化、关闭与非法输入；
   独立生成模块消费根包 RunMobile 并构建通过。
 - 独立项目 `/tmp/omnigo-mobile-project`：iOS simulator arm64、iOS device arm64、
-  Android arm64 与 amd64 四种产物均完成真实构建。移动源码复用 baseui，不导入 nsgo。
+  Android arm64 与 amd64 四种产物均完成真实构建。移动源码复用 baseui，不导入外部原生 view 框架。
 - iOS 26.5 / iPhone 17 Pro 模拟器：安装、原生首帧标记与截图通过。截图曾发现
   x/mobile 物理点直接作为 UI 坐标导致控件过大，已改为 UIKit scale/safe-area；
   带空格 bundle URL 的 runtime chdir 警告已通过 ID 命名 bundle 消除。

@@ -63,11 +63,14 @@ From this project:
 
     go mod tidy
     omni mobile doctor --target ios-simulator
+    omni mobile dev --target ios-simulator      # rebuild+reinstall+relaunch on save
     omni mobile build --target ios-simulator
     omni mobile build --target ios
     omni mobile build --target android
 
-Targets go to build/mobile/<target>-arm64; choose a new mobile.output before rebuilding.
+dev installs on a booted iOS Simulator or a running Android emulator/device and
+watches sources; it is a full rebuild loop, not a hot code swap. Targets from
+build go to build/mobile/<target>-arm64; choose a new mobile.output before rebuilding.
 iOS needs macOS/Xcode. Simulator bundles are ad-hoc signed; device bundles are unsigned
 and require your provisioning/signing/export workflow. Android needs the official NDK,
 Java, SDK platform 35 / Build Tools 35.0.0, gomobile and gomobile init; the generated APK is development-signed, not store-ready.

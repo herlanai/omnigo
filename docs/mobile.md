@@ -3,22 +3,17 @@
 本轮先打通 Go 控件移动应用。**移动 WebView 尚未实现**；桌面的 WebView 模板不能
 直接当作移动模板。当前平台/验收状态统一见 [status](status.md)。
 
-## nsgo 的参考结论
+## 外部原生 view 方案的参考结论
 
-核对 2026-11-14 的架构和构建源码：
+核对 2026-11-14 的公开原生 UI 框架构建实现（仅核对结论，未复制源码，也未作为依赖引入）：
 
-- [iOS 构建](https://github.com/nsgo-dev/nsgo/blob/main/cmd/nsgo/ios.go)：
-  `iosEnv` 显式设置 `CGO_ENABLED=1`，使用 Xcode 的 clang/linker。
-  核对源码 blob：`9d3c2e1e59d37d12233a53c8a451cb06f668abb3`。
-- [Android 构建](https://github.com/nsgo-dev/nsgo/blob/main/cmd/nsgo/android.go)：
-  arm64 为 `CGO_ENABLED=0`，amd64 为 `CGO_ENABLED=1` 并选择 NDK clang。
-  核对源码 blob：`97b5d8908b96cb5604ef41aebbf432913f558b6e`。
-- [架构](https://github.com/nsgo-dev/nsgo/blob/main/ARCHITECTURE.md) 描述了它的原生
-  view 挂载与 Android 子进程方案。OmniGo 没有复制源码或把 nsgo 加为依赖。
+- iOS 构建需要 `CGO_ENABLED=1`，使用 Xcode 的 clang/linker。
+- Android 构建中 arm64 为 `CGO_ENABLED=0`，amd64 为 `CGO_ENABLED=1` 并选择 NDK clang。
+- 该类方案采用每项平台各自的原生 view 挂载（含 Android 子进程方案），与下述 OmniGo 的选择不同。
 
 OmniGo 选择复用 baseui 的 Go 布局、交互和 CPU RGBA 绘制，使用官方
 `golang.org/x/mobile` 接入移动生命周期/触摸，并将像素提交到原生 GL 表面。
-这与 nsgo 的每项原生 view 挂载方案不同。移动宿主的 ABI 桥接和链接使用 cgo，
+这是与原生 view 挂载不同的技术路线。移动宿主的 ABI 桥接和链接使用 cgo，
 控件业务仍为 Go；桌面构建继续 `CGO_ENABLED=0`，不会链接 x/mobile/app 或 GL 驱动。
 移动依赖仍属于同一 Go module，因此 go mod tidy 会解析其依赖图。
 
@@ -51,6 +46,30 @@ omni mobile doctor --target ios-simulator
 omni mobile build --target ios-simulator
 omni mobile build --target ios
 ```
+
+### dev 监听循环
+
+`omni mobile dev` 在启动中的 iOS Simulator 或运行中的 Android 模拟器/设备上
+重建、重装并重启应用，然后监听项目源码变化并重复该循环：
+
+```sh
+omni mobile dev --target ios-simulator
+omni mobile dev --target android          # 需要 adb 可见至少一台设备/模拟器
+```
+
+- iOS Simulator：自动选择已启动的模拟器；没有则启动列表中第一台可用设备并等待
+  `simctl bootstatus`。
+- Android：使用 `adb devices` 中第一台 `device` 状态的设备；启动组件读取
+  app/AndroidManifest.xml 的 activity `android:name`。
+- **这是完整重建循环，不是热代码替换**：每次变更都重新编译、重装并重启，
+  应用内存状态丢失。iOS 真机目标被拒绝——安装需要应用自备签名。
+- 输出目录跳过 `mobile.output`，每次迭代构建到独立临时目录，不影响 `mobile build` 产物。
+
+2026-11-19 在本机实测（Apple M2 Max、Xcode iPhoneSimulator 27.0 SDK、iOS 17.0
+模拟器、脚手架 mobile 模板）：模拟器未启动时自动选择并启动第一台可用设备；
+首次安装启动 13.8s；修改 `app/main.go` 后检测-重建-重装-重启全程 1.8s，应用以
+新进程重启。Android 路径（adb/emulator）本机无工具链，未实测；单元测试覆盖
+设备解析、activity 解析与监听循环（注入假构建与假设备）。
 
 默认 arm64；Intel 模拟器可指定 `--arch amd64`。产物位于：
 

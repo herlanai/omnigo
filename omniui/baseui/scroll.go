@@ -115,6 +115,8 @@ func (s *Surface) Wheel(ev WheelEvent) error {
 	if !finite(ev.X) || !finite(ev.Y) || !finite(ev.DeltaX) || !finite(ev.DeltaY) {
 		return errors.New("baseui: invalid wheel event")
 	}
+	// Wheel events are low frequency; treat every one as a potential change.
+	s.touch()
 	// Deepest visible viewport consumes scrolling. At an edge, bubble to its
 	// ancestor only; never scroll a geometrically overlapping sibling.
 	target := ""

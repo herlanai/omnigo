@@ -206,6 +206,7 @@ func (s *Surface) SetActive(active bool) {
 		return
 	}
 	s.inactive = !active
+	s.touch()
 	if !active {
 		for _, item := range s.entries {
 			if item.element.onFrame != nil {

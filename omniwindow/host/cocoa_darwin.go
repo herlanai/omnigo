@@ -174,7 +174,11 @@ func runNative(ctx context.Context, options Options) error {
 				if err := w.surface.Pointer(ui.PointerEvent{X: p.X, Y: float64(w.height) - p.Y, Kind: kind, Button: int(event.Send(sel("buttonNumber")))}); err != nil {
 					log.Print(err)
 				}
-				repaint(w)
+				// Repaint only when input handling may have changed the frame;
+				// idle pointer moves over static content skip the full pass.
+				if w.surface.TakeDirty() {
+					repaint(w)
+				}
 			})
 		}
 	}
@@ -240,7 +244,9 @@ func runNative(ctx context.Context, options Options) error {
 						log.Print(err)
 					}
 				}
-				repaint(w)
+				if w.surface.TakeDirty() {
+					repaint(w)
+				}
 			})
 		}
 	}
@@ -260,7 +266,9 @@ func runNative(ctx context.Context, options Options) error {
 			if err != nil {
 				log.Print(err)
 			}
-			repaint(w)
+			if w.surface.TakeDirty() {
+				repaint(w)
+			}
 		})
 	}
 	if err := registerAccessibility(repaint); err != nil {
@@ -561,6 +569,9 @@ func paint(w *window, h *Controller) error {
 
 	w.view.Send(sel("setImage:"), image)
 	image.Send(sel("release"))
+	// The presented frame reflects every pending change; future events start
+	// from a clean slate so no-op input can skip the whole pipeline.
+	w.surface.TakeDirty()
 	w.view.Send(sel("inputContext")).Send(sel("invalidateCharacterCoordinates"))
 	if delay, scheduled := w.surface.NextWakeup(); scheduled && w.native.Send(sel("isVisible")) != 0 && w.native.Send(sel("isMiniaturized")) == 0 {
 		w.timer = time.AfterFunc(delay, func() {

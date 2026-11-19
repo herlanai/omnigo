@@ -32,6 +32,31 @@ go test -run '^$' -bench . -benchmem -count 5 ./omniui ./internal/runtime/event
 
 当前测试使用确定性同步验证依赖失败、清理、异常、背压、取消和更新协议，另有 RPC 与树差分的模糊测试。它们是建立质量门槛的起点，不是整套桌面框架稳定性的证明。
 
+## 2026-11-19：布局测量缓存与输入脏标记
+
+参考细粒度更新模型（signal 变化只影响读取它的节点），本轮在两个层面减少"没有变化的重复工作"：布局阶段重复测量，以及输入事件后的空帧全量重建。
+
+环境：Apple M2 Max、darwin/arm64、Go 1.26.0，`CGO_ENABLED=0`，非 race 构建，每组 5 个样本，下表为中位数。基准只与本仓库本轮修改前的实现比较。
+
+**测量缓存**：`Surface.measure` 在单次 relayout 内按（元素，可用宽度）记忆化。同一帧布局会因父容器测量、grow 分配与摆放循环对同一元素重复测量 3-4 次，文本测量（`font.MeasureString`）是主要成本。缓存在每次 `relayout` 清空，主题与字体在同一 relayout 内不变，结果一致；`measureContent` 回调从"多次调用结果一致"收紧为"首次调用生效"，与既有行为的差异仅在回调本身不纯时。
+
+| 测量 | 修改前 | 修改后 | 说明 |
+| --- | ---: | ---: | --- |
+| Mount 100 个文本控件 | 134,201 ns / 101,342 B / 312 allocs | 90,805 ns / 99,741 B / 212 allocs | 耗时约 -32%，分配次数约 -32% |
+| 虚拟列表 Mount（1,000 项） | 191,748 ns / 127,205 B / 370 allocs | 46,557 ns / 83,042 B / 230 allocs | 耗时约 -76%，分配约 -35% |
+
+**输入脏标记**：`Surface.TakeDirty` 让宿主在输入处理没有改变可见状态时跳过整个 Mount-渲染管线。此前鼠标在静态内容上移动也会触发全量树重建、布局与光栅化。标记是保守的：hover/focus/pressed 变化、拖拽选区、滚动、文本与输入法编辑、键盘与滚轮事件、运行过帧回调或存在活动动画的 `Advance`、以及一切 `relayout` 都会置脏；只有"无按压且悬停目标不变的 move"不置脏。macOS 宿主在事件路径上以 `TakeDirty` 门控重绘，`paint` 完成后消费标记；激活、缩放、无障碍请求与动画唤醒仍强制重绘，行为不变。跳过空帧的收益取决于交互负载，本轮未做端到端空闲 CPU 测量，不声明具体倍率。
+
+验证：`dirty_test.go` 覆盖空 move 不置脏、hover/按键/输入/动画置脏与 `TakeDirty` 消费语义；`TestMeasureCacheStaysConsistentAcrossRelayout` 验证缓存清空后几何一致；`./omniui/... ./omniwindow/...` 全部通过（含 `-race`），其中宿主原生探针（AppKit 窗口、键盘、输入法标记文本）在修改后通过。拖拽、悬停提示与滚动条的原生手感仍需按惯例人工验收。
+
+复现：
+
+```sh
+CGO_ENABLED=0 go test ./omniui/baseui -run '^$' -bench 'BenchmarkMount100Controls|BenchmarkVirtualListMount' -benchmem -count 5
+CGO_ENABLED=0 go test ./omniui/baseui -run 'TestTakeDirty|TestMeasureCache' -v
+CGO_ENABLED=0 go test -race ./omniui/... ./omniwindow/...
+```
+
 ## 2026-11-11：CPU 光栅化与原生窗口帧缓冲
 
 环境：Apple M2 Max、darwin/arm64、Go 1.26.0，`CGO_ENABLED=0`，非 race 构建，每组 5 个样本，下表为中位数。基准只与本仓库优化前实现比较，不是与 golet 的对照。
