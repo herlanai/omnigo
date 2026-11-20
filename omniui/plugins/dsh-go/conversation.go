@@ -332,6 +332,8 @@ type turnAdapter struct {
 	used, calls int
 	seen        map[string]bool
 	failure     error
+	// text accumulates streamed answer text across all Chat steps of the turn.
+	text strings.Builder
 }
 
 func (t *turnAdapter) Name() string { return t.source.Name() }
@@ -393,7 +395,7 @@ func (t *turnAdapter) Chat(ctx context.Context, r llm.ChatRequest, cb func(llm.S
 		}
 		if chunk.Kind == llm.ChunkText && chunk.Text != "" {
 			meaningful = true
-			t.result.Text += chunk.Text
+			t.text.WriteString(chunk.Text)
 			t.emit(Event{Kind: "text", Text: chunk.Text})
 		}
 		if chunk.Kind == llm.ChunkReasoning {
@@ -405,6 +407,7 @@ func (t *turnAdapter) Chat(ctx context.Context, r llm.ChatRequest, cb func(llm.S
 	t.result.Usage.CompletionTokens += usage.CompletionTokens
 	t.result.Usage.PromptCacheHitTokens += usage.PromptCacheHitTokens
 	t.result.Usage.PromptCacheMissTokens += usage.PromptCacheMissTokens
+	t.result.Text = t.text.String()
 	if t.failure == nil && err != nil {
 		t.failure = err
 	}

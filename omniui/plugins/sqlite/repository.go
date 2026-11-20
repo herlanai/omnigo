@@ -15,6 +15,11 @@ type Repository[T any] struct{ db *DB }
 
 func Table[T any](db *DB) *Repository[T] { return &Repository[T]{db: db} }
 
+// byID matches the model's primary key; the value is always a bound parameter.
+func byID(id any) clause.Eq {
+	return clause.Eq{Column: clause.Column{Name: clause.PrimaryKey}, Value: id}
+}
+
 type ListOptions struct {
 	// Where accepts GORM map/struct conditions or a trusted SQL fragment with Args.
 	// Never put user input into SQL fragments or expressions; pass it through Args.
@@ -33,7 +38,7 @@ func (r *Repository[T]) Create(ctx context.Context, value *T) error {
 }
 func (r *Repository[T]) Get(ctx context.Context, id any) (T, error) {
 	var value T
-	err := r.db.ORM(ctx).Where(clause.Eq{Column: clause.Column{Name: clause.PrimaryKey}, Value: id}).First(&value).Error
+	err := r.db.ORM(ctx).Where(byID(id)).First(&value).Error
 	return value, err
 }
 
@@ -43,7 +48,7 @@ func (r *Repository[T]) Update(ctx context.Context, id any, changes map[string]a
 	if len(changes) == 0 {
 		return errors.New("sqlite: empty update")
 	}
-	result := r.db.ORM(ctx).Model(new(T)).Where(clause.Eq{Column: clause.Column{Name: clause.PrimaryKey}, Value: id}).Updates(changes)
+	result := r.db.ORM(ctx).Model(new(T)).Where(byID(id)).Updates(changes)
 	if result.Error != nil {
 		return result.Error
 	}
@@ -53,7 +58,7 @@ func (r *Repository[T]) Update(ctx context.Context, id any, changes map[string]a
 	return nil
 }
 func (r *Repository[T]) Delete(ctx context.Context, id any) error {
-	result := r.db.ORM(ctx).Where(clause.Eq{Column: clause.Column{Name: clause.PrimaryKey}, Value: id}).Delete(new(T))
+	result := r.db.ORM(ctx).Where(byID(id)).Delete(new(T))
 	if result.Error != nil {
 		return result.Error
 	}

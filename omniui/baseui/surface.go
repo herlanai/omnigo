@@ -6,6 +6,7 @@ import (
 	"math"
 	"strings"
 	"time"
+	"unicode/utf8"
 
 	"golang.org/x/image/font"
 )
@@ -977,20 +978,26 @@ func (s *Surface) drag(x, y float64, extend bool) error {
 		}
 		offset := 0
 		for i := 0; i < row; i++ {
-			offset += len([]rune(lines[i])) + 1
+			offset += utf8.RuneCountInString(lines[i]) + 1
 		}
 		inset := inputTextInset(e.element)
 		local := x - e.bounds.X - inset
 		if e.element.kind == InputKind {
 			local += max(0, metrics.textWidth(string([]rune(b.text)[:b.caret]))-(e.bounds.W-2*inset))
 		}
+		// Measure each rune once and accumulate prefix widths; textWidth is a
+		// per-glyph advance sum, so this equals the prefix measurements the
+		// naive loop takes twice per candidate column.
 		runes := []rune(lines[row])
 		column := len(runes)
-		for i := range runes {
-			if local < (metrics.textWidth(string(runes[:i]))+metrics.textWidth(string(runes[:i+1])))/2 {
+		width := 0.0
+		for i, r := range runes {
+			next := width + metrics.textWidth(string(r))
+			if local < (width+next)/2 {
 				column = i
 				break
 			}
+			width = next
 		}
 		caret := offset + column
 		anchor := caret

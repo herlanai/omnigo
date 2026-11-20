@@ -385,6 +385,10 @@ func (w *xhost) next(timeout int) ([]Event, error) {
 	w.events = nil
 	return events, nil
 }
+// xkeyNames maps X keysyms to baseui key names. Read-only after init; key
+// events arrive on one goroutine but the table is safe to share regardless.
+var xkeyNames = map[uintptr]string{0xff08: "Backspace", 0xff09: "Tab", 0xfe20: "Tab", 0xff0d: "Enter", 0xff1b: "Escape", 32: "Space", 0xff50: "Home", 0xff51: "Left", 0xff52: "Up", 0xff53: "Right", 0xff54: "Down", 0xff55: "PageUp", 0xff56: "PageDown", 0xff57: "End", 0xffff: "Delete", 0xffc7: "F10"}
+
 func xkey(k uintptr) string {
 	if k >= 'a' && k <= 'z' {
 		return string(rune(k - 32))
@@ -392,7 +396,7 @@ func xkey(k uintptr) string {
 	if k >= 'A' && k <= 'Z' {
 		return string(rune(k))
 	}
-	return map[uintptr]string{0xff08: "Backspace", 0xff09: "Tab", 0xfe20: "Tab", 0xff0d: "Enter", 0xff1b: "Escape", 32: "Space", 0xff50: "Home", 0xff51: "Left", 0xff52: "Up", 0xff53: "Right", 0xff54: "Down", 0xff55: "PageUp", 0xff56: "PageDown", 0xff57: "End", 0xffff: "Delete", 0xffc7: "F10"}[k]
+	return xkeyNames[k]
 }
 func (w *xhost) present(frame *image.RGBA) error {
 	a := &w.api

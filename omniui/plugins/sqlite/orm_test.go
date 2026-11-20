@@ -69,7 +69,9 @@ func TestORMCRUDAndRawShareDatabase(t *testing.T) {
 	if err := tasks.Update(t.Context(), first.ID, map[string]any{"title": "missing"}); !errors.Is(err, ErrNotFound) {
 		t.Fatal(err)
 	}
-	if _, err := tasks.Get(nil, first.ID); err == nil {
+	// Deliberately nil: verifies the nil-context guard rejects it.
+	var nilCtx context.Context
+	if _, err := tasks.Get(nilCtx, first.ID); err == nil {
 		t.Fatal("nil context accepted")
 	}
 }

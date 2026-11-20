@@ -29,7 +29,7 @@
 
 Loading 已统一到 `omniui/baseui/loading`，实现和测试均在该目录，`omniui/plugins/loading` 已移除。插件清单保留参考能力审计，指向实际实现位置。本轮没有复制 golet 实现体，也没有导入 golet。
 
-SQLite 使用可选的 modernc.org/sqlite 纯 Go 驱动；WebSocket 使用 coder/websocket；Unix PTY 使用 creack/pty。许可证见 [licenses](licenses)。它们与 golet 采用的依赖路线可能不同，完整参考行为仍需逐项验证。
+SQLite 使用可选的 github.com/liustack/sqlite 纯 Go 驱动；WebSocket 使用 coder/websocket；Unix PTY 使用 creack/pty。许可证见 [licenses](licenses)。它们与 golet 采用的依赖路线可能不同，完整参考行为仍需逐项验证。
 
 SF Symbols 和权限 API 的原生调用仅限相应平台。没有用其他平台的空返回值冒充成功。SF Symbols 需要真实应用的主 UI 线程；测试仅覆盖参数校验，不宣称完成 AppKit 实机渲染验收。
 

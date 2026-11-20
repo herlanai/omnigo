@@ -10,6 +10,10 @@ type ViewOptions struct {
 	OnInput  func([]byte)
 }
 
+// keySequences maps named keys to the byte sequences terminals expect.
+// Read-only after init, so concurrent key events can share one instance.
+var keySequences = map[string]string{"Enter": "\r", "Backspace": "\x7f", "Escape": "\x1b", "Up": "\x1b[A", "Down": "\x1b[B", "Right": "\x1b[C", "Left": "\x1b[D", "Home": "\x1b[H", "End": "\x1b[F", "Delete": "\x1b[3~", "PageUp": "\x1b[5~", "PageDown": "\x1b[6~"}
+
 // View snapshots the screen for native Go painting. Bind OnInput to a writer
 // owned by the application; Feed must receive PTY output through UI dispatch.
 func View(id string, screen *Screen, o ViewOptions) *ui.Element {
@@ -73,8 +77,7 @@ func View(id string, screen *Screen, o ViewOptions) *ui.Element {
 			if ev.Up || ev.Command {
 				return false
 			}
-			codes := map[string]string{"Enter": "\r", "Backspace": "\x7f", "Escape": "\x1b", "Up": "\x1b[A", "Down": "\x1b[B", "Right": "\x1b[C", "Left": "\x1b[D", "Home": "\x1b[H", "End": "\x1b[F", "Delete": "\x1b[3~", "PageUp": "\x1b[5~", "PageDown": "\x1b[6~"}
-			if value, ok := codes[ev.Key]; ok {
+			if value, ok := keySequences[ev.Key]; ok {
 				o.OnInput([]byte(value))
 				return true
 			}

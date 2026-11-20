@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"gorm.io/gorm"
-	_ "modernc.org/sqlite"
+	_ "github.com/liustack/sqlite"
 )
 
 type Options struct {
@@ -139,7 +139,7 @@ func (d *DB) Query(ctx context.Context, query string, args ...any) (Rows, error)
 	if e != nil {
 		return Rows{}, e
 	}
-	out := Rows{Columns: columns, Values: make([][]any, 0)}
+	out := Rows{Columns: columns, Values: make([][]any, 0, min(64, d.maxRows))}
 	for rows.Next() {
 		if len(out.Values) >= d.maxRows {
 			return Rows{}, errors.New("sqlite: row limit exceeded")

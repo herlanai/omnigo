@@ -110,10 +110,12 @@ before closing the database. See [Studio's demo](../../../examples/studio/intern
   read-only. Automatic migration is convenient for simple schemas, not a versioned
   production data migration system.
 
-The implementation supplies the existing **modernc.org/sqlite** connection to
-GORM's official SQLite dialect. Actual SQL works with `CGO_ENABLED=0`. The official
+The implementation supplies the existing **github.com/liustack/sqlite** connection
+to GORM's official SQLite dialect. Actual SQL works with `CGO_ENABLED=0`. The official
 dialect also imports `mattn/go-sqlite3` transitively; its CGO-disabled stub is not
-used as this plugin's driver. Dependency licenses are in [../licenses](../licenses).
+used as this plugin's driver. Both drivers register the name `sqlite`; importing
+`modernc.org/sqlite` or `github.com/glebarez/go-sqlite` in the same binary panics
+at startup. Dependency licenses are in [../licenses](../licenses).
 
 ## Studio demo and validation
 

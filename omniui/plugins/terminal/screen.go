@@ -3,7 +3,7 @@ package terminal
 import (
 	"errors"
 	"image/color"
-	"strconv"
+	"math"
 	"strings"
 	"unicode/utf8"
 )
@@ -241,16 +241,45 @@ func (s *Screen) Feed(data []byte) error {
 	return nil
 }
 func (s *Screen) control(final byte) {
-	raw := string(s.sequence)
-	private := strings.HasPrefix(raw, "?")
-	raw = strings.TrimPrefix(raw, "?")
-	parts := strings.Split(raw, ";")
-	params := make([]int, len(parts))
-	for i, p := range parts {
-		v, e := strconv.Atoi(p)
-		if e == nil && v >= 0 {
-			params[i] = min(v, 1000000)
+	// Parse ';'-separated parameters in place. Segments that are empty,
+	// non-numeric, negative, or overflow int become 0, matching the previous
+	// strings.Split + strconv.Atoi behavior without per-sequence allocations.
+	seq := s.sequence
+	private := len(seq) > 0 && seq[0] == '?'
+	if private {
+		seq = seq[1:]
+	}
+	params := make([]int, 0, 4)
+	for start := 0; ; {
+		i := start
+		for i < len(seq) && seq[i] != ';' {
+			i++
 		}
+		valid := i > start
+		v := 0
+		for j := start; valid && j < i; j++ {
+			c := seq[j]
+			if c < '0' || c > '9' {
+				valid = false
+				break
+			}
+			d := int(c - '0')
+			if v > (math.MaxInt-d)/10 {
+				valid = false // range overflow, like Atoi's error
+				break
+			}
+			v = v*10 + d
+		}
+		if valid {
+			v = min(v, 1000000)
+		} else {
+			v = 0
+		}
+		params = append(params, v)
+		if i >= len(seq) {
+			break
+		}
+		start = i + 1
 	}
 	param := func(i, def int) int {
 		if i >= len(params) || params[i] == 0 {

@@ -8,7 +8,7 @@ The directory application uses React, TanStack Start/Router, Radix Slot, class-v
 
 See individual license files for copyright holders and full terms. The default shadcn-compatible Button/Input source originated in this repository's OmniWeb template, not in the reference project's controls.
 
-Optional plugins additionally use coder/websocket (ISC), creack/pty (MIT), and modernc.org/sqlite with its transitive pure-Go runtime (see each component's license). Complete collected license texts are preserved under `omniui/plugins/licenses`; the SQLite distribution includes public-domain SQLite and additional third-party notices. The reference Golet repository is not imported or copied into these plugins.
+Optional plugins additionally use coder/websocket (ISC), creack/pty (MIT), and github.com/liustack/sqlite v0.1.7 (MIT; the bundled SQLite engine is public domain). Complete collected license texts are preserved under `omniui/plugins/licenses`. The reference Golet repository is not imported or copied into these plugins.
 
 The native Go icon demo embeds official lucide-static 1.71.0 SVGs (ISC, with Feather-derived MIT attribution). The complete asset license is preserved at `omniui/icon/lucide/LICENSE` and packaged as `lucide-static-1.71.0-LICENSE`. Native SVG rasterization uses srwiley/oksvg and srwiley/rasterx (BSD-3-Clause); module licenses are included in the packaged license directory.
 
@@ -45,5 +45,6 @@ are in `omniui/plugins/omnibrowser/render/fonts/`. Studio bundles include
 The SQLite demo uses GORM v1.31.2 and its SQLite dialect v1.6.0 (MIT),
 with jinzhu/inflection v1.0.0 and jinzhu/now v1.1.5 (MIT). The dialect
 transitively imports mattn/go-sqlite3 v1.14.22 (MIT, bundled SQLite public-domain
-notices); actual plugin connections use modernc.org/sqlite. Complete license
-texts are included under `omniui/plugins/licenses` and copied into Studio bundles.
+notices); actual plugin connections use github.com/liustack/sqlite v0.1.7 (MIT).
+Complete license texts are included under `omniui/plugins/licenses` and copied
+into Studio bundles.

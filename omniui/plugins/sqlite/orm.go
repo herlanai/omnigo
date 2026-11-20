@@ -13,8 +13,8 @@ var ErrNotFound = gorm.ErrRecordNotFound
 var ErrRowLimit = errors.New("sqlite: row limit exceeded")
 
 func (d *DB) initializeORM(ctx context.Context, models []any) error {
-	// Supply the already-open modernc connection. The dialect must never open its
-	// default sqlite3 driver; production works with CGO_ENABLED=0.
+	// Supply the already-open liustack/sqlite connection. The dialect must never
+	// open its default sqlite3 driver; production works with CGO_ENABLED=0.
 	orm, err := gorm.Open(dialect.New(dialect.Config{DriverName: "sqlite", Conn: d.db}), &gorm.Config{Logger: logger.Default.LogMode(logger.Silent), DisableAutomaticPing: true})
 	if err != nil {
 		return err
